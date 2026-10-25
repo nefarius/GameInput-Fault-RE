@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gameinput-research:experiment-context:1",
+  "title": "Required externally observed metadata for native wrapper conversion",
+  "type": "object", "additionalProperties": false,
+  "required": ["capture_id", "pair_id", "environment_id", "os_build", "driver_sha256", "probe_sha256", "controller_id", "connection", "workload_id", "service_configuration", "phase", "logical_processor_count"],
+  "properties": {
+    "capture_id": {"type": "string", "pattern": "\\S"},
+    "pair_id": {"type": "string", "pattern": "\\S"},
+    "environment_id": {"type": "string", "pattern": "\\S"},
+    "os_build": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+    "driver_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "probe_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "controller_id": {"type": "string", "pattern": "\\S"},
+    "connection": {"type": "string", "pattern": "\\S"},
+    "workload_id": {"type": "string", "pattern": "\\S"},
+    "service_configuration": {"enum": ["inbox_only", "redist_only", "both"]},
+    "phase": {"enum": ["disconnected", "idle", "active_input", "rumble", "reconnect", "shutdown"]},
+    "logical_processor_count": {"type": "integer", "minimum": 1}
+  }
+}

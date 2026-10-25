@@ -1,0 +1,53 @@
+{
+  "kind": "local-ghidra-static",
+  "observed_date": "2026-10-25",
+  "runtime_observed": false,
+  "source": {
+    "sha256": "1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588",
+    "preferred_base": "0x140000000",
+    "path": "C:\\Windows\\System32\\drivers\\xinputhid.sys",
+    "file_version": "10.0.26100.9278 (WinBuild.160101.0800)",
+    "size_bytes": 131072
+  },
+  "pdb": {
+    "sha256": "050b38f56fdb1e11b33cbcf4817c3f470fc2402a45401cb7d79e3e5eb8f3d348",
+    "guid": "f482d0de-64e0-3d63-a8b2-d58e868db1e5",
+    "path": "symbols/XINPUTHID.pdb",
+    "age": 1
+  },
+  "ghidra": "12.1.3",
+  "java": "Temurin 25.0.4.1+1",
+  "exports": [
+    {
+      "path": "artifacts/xinputhid-process-notify/1400104c0.txt",
+      "sha256": "064f411c5ebdc0f5454147fbf50fc92bceb8e1c4024917602e7718d8a1e49b2b"
+    },
+    {
+      "path": "artifacts/xinputhid-process-notify/14001035c.txt",
+      "sha256": "b0e26bd76509cb2f18d702ed035a20c2e555cad95afa54a4bf948ad21dfa721b"
+    },
+    {
+      "path": "artifacts/xinputhid-process-notify/14000fcb0.txt",
+      "sha256": "9d1b990c4ec92ef9eb8eb805a178dc4d8102bace70b2104c0bc4eaaa8e75cd66"
+    },
+    {
+      "path": "artifacts/xinputhid-process-cleanup/140005c28.txt",
+      "sha256": "60c3846cb498aa77efa9026aab1c7868aee18c904f72fdf3d398ecf6d738aa20"
+    },
+    {
+      "path": "artifacts/xinputhid-process-cleanup/14001c03c.txt",
+      "sha256": "167915f416060a3aceae60b5cd4680a52b5008ac06a204ae6c60085db9a51544"
+    }
+  ],
+  "source_instructions_verified": 95,
+  "excerpt": {
+    "path": "evidence/static/xinputhid-10.0.26100.9278-process-notify-excerpts.txt",
+    "sha256": "695275acbba64795fdc3033eb75d8ec7b32977fc9c557e78d4775ab7ff45732b"
+  },
+  "limitations": [
+    "Static code only; no module loading or IOCTL execution.",
+    "External import names do not identify runtime implementation or API-set routing.",
+    "Decompiler types approximate; original instruction bytes verified for retained ranges.",
+    "No successful poll rate, rumble rate, focus state or CPU causation measured."
+  ]
+}

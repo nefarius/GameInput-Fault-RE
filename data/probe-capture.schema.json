@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gameinput-research:probe-capture:1",
+  "title": "Normalized native ABI v1 cumulative capture; never controller safety proof",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "metadata", "snapshots"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "conversion_notes": {"type": "array", "items": {"type": "string"}},
+    "metadata": {"$ref": "#/$defs/metadata"},
+    "snapshots": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/snapshot"}}
+  },
+  "$defs": {
+    "text": {"type": "string", "pattern": "\\S"},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "count": {"type": "integer", "minimum": 0},
+    "metadata": {
+      "type": "object", "additionalProperties": false,
+      "required": ["capture_id", "pair_id", "environment_id", "os_build", "architecture", "implementation", "process_id", "process_start_id", "image_sha256", "module_sha256", "driver_sha256", "probe_sha256", "controller_id", "connection", "workload_id", "service_configuration", "phase", "logical_processor_count", "probe_mode", "throttle_interval_ms", "qpc_frequency"],
+      "properties": {
+        "capture_id": {"$ref": "#/$defs/text"}, "pair_id": {"$ref": "#/$defs/text"},
+        "environment_id": {"$ref": "#/$defs/text"}, "os_build": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "architecture": {"const": "x64"}, "implementation": {"enum": ["inbox", "redist"]},
+        "process_id": {"type": "integer", "minimum": 1}, "process_start_id": {"$ref": "#/$defs/text"},
+        "image_sha256": {"$ref": "#/$defs/hash"}, "module_sha256": {"$ref": "#/$defs/hash"},
+        "driver_sha256": {"$ref": "#/$defs/hash"}, "probe_sha256": {"$ref": "#/$defs/hash"},
+        "controller_id": {"$ref": "#/$defs/text"}, "connection": {"$ref": "#/$defs/text"},
+        "workload_id": {"$ref": "#/$defs/text"},
+        "service_configuration": {"enum": ["inbox_only", "redist_only", "both"]},
+        "phase": {"enum": ["disconnected", "idle", "active_input", "rumble", "reconnect", "shutdown"]},
+        "logical_processor_count": {"type": "integer", "minimum": 1},
+        "qpc_frequency": {"type": "integer", "minimum": 1},
+        "probe_mode": {"enum": ["diagnostic", "throttle"]},
+        "throttle_interval_ms": {"type": ["number", "null"], "exclusiveMinimum": 0}
+      },
+      "allOf": [
+        {"if": {"properties": {"probe_mode": {"const": "diagnostic"}}}, "then": {"properties": {"throttle_interval_ms": {"type": "null"}}}},
+        {"if": {"properties": {"probe_mode": {"const": "throttle"}}}, "then": {"properties": {"throttle_interval_ms": {"type": "number", "exclusiveMinimum": 0}}}},
+        {"if": {"properties": {"service_configuration": {"const": "inbox_only"}}}, "then": {"properties": {"implementation": {"const": "inbox"}}}},
+        {"if": {"properties": {"service_configuration": {"const": "redist_only"}}}, "then": {"properties": {"implementation": {"const": "redist"}}}}
+      ]
+    },
+    "snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["elapsed_seconds", "cpu_time_seconds", "counters"],
+      "properties": {
+        "elapsed_seconds": {"type": "number", "minimum": 0},
+        "cpu_time_seconds": {"type": "number", "minimum": 0},
+        "counters": {
+          "type": "object", "additionalProperties": false,
+          "required": ["calls", "sync_success", "pending", "errors", "unobserved", "unchanged", "throttled", "delay_qpc", "ioctl_qpc", "state_drops", "closes"],
+          "properties": {
+            "calls": {"$ref": "#/$defs/count"}, "sync_success": {"$ref": "#/$defs/count"},
+            "pending": {"$ref": "#/$defs/count"}, "errors": {"$ref": "#/$defs/count"},
+            "unobserved": {"$ref": "#/$defs/count"}, "unchanged": {"$ref": "#/$defs/count"},
+            "throttled": {"$ref": "#/$defs/count"}, "delay_qpc": {"$ref": "#/$defs/count"},
+            "ioctl_qpc": {"$ref": "#/$defs/count"}, "state_drops": {"$ref": "#/$defs/count"},
+            "closes": {"$ref": "#/$defs/count"}
+          }
+        }
+      }
+    }
+  }
+}

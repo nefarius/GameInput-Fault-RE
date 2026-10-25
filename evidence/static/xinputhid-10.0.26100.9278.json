@@ -1,0 +1,82 @@
+{
+  "evidence_kind": "local-ghidra-static-excerpts",
+  "observed_date": "2026-10-25",
+  "runtime_observed": false,
+  "source": {
+    "path": "C:\\Windows\\System32\\drivers\\xinputhid.sys",
+    "sha256": "1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588",
+    "size_bytes": 131072,
+    "file_version": "10.0.26100.9278 (WinBuild.160101.0800)",
+    "image_base": "0x140000000"
+  },
+  "pdb": {
+    "path": "D:\\RE\\GameInput\\symbols\\XINPUTHID.pdb",
+    "sha256": "050b38f56fdb1e11b33cbcf4817c3f470fc2402a45401cb7d79e3e5eb8f3d348",
+    "guid": "f482d0de-64e0-3d63-a8b2-d58e868db1e5",
+    "age": 1,
+    "identity_verification": "artifacts/xinputhid-pdb-verify.log: PE/file GUID and age MATCH"
+  },
+  "tool": {
+    "ghidra_version": "12.1.3",
+    "java": "Temurin 25.0.4.1+1",
+    "language": "x86:LE:64:default",
+    "compiler_spec": "windows",
+    "route": "headless CLI; no MCP configuration edits"
+  },
+  "wdf_header": {
+    "path": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\wdf\\kmdf\\1.15\\wdffuncenum.h",
+    "sha256": "5e3b8cacff893d2aaa99ece776d881fd2129e58da0219c85996acc654124fc63",
+    "pointer_size": 8,
+    "mapping_basis": "table index multiplied by 8; names not resolved by decompiler"
+  },
+  "verified_instruction_count": 209,
+  "exports": [
+    {
+      "path": "artifacts/xinputhid-analysis/14000eeec.txt",
+      "sha256": "abe96a2e21b1fae890f452656da9204bc206e07aea86646ac1d77247885e9106"
+    },
+    {
+      "path": "artifacts/xinputhid-analysis/14000d1d8.txt",
+      "sha256": "46e4d71110995f1635d9af9b98e752d2642f0ab86ac0d756ef9c83e442a7ce2c"
+    },
+    {
+      "path": "artifacts/xinputhid-analysis/140004cd0.txt",
+      "sha256": "932bc54519e64472ab881c07fbd16229524df5fd9308c793cacf8e09b6130b1d"
+    },
+    {
+      "path": "artifacts/xinputhid-followup/140009110.txt",
+      "sha256": "715ec761a10ae3d0ce242c41553570cdf758e5ef86ec2660250180e8bf4050a7"
+    },
+    {
+      "path": "artifacts/xinputhid-analysis/1400021d8.txt",
+      "sha256": "badf4c316e0c8801c5418c58560c19ee5f388ec449af0b91a09074ecd889e811"
+    },
+    {
+      "path": "artifacts/xinputhid-analysis/14000fcb0.txt",
+      "sha256": "d9350c01c7b3e4ee16ea1649b7a562b7de9a1c6cae9eb51335bc3390f9d48f9c"
+    },
+    {
+      "path": "artifacts/xinputhid-analysis/140006ac4.txt",
+      "sha256": "6642df2411f442a1021ef87a564caba4fc79289a68206d8ee6e08d42e9ee2019"
+    },
+    {
+      "path": "artifacts/xinputhid-analysis/140006010.txt",
+      "sha256": "b446098cf987f8234b10b48f447d4cd0ccfb8d1d9bb037d02f7b26a363ba511b"
+    },
+    {
+      "path": "artifacts/xinputhid-followup/140006740.txt",
+      "sha256": "7c8e113f6a45568ba622fa0b7ef346847a90e2377312d234f4f2efbdfd8ea174"
+    }
+  ],
+  "excerpt": {
+    "path": "evidence/static/xinputhid-10.0.26100.9278-excerpts.txt",
+    "sha256": "2003ae6857f28cc8779e564d398433194ff9f1fa1ed7ed4509d1febb7c8d7e92"
+  },
+  "limitations": [
+    "Static control flow only; no IOCTL issued and no ETW captured.",
+    "Decompiler types/indirect-call argument counts are approximate.",
+    "Current driver only; no Windows 10 driver comparison.",
+    "Input byte 3 is observed; its official field name is not established.",
+    "No packet rate, CPU attribution, or poll-to-rumble causation established."
+  ]
+}

@@ -1,0 +1,4 @@
+# Preserve reviewed evidence and its recorded SHA-256 across Git checkouts.
+evidence/** -text whitespace=cr-at-eol
+# Literal decompiler output contains intentional trailing spaces.
+evidence/static/*-excerpts.txt whitespace=-blank-at-eol,cr-at-eol

@@ -1,0 +1,612 @@
+Local Ghidra 12.1.3 headless static evidence; literal pseudocode, not original source or runtime observation.
+Image: C:\Windows\System32\GameInputRedist.dll SHA256=6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686
+Pseudocode argument/types may be approximate. Selected instruction bytes match the original PE; file offsets and RVA are explicit.
+No matching public PDB applied. FUN names are Ghidra labels; class/source names in discussion come from embedded strings.
+
+=== redist-validation/1800519ec ===
+FUNCTION 1800519ec FUN_1800519ec
+BODY [[1800519ec, 180051ca5]]
+INCOMING REFERENCES
+From: 180186c6c To: 1800519ec Type: DATA Op: 0 DEFAULT caller=null
+From: 1800519d5 To: 1800519ec Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800519c0
+DIRECT CALLEES
+18006a6a0 __security_check_cookie
+18003226c thunk_FUN_18005c844
+18000c384 FUN_18000c384
+1800090a8 FUN_1800090a8
+1800602ac FUN_1800602ac
+1800557a0 FUN_1800557a0
+EXTERNAL:00000018 WaitForSingleObject
+180002958 FUN_180002958
+180052df0 FUN_180052df0
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+
+uint FUN_1800519ec(longlong param_1)
+
+{
+  undefined *puVar1;
+  int iVar2;
+  byte bVar3;
+  uint uVar4;
+  DWORD DVar5;
+  ulonglong uVar6;
+  undefined4 uVar7;
+  uint uVar8;
+  int iVar9;
+  undefined8 unaff_retaddr;
+  undefined1 auStackY_d8 [32];
+  uint local_88;
+  undefined2 local_84;
+  undefined1 local_82;
+  undefined1 local_81;
+  char *local_80;
+  char *local_78;
+  char *local_70;
+  longlong local_68;
+  undefined4 local_60;
+  longlong local_58;
+  undefined4 local_50;
+  undefined4 local_4c;
+  undefined4 local_48;
+  int local_40;
+  ushort auStack_3a [9];
+  ulonglong local_28;
+  
+  local_28 = DAT_1800db340 ^ (ulonglong)auStackY_d8;
+  local_58 = *(longlong *)(param_1 + 0x5170);
+  local_50 = 0xffffffff;
+  local_84 = 0x103;
+  local_82 = *(undefined1 *)(param_1 + 0x5131);
+  local_4c = 3;
+  local_48 = 100;
+  local_81 = 0;
+  bVar3 = FUN_1800557a0();
+  puVar1 = PTR_DAT_1800c0390;
+  iVar9 = 0;
+  uVar8 = 0;
+  if (bVar3 != 0) {
+    if (5 < *(uint *)PTR_DAT_1800c0390) {
+      local_78 = "GameInput::Backend::XInput::Device::ThreadProcSystem";
+      local_88 = 0x246;
+      local_80 = "C:\\__w\\1\\s\\src\\GameInput\\dll\\gameinputredist\\BeXInputDevice.cpp";
+      local_68 = thunk_FUN_18005c844(param_1);
+      local_60 = 0x20;
+      local_70 = "Quirking for IOCTL_XINPUT_GET_UNFILTERED_GAMEPAD_STATE";
+      FUN_180002958((longlong)puVar1,&DAT_1800d098d,(LPCGUID)0x0,(LPCGUID)0x0,&local_70,&local_68,
+                    &local_78,&local_80,&local_88);
+    }
+    local_81 = 1;
+    iVar9 = 0;
+    uVar8 = 0;
+  }
+  while( true ) {
+    auStack_3a[5] = 0;
+    auStack_3a[6] = 0;
+    auStack_3a[7] = 0;
+    auStack_3a[8] = 0;
+    _local_40 = 0;
+    auStack_3a[1] = 0;
+    auStack_3a[2] = 0;
+    auStack_3a[3] = 0;
+    auStack_3a[4] = 0;
+    uVar6 = FUN_1800602ac(*(longlong *)(param_1 + 0x5158),0x8000e388,&local_84,4,
+                          (undefined1 (*) [32])&local_40,0x18,*(HANDLE *)(param_1 + 0x5180),
+                          &local_58);
+    puVar1 = PTR_DAT_1800c0390;
+    uVar4 = (uint)uVar6;
+    if (uVar4 == 0x80004004) {
+      if (*(uint *)PTR_DAT_1800c0390 < 6) {
+        return 0;
+      }
+      local_88 = 0x25a;
+      local_78 = "GameInput::Backend::XInput::Device::ThreadProcSystem";
+      local_70 = "C:\\__w\\1\\s\\src\\GameInput\\dll\\gameinputredist\\BeXInputDevice.cpp";
+      local_68 = thunk_FUN_18005c844(param_1);
+      local_60 = 0x20;
+      local_80 = "Stopping input processing";
+      FUN_180002958((longlong)puVar1,&DAT_1800d09d5,(LPCGUID)0x0,(LPCGUID)0x0,&local_80,&local_68,
+                    &local_78,&local_70,&local_88);
+      return 0;
+    }
+    if ((int)uVar4 < 0) break;
+    iVar2 = local_40;
+    if (local_40 != iVar9) {
+      local_88 = 0;
+      FUN_180052df0(auStack_3a,*(int *)(param_1 + 0x5160),*(char *)(param_1 + 0x5134),
+                    *(char *)(param_1 + 0x5135),(ulonglong *)0x0,&local_88);
+      iVar9 = iVar2;
+      if ((local_88 != uVar8) &&
+         (uVar4 = FUN_18000c384((undefined1 (*) [32])(param_1 + 0x2898),local_88,3),
+         uVar8 = local_88, (int)uVar4 < 0)) {
+        uVar7 = 0x270;
+        goto LAB_180051be0;
+      }
+    }
+    DVar5 = WaitForSingleObject(*(HANDLE *)(param_1 + 0x5170),1);
+    if (DVar5 != 0x102) {
+      return 0;
+    }
+  }
+  uVar7 = 0x25f;
+LAB_180051be0:
+  FUN_1800090a8(unaff_retaddr,uVar7,
+                "C:\\__w\\1\\s\\src\\GameInput\\dll\\gameinputredist\\BeXInputDevice.cpp",uVar4);
+  return uVar4;
+}
+
+
+[... selected instructions 180051a19..180051a6c ...]
+180051a19 RVA=0x51a19 file=0x50e19 488b8170510000 MOV RAX,qword ptr [RCX + 0x5170]
+180051a20 RVA=0x51a20 file=0x50e20 33f6 XOR ESI,ESI
+180051a22 RVA=0x51a22 file=0x50e22 48894507 MOV qword ptr [RBP + 0x7],RAX
+180051a26 RVA=0x51a26 file=0x50e26 488bd9 MOV RBX,RCX
+180051a29 RVA=0x51a29 file=0x50e29 b803010000 MOV EAX,0x103
+180051a2e RVA=0x51a2e file=0x50e2e c7450fffffffff MOV dword ptr [RBP + 0xf],0xffffffff
+180051a35 RVA=0x51a35 file=0x50e35 668945db MOV word ptr [RBP + -0x25],AX
+180051a39 RVA=0x51a39 file=0x50e39 4533f6 XOR R14D,R14D
+180051a3c RVA=0x51a3c file=0x50e3c 8a8131510000 MOV AL,byte ptr [RCX + 0x5131]
+180051a42 RVA=0x51a42 file=0x50e42 8845dd MOV byte ptr [RBP + -0x23],AL
+180051a45 RVA=0x51a45 file=0x50e45 c7451303000000 MOV dword ptr [RBP + 0x13],0x3
+180051a4c RVA=0x51a4c file=0x50e4c c7451764000000 MOV dword ptr [RBP + 0x17],0x64
+180051a53 RVA=0x51a53 file=0x50e53 408875de MOV byte ptr [RBP + -0x22],SIL
+180051a57 RVA=0x51a57 file=0x50e57 e8443d0000 CALL 0x1800557a0
+180051a5c RVA=0x51a5c file=0x50e5c 4c8d250dc10600 LEA R12,[0x1800bdb70]
+180051a63 RVA=0x51a63 file=0x50e63 488d0da6c20600 LEA RCX,[0x1800bdd10]
+180051a6a RVA=0x51a6a file=0x50e6a 84c0 TEST AL,AL
+180051a6c RVA=0x51a6c file=0x50e6c 747f JZ 0x180051aed
+[... selected instructions 180051ae9..180051b50 ...]
+180051ae9 RVA=0x51ae9 file=0x50ee9 c645de01 MOV byte ptr [RBP + -0x22],0x1
+180051aed RVA=0x51aed file=0x50eed 488b8b58510000 MOV RCX,qword ptr [RBX + 0x5158]
+180051af4 RVA=0x51af4 file=0x50ef4 4c8d45db LEA R8,[RBP + -0x25]
+180051af8 RVA=0x51af8 file=0x50ef8 33c0 XOR EAX,EAX
+180051afa RVA=0x51afa file=0x50efa 0f57c0 XORPS XMM0,XMM0
+180051afd RVA=0x51afd file=0x50efd 4889452f MOV qword ptr [RBP + 0x2f],RAX
+180051b01 RVA=0x51b01 file=0x50f01 41b904000000 MOV R9D,0x4
+180051b07 RVA=0x51b07 file=0x50f07 488d4507 LEA RAX,[RBP + 0x7]
+180051b0b RVA=0x51b0b file=0x50f0b ba88e30080 MOV EDX,0x8000e388
+180051b10 RVA=0x51b10 file=0x50f10 4889442438 MOV qword ptr [RSP + 0x38],RAX
+180051b15 RVA=0x51b15 file=0x50f15 488b8380510000 MOV RAX,qword ptr [RBX + 0x5180]
+180051b1c RVA=0x51b1c file=0x50f1c 4889442430 MOV qword ptr [RSP + 0x30],RAX
+180051b21 RVA=0x51b21 file=0x50f21 488d451f LEA RAX,[RBP + 0x1f]
+180051b25 RVA=0x51b25 file=0x50f25 c744242818000000 MOV dword ptr [RSP + 0x28],0x18
+180051b2d RVA=0x51b2d file=0x50f2d 4889442420 MOV qword ptr [RSP + 0x20],RAX
+180051b32 RVA=0x51b32 file=0x50f32 0f11451f MOVUPS xmmword ptr [RBP + 0x1f],XMM0
+180051b36 RVA=0x51b36 file=0x50f36 e871e70000 CALL 0x1800602ac
+180051b3b RVA=0x51b3b file=0x50f3b 8bf8 MOV EDI,EAX
+180051b3d RVA=0x51b3d file=0x50f3d 3d04400080 CMP EAX,0x80004004
+180051b42 RVA=0x51b42 file=0x50f42 0f84b1000000 JZ 0x180051bf9
+180051b48 RVA=0x51b48 file=0x50f48 85c0 TEST EAX,EAX
+180051b4a RVA=0x51b4a file=0x50f4a 0f888b000000 JS 0x180051bdb
+180051b50 RVA=0x51b50 file=0x50f50 4439751f CMP dword ptr [RBP + 0x1f],R14D
+[... selected instructions 180051bb2..180051bc9 ...]
+180051bb2 RVA=0x51bb2 file=0x50fb2 488b8b70510000 MOV RCX,qword ptr [RBX + 0x5170]
+180051bb9 RVA=0x51bb9 file=0x50fb9 ba01000000 MOV EDX,0x1
+180051bbe RVA=0x51bbe file=0x50fbe ff156cda0300 CALL qword ptr [0x18008f630]
+180051bc4 RVA=0x51bc4 file=0x50fc4 3d02010000 CMP EAX,0x102
+180051bc9 RVA=0x51bc9 file=0x50fc9 0f841effffff JZ 0x180051aed
+
+=== redist-validation/1800557a0 ===
+FUNCTION 1800557a0 FUN_1800557a0
+BODY [[1800557a0, 1800557af]]
+INCOMING REFERENCES
+From: 180186e34 To: 1800557a0 Type: DATA Op: 0 DEFAULT caller=null
+From: 180051a57 To: 1800557a0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800519ec
+DIRECT CALLEES
+180064fa8 FUN_180064fa8
+DECOMPILATION completed=true error=
+
+byte FUN_1800557a0(void)
+
+{
+  byte bVar1;
+  
+  bVar1 = FUN_180064fa8();
+  return bVar1 ^ 1;
+}
+
+
+[... selected instructions 1800557a4..1800557a9 ...]
+1800557a4 RVA=0x557a4 file=0x54ba4 e8fff70000 CALL 0x180064fa8
+1800557a9 RVA=0x557a9 file=0x54ba9 3401 XOR AL,0x1
+
+=== redist-validation/180064fa8 ===
+FUNCTION 180064fa8 FUN_180064fa8
+BODY [[180064fa8, 18006501d]]
+INCOMING REFERENCES
+From: 1801877d0 To: 180064fa8 Type: DATA Op: 0 DEFAULT caller=null
+From: 1800557a4 To: 180064fa8 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800557a0
+DIRECT CALLEES
+18006a6a0 __security_check_cookie
+18008a990 FUN_18008a990
+180069e38 FUN_180069e38
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+
+undefined1 FUN_180064fa8(void)
+
+{
+  undefined1 uVar1;
+  ulonglong uVar2;
+  undefined1 auStack_158 [32];
+  undefined4 local_138;
+  uint local_134 [2];
+  uint local_12c;
+  ulonglong local_18;
+  
+  local_18 = DAT_1800db340 ^ (ulonglong)auStack_158;
+  local_138 = 0x11c;
+  FUN_18008a990((undefined1 (*) [32])local_134,0,0x118);
+  uVar2 = FUN_180069e38(&local_138);
+  if ((int)uVar2 < 0) {
+    uVar1 = 0;
+  }
+  else if ((10 < local_134[0]) ||
+          ((uVar1 = 0, local_134[0] == 10 && (uVar1 = 0, 21999 < local_12c)))) {
+    uVar1 = 1;
+  }
+  return uVar1;
+}
+
+
+[... selected instructions 180064fc1..180065004 ...]
+180064fc1 RVA=0x64fc1 file=0x643c1 c74424201c010000 MOV dword ptr [RSP + 0x20],0x11c
+180064fc9 RVA=0x64fc9 file=0x643c9 33d2 XOR EDX,EDX
+180064fcb RVA=0x64fcb file=0x643cb 41b818010000 MOV R8D,0x118
+180064fd1 RVA=0x64fd1 file=0x643d1 488d4c2424 LEA RCX,[RSP + 0x24]
+180064fd6 RVA=0x64fd6 file=0x643d6 e8b5590200 CALL 0x18008a990
+180064fdb RVA=0x64fdb file=0x643db 488d4c2420 LEA RCX,[RSP + 0x20]
+180064fe0 RVA=0x64fe0 file=0x643e0 e8534e0000 CALL 0x180069e38
+180064fe5 RVA=0x64fe5 file=0x643e5 33c9 XOR ECX,ECX
+180064fe7 RVA=0x64fe7 file=0x643e7 85c0 TEST EAX,EAX
+180064fe9 RVA=0x64fe9 file=0x643e9 7819 JS 0x180065004
+180064feb RVA=0x64feb file=0x643eb 837c24240a CMP dword ptr [RSP + 0x24],0xa
+180064ff0 RVA=0x64ff0 file=0x643f0 770c JA 0x180064ffe
+180064ff2 RVA=0x64ff2 file=0x643f2 750c JNZ 0x180065000
+180064ff4 RVA=0x64ff4 file=0x643f4 817c242cf0550000 CMP dword ptr [RSP + 0x2c],0x55f0
+180064ffc RVA=0x64ffc file=0x643fc 7202 JC 0x180065000
+180064ffe RVA=0x64ffe file=0x643fe b101 MOV CL,0x1
+180065000 RVA=0x65000 file=0x64400 8ac1 MOV AL,CL
+180065002 RVA=0x65002 file=0x64402 eb02 JMP 0x180065006
+180065004 RVA=0x65004 file=0x64404 32c0 XOR AL,AL
+
+=== redist-validation-followup/180069e38 ===
+FUNCTION 180069e38 FUN_180069e38
+BODY [[180069e38, 180069ebf]]
+INCOMING REFERENCES
+From: 180187b90 To: 180069e38 Type: DATA Op: 0 DEFAULT caller=null
+From: 180064fe0 To: 180069e38 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_180064fa8
+DIRECT CALLEES
+180069d7c FUN_180069d7c
+18008a250 _guard_dispatch_icall
+18000bf0c FUN_18000bf0c
+DECOMPILATION completed=true error=
+
+ulonglong FUN_180069e38(undefined8 param_1)
+
+{
+  uint uVar1;
+  undefined8 uVar2;
+  ulonglong uVar3;
+  undefined8 unaff_retaddr;
+  
+  uVar2 = FUN_180069d7c(&DAT_180181440,L"ntdll.dll","RtlGetVersion");
+  uVar1 = (uint)uVar2;
+  if ((int)uVar1 < 0) {
+    FUN_18000bf0c(unaff_retaddr,0x4d,"C:\\__w\\1\\s\\src\\GameInput\\lib\\os\\Imports.cpp",uVar1);
+    if ((uVar1 & 0xf0000000) == 0xd0000000) {
+      uVar3 = (ulonglong)(uVar1 & 0xcfffffff);
+    }
+    else {
+      uVar3 = 0xc0000142;
+    }
+  }
+  else {
+    uVar3 = (*(code *)PTR__guard_dispatch_icall_18008f898)(param_1);
+  }
+  return uVar3;
+}
+
+
+
+=== redist-validation/180060468 ===
+FUNCTION 180060468 FUN_180060468
+BODY [[180060468, 1800606c7] [1800606c9, 1800606d8] [1800606da, 1800606e9]]
+INCOMING REFERENCES
+From: 1801875f0 To: 180060468 Type: DATA Op: 0 DEFAULT caller=null
+From: 180060351 To: 180060468 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800602ac
+DIRECT CALLEES
+EXTERNAL:0000008b DeviceIoControl
+EXTERNAL:00000012 GetLastError
+EXTERNAL:0000004f WaitForMultipleObjects
+EXTERNAL:00000029 ResetEvent
+180012698 FUN_180012698
+1800090a8 FUN_1800090a8
+180009080 FUN_180009080
+180030fac FUN_180030fac
+EXTERNAL:00000018 WaitForSingleObject
+18005ffe4 FUN_18005ffe4
+DECOMPILATION completed=true error=
+
+ulonglong FUN_180060468(longlong param_1,DWORD param_2,LPVOID param_3,DWORD param_4,LPVOID param_5,
+                       uint param_6,HANDLE param_7,longlong *param_8,undefined1 *param_9)
+
+{
+  undefined1 *puVar1;
+  BOOL BVar2;
+  DWORD DVar3;
+  ulonglong uVar4;
+  undefined8 uVar5;
+  undefined4 uVar6;
+  uint uVar7;
+  undefined8 unaff_retaddr;
+  HANDLE local_58;
+  HANDLE local_50;
+  _OVERLAPPED local_48;
+  
+  puVar1 = param_9;
+  local_48.Internal = 0;
+  local_48.InternalHigh = 0;
+  *param_9 = 0;
+  local_48.u.Pointer = (PVOID)0x0;
+  local_48.hEvent = param_7;
+  BVar2 = ResetEvent(param_7);
+  if (BVar2 == 0) {
+    uVar6 = 0xe6;
+LAB_1800604c2:
+    uVar4 = FUN_180009080(unaff_retaddr,uVar6,
+                          "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp");
+    return uVar4;
+  }
+  param_9._0_4_ = 0;
+  BVar2 = DeviceIoControl(*(HANDLE *)(param_1 + 0x38),param_2,param_3,param_4,param_5,param_6,
+                          (LPDWORD)&param_9,&local_48);
+  if (BVar2 == 0) {
+    DVar3 = GetLastError();
+    if (DVar3 != 0x3e5) {
+      if (DVar3 == 0) {
+        return 0;
+      }
+      uVar4 = FUN_180030fac(unaff_retaddr,0xfc,
+                            "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",DVar3)
+      ;
+      return uVar4;
+    }
+    if ((HANDLE)*param_8 == (HANDLE)0x0) {
+      DVar3 = WaitForSingleObject(param_7,*(DWORD *)(param_8 + 1));
+      if (DVar3 != 0) {
+        if (DVar3 != 0x102) {
+          uVar6 = 0x110;
+          goto LAB_1800604c2;
+        }
+        uVar5 = FUN_18005ffe4(param_1,param_7);
+        if ((int)(uint)uVar5 < 0) {
+                    /* WARNING: Subroutine does not return */
+          FUN_180012698(unaff_retaddr,0x10c,
+                        "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",
+                        (uint)uVar5);
+        }
+        uVar7 = 0x800705b4;
+        uVar6 = 0x10d;
+        goto LAB_18006052d;
+      }
+      uVar7 = (uint)local_48.Internal | 0x10000000;
+      if ((int)uVar7 < 0) {
+        uVar6 = 0x108;
+        goto LAB_18006052d;
+      }
+    }
+    else {
+      local_50 = param_7;
+      local_58 = (HANDLE)*param_8;
+      DVar3 = WaitForMultipleObjects(2,&local_58,0,*(DWORD *)(param_8 + 1));
+      if (DVar3 == 0) {
+        *puVar1 = 1;
+        uVar5 = FUN_18005ffe4(param_1,param_7);
+        if ((int)(uint)uVar5 < 0) {
+                    /* WARNING: Subroutine does not return */
+          FUN_180012698(unaff_retaddr,0x128,
+                        "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",
+                        (uint)uVar5);
+        }
+        return 0x80004004;
+      }
+      if (DVar3 != 1) {
+        if (DVar3 != 0x102) {
+          uVar6 = 0x130;
+          goto LAB_1800604c2;
+        }
+        uVar5 = FUN_18005ffe4(param_1,param_7);
+        if ((int)(uint)uVar5 < 0) {
+                    /* WARNING: Subroutine does not return */
+          FUN_180012698(unaff_retaddr,300,
+                        "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",
+                        (uint)uVar5);
+        }
+        uVar7 = 0x800705b4;
+        uVar6 = 0x12d;
+        goto LAB_18006052d;
+      }
+      uVar7 = (uint)local_48.Internal | 0x10000000;
+      if ((int)uVar7 < 0) {
+        uVar6 = 0x123;
+        goto LAB_18006052d;
+      }
+    }
+    if (local_48.InternalHigh == param_6) {
+      return 0;
+    }
+    uVar6 = 0x134;
+  }
+  else {
+    if ((uint)param_9 == param_6) {
+      return 0;
+    }
+    uVar6 = 0xf5;
+  }
+  uVar7 = 0x8000ffff;
+LAB_18006052d:
+  FUN_1800090a8(unaff_retaddr,uVar6,
+                "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",uVar7);
+  return (ulonglong)uVar7;
+}
+
+
+[... selected instructions 18006050f..18006051d ...]
+18006050f RVA=0x6050f file=0x5f90f 85c0 TEST EAX,EAX
+180060511 RVA=0x60511 file=0x5f911 7429 JZ 0x18006053c
+180060513 RVA=0x60513 file=0x5f913 397570 CMP dword ptr [RBP + 0x70],ESI
+180060516 RVA=0x60516 file=0x5f916 7452 JZ 0x18006056a
+180060518 RVA=0x60518 file=0x5f918 baf5000000 MOV EDX,0xf5
+18006051d RVA=0x6051d file=0x5f91d bbffff0080 MOV EBX,0x8000ffff
+[... selected instructions 18006053c..18006058b ...]
+18006053c RVA=0x6053c file=0x5f93c ff157eed0200 CALL qword ptr [0x18008f2c0]
+180060542 RVA=0x60542 file=0x5f942 3de5030000 CMP EAX,0x3e5
+180060547 RVA=0x60547 file=0x5f947 7428 JZ 0x180060571
+180060549 RVA=0x60549 file=0x5f949 85c0 TEST EAX,EAX
+18006054b RVA=0x6054b file=0x5f94b 741d JZ 0x18006056a
+18006054d RVA=0x6054d file=0x5f94d 488b4d28 MOV RCX,qword ptr [RBP + 0x28]
+180060551 RVA=0x60551 file=0x5f951 4c8d05f0ee0500 LEA R8,[0x1800bf448]
+180060558 RVA=0x60558 file=0x5f958 448bc8 MOV R9D,EAX
+18006055b RVA=0x6055b file=0x5f95b bafc000000 MOV EDX,0xfc
+180060560 RVA=0x60560 file=0x5f960 e8470afdff CALL 0x180030fac
+180060565 RVA=0x60565 file=0x5f965 e925010000 JMP 0x18006068f
+18006056a RVA=0x6056a file=0x5f96a 33c0 XOR EAX,EAX
+18006056c RVA=0x6056c file=0x5f96c e91e010000 JMP 0x18006068f
+180060571 RVA=0x60571 file=0x5f971 488b4568 MOV RAX,qword ptr [RBP + 0x68]
+180060575 RVA=0x60575 file=0x5f975 488b08 MOV RCX,qword ptr [RAX]
+180060578 RVA=0x60578 file=0x5f978 448b4808 MOV R9D,dword ptr [RAX + 0x8]
+18006057c RVA=0x6057c file=0x5f97c 4885c9 TEST RCX,RCX
+18006057f RVA=0x6057f file=0x5f97f 756a JNZ 0x1800605eb
+180060581 RVA=0x60581 file=0x5f981 418bd1 MOV EDX,R9D
+180060584 RVA=0x60584 file=0x5f984 488bcb MOV RCX,RBX
+180060587 RVA=0x60587 file=0x5f987 ff15a3f00200 CALL qword ptr [0x18008f630]
+[... selected instructions 1800605eb..180060612 ...]
+1800605eb RVA=0x605eb file=0x5f9eb 4533c0 XOR R8D,R8D
+1800605ee RVA=0x605ee file=0x5f9ee 48894dd0 MOV qword ptr [RBP + -0x30],RCX
+1800605f2 RVA=0x605f2 file=0x5f9f2 488d55d0 LEA RDX,[RBP + -0x30]
+1800605f6 RVA=0x605f6 file=0x5f9f6 48895dd8 MOV qword ptr [RBP + -0x28],RBX
+1800605fa RVA=0x605fa file=0x5f9fa 418d4802 LEA ECX,[R8 + 0x2]
+1800605fe RVA=0x605fe file=0x5f9fe ff1504f10200 CALL qword ptr [0x18008f708]
+180060604 RVA=0x60604 file=0x5fa04 85c0 TEST EAX,EAX
+180060606 RVA=0x60606 file=0x5fa06 746f JZ 0x180060677
+180060608 RVA=0x60608 file=0x5fa08 83e801 SUB EAX,0x1
+18006060b RVA=0x6060b file=0x5fa0b 743e JZ 0x18006064b
+18006060d RVA=0x6060d file=0x5fa0d 3d01010000 CMP EAX,0x101
+180060612 RVA=0x60612 file=0x5fa12 740a JZ 0x18006061e
+
+=== redist-validation-followup/1800602ac ===
+FUNCTION 1800602ac FUN_1800602ac
+BODY [[1800602ac, 180060465]]
+INCOMING REFERENCES
+From: 1801875e4 To: 1800602ac Type: DATA Op: 0 DEFAULT caller=null
+From: 1800433a4 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800432d0
+From: 180060094 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_180060070
+From: 1800445e3 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800444cc
+From: 180050bc3 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_180050b58
+From: 180050c43 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_180050b58
+From: 180051775 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800516ac
+From: 180051b36 To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_1800519ec
+From: 180051d9f To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_180051ca8
+From: 180051f5b To: 1800602ac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FUN_180051ca8
+DIRECT CALLEES
+EXTERNAL:00000018 WaitForSingleObject
+18000bee4 FUN_18000bee4
+1800090a8 FUN_1800090a8
+EXTERNAL:0000005e Sleep
+180060468 FUN_180060468
+18000bf0c FUN_18000bf0c
+18008a990 FUN_18008a990
+DECOMPILATION completed=true error=
+
+ulonglong FUN_1800602ac(longlong param_1,DWORD param_2,LPVOID param_3,DWORD param_4,
+                       undefined1 (*param_5) [32],uint param_6,HANDLE param_7,longlong *param_8)
+
+{
+  undefined1 (*pauVar1) [32];
+  uint uVar2;
+  HANDLE pvVar3;
+  uint uVar4;
+  DWORD DVar5;
+  ulonglong uVar6;
+  longlong *plVar7;
+  uint uVar8;
+  undefined8 unaff_retaddr;
+  
+  uVar2 = param_6;
+  pauVar1 = param_5;
+  if (param_5 != (undefined1 (*) [32])0x0) {
+    FUN_18008a990(param_5,0,(ulonglong)param_6);
+  }
+  pvVar3 = param_7;
+  plVar7 = param_8;
+  if (param_8 == (longlong *)0x0) {
+    plVar7 = (longlong *)(param_1 + 0x20);
+  }
+  uVar8 = 0;
+  param_5._0_1_ = '\0';
+  while( true ) {
+    uVar6 = FUN_180060468(param_1,param_2,param_3,param_4,pauVar1,uVar2,pvVar3,plVar7,
+                          (undefined1 *)&param_5);
+    uVar4 = (uint)uVar6;
+    if ((char)param_5 != '\0') {
+      return 0x80004004;
+    }
+    if (-1 < (int)uVar4) break;
+    FUN_18000bf0c(unaff_retaddr,0x91,
+                  "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",uVar4);
+    uVar8 = uVar8 + 1;
+    if (*(uint *)((longlong)plVar7 + 0xc) < uVar8) {
+      FUN_1800090a8(unaff_retaddr,0x98,
+                    "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp",uVar4);
+      return uVar6 & 0xffffffff;
+    }
+    DVar5 = *(DWORD *)(plVar7 + 2);
+    if (DVar5 != 0) {
+      if ((HANDLE)*plVar7 == (HANDLE)0x0) {
+        Sleep(DVar5);
+      }
+      else {
+        DVar5 = WaitForSingleObject((HANDLE)*plVar7,DVar5);
+        if ((DVar5 != 0) && (DVar5 != 0x102)) {
+          FUN_18000bee4(unaff_retaddr,0xa4,
+                        "C:\\__w\\1\\s\\src\\GameInput\\lib\\gameinputcommon\\Driver.cpp");
+        }
+      }
+    }
+  }
+  return 0;
+}
+
+
+[... selected instructions 180060351..1800603c8 ...]
+180060351 RVA=0x60351 file=0x5f751 e812010000 CALL 0x180060468
+180060356 RVA=0x60356 file=0x5f756 80bc24b000000000 CMP byte ptr [RSP + 0xb0],0x0
+18006035e RVA=0x6035e file=0x5f75e 8bf8 MOV EDI,EAX
+180060360 RVA=0x60360 file=0x5f760 0f85e3000000 JNZ 0x180060449
+180060366 RVA=0x60366 file=0x5f766 85c0 TEST EAX,EAX
+180060368 RVA=0x60368 file=0x5f768 0f89d7000000 JNS 0x180060445
+18006036e RVA=0x6036e file=0x5f76e 0faee8 LFENCE
+180060371 RVA=0x60371 file=0x5f771 488b8c2488000000 MOV RCX,qword ptr [RSP + 0x88]
+180060379 RVA=0x60379 file=0x5f779 4c8d05c8f00500 LEA R8,[0x1800bf448]
+180060380 RVA=0x60380 file=0x5f780 448bc8 MOV R9D,EAX
+180060383 RVA=0x60383 file=0x5f783 ba91000000 MOV EDX,0x91
+180060388 RVA=0x60388 file=0x5f788 e87fbbfaff CALL 0x18000bf0c
+18006038d RVA=0x6038d file=0x5f78d ffc5 INC EBP
+18006038f RVA=0x6038f file=0x5f78f 3b6b0c CMP EBP,dword ptr [RBX + 0xc]
+180060392 RVA=0x60392 file=0x5f792 0f8787000000 JA 0x18006041f
+180060398 RVA=0x60398 file=0x5f798 8b5310 MOV EDX,dword ptr [RBX + 0x10]
+18006039b RVA=0x6039b file=0x5f79b 4c8b8424a0000000 MOV R8,qword ptr [RSP + 0xa0]
+1800603a3 RVA=0x603a3 file=0x5f7a3 448b942498000000 MOV R10D,dword ptr [RSP + 0x98]
+1800603ab RVA=0x603ab file=0x5f7ab 85d2 TEST EDX,EDX
+1800603ad RVA=0x603ad file=0x5f7ad 0f8474ffffff JZ 0x180060327
+1800603b3 RVA=0x603b3 file=0x5f7b3 0faee8 LFENCE
+1800603b6 RVA=0x603b6 file=0x5f7b6 488b0b MOV RCX,qword ptr [RBX]
+1800603b9 RVA=0x603b9 file=0x5f7b9 4885c9 TEST RCX,RCX
+1800603bc RVA=0x603bc file=0x5f7bc 750a JNZ 0x1800603c8
+1800603be RVA=0x603be file=0x5f7be 8bca MOV ECX,EDX
+1800603c0 RVA=0x603c0 file=0x5f7c0 ff1522f30200 CALL qword ptr [0x18008f6e8]
+1800603c6 RVA=0x603c6 file=0x5f7c6 eb42 JMP 0x18006040a
+1800603c8 RVA=0x603c8 file=0x5f7c8 ff1562f20200 CALL qword ptr [0x18008f630]

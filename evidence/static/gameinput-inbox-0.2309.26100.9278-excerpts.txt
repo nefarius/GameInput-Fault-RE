@@ -1,0 +1,421 @@
+Local Ghidra 12.1.3 headless static evidence; literal pseudocode, not original source or runtime observation.
+Image: C:\Windows\System32\GameInput.dll SHA256=f9f5adbde4a2883b9b307bb1848a120094904578d92b21100828bd83f7b77cb6
+Pseudocode argument/types may be approximate. Selected instruction bytes match the original PE; file offsets and RVA are explicit.
+PDB GUID=b2f221be-f567-c87a-7830-89f3fe8b3c51 age=1; GUID/age matched during import.
+
+=== inbox-analysis/180042e98 ===
+FUNCTION 180042e98 WorkerThread
+BODY [[180042e98, 180043069] [18004306b, 18004307a] [18004307c, 180043093]]
+INCOMING REFERENCES
+From: 180060de8 To: 180042e98 Type: DATA Op: 0 DEFAULT caller=null
+From: 180043494 To: 180042e98 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::WorkerThreadProc
+DIRECT CALLEES
+EXTERNAL:0000005e GetLastError
+18000d76c GameInputFailFast
+18003c2a4 HandleXusbStateChange
+18000d738 GameInputCurrentTime
+18003c208 GetXusbDeviceIndex
+EXTERNAL:00000076 CancelIoEx
+EXTERNAL:00000022 NtDelayExecution
+18004c709 memcmp
+1800405e4 RequestUnfilteredState
+EXTERNAL:0000001d NtWaitForSingleObject
+18004c750 __security_check_cookie
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+/* private: void __cdecl XusbWatcher::WorkerThread(void) __ptr64 */
+
+void __thiscall XusbWatcher::WorkerThread(XusbWatcher *this)
+
+{
+  GameInputServerDevice *this_00;
+  bool bVar1;
+  int iVar2;
+  BOOL BVar3;
+  DWORD DVar4;
+  uint uVar5;
+  __uint64 _Var6;
+  undefined1 auStackY_a8 [32];
+  ulonglong local_78;
+  _OVERLAPPED local_70;
+  undefined8 local_50;
+  undefined8 uStack_48;
+  undefined2 local_40;
+  XusbWatcher local_3e;
+  undefined5 local_38;
+  undefined3 uStack_33;
+  undefined5 uStack_30;
+  undefined3 uStack_2b;
+  undefined5 local_28;
+  undefined2 uStack_23;
+  XusbWatcher XStack_21;
+  ulonglong local_20;
+  
+  local_20 = __security_cookie ^ (ulonglong)auStackY_a8;
+  do {
+    while( true ) {
+      if (this[0x28] != (XusbWatcher)0x0) {
+        return;
+      }
+      local_78 = local_78 & 0xffffffff00000000;
+      bVar1 = GetXusbDeviceIndex(*(IXusbGameControllerProviderPrivate **)(this + 0x18),
+                                 (uint *)&local_78);
+      if (bVar1) break;
+LAB_180042ef3:
+      local_78 = 0xfffffffffff0bdc0;
+      NtDelayExecution(1,&local_78);
+    }
+    local_28 = 0;
+    uStack_23 = 0;
+    XStack_21 = (XusbWatcher)0x0;
+    local_38 = 0;
+    uStack_33 = 0;
+    uStack_30 = 0;
+    uStack_2b = 0;
+    local_70.Internal = 0;
+    local_70.InternalHigh = 0;
+    local_70.u.Pointer = (PVOID)0x0;
+    local_70.hEvent = (HANDLE)0x0;
+    bVar1 = RequestUnfilteredState
+                      (*(void **)this,*(void **)(this + 8),(uint)local_78,true,
+                       (GamepadData *)&local_38,&local_70);
+    if (!bVar1) goto LAB_180042ef3;
+    iVar2 = NtWaitForSingleObject(*(undefined8 *)(this + 8),1,0);
+    if (iVar2 == 0) {
+      if (this[0x28] == (XusbWatcher)0x0) {
+        if (((int)local_70.Internal != 0) || (local_70.InternalHigh != 0x18)) goto LAB_180042ef3;
+        local_50 = CONCAT53(uStack_30,uStack_33);
+        uStack_48 = CONCAT53(local_28,uStack_2b);
+        local_40 = uStack_23;
+        local_3e = XStack_21;
+        if (*(int *)(this + 0x3c) != 0) {
+          local_3e = (XusbWatcher)0x0;
+        }
+        iVar2 = memcmp(&local_50,this + 0x29,0x13);
+        if (iVar2 != 0) {
+          this_00 = *(GameInputServerDevice **)(this + 0x10);
+          _Var6 = GameInputCurrentTime();
+          GameInputServerDevice::HandleXusbStateChange(this_00,_Var6,(XusbGamepadState *)&local_50);
+          *(undefined8 *)(this + 0x29) = local_50;
+          *(undefined8 *)(this + 0x31) = uStack_48;
+          *(undefined2 *)(this + 0x39) = local_40;
+          this[0x3b] = local_3e;
+        }
+      }
+    }
+    else {
+      BVar3 = CancelIoEx(*(HANDLE *)this,(LPOVERLAPPED)0x0);
+      if (((BVar3 == 0) && (DVar4 = GetLastError(), DVar4 != 0)) && (DVar4 != 0x490)) {
+        if (0 < (int)DVar4) {
+          DVar4 = DVar4 & 0xffff | 0x80070000;
+        }
+                    /* WARNING: Subroutine does not return */
+        GameInputFailFast(DVar4,0x1b1);
+      }
+      uVar5 = NtWaitForSingleObject(*(undefined8 *)(this + 8),0,0);
+      if (uVar5 != 0) {
+                    /* WARNING: Subroutine does not return */
+        GameInputFailFast(uVar5 | 0x10000000,0x1b6);
+      }
+    }
+  } while( true );
+}
+
+
+[... selected instructions 180042ed2..180042efd ...]
+180042ed2 RVA=0x42ed2 file=0x42ed2 8a4728 MOV AL,byte ptr [RDI + 0x28]
+180042ed5 RVA=0x42ed5 file=0x42ed5 90 NOP
+180042ed6 RVA=0x42ed6 file=0x42ed6 84c0 TEST AL,AL
+180042ed8 RVA=0x42ed8 file=0x42ed8 0f8563010000 JNZ 0x180043041
+180042ede RVA=0x42ede file=0x42ede 488b4f18 MOV RCX,qword ptr [RDI + 0x18]
+180042ee2 RVA=0x42ee2 file=0x42ee2 488d55e7 LEA RDX,[RBP + -0x19]
+180042ee6 RVA=0x42ee6 file=0x42ee6 448975e7 MOV dword ptr [RBP + -0x19],R14D
+180042eea RVA=0x42eea file=0x42eea e81993ffff CALL 0x18003c208
+180042eef RVA=0x42eef file=0x42eef 84c0 TEST AL,AL
+180042ef1 RVA=0x42ef1 file=0x42ef1 7518 JNZ 0x180042f0b
+180042ef3 RVA=0x42ef3 file=0x42ef3 488d55e7 LEA RDX,[RBP + -0x19]
+180042ef7 RVA=0x42ef7 file=0x42ef7 4c897de7 MOV qword ptr [RBP + -0x19],R15
+180042efb RVA=0x42efb file=0x42efb b101 MOV CL,0x1
+180042efd RVA=0x42efd file=0x42efd 48ff1584ec0000 CALL qword ptr [0x180051b88]
+[... selected instructions 180042f0b..180042f84 ...]
+180042f0b RVA=0x42f0b file=0x42f0b 448b45e7 MOV R8D,dword ptr [RBP + -0x19]
+180042f0f RVA=0x42f0f file=0x42f0f 33c0 XOR EAX,EAX
+180042f11 RVA=0x42f11 file=0x42f11 488b5708 MOV RDX,qword ptr [RDI + 0x8]
+180042f15 RVA=0x42f15 file=0x42f15 0f57c9 XORPS XMM1,XMM1
+180042f18 RVA=0x42f18 file=0x42f18 488b0f MOV RCX,qword ptr [RDI]
+180042f1b RVA=0x42f1b file=0x42f1b 0f57c0 XORPS XMM0,XMM0
+180042f1e RVA=0x42f1e file=0x42f1e 48894537 MOV qword ptr [RBP + 0x37],RAX
+180042f22 RVA=0x42f22 file=0x42f22 41b101 MOV R9B,0x1
+180042f25 RVA=0x42f25 file=0x42f25 488d45ef LEA RAX,[RBP + -0x11]
+180042f29 RVA=0x42f29 file=0x42f29 4889442428 MOV qword ptr [RSP + 0x28],RAX
+180042f2e RVA=0x42f2e file=0x42f2e 488d4527 LEA RAX,[RBP + 0x27]
+180042f32 RVA=0x42f32 file=0x42f32 4889442420 MOV qword ptr [RSP + 0x20],RAX
+180042f37 RVA=0x42f37 file=0x42f37 0f114527 MOVUPS xmmword ptr [RBP + 0x27],XMM0
+180042f3b RVA=0x42f3b file=0x42f3b 0f114def MOVUPS xmmword ptr [RBP + -0x11],XMM1
+180042f3f RVA=0x42f3f file=0x42f3f 0f114dff MOVUPS xmmword ptr [RBP + -0x1],XMM1
+180042f43 RVA=0x42f43 file=0x42f43 e89cd6ffff CALL 0x1800405e4
+180042f48 RVA=0x42f48 file=0x42f48 84c0 TEST AL,AL
+180042f4a RVA=0x42f4a file=0x42f4a 74a7 JZ 0x180042ef3
+180042f4c RVA=0x42f4c file=0x42f4c 488b4f08 MOV RCX,qword ptr [RDI + 0x8]
+180042f50 RVA=0x42f50 file=0x42f50 4533c0 XOR R8D,R8D
+180042f53 RVA=0x42f53 file=0x42f53 b201 MOV DL,0x1
+180042f55 RVA=0x42f55 file=0x42f55 48ff1504ec0000 CALL qword ptr [0x180051b60]
+180042f5c RVA=0x42f5c file=0x42f5c 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+180042f61 RVA=0x42f61 file=0x42f61 85c0 TEST EAX,EAX
+180042f63 RVA=0x42f63 file=0x42f63 0f858e000000 JNZ 0x180042ff7
+180042f69 RVA=0x42f69 file=0x42f69 8a4728 MOV AL,byte ptr [RDI + 0x28]
+180042f6c RVA=0x42f6c file=0x42f6c 90 NOP
+180042f6d RVA=0x42f6d file=0x42f6d 84c0 TEST AL,AL
+180042f6f RVA=0x42f6f file=0x42f6f 0f855dffffff JNZ 0x180042ed2
+180042f75 RVA=0x42f75 file=0x42f75 443975ef CMP dword ptr [RBP + -0x11],R14D
+180042f79 RVA=0x42f79 file=0x42f79 0f8574ffffff JNZ 0x180042ef3
+180042f7f RVA=0x42f7f file=0x42f7f 48837df718 CMP qword ptr [RBP + -0x9],0x18
+180042f84 RVA=0x42f84 file=0x42f84 0f8569ffffff JNZ 0x180042ef3
+[... selected instructions 180042f8a..180042fbe ...]
+180042f8a RVA=0x42f8a file=0x42f8a 0fb7453c MOVZX EAX,word ptr [RBP + 0x3c]
+180042f8e RVA=0x42f8e file=0x42f8e 488d5729 LEA RDX,[RDI + 0x29]
+180042f92 RVA=0x42f92 file=0x42f92 0f10452c MOVUPS XMM0,xmmword ptr [RBP + 0x2c]
+180042f96 RVA=0x42f96 file=0x42f96 4439773c CMP dword ptr [RDI + 0x3c],R14D
+180042f9a RVA=0x42f9a file=0x42f9a 488d4d0f LEA RCX,[RBP + 0xf]
+180042f9e RVA=0x42f9e file=0x42f9e 6689451f MOV word ptr [RBP + 0x1f],AX
+180042fa2 RVA=0x42fa2 file=0x42fa2 41b813000000 MOV R8D,0x13
+180042fa8 RVA=0x42fa8 file=0x42fa8 0fb6453e MOVZX EAX,byte ptr [RBP + 0x3e]
+180042fac RVA=0x42fac file=0x42fac 410f45c6 CMOVNZ EAX,R14D
+180042fb0 RVA=0x42fb0 file=0x42fb0 884521 MOV byte ptr [RBP + 0x21],AL
+180042fb3 RVA=0x42fb3 file=0x42fb3 0f11450f MOVUPS xmmword ptr [RBP + 0xf],XMM0
+180042fb7 RVA=0x42fb7 file=0x42fb7 e84d970000 CALL 0x18004c709
+180042fbc RVA=0x42fbc file=0x42fbc 85c0 TEST EAX,EAX
+180042fbe RVA=0x42fbe file=0x42fbe 0f840effffff JZ 0x180042ed2
+[... selected instructions 180042fec..18004303c ...]
+180042fec RVA=0x42fec file=0x42fec 8a4521 MOV AL,byte ptr [RBP + 0x21]
+180042fef RVA=0x42fef file=0x42fef 88473b MOV byte ptr [RDI + 0x3b],AL
+180042ff2 RVA=0x42ff2 file=0x42ff2 e9dbfeffff JMP 0x180042ed2
+180042ff7 RVA=0x42ff7 file=0x42ff7 488b0f MOV RCX,qword ptr [RDI]
+180042ffa RVA=0x42ffa file=0x42ffa 33d2 XOR EDX,EDX
+180042ffc RVA=0x42ffc file=0x42ffc 48ff15dde70000 CALL qword ptr [0x1800517e0]
+180043003 RVA=0x43003 file=0x43003 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+180043008 RVA=0x43008 file=0x43008 85c0 TEST EAX,EAX
+18004300a RVA=0x4300a file=0x4300a 7517 JNZ 0x180043023
+18004300c RVA=0x4300c file=0x4300c 48ff153de70000 CALL qword ptr [0x180051750]
+180043013 RVA=0x43013 file=0x43013 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+180043018 RVA=0x43018 file=0x43018 85c0 TEST EAX,EAX
+18004301a RVA=0x4301a file=0x4301a 7407 JZ 0x180043023
+18004301c RVA=0x4301c file=0x4301c 3d90040000 CMP EAX,0x490
+180043021 RVA=0x43021 file=0x43021 7559 JNZ 0x18004307c
+180043023 RVA=0x43023 file=0x43023 488b4f08 MOV RCX,qword ptr [RDI + 0x8]
+180043027 RVA=0x43027 file=0x43027 4533c0 XOR R8D,R8D
+18004302a RVA=0x4302a file=0x4302a 33d2 XOR EDX,EDX
+18004302c RVA=0x4302c file=0x4302c 48ff152deb0000 CALL qword ptr [0x180051b60]
+180043033 RVA=0x43033 file=0x43033 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+180043038 RVA=0x43038 file=0x43038 85c0 TEST EAX,EAX
+18004303a RVA=0x4303a file=0x4303a 752f JNZ 0x18004306b
+18004303c RVA=0x4303c file=0x4303c e991feffff JMP 0x180042ed2
+
+=== inbox-followup/1800405e4 ===
+FUNCTION 1800405e4 RequestUnfilteredState
+BODY [[1800405e4, 180040725]]
+INCOMING REFERENCES
+From: 180060c98 To: 1800405e4 Type: DATA Op: 0 DEFAULT caller=null
+From: 18003cef9 To: 1800405e4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::IsUnfilteredStateIOCTLSupported
+From: 180042f43 To: 1800405e4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::WorkerThread
+DIRECT CALLEES
+1800011e8 Write<_tlgWrapSz<char>,_tlgWrapperByVal<4>,_tlgWrapperByVal<4>_>
+EXTERNAL:0000005e GetLastError
+EXTERNAL:00000075 DeviceIoControl
+EXTERNAL:0000004b ResetEvent
+DECOMPILATION completed=true error=
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* private: static bool __cdecl XusbWatcher::RequestUnfilteredState(void * __ptr64,void *
+   __ptr64,unsigned int,bool,struct GamepadState0101::GamepadData * __ptr64,struct _OVERLAPPED *
+   __ptr64) */
+
+bool __cdecl
+XusbWatcher::RequestUnfilteredState
+          (void *param_1,void *param_2,uint param_3,bool param_4,GamepadData *param_5,
+          _OVERLAPPED *param_6)
+
+{
+  _OVERLAPPED *lpOverlapped;
+  BOOL BVar1;
+  DWORD DVar2;
+  undefined7 in_register_00000089;
+  _GUID *p_Var3;
+  bool bVar4;
+  char *local_res10;
+  DWORD local_res18 [2];
+  undefined2 local_res20;
+  undefined1 local_res22;
+  undefined1 local_res23;
+  
+  lpOverlapped = param_6;
+  p_Var3 = (_GUID *)CONCAT71(in_register_00000089,param_4);
+  local_res23 = !param_4;
+  local_res20 = 0x103;
+  local_res22 = (undefined1)param_3;
+  *(undefined8 *)param_5 = 0;
+  *(undefined8 *)(param_5 + 8) = 0;
+  *(undefined8 *)(param_5 + 0x10) = 0;
+  param_6->Internal = 0;
+  param_6->InternalHigh = 0;
+  (param_6->u).Pointer = (PVOID)0x0;
+  param_6->hEvent = param_2;
+  BVar1 = ResetEvent(param_2);
+  if (BVar1 == 0) {
+    local_res18[0] = GetLastError();
+    if (((2 < DAT_18005d000) && ((_DAT_18005d010 & 0x400) != 0)) &&
+       ((_tlgProvider_t *)((ulonglong)DAT_18005d018 & 0x400) == DAT_18005d018)) {
+      param_6._0_4_ = 0x10e;
+      local_res10 = "onecore\\xbox\\gameinput\\server\\XusbWatcher.cpp";
+      _tlgWriteTemplate<long___cdecl(_tlgProvider_t_const*___ptr64,void_const*___ptr64,_GUID_const*___ptr64,_GUID_const*___ptr64,unsigned_int,_EVENT_DATA_DESCRIPTOR*___ptr64),&long___cdecl__tlgWriteTransfer_GameInputEventWriteTransfer(struct__tlgProvider_t_const*___ptr64,void_const*___ptr64,struct__GUID_const*___ptr64,struct__GUID_const*___ptr64,unsigned_int,struct__EVENT_DATA_DESCRIPTOR*___ptr64),_GUID_const*___ptr64,_GUID_const*___ptr64>
+      ::Write<_tlgWrapSz<char>,_tlgWrapperByVal<4>,_tlgWrapperByVal<4>_>
+                ((_tlgProvider_t *)((ulonglong)DAT_18005d018 & 0x400),&DAT_180058596,(_GUID *)0x400,
+                 p_Var3,(_tlgWrapSz<char> *)&local_res10,(_tlgWrapperByVal<4> *)&param_6,
+                 (_tlgWrapperByVal<4> *)local_res18);
+    }
+    bVar4 = false;
+  }
+  else {
+    BVar1 = DeviceIoControl(param_1,0x8000e388,&local_res20,4,param_5,0x18,(LPDWORD)0x0,lpOverlapped
+                           );
+    if (BVar1 == 0) {
+      DVar2 = GetLastError();
+      bVar4 = DVar2 == 0x3e5;
+    }
+    else {
+      bVar4 = true;
+    }
+  }
+  return bVar4;
+}
+
+
+[... selected instructions 1800405f4..180040630 ...]
+1800405f4 RVA=0x405f4 file=0x405f4 4584c9 TEST R9B,R9B
+1800405f7 RVA=0x405f7 file=0x405f7 488bbc2480000000 MOV RDI,qword ptr [RSP + 0x80]
+1800405ff RVA=0x405ff file=0x405ff b803010000 MOV EAX,0x103
+180040604 RVA=0x40604 file=0x40604 0f9444247b SETZ byte ptr [RSP + 0x7b]
+180040609 RVA=0x40609 file=0x40609 6689442478 MOV word ptr [RSP + 0x78],AX
+18004060e RVA=0x4060e file=0x4060e 33c0 XOR EAX,EAX
+180040610 RVA=0x40610 file=0x40610 448844247a MOV byte ptr [RSP + 0x7a],R8B
+180040615 RVA=0x40615 file=0x40615 0f57c0 XORPS XMM0,XMM0
+180040618 RVA=0x40618 file=0x40618 488bf1 MOV RSI,RCX
+18004061b RVA=0x4061b file=0x4061b 0f1107 MOVUPS xmmword ptr [RDI],XMM0
+18004061e RVA=0x4061e file=0x4061e 48894710 MOV qword ptr [RDI + 0x10],RAX
+180040622 RVA=0x40622 file=0x40622 488bca MOV RCX,RDX
+180040625 RVA=0x40625 file=0x40625 482103 AND qword ptr [RBX],RAX
+180040628 RVA=0x40628 file=0x40628 48214308 AND qword ptr [RBX + 0x8],RAX
+18004062c RVA=0x4062c file=0x4062c 48214310 AND qword ptr [RBX + 0x10],RAX
+180040630 RVA=0x40630 file=0x40630 48895318 MOV qword ptr [RBX + 0x18],RDX
+[... selected instructions 1800406cb..18004071c ...]
+1800406cb RVA=0x406cb file=0x406cb 48895c2438 MOV qword ptr [RSP + 0x38],RBX
+1800406d0 RVA=0x406d0 file=0x406d0 4c8d442478 LEA R8,[RSP + 0x78]
+1800406d5 RVA=0x406d5 file=0x406d5 488364243000 AND qword ptr [RSP + 0x30],0x0
+1800406db RVA=0x406db file=0x406db 41b904000000 MOV R9D,0x4
+1800406e1 RVA=0x406e1 file=0x406e1 c744242818000000 MOV dword ptr [RSP + 0x28],0x18
+1800406e9 RVA=0x406e9 file=0x406e9 ba88e30080 MOV EDX,0x8000e388
+1800406ee RVA=0x406ee file=0x406ee 488bce MOV RCX,RSI
+1800406f1 RVA=0x406f1 file=0x406f1 48897c2420 MOV qword ptr [RSP + 0x20],RDI
+1800406f6 RVA=0x406f6 file=0x406f6 48ff15db100100 CALL qword ptr [0x1800517d8]
+1800406fd RVA=0x406fd file=0x406fd 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+180040702 RVA=0x40702 file=0x40702 85c0 TEST EAX,EAX
+180040704 RVA=0x40704 file=0x40704 7516 JNZ 0x18004071c
+180040706 RVA=0x40706 file=0x40706 48ff1543100100 CALL qword ptr [0x180051750]
+18004070d RVA=0x4070d file=0x4070d 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+180040712 RVA=0x40712 file=0x40712 3de5030000 CMP EAX,0x3e5
+180040717 RVA=0x40717 file=0x40717 0f94c0 SETZ AL
+18004071a RVA=0x4071a file=0x4071a eb02 JMP 0x18004071e
+18004071c RVA=0x4071c file=0x4071c b001 MOV AL,0x1
+
+=== inbox-followup/18003cea4 ===
+FUNCTION 18003cea4 IsUnfilteredStateIOCTLSupported
+BODY [[18003cea4, 18003cf9c] [18003cf9e, 18003cfb5] [18003cfb7, 18003cfc6]]
+INCOMING REFERENCES
+From: 180060b78 To: 18003cea4 Type: DATA Op: 0 DEFAULT caller=null
+From: 180030822 To: 18003cea4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::Create
+DIRECT CALLEES
+EXTERNAL:00000076 CancelIoEx
+1800405e4 RequestUnfilteredState
+EXTERNAL:0000005e GetLastError
+EXTERNAL:0000001d NtWaitForSingleObject
+18004c750 __security_check_cookie
+18000d76c GameInputFailFast
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+/* private: static bool __cdecl XusbWatcher::IsUnfilteredStateIOCTLSupported(void * __ptr64,void *
+   __ptr64) */
+
+bool __cdecl XusbWatcher::IsUnfilteredStateIOCTLSupported(void *param_1,void *param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  BOOL BVar3;
+  DWORD DVar4;
+  uint uVar5;
+  undefined1 auStackY_88 [32];
+  undefined8 local_58;
+  _OVERLAPPED local_50;
+  undefined8 local_30;
+  undefined8 uStack_28;
+  undefined8 local_20;
+  ulonglong local_18;
+  
+  local_18 = __security_cookie ^ (ulonglong)auStackY_88;
+  local_30 = 0;
+  uStack_28 = 0;
+  local_20 = 0;
+  local_50.Internal = 0;
+  local_50.InternalHigh = 0;
+  local_50.u.Pointer = (PVOID)0x0;
+  local_50.hEvent = (HANDLE)0x0;
+  bVar1 = RequestUnfilteredState(param_1,param_2,0,false,(GamepadData *)&local_30,&local_50);
+  if (bVar1) {
+    local_58 = 0xffffffffff676980;
+    iVar2 = NtWaitForSingleObject(param_2,0,&local_58);
+    if (iVar2 == 0) {
+      if (((int)local_50.Internal == 0) && (local_50.InternalHigh == 0x18)) {
+        return true;
+      }
+    }
+    else {
+      BVar3 = CancelIoEx(param_1,(LPOVERLAPPED)0x0);
+      if (((BVar3 == 0) && (DVar4 = GetLastError(), DVar4 != 0)) && (DVar4 != 0x490)) {
+        if (0 < (int)DVar4) {
+          DVar4 = DVar4 & 0xffff | 0x80070000;
+        }
+                    /* WARNING: Subroutine does not return */
+        GameInputFailFast(DVar4,0xf1);
+      }
+      uVar5 = NtWaitForSingleObject(param_2,0,&local_58);
+      if (uVar5 != 0) {
+                    /* WARNING: Subroutine does not return */
+        GameInputFailFast(uVar5 | 0x10000000,0xf6);
+      }
+    }
+  }
+  return false;
+}
+
+
+[... selected instructions 18003ceca..18003ceca ...]
+18003ceca RVA=0x3ceca file=0x3ceca 4533c9 XOR R9D,R9D
+[... selected instructions 18003cef9..18003cf33 ...]
+18003cef9 RVA=0x3cef9 file=0x3cef9 e8e6360000 CALL 0x1800405e4
+18003cefe RVA=0x3cefe file=0x3cefe 84c0 TEST AL,AL
+18003cf00 RVA=0x3cf00 file=0x3cf00 747b JZ 0x18003cf7d
+18003cf02 RVA=0x3cf02 file=0x3cf02 4c8d442430 LEA R8,[RSP + 0x30]
+18003cf07 RVA=0x3cf07 file=0x3cf07 48c7442430806967ff MOV qword ptr [RSP + 0x30],-0x989680
+18003cf10 RVA=0x3cf10 file=0x3cf10 33d2 XOR EDX,EDX
+18003cf12 RVA=0x3cf12 file=0x3cf12 488bcb MOV RCX,RBX
+18003cf15 RVA=0x3cf15 file=0x3cf15 48ff15444c0100 CALL qword ptr [0x180051b60]
+18003cf1c RVA=0x3cf1c file=0x3cf1c 0f1f440000 NOP dword ptr [RAX + RAX*0x1]
+18003cf21 RVA=0x3cf21 file=0x3cf21 85c0 TEST EAX,EAX
+18003cf23 RVA=0x3cf23 file=0x3cf23 7512 JNZ 0x18003cf37
+18003cf25 RVA=0x3cf25 file=0x3cf25 39442438 CMP dword ptr [RSP + 0x38],EAX
+18003cf29 RVA=0x3cf29 file=0x3cf29 7552 JNZ 0x18003cf7d
+18003cf2b RVA=0x3cf2b file=0x3cf2b 48837c244018 CMP qword ptr [RSP + 0x40],0x18
+18003cf31 RVA=0x3cf31 file=0x3cf31 754a JNZ 0x18003cf7d
+18003cf33 RVA=0x3cf33 file=0x3cf33 b001 MOV AL,0x1

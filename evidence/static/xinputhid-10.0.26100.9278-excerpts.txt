@@ -1,0 +1,719 @@
+Literal excerpts from local headless Ghidra 12.1.3; not REA MCP Evidence and not original source.
+Ellipses and excerpt boundaries are editorial. WDF slot names are mapped separately from installed KMDF 1.15 headers.
+Decompiler types and argument counts are uncertain. Instruction bytes below were checked against the source PE.
+Driver SHA256: 1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588
+
+=== FUNCTION 14000eeec DispatchXINPUTIoctl ===
+BODY [[14000eeec, 14000f1d4]]
+Source export: artifacts/xinputhid-analysis/14000eeec.txt
+INCOMING REFERENCES
+From: 14001857c To: 14000eeec Type: DATA Op: 0 DEFAULT caller=null
+From: 140008c14 To: 14000eeec Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=EvtIoInCallerContext
+From: 14001a6bf To: 14000eeec Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=OnIoDeviceControl
+DIRECT CALLEES
+14000c240 DispatchGetCapabilities
+14000d6ec DispatchIoctlGetInformationEx
+14000d00c DispatchGetLedState
+14000c59c DispatchGetGamepadState
+EXTERNAL:0000000c IoGetRequestorProcessId
+14000d944 DispatchSendAccessibleNexus
+14000a228 WPP_SF_dD
+14000e9e4 DispatchWaitForInput
+14000f1dc DisptachGetXinputManagementDriver
+14000d1d8 DispatchGetUnfilteredGamepadState
+140011fb0 _guard_dispatch_icall
+14000e354 DispatchSetGamepadState
+140008e68 Feature_GameInput_XInputHIDControllerAssist__private_IsEnabledDeviceUsageNoInline
+14000f720 Feature_GameInput_XInputExplorer__private_IsEnabledDeviceUsageNoInline
+14000d614 DispatchIoctlGetInformation
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+14000f354 DisptachWaitForSystemButtons
+14000e630 DispatchSetGamepadStateEx
+14000bfdc DispatchGetBatteryInformation
+14000a2d4 WPP_SF_DDDD
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+      if (param_1 == 0x8000e388) {
+        DispatchGetUnfilteredGamepadState(param_2,param_3);
+        return;
+      }
+[... selected instruction range 14000f140..14000f146 ...]
+14000f140 RVA=0xf140 file=0xf140 81fb88e30080 CMP EBX,0x8000e388
+14000f146 RVA=0xf146 file=0xf146 742a JZ 0x14000f172
+[... selected instruction range 14000f172..14000f17d ...]
+14000f172 RVA=0xf172 file=0xf172 488bd7 MOV RDX,RDI
+14000f175 RVA=0xf175 file=0xf175 488bce MOV RCX,RSI
+14000f178 RVA=0xf178 file=0xf178 e85be0ffff CALL 0x14000d1d8
+14000f17d RVA=0xf17d file=0xf17d eb3d JMP 0x14000f1bc
+
+=== FUNCTION 14000d1d8 DispatchGetUnfilteredGamepadState ===
+BODY [[14000d1d8, 14000d2c9] [14000d2cb, 14000d60a]]
+Source export: artifacts/xinputhid-analysis/14000d1d8.txt
+INCOMING REFERENCES
+From: 140018510 To: 14000d1d8 Type: DATA Op: 0 DEFAULT caller=null
+From: 14000f178 To: 14000d1d8 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchXINPUTIoctl
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140012380 memset
+140004a38 IsNexusRestricted
+14000ac50 WPP_SF_q
+EXTERNAL:0000000c IoGetRequestorProcessId
+EXTERNAL:0000002b ExAllocatePoolWithTag
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+EXTERNAL:00000028 ExFreePoolWithTag
+14000a1b8 WPP_SF_
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: _guard_dispatch_icall replaced with injection: guard_dispatch_icall */
+/* void __cdecl DispatchGetUnfilteredGamepadState(struct _DEVICE_CONTEXT * __ptr64,struct
+   WDFREQUEST__ * __ptr64) */
+
+void __cdecl DispatchGetUnfilteredGamepadState(_DEVICE_CONTEXT *param_1,WDFREQUEST__ *param_2)
+
+{
+  _DEVICE_CONTEXT *p_Var1;
+  code *pcVar2;
+  _DEVICE_CONTEXT *p_Var3;
+  bool bVar4;
+  uchar uVar5;
+  int iVar6;
+  uint uVar7;
+  ulonglong uVar8;
+  undefined8 uVar9;
+  undefined8 *puVar10;
+  longlong *plVar11;
+  undefined1 *puVar12;
+  undefined1 *puVar13;
+  _DEVICE_CONTEXT *p_Var14;
+  undefined8 *local_res18;
+  short *local_res20;
+  undefined1 auStack_118 [8];
+  undefined1 auStack_110 [24];
+  undefined8 *local_f8;
+  undefined8 local_e8;
+  undefined8 local_e0;
+  undefined8 local_d8;
+  code *local_d0;
+  undefined8 local_c8;
+  undefined4 local_c0;
+  undefined4 local_bc;
+  undefined8 local_b8;
+  undefined8 local_b0;
+  undefined8 uStack_a8;
+  undefined4 local_98;
+  undefined4 local_94;
+  undefined4 local_90;
+  undefined1 local_8c [84];
+  
+  puVar13 = auStack_118;
+  local_f8 = &local_e8;
+  local_res20 = (short *)0x0;
+  local_e8 = 0;
+  local_res18 = (undefined8 *)0x0;
+  local_e0 = 0;
+  iVar6 = (**(code **)(WdfFunctions_01015 + 0x868))(WdfDriverGlobals,param_2,4,&local_res20);
+  puVar12 = auStack_118;
+  if (-1 < iVar6) {
+    local_f8 = &local_e0;
+    iVar6 = (**(code **)(WdfFunctions_01015 + 0x870))(WdfDriverGlobals,param_2,0x18,&local_res18);
+    puVar12 = auStack_118;
+    if (iVar6 < 0) goto LAB_14000d28c;
+    if (*local_res20 != 0x103) {
+      iVar6 = -0x3ffffff3;
+      puVar12 = auStack_118;
+      goto LAB_14000d28c;
+    }
+    if (*(char *)((longlong)local_res20 + 3) != '\0') {
+      (**(code **)(WdfFunctions_01015 + 0x9e0))(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+      uVar9 = *(undefined8 *)(param_1 + 0x109);
+      *local_res18 = *(undefined8 *)(param_1 + 0x101);
+      local_res18[1] = uVar9;
+      local_res18[2] = *(undefined8 *)(param_1 + 0x111);
+      uVar8 = Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline();
+      if ((((int)uVar8 != 0) && (uVar5 = IsNexusRestricted(), uVar5 != '\0')) &&
+         (((byte)param_1[0x9d] & 0x40) != 0)) {
+        *(ushort *)((longlong)local_res18 + 6) = *(ushort *)((longlong)local_res18 + 6) | 0x400;
+      }
+      iVar6 = 0;
+      (**(code **)(WdfFunctions_01015 + 0x9e8))(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+      (**(code **)(WdfFunctions_01015 + 0x898))(WdfDriverGlobals,param_2,0x18);
+      puVar12 = auStack_118;
+      goto LAB_14000d28c;
+    }
+    uVar9 = (**(code **)(WdfFunctions_01015 + 0x8e8))(WdfDriverGlobals,param_2);
+    iVar6 = IoGetRequestorProcessId(uVar9);
+    bVar4 = true;
+    (**(code **)(WdfFunctions_01015 + 0x9e0))(WdfDriverGlobals);
+    p_Var1 = param_1 + 0x80;
+    p_Var14 = *(_DEVICE_CONTEXT **)p_Var1;
+    if (*(_DEVICE_CONTEXT **)p_Var1 != p_Var1) {
+      do {
+        p_Var3 = *(_DEVICE_CONTEXT **)p_Var14;
+        if (*(int *)(p_Var14 + 0x10) == iVar6) {
+          bVar4 = false;
+          uVar7 = (**(code **)(WdfFunctions_01015 + 0x8c8))
+                            (WdfDriverGlobals,param_2,*(longlong *)(p_Var14 + 0x18));
+          puVar12 = auStack_118;
+          if ((uVar7 & 0xc0000000) == 0xc0000000) goto LAB_14000d4c7;
+        }
+        p_Var14 = p_Var3;
+      } while (p_Var3 != p_Var1);
+      if (!bVar4) goto LAB_14000d5e8;
+    }
+    local_d8 = 0x38;
+    local_c0 = 1;
+    local_bc = 1;
+    local_b8 = *(undefined8 *)(param_1 + 0x18);
+    local_c8 = 0;
+    local_b0 = 0;
+    uStack_a8 = 0;
+    memset(local_8c,0,0x54);
+    local_98 = 0x60;
+    local_d0 = OnIOQueueCleanup;
+    local_90 = 2;
+    local_94 = 3;
+    puVar10 = (undefined8 *)ExAllocatePoolWithTag(0x200,0x20,0x50484958);
+    if (puVar10 == (undefined8 *)0x0) {
+      puVar12 = auStack_118;
+      if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+         (puVar12 = auStack_118, 1 < (byte)WPP_GLOBAL_Control[0x29])) {
+        WPP_SF_(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x3f,
+                &WPP_66fc575ffe273679cbf1f8c4efe3e170_Traceguids);
+        puVar12 = auStack_118;
+      }
+    }
+    else {
+      local_f8 = puVar10 + 3;
+      uVar7 = (**(code **)(WdfFunctions_01015 + 0x4c0))
+                        (WdfDriverGlobals,*(undefined8 *)(param_1 + 0x18),&local_98,&local_d8);
+      if ((uVar7 & 0xc0000000) == 0xc0000000) {
+        if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+           (1 < (byte)WPP_GLOBAL_Control[0x29])) {
+          WPP_SF_q(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x40,
+                   &WPP_66fc575ffe273679cbf1f8c4efe3e170_Traceguids,*(undefined8 *)(param_1 + 0x18))
+          ;
+        }
+        iVar6 = -0x3ffffee0;
+        (**(code **)(WdfFunctions_01015 + 0x9e8))(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+        ExFreePoolWithTag(puVar10,0x50484958);
+        puVar12 = auStack_118;
+        goto LAB_14000d28c;
+      }
+      *(int *)(puVar10 + 2) = iVar6;
+      plVar11 = *(longlong **)(param_1 + 0x88);
+      puVar13 = auStack_118;
+      if ((_DEVICE_CONTEXT *)*plVar11 != param_1 + 0x80) {
+        pcVar2 = (code *)swi(0x29);
+        plVar11 = (longlong *)(*pcVar2)(3);
+        puVar13 = auStack_110;
+      }
+      *puVar10 = param_1 + 0x80;
+      puVar10[1] = plVar11;
+      *plVar11 = (longlong)puVar10;
+      *(undefined8 **)(param_1 + 0x88) = puVar10;
+      uVar9 = puVar10[3];
+      pcVar2 = *(code **)(WdfFunctions_01015 + 0x8c8);
+      *(undefined8 *)(puVar13 + -8) = 0x14000d5dc;
+      uVar7 = (*pcVar2)(WdfDriverGlobals,param_2,uVar9);
+      puVar12 = puVar13;
+      if ((uVar7 & 0xc0000000) != 0xc0000000) {
+LAB_14000d5e8:
+        uVar9 = *(undefined8 *)(param_1 + 0x20);
+        pcVar2 = *(code **)(WdfFunctions_01015 + 0x9e8);
+        *(undefined8 *)(puVar13 + -8) = 0x14000d606;
+        (*pcVar2)(WdfDriverGlobals,uVar9);
+        return;
+      }
+    }
+LAB_14000d4c7:
+    iVar6 = -0x3ffffee0;
+    uVar9 = *(undefined8 *)(param_1 + 0x20);
+    pcVar2 = *(code **)(WdfFunctions_01015 + 0x9e8);
+    *(undefined8 *)(puVar12 + -8) = 0x14000d4ea;
+    (*pcVar2)(WdfDriverGlobals,uVar9);
+  }
+LAB_14000d28c:
+  pcVar2 = *(code **)(WdfFunctions_01015 + 0x840);
+  *(undefined8 *)(puVar12 + -8) = 0x14000d2af;
+  (*pcVar2)(WdfDriverGlobals,param_2,iVar6,6);
+  return;
+}
+
+
+[... selected instruction range 14000d21f..14000d23f ...]
+14000d21f RVA=0xd21f file=0xd21f 458d4504 LEA R8D,[R13 + 0x4]
+14000d223 RVA=0xd223 file=0xd223 488b8068080000 MOV RAX,qword ptr [RAX + 0x868]
+14000d22a RVA=0xd22a file=0xd22a 48894c2420 MOV qword ptr [RSP + 0x20],RCX
+14000d22f RVA=0xd22f file=0xd22f 488b0d8aa20000 MOV RCX,qword ptr [0x1400174c0]
+14000d236 RVA=0xd236 file=0xd236 e8754d0000 CALL 0x140011fb0
+14000d23b RVA=0xd23b file=0xd23b 8bd8 MOV EBX,EAX
+14000d23d RVA=0xd23d file=0xd23d 85c0 TEST EAX,EAX
+14000d23f RVA=0xd23f file=0xd23f 784b JS 0x14000d28c
+[... selected instruction range 14000d252..14000d2aa ...]
+14000d252 RVA=0xd252 file=0xd252 418d7518 LEA ESI,[R13 + 0x18]
+14000d256 RVA=0xd256 file=0xd256 488b0d63a20000 MOV RCX,qword ptr [0x1400174c0]
+14000d25d RVA=0xd25d file=0xd25d 4c8d4d77 LEA R9,[RBP + 0x77]
+14000d261 RVA=0xd261 file=0xd261 448bc6 MOV R8D,ESI
+14000d264 RVA=0xd264 file=0xd264 498bd6 MOV RDX,R14
+14000d267 RVA=0xd267 file=0xd267 488b8070080000 MOV RAX,qword ptr [RAX + 0x870]
+14000d26e RVA=0xd26e file=0xd26e e83d4d0000 CALL 0x140011fb0
+14000d273 RVA=0xd273 file=0xd273 8bd8 MOV EBX,EAX
+14000d275 RVA=0xd275 file=0xd275 85c0 TEST EAX,EAX
+14000d277 RVA=0xd277 file=0xd277 7813 JS 0x14000d28c
+14000d279 RVA=0xd279 file=0xd279 488b457f MOV RAX,qword ptr [RBP + 0x7f]
+14000d27d RVA=0xd27d file=0xd27d b903010000 MOV ECX,0x103
+14000d282 RVA=0xd282 file=0xd282 663908 CMP word ptr [RAX],CX
+14000d285 RVA=0xd285 file=0xd285 7444 JZ 0x14000d2cb
+14000d287 RVA=0xd287 file=0xd287 bb0d0000c0 MOV EBX,0xc000000d
+14000d28c RVA=0xd28c file=0xd28c 488b0525a20000 MOV RAX,qword ptr [0x1400174b8]
+14000d293 RVA=0xd293 file=0xd293 41b106 MOV R9B,0x6
+14000d296 RVA=0xd296 file=0xd296 488b0d23a20000 MOV RCX,qword ptr [0x1400174c0]
+14000d29d RVA=0xd29d file=0xd29d 448bc3 MOV R8D,EBX
+14000d2a0 RVA=0xd2a0 file=0xd2a0 498bd6 MOV RDX,R14
+14000d2a3 RVA=0xd2a3 file=0xd2a3 488b8040080000 MOV RAX,qword ptr [RAX + 0x840]
+14000d2aa RVA=0xd2aa file=0xd2aa e8014d0000 CALL 0x140011fb0
+[... selected instruction range 14000d2cb..14000d309 ...]
+14000d2cb RVA=0xd2cb file=0xd2cb 44386803 CMP byte ptr [RAX + 0x3],R13B
+14000d2cf RVA=0xd2cf file=0xd2cf 488b05e2a10000 MOV RAX,qword ptr [0x1400174b8]
+14000d2d6 RVA=0xd2d6 file=0xd2d6 488b0de3a10000 MOV RCX,qword ptr [0x1400174c0]
+14000d2dd RVA=0xd2dd file=0xd2dd 0f8499000000 JZ 0x14000d37c
+14000d2e3 RVA=0xd2e3 file=0xd2e3 488b80e0090000 MOV RAX,qword ptr [RAX + 0x9e0]
+14000d2ea RVA=0xd2ea file=0xd2ea 488b5720 MOV RDX,qword ptr [RDI + 0x20]
+14000d2ee RVA=0xd2ee file=0xd2ee e8bd4c0000 CALL 0x140011fb0
+14000d2f3 RVA=0xd2f3 file=0xd2f3 488b4577 MOV RAX,qword ptr [RBP + 0x77]
+14000d2f7 RVA=0xd2f7 file=0xd2f7 0f108701010000 MOVUPS XMM0,xmmword ptr [RDI + 0x101]
+14000d2fe RVA=0xd2fe file=0xd2fe 0f1100 MOVUPS xmmword ptr [RAX],XMM0
+14000d301 RVA=0xd301 file=0xd301 f20f108f11010000 MOVSD XMM1,qword ptr [RDI + 0x111]
+14000d309 RVA=0xd309 file=0xd309 f20f114810 MOVSD qword ptr [RAX + 0x10],XMM1
+[... selected instruction range 14000d336..14000d377 ...]
+14000d336 RVA=0xd336 file=0xd336 488b057ba10000 MOV RAX,qword ptr [0x1400174b8]
+14000d33d RVA=0xd33d file=0xd33d 418bdd MOV EBX,R13D
+14000d340 RVA=0xd340 file=0xd340 488b5720 MOV RDX,qword ptr [RDI + 0x20]
+14000d344 RVA=0xd344 file=0xd344 488b0d75a10000 MOV RCX,qword ptr [0x1400174c0]
+14000d34b RVA=0xd34b file=0xd34b 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8]
+14000d352 RVA=0xd352 file=0xd352 e8594c0000 CALL 0x140011fb0
+14000d357 RVA=0xd357 file=0xd357 488b055aa10000 MOV RAX,qword ptr [0x1400174b8]
+14000d35e RVA=0xd35e file=0xd35e 4c8bc6 MOV R8,RSI
+14000d361 RVA=0xd361 file=0xd361 488b0d58a10000 MOV RCX,qword ptr [0x1400174c0]
+14000d368 RVA=0xd368 file=0xd368 498bd6 MOV RDX,R14
+14000d36b RVA=0xd36b file=0xd36b 488b8098080000 MOV RAX,qword ptr [RAX + 0x898]
+14000d372 RVA=0xd372 file=0xd372 e8394c0000 CALL 0x140011fb0
+14000d377 RVA=0xd377 file=0xd377 e910ffffff JMP 0x14000d28c
+[... selected instruction range 14000d3be..14000d414 ...]
+14000d3be RVA=0xd3be file=0xd3be 488d9f80000000 LEA RBX,[RDI + 0x80]
+14000d3c5 RVA=0xd3c5 file=0xd3c5 488b33 MOV RSI,qword ptr [RBX]
+14000d3c8 RVA=0xd3c8 file=0xd3c8 483bf3 CMP RSI,RBX
+14000d3cb RVA=0xd3cb file=0xd3cb 7454 JZ 0x14000d421
+14000d3cd RVA=0xd3cd file=0xd3cd 4c8d06 LEA R8,[RSI]
+14000d3d0 RVA=0xd3d0 file=0xd3d0 488b36 MOV RSI,qword ptr [RSI]
+14000d3d3 RVA=0xd3d3 file=0xd3d3 45396010 CMP dword ptr [R8 + 0x10],R12D
+14000d3d7 RVA=0xd3d7 file=0xd3d7 7533 JNZ 0x14000d40c
+14000d3d9 RVA=0xd3d9 file=0xd3d9 488b05d8a00000 MOV RAX,qword ptr [0x1400174b8]
+14000d3e0 RVA=0xd3e0 file=0xd3e0 498bd6 MOV RDX,R14
+14000d3e3 RVA=0xd3e3 file=0xd3e3 4d8b4018 MOV R8,qword ptr [R8 + 0x18]
+14000d3e7 RVA=0xd3e7 file=0xd3e7 458afd MOV R15B,R13B
+14000d3ea RVA=0xd3ea file=0xd3ea 488b0dcfa00000 MOV RCX,qword ptr [0x1400174c0]
+14000d3f1 RVA=0xd3f1 file=0xd3f1 488b80c8080000 MOV RAX,qword ptr [RAX + 0x8c8]
+14000d3f8 RVA=0xd3f8 file=0xd3f8 e8b34b0000 CALL 0x140011fb0
+14000d3fd RVA=0xd3fd file=0xd3fd b9000000c0 MOV ECX,0xc0000000
+14000d402 RVA=0xd402 file=0xd402 23c1 AND EAX,ECX
+14000d404 RVA=0xd404 file=0xd404 3bc1 CMP EAX,ECX
+14000d406 RVA=0xd406 file=0xd406 0f84bb000000 JZ 0x14000d4c7
+14000d40c RVA=0xd40c file=0xd40c 483bf3 CMP RSI,RBX
+14000d40f RVA=0xd40f file=0xd40f 75bc JNZ 0x14000d3cd
+14000d411 RVA=0xd411 file=0xd411 4584ff TEST R15B,R15B
+14000d414 RVA=0xd414 file=0xd414 0f84ce010000 JZ 0x14000d5e8
+[... selected instruction range 14000d512..14000d52a ...]
+14000d512 RVA=0xd512 file=0xd512 488b80c0040000 MOV RAX,qword ptr [RAX + 0x4c0]
+14000d519 RVA=0xd519 file=0xd519 e8924a0000 CALL 0x140011fb0
+14000d51e RVA=0xd51e file=0xd51e 41bd000000c0 MOV R13D,0xc0000000
+14000d524 RVA=0xd524 file=0xd524 4123c5 AND EAX,R13D
+14000d527 RVA=0xd527 file=0xd527 413bc5 CMP EAX,R13D
+14000d52a RVA=0xd52a file=0xd52a 756e JNZ 0x14000d59a
+[... selected instruction range 14000d5bf..14000d606 ...]
+14000d5bf RVA=0xd5bf file=0xd5bf 488b05f29e0000 MOV RAX,qword ptr [0x1400174b8]
+14000d5c6 RVA=0xd5c6 file=0xd5c6 4d8b07 MOV R8,qword ptr [R15]
+14000d5c9 RVA=0xd5c9 file=0xd5c9 488b0df09e0000 MOV RCX,qword ptr [0x1400174c0]
+14000d5d0 RVA=0xd5d0 file=0xd5d0 488b80c8080000 MOV RAX,qword ptr [RAX + 0x8c8]
+14000d5d7 RVA=0xd5d7 file=0xd5d7 e8d4490000 CALL 0x140011fb0
+14000d5dc RVA=0xd5dc file=0xd5dc 4123c5 AND EAX,R13D
+14000d5df RVA=0xd5df file=0xd5df 413bc5 CMP EAX,R13D
+14000d5e2 RVA=0xd5e2 file=0xd5e2 0f84dffeffff JZ 0x14000d4c7
+14000d5e8 RVA=0xd5e8 file=0xd5e8 488b05c99e0000 MOV RAX,qword ptr [0x1400174b8]
+14000d5ef RVA=0xd5ef file=0xd5ef 488b5720 MOV RDX,qword ptr [RDI + 0x20]
+14000d5f3 RVA=0xd5f3 file=0xd5f3 488b0dc69e0000 MOV RCX,qword ptr [0x1400174c0]
+14000d5fa RVA=0xd5fa file=0xd5fa 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8]
+14000d601 RVA=0xd601 file=0xd601 e8aa490000 CALL 0x140011fb0
+14000d606 RVA=0xd606 file=0xd606 e9a4fcffff JMP 0x14000d2af
+
+=== FUNCTION 140004cd0 ParseAndLoadInputReportExt ===
+BODY [[140004cd0, 14000590f]]
+Source export: artifacts/xinputhid-analysis/140004cd0.txt
+INCOMING REFERENCES
+From: 140018114 To: 140004cd0 Type: DATA Op: 0 DEFAULT caller=null
+From: 140009235 To: 140004cd0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=HIDRequestCompletionRoutine
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140008fb8 Feature_GameInput_XInputPaddles__private_IsEnabledDeviceUsageNoInline
+140012380 memset
+140004a38 IsNexusRestricted
+140011f70 __security_check_cookie
+14000a1e4 WPP_SF_D
+EXTERNAL:00000041 HidP_SetUsages
+EXTERNAL:00000040 HidP_GetUsageValue
+EXTERNAL:0000003e HidP_GetUsages
+EXTERNAL:00000042 HidP_SetUsageValue
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+LAB_140005535:
+  p_Var2 = local_60;
+  if (((local_58 != *(longlong *)(local_60 + 0x90)) ||
+      (uStack_50 != *(ulonglong *)(local_60 + 0x98))) || (iVar6 != *(int *)(local_60 + 0xa0))) {
+    lVar11 = (**(code **)(WdfFunctions_01015 + 0x650))
+                       (WdfDriverGlobals,*WdfDriverGlobals,
+                        PTR__WDF_DRIVER_CONTEXT_TYPE_INFO_1400171a8);
+    *(undefined4 *)(p_Var2 + 0x90) = (undefined4)local_58;
+    *(undefined4 *)(p_Var2 + 0x94) = local_58._4_4_;
+    *(undefined4 *)(p_Var2 + 0x98) = (undefined4)uStack_50;
+    *(undefined4 *)(p_Var2 + 0x9c) = uStack_50._4_4_;
+    *(int *)(p_Var2 + 0xa0) = iVar6;
+[... literal pseudocode excerpt ...]
+    uVar12 = 1;
+  }
+  return (uchar)uVar12;
+[... selected instruction range 140004d04..140004d04 ...]
+140004d04 RVA=0x4d04 file=0x4d04 33db XOR EBX,EBX
+[... selected instruction range 140005535..14000555a ...]
+140005535 RVA=0x5535 file=0x5535 488b75ff MOV RSI,qword ptr [RBP + -0x1]
+140005539 RVA=0x5539 file=0x5539 488b4507 MOV RAX,qword ptr [RBP + 0x7]
+14000553d RVA=0x553d file=0x553d 483b8690000000 CMP RAX,qword ptr [RSI + 0x90]
+140005544 RVA=0x5544 file=0x5544 751a JNZ 0x140005560
+140005546 RVA=0x5546 file=0x5546 488b450f MOV RAX,qword ptr [RBP + 0xf]
+14000554a RVA=0x554a file=0x554a 483b8698000000 CMP RAX,qword ptr [RSI + 0x98]
+140005551 RVA=0x5551 file=0x5551 750d JNZ 0x140005560
+140005553 RVA=0x5553 file=0x5553 443ba6a0000000 CMP R12D,dword ptr [RSI + 0xa0]
+14000555a RVA=0x555a file=0x555a 0f8487030000 JZ 0x1400058e7
+[... selected instruction range 1400058de..1400058e7 ...]
+1400058de RVA=0x58de file=0x58de 41bc01000000 MOV R12D,0x1
+1400058e4 RVA=0x58e4 file=0x58e4 418adc MOV BL,R12B
+1400058e7 RVA=0x58e7 file=0x58e7 8ac3 MOV AL,BL
+
+=== FUNCTION 140009110 HIDRequestCompletionRoutine ===
+BODY [[140009110, 140009cec] [140009cf2, 140009df7]]
+Source export: artifacts/xinputhid-followup/140009110.txt
+INCOMING REFERENCES
+From: 1400182f4 To: 140009110 Type: DATA Op: 0 DEFAULT caller=null
+From: 14001d024 To: 140009110 Type: DATA Op: 0 DEFAULT caller=null
+From: 140003d05 To: 140009110 Type: DATA Op: 1 ANALYSIS caller=HID_Read
+DIRECT CALLEES
+1400021d8 DistributeReportDataToUnfilteredClients
+140001d88 DistributeReportData
+1400028e4 DistributeSystemManagementReport
+140011fb0 _guard_dispatch_icall
+140004cd0 ParseAndLoadInputReportExt
+140004a38 IsNexusRestricted
+140008e68 Feature_GameInput_XInputHIDControllerAssist__private_IsEnabledDeviceUsageNoInline
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+14000664c UpdateBatteryState
+14000a1b8 WPP_SF_
+EXTERNAL:00000008 PoSetSystemState
+140011f70 __security_check_cookie
+140001ca8 CheckInputState
+14000a894 WPP_SF_dDDDDDDD
+14000a1e4 WPP_SF_D
+140008cc4 Feature_GameInput_DriverInputToChildren__private_IsEnabledDeviceUsageNoInline
+14000a934 WPP_SF_dDDDDDDDDDDDDDDdD
+140008dc0 Feature_GameInput_FilterNexusFromUnfiltered__private_IsEnabledDeviceUsageNoInline
+1400022f4 DistributeReportDataXInput
+140002760 DistributeReportToXInputListeners
+140008fb8 Feature_GameInput_XInputPaddles__private_IsEnabledDeviceUsageNoInline
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+  uVar2 = ParseAndLoadInputReportExt(param_4,pcVar6,local_c0);
+  if (uVar2 == '\0') goto LAB_140009a61;
+[... selected instruction range 140009235..14000923c ...]
+140009235 RVA=0x9235 file=0x9235 e896baffff CALL 0x140004cd0
+14000923a RVA=0x923a file=0x923a 84c0 TEST AL,AL
+14000923c RVA=0x923c file=0x923c 0f841f080000 JZ 0x140009a61
+[... selected instruction range 140009348..140009358 ...]
+140009348 RVA=0x9348 file=0x9348 83860101000001 ADD dword ptr [RSI + 0x101],0x1
+14000934f RVA=0x934f file=0x934f 4488ae05010000 MOV byte ptr [RSI + 0x105],R13B
+140009356 RVA=0x9356 file=0x9356 7504 JNZ 0x14000935c
+140009358 RVA=0x9358 file=0x9358 44896e14 MOV dword ptr [RSI + 0x14],R13D
+[... selected instruction range 1400097d5..14000982b ...]
+1400097d5 RVA=0x97d5 file=0x97d5 4c8dae80000000 LEA R13,[RSI + 0x80]
+1400097dc RVA=0x97dc file=0x97dc 498b7d00 MOV RDI,qword ptr [R13]
+1400097e0 RVA=0x97e0 file=0x97e0 493bfd CMP RDI,R13
+1400097e3 RVA=0x97e3 file=0x97e3 0f84fe000000 JZ 0x1400098e7
+1400097e9 RVA=0x97e9 file=0x97e9 41be00040000 MOV R14D,0x400
+1400097ef RVA=0x97ef file=0x97ef 488b0dcadc0000 MOV RCX,qword ptr [0x1400174c0]
+1400097f6 RVA=0x97f6 file=0x97f6 488d07 LEA RAX,[RDI]
+1400097f9 RVA=0x97f9 file=0x97f9 488b3f MOV RDI,qword ptr [RDI]
+1400097fc RVA=0x97fc file=0x97fc 4c8d4598 LEA R8,[RBP + -0x68]
+140009800 RVA=0x9800 file=0x9800 4883659800 AND qword ptr [RBP + -0x68],0x0
+140009805 RVA=0x9805 file=0x9805 488b5018 MOV RDX,qword ptr [RAX + 0x18]
+140009809 RVA=0x9809 file=0x9809 488b05a8dc0000 MOV RAX,qword ptr [0x1400174b8]
+140009810 RVA=0x9810 file=0x9810 488b80f0040000 MOV RAX,qword ptr [RAX + 0x4f0]
+140009817 RVA=0x9817 file=0x9817 e894870000 CALL 0x140011fb0
+14000981c RVA=0x981c file=0x981c 85c0 TEST EAX,EAX
+14000981e RVA=0x981e file=0x981e 0f88b3000000 JS 0x1400098d7
+140009824 RVA=0x9824 file=0x9824 488b5598 MOV RDX,qword ptr [RBP + -0x68]
+140009828 RVA=0x9828 file=0x9828 4885d2 TEST RDX,RDX
+14000982b RVA=0x982b file=0x982b 0f84a6000000 JZ 0x1400098d7
+[... selected instruction range 1400098b0..1400098e7 ...]
+1400098b0 RVA=0x98b0 file=0x98b0 488b0501dc0000 MOV RAX,qword ptr [0x1400174b8]
+1400098b7 RVA=0x98b7 file=0x98b7 41b918000000 MOV R9D,0x18
+1400098bd RVA=0x98bd file=0x98bd 488b5598 MOV RDX,qword ptr [RBP + -0x68]
+1400098c1 RVA=0x98c1 file=0x98c1 4533c0 XOR R8D,R8D
+1400098c4 RVA=0x98c4 file=0x98c4 488b0df5db0000 MOV RCX,qword ptr [0x1400174c0]
+1400098cb RVA=0x98cb file=0x98cb 488b8048080000 MOV RAX,qword ptr [RAX + 0x848]
+1400098d2 RVA=0x98d2 file=0x98d2 e8d9860000 CALL 0x140011fb0
+1400098d7 RVA=0x98d7 file=0x98d7 493bfd CMP RDI,R13
+1400098da RVA=0x98da file=0x98da 0f850fffffff JNZ 0x1400097ef
+1400098e0 RVA=0x98e0 file=0x98e0 4c8db606010000 LEA R14,[RSI + 0x106]
+1400098e7 RVA=0x98e7 file=0x98e7 e82cf4ffff CALL 0x140008d18
+[... selected instruction range 140009c31..140009c3d ...]
+140009c31 RVA=0x9c31 file=0x9c31 4439aeac010000 CMP dword ptr [RSI + 0x1ac],R13D
+140009c38 RVA=0x9c38 file=0x9c38 7508 JNZ 0x140009c42
+140009c3a RVA=0x9c3a file=0x9c3a 488bce MOV RCX,RSI
+140009c3d RVA=0x9c3d file=0x9c3d e89685ffff CALL 0x1400021d8
+
+=== FUNCTION 1400021d8 DistributeReportDataToUnfilteredClients ===
+BODY [[1400021d8, 1400022ec]]
+Source export: artifacts/xinputhid-analysis/1400021d8.txt
+INCOMING REFERENCES
+From: 14001803c To: 1400021d8 Type: DATA Op: 0 DEFAULT caller=null
+From: 140009c3d To: 1400021d8 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=HIDRequestCompletionRoutine
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140004a38 IsNexusRestricted
+140008dc0 Feature_GameInput_FilterNexusFromUnfiltered__private_IsEnabledDeviceUsageNoInline
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: _guard_dispatch_icall replaced with injection: guard_dispatch_icall */
+/* WARNING: Type propagation algorithm not settling */
+/* void __cdecl DistributeReportDataToUnfilteredClients(struct _DEVICE_CONTEXT * __ptr64) */
+
+void __cdecl DistributeReportDataToUnfilteredClients(_DEVICE_CONTEXT *param_1)
+
+{
+  _DEVICE_CONTEXT *p_Var1;
+  undefined8 uVar2;
+  uchar uVar3;
+  int iVar4;
+  ulonglong uVar5;
+  _DEVICE_CONTEXT *p_Var6;
+  undefined8 *local_res8;
+  longlong local_res10 [3];
+  
+  p_Var6 = *(_DEVICE_CONTEXT **)(param_1 + 0x80);
+  while (p_Var6 != param_1 + 0x80) {
+    local_res10[0] = 0;
+    p_Var1 = p_Var6 + 0x18;
+    p_Var6 = *(_DEVICE_CONTEXT **)p_Var6;
+    iVar4 = (**(code **)(WdfFunctions_01015 + 0x4f0))
+                      (WdfDriverGlobals,*(undefined8 *)p_Var1,local_res10);
+    if ((-1 < iVar4) && (local_res10[0] != 0)) {
+      local_res8 = (undefined8 *)0x0;
+      local_res10[1] = 0;
+      (**(code **)(WdfFunctions_01015 + 0x870))
+                (WdfDriverGlobals,local_res10[0],0x18,&local_res8,local_res10 + 1);
+      uVar2 = *(undefined8 *)(param_1 + 0x109);
+      *local_res8 = *(undefined8 *)(param_1 + 0x101);
+      local_res8[1] = uVar2;
+      local_res8[2] = *(undefined8 *)(param_1 + 0x111);
+      uVar5 = Feature_GameInput_FilterNexusFromUnfiltered__private_IsEnabledDeviceUsageNoInline();
+      if ((int)uVar5 == 0) {
+        uVar3 = IsNexusRestricted();
+        if ((uVar3 != '\0') && (((byte)param_1[0x9d] & 0x40) != 0)) {
+          *(ushort *)((longlong)local_res8 + 6) = *(ushort *)((longlong)local_res8 + 6) | 0x400;
+        }
+      }
+      (**(code **)(WdfFunctions_01015 + 0x848))(WdfDriverGlobals,local_res10[0],0,0x18);
+    }
+  }
+  return;
+}
+
+
+[... selected instruction range 1400022b4..1400022df ...]
+1400022b4 RVA=0x22b4 file=0x22b4 488b05fd510100 MOV RAX,qword ptr [0x1400174b8]
+1400022bb RVA=0x22bb file=0x22bb 41b918000000 MOV R9D,0x18
+1400022c1 RVA=0x22c1 file=0x22c1 488b542458 MOV RDX,qword ptr [RSP + 0x58]
+1400022c6 RVA=0x22c6 file=0x22c6 4533c0 XOR R8D,R8D
+1400022c9 RVA=0x22c9 file=0x22c9 488b0df0510100 MOV RCX,qword ptr [0x1400174c0]
+1400022d0 RVA=0x22d0 file=0x22d0 488b8048080000 MOV RAX,qword ptr [RAX + 0x848]
+1400022d7 RVA=0x22d7 file=0x22d7 e8d4fc0000 CALL 0x140011fb0
+1400022dc RVA=0x22dc file=0x22dc 483bdf CMP RBX,RDI
+1400022df RVA=0x22df file=0x22df 0f850dffffff JNZ 0x1400021f2
+
+=== FUNCTION 14000fcb0 BroadcastDevicesFocusChanged ===
+BODY [[14000fcb0, 14001034a] [14001034c, 140010353]]
+Source export: artifacts/xinputhid-analysis/14000fcb0.txt
+INCOMING REFERENCES
+From: 140018648 To: 14000fcb0 Type: DATA Op: 0 DEFAULT caller=null
+From: 140010629 To: 14000fcb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=_CreateProcessNotifyRoutine
+From: 140010ac3 To: 14000fcb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=exclusiveFocusInfoChangedCallback
+From: 140010d9b To: 14000fcb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=focusChangedCallback
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+140001d88 DistributeReportData
+140006010 SendVibrationMessageThrottled
+14000a1b8 WPP_SF_
+14000a894 WPP_SF_dDDDDDDD
+140006ac4 _SendVibrationMessage
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+              if (p_Var9[0x178] == (_DEVICE_CONTEXT)0x0) {
+                _SendVibrationMessage(p_Var9,'\0','\0','\0','\0',(uchar)in_stack_ffffffffffffff90);
+              }
+              else {
+                SendVibrationMessageThrottled(p_Var9,'\0','\0','\0','\0');
+              }
+[... selected instruction range 1400100c2..1400100e2 ...]
+1400100c2 RVA=0x100c2 file=0x100c2 4533c9 XOR R9D,R9D
+1400100c5 RVA=0x100c5 file=0x100c5 4488642420 MOV byte ptr [RSP + 0x20],R12B
+1400100ca RVA=0x100ca file=0x100ca 4533c0 XOR R8D,R8D
+1400100cd RVA=0x100cd file=0x100cd 33d2 XOR EDX,EDX
+1400100cf RVA=0x100cf file=0x100cf 488bcd MOV RCX,RBP
+1400100d2 RVA=0x100d2 file=0x100d2 4438a578010000 CMP byte ptr [RBP + 0x178],R12B
+1400100d9 RVA=0x100d9 file=0x100d9 7407 JZ 0x1400100e2
+1400100db RVA=0x100db file=0x100db e8305fffff CALL 0x140006010
+1400100e0 RVA=0x100e0 file=0x100e0 eb05 JMP 0x1400100e7
+1400100e2 RVA=0x100e2 file=0x100e2 e8dd69ffff CALL 0x140006ac4
+
+=== FUNCTION 140006ac4 _SendVibrationMessage ===
+BODY [[140006ac4, 140006ef5]]
+Source export: artifacts/xinputhid-analysis/140006ac4.txt
+INCOMING REFERENCES
+From: 140018174 To: 140006ac4 Type: DATA Op: 0 DEFAULT caller=null
+From: 14000e5ed To: 140006ac4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchSetGamepadState
+From: 14000e961 To: 140006ac4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchSetGamepadStateEx
+From: 1400100e2 To: 140006ac4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=BroadcastDevicesFocusChanged
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140012380 memset
+14000ac50 WPP_SF_q
+14000a1e4 WPP_SF_D
+140001020 ByteToPercent
+140003504 HID_PerformOp
+14000a228 WPP_SF_dD
+EXTERNAL:0000003d HidP_SetUsageValueArray
+14000ab68 WPP_SF_dddddD
+EXTERNAL:00000042 HidP_SetUsageValue
+14000aad4 WPP_SF_ddddDD
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+        lVar3 = HID_PerformOp(param_1,0,*(WDFMEMORY__ **)(param_1 + 0x50));
+[... selected instruction range 140006e45..140006e53 ...]
+140006e45 RVA=0x6e45 file=0x6e45 e98e000000 JMP 0x140006ed8
+140006e4a RVA=0x6e4a file=0x6e4a 4c8b4350 MOV R8,qword ptr [RBX + 0x50]
+140006e4e RVA=0x6e4e file=0x6e4e 33d2 XOR EDX,EDX
+140006e50 RVA=0x6e50 file=0x6e50 488bcb MOV RCX,RBX
+140006e53 RVA=0x6e53 file=0x6e53 e8acc6ffff CALL 0x140003504
+
+=== FUNCTION 140006010 SendVibrationMessageThrottled ===
+BODY [[140006010, 140006643]]
+Source export: artifacts/xinputhid-analysis/140006010.txt
+INCOMING REFERENCES
+From: 140018144 To: 140006010 Type: DATA Op: 0 DEFAULT caller=null
+From: 14000e57e To: 140006010 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchSetGamepadState
+From: 14000e95a To: 140006010 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchSetGamepadStateEx
+From: 1400100db To: 140006010 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=BroadcastDevicesFocusChanged
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140012380 memset
+14000a838 WPP_SF_Id
+140001020 ByteToPercent
+14000a228 WPP_SF_dD
+140008ebc Feature_GameInput_XInputHidAsyncSetStateLowMemoryFix__private_IsEnabledDeviceUsageNoInline
+EXTERNAL:0000003d HidP_SetUsageValueArray
+14000ab68 WPP_SF_dddddD
+EXTERNAL:00000042 HidP_SetUsageValue
+1400034a0 GetMsSinceLastHidWrite
+14000a1b8 WPP_SF_
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+  lVar9 = *(longlong *)(param_1 + 0x180);
+  *(longlong *)(param_1 + 0x180) = local_88[0];
+  local_88[0] = lVar9;
+
+=== FUNCTION 140006740 XihOutputThrottleIssueAndReschedule ===
+BODY [[140006740, 14000697b]]
+Source export: artifacts/xinputhid-followup/140006740.txt
+INCOMING REFERENCES
+From: 14001815c To: 140006740 Type: DATA Op: 0 DEFAULT caller=null
+From: 14000b228 To: 140006740 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XihEvtWdfTimerOutputThrottle
+From: 14000b288 To: 140006740 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XihEvtWdfWorkItemOutputThrottle
+DIRECT CALLEES
+14000a7ec WPP_SF_I
+140011fb0 _guard_dispatch_icall
+14000a1e4 WPP_SF_D
+140008ebc Feature_GameInput_XInputHidAsyncSetStateLowMemoryFix__private_IsEnabledDeviceUsageNoInline
+140003504 HID_PerformOp
+1400034a0 GetMsSinceLastHidWrite
+EXTERNAL:00000039 KeQueryPerformanceCounter
+14000a1b8 WPP_SF_
+DECOMPILATION completed=true error=
+[... literal pseudocode excerpt ...]
+  pWVar1 = *(WDFMEMORY__ **)(param_1 + 0x180);
+  *(undefined8 *)(param_1 + 0x180) = 0;
+  if (pWVar1 != (WDFMEMORY__ *)0x0) {
+    uVar3 = KeQueryPerformanceCounter(0);
+    *(undefined8 *)(param_1 + 0x188) = uVar3;
+  }
+[... literal pseudocode excerpt ...]
+  if (*(longlong *)(param_1 + 0x180) == 0) {
+    param_1[400] = (_DEVICE_CONTEXT)0x0;
+[... selected instruction range 140006775..140006788 ...]
+140006777 RVA=0x6777 file=0x6777 488bab80010000 MOV RBP,qword ptr [RBX + 0x180]
+14000677e RVA=0x677e file=0x677e 4821bb80010000 AND qword ptr [RBX + 0x180],RDI
+140006785 RVA=0x6785 file=0x6785 4885ed TEST RBP,RBP
+140006788 RVA=0x6788 file=0x6788 7415 JZ 0x14000679f
+[... selected instruction range 1400067f4..140006801 ...]
+1400067f4 RVA=0x67f4 file=0x67f4 4c8bc5 MOV R8,RBP
+1400067f7 RVA=0x67f7 file=0x67f7 33d2 XOR EDX,EDX
+1400067f9 RVA=0x67f9 file=0x67f9 488bcb MOV RCX,RBX
+1400067fc RVA=0x67fc file=0x67fc e803cdffff CALL 0x140003504
+140006801 RVA=0x6801 file=0x6801 85c0 TEST EAX,EAX
+[... selected instruction range 1400068a9..1400068cb ...]
+1400068a9 RVA=0x68a9 file=0x68a9 4839bb80010000 CMP qword ptr [RBX + 0x180],RDI
+1400068b0 RVA=0x68b0 file=0x68b0 743c JZ 0x1400068ee
+1400068b2 RVA=0x68b2 file=0x68b2 488bcb MOV RCX,RBX
+1400068b5 RVA=0x68b5 file=0x68b5 e8e6cbffff CALL 0x1400034a0
+1400068ba RVA=0x68ba file=0x68ba bf0a000000 MOV EDI,0xa
+1400068bf RVA=0x68bf file=0x68bf 483bc7 CMP RAX,RDI
+1400068c2 RVA=0x68c2 file=0x68c2 7d05 JGE 0x1400068c9
+1400068c4 RVA=0x68c4 file=0x68c4 482bf8 SUB RDI,RAX
+1400068c7 RVA=0x68c7 file=0x68c7 eb05 JMP 0x1400068ce
+1400068c9 RVA=0x68c9 file=0x68c9 bf01000000 MOV EDI,0x1
+[... selected instruction range 14000693a..140006962 ...]
+14000693a RVA=0x693a file=0x693a 4885ff TEST RDI,RDI
+14000693d RVA=0x693d file=0x693d 7428 JZ 0x140006967
+14000693f RVA=0x693f file=0x693f 488b05720b0100 MOV RAX,qword ptr [0x1400174b8]
+140006946 RVA=0x6946 file=0x6946 488b9398010000 MOV RDX,qword ptr [RBX + 0x198]
+14000694d RVA=0x694d file=0x694d 488b0d6c0b0100 MOV RCX,qword ptr [0x1400174c0]
+140006954 RVA=0x6954 file=0x6954 4c69c7f0d8ffff IMUL R8,RDI,-0x2710
+14000695b RVA=0x695b file=0x695b 488b80f8090000 MOV RAX,qword ptr [RAX + 0x9f8]
+140006962 RVA=0x6962 file=0x6962 e849b60000 CALL 0x140011fb0
+
+=== WDF slot mapping from installed KMDF 1.15 wdffuncenum.h ===
+slot +0x4c0 = index 152: WdfIoQueueCreateTableIndex
+slot +0x4f0 = index 158: WdfIoQueueRetrieveNextRequestTableIndex
+slot +0x5c8 = index 185: WdfIoTargetFormatRequestForWriteTableIndex
+slot +0x5d8 = index 187: WdfIoTargetFormatRequestForIoctlTableIndex
+slot +0x7e8 = index 253: WdfRequestSendTableIndex
+slot +0x838 = index 263: WdfRequestCompleteTableIndex
+slot +0x840 = index 264: WdfRequestCompleteWithPriorityBoostTableIndex
+slot +0x848 = index 265: WdfRequestCompleteWithInformationTableIndex
+slot +0x868 = index 269: WdfRequestRetrieveInputBufferTableIndex
+slot +0x870 = index 270: WdfRequestRetrieveOutputBufferTableIndex
+slot +0x898 = index 275: WdfRequestSetInformationTableIndex
+slot +0x8c8 = index 281: WdfRequestForwardToIoQueueTableIndex
+slot +0x8e8 = index 285: WdfRequestWdmGetIrpTableIndex
+slot +0x9e0 = index 316: WdfSpinLockAcquireTableIndex
+slot +0x9e8 = index 317: WdfSpinLockReleaseTableIndex
+slot +0x9f8 = index 319: WdfTimerStartTableIndex
+slot +0xbe0 = index 380: WdfWorkItemEnqueueTableIndex

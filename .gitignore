@@ -1,2 +1,14 @@
 # Public symbol-server PDBs downloaded during analysis. Not part of the findings.
 symbols/
+
+# Local builds, dependency downloads and private diagnostics.
+/build/
+/tools/build/out/
+/tools/build/out-policy/
+/artifacts/
+/captures/
+/.deps/
+*.etl
+*.pdb
+__pycache__/
+*.pyc

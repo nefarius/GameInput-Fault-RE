@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "experiment": {
+    "capture_id": "win11-xbox-usb-active-20261025T1353Z",
+    "pair_id": "observation-only-no-mitigation-pair",
+    "environment_id": "local-win11-25h2-26200.9457-x64",
+    "os_build": "26200.9457",
+    "driver_sha256": "1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588",
+    "probe_sha256": "3198ab70c75cdd681ae5d8f3934d44d134e64e255bb068b768dd60626472dd15",
+    "controller_id": "Xbox USB VID045E-PID0B12 with xinputhid child",
+    "connection": "USB",
+    "workload_id": "manual-input-no-game",
+    "service_configuration": "both",
+    "phase": "active_input",
+    "logical_processor_count": 32
+  },
+  "source_sha256": {
+    "research_jsonl": "f2328ada92a3bac3975494ae720b9f0f1239c8d37d55e0848b3518470fbbe8e8",
+    "controller_json": "f32d9f8b385162c1ad08209db3fc0de47335f643d21df97fc5130713181ab1c7",
+    "context_json": "5bfe312d48b92416cafb1f8751dd68a6ab65ed419b70b3d3249147fcca88169a"
+  },
+  "controller": {
+    "start_utc": "2026-10-25T13:53:20.6015973Z",
+    "duration_seconds": 60.0236032,
+    "sample_count": 2022,
+    "distinct_packet_values": 1246,
+    "rumble_requested": false
+  },
+  "processes": [
+    {
+      "capture_id": "win11-xbox-usb-active-20261025T1353Z",
+      "process_id": 6128,
+      "process_start_id": "pid:6128/probe-start-qpc:3134997228833",
+      "conversion_notes": [
+        "Selected PID 6128; excluded 0 Stopped/Busy control snapshots from measured windows.",
+        "Excluded 0 explicit Start handshake records before mode selection.",
+        "Excluded 0 explicitly staged stabilization/drain/teardown records; retained measurement records only when stages are present.",
+        "Inventory/action records are not samples. Preserve raw JSONL; no ETW loss information is inferred."
+      ],
+      "duration_seconds": 44.74713169999998,
+      "counter_deltas": {
+        "calls": 0,
+        "sync_success": 0,
+        "pending": 0,
+        "errors": 0,
+        "unobserved": 0,
+        "unchanged": 0,
+        "throttled": 0,
+        "delay_qpc": 0,
+        "ioctl_qpc": 0,
+        "state_drops": 0,
+        "closes": 0
+      },
+      "rates_per_second": {
+        "calls": 0.0,
+        "sync_success": 0.0,
+        "pending": 0.0,
+        "errors": 0.0,
+        "unobserved": 0.0,
+        "unchanged": 0.0,
+        "throttled": 0.0,
+        "state_drops": 0.0,
+        "closes": 0.0
+      },
+      "unchanged_fraction_of_target_calls": null,
+      "result_counter_balance": 0,
+      "cpu_time_delta_seconds": 0.09375,
+      "cpu_one_core_percent": 0.20951063551633195,
+      "cpu_machine_percent": 0.0065472073598853734,
+      "ioctl_latency_mean_ms": null,
+      "throttle_delay_mean_ms": null,
+      "implementation": "inbox",
+      "module_sha256": "f9f5adbde4a2883b9b307bb1848a120094904578d92b21100828bd83f7b77cb6"
+    },
+    {
+      "capture_id": "win11-xbox-usb-active-20261025T1353Z",
+      "process_id": 7188,
+      "process_start_id": "pid:7188/probe-start-qpc:3134997078197",
+      "conversion_notes": [
+        "Selected PID 7188; excluded 0 Stopped/Busy control snapshots from measured windows.",
+        "Excluded 0 explicit Start handshake records before mode selection.",
+        "Excluded 0 explicitly staged stabilization/drain/teardown records; retained measurement records only when stages are present.",
+        "Inventory/action records are not samples. Preserve raw JSONL; no ETW loss information is inferred."
+      ],
+      "duration_seconds": 44.747102900000016,
+      "counter_deltas": {
+        "calls": 0,
+        "sync_success": 0,
+        "pending": 0,
+        "errors": 0,
+        "unobserved": 0,
+        "unchanged": 0,
+        "throttled": 0,
+        "delay_qpc": 0,
+        "ioctl_qpc": 0,
+        "state_drops": 0,
+        "closes": 0
+      },
+      "rates_per_second": {
+        "calls": 0.0,
+        "sync_success": 0.0,
+        "pending": 0.0,
+        "errors": 0.0,
+        "unobserved": 0.0,
+        "unchanged": 0.0,
+        "throttled": 0.0,
+        "state_drops": 0.0,
+        "closes": 0.0
+      },
+      "unchanged_fraction_of_target_calls": null,
+      "result_counter_balance": 0,
+      "cpu_time_delta_seconds": 0.0,
+      "cpu_one_core_percent": 0.0,
+      "cpu_machine_percent": 0.0,
+      "ioctl_latency_mean_ms": null,
+      "throttle_delay_mean_ms": null,
+      "implementation": "redist",
+      "module_sha256": "6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686"
+    },
+    {
+      "capture_id": "win11-xbox-usb-active-20261025T1353Z",
+      "process_id": 7368,
+      "process_start_id": "pid:7368/probe-start-qpc:3134997245446",
+      "conversion_notes": [
+        "Selected PID 7368; excluded 0 Stopped/Busy control snapshots from measured windows.",
+        "Excluded 0 explicit Start handshake records before mode selection.",
+        "Excluded 0 explicitly staged stabilization/drain/teardown records; retained measurement records only when stages are present.",
+        "Inventory/action records are not samples. Preserve raw JSONL; no ETW loss information is inferred."
+      ],
+      "duration_seconds": 44.747567799999985,
+      "counter_deltas": {
+        "calls": 2014,
+        "sync_success": 0,
+        "pending": 2014,
+        "errors": 0,
+        "unobserved": 0,
+        "unchanged": 0,
+        "throttled": 0,
+        "delay_qpc": 0,
+        "ioctl_qpc": 313754,
+        "state_drops": 0,
+        "closes": 0
+      },
+      "rates_per_second": {
+        "calls": 45.00803281647859,
+        "sync_success": 0.0,
+        "pending": 45.00803281647859,
+        "errors": 0.0,
+        "unobserved": 0.0,
+        "unchanged": 0.0,
+        "throttled": 0.0,
+        "state_drops": 0.0,
+        "closes": 0.0
+      },
+      "unchanged_fraction_of_target_calls": 0.0,
+      "result_counter_balance": 0,
+      "cpu_time_delta_seconds": 0.125,
+      "cpu_one_core_percent": 0.27934479156205677,
+      "cpu_machine_percent": 0.008729524736314274,
+      "ioctl_latency_mean_ms": 0.015578649453823238,
+      "throttle_delay_mean_ms": null,
+      "implementation": "redist",
+      "module_sha256": "6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686"
+    }
+  ],
+  "causal_fault_proven": false,
+  "mitigation_validated": false,
+  "limitations": [
+    "This is observation, not a baseline/mitigation pair.",
+    "Pending counts describe submissions returning ERROR_IO_PENDING, not the contents or lifetime of pending requests.",
+    "The hook adds counters, locks, and CPU/QPC housekeeping overhead.",
+    "Controller packet changes confirm activity, not absence of missed transitions or an input-latency bound.",
+    "No simultaneous WPR trace was captured for this observation; correlate a symptomatic trace before causal claims.",
+    "No matching calls in a process does not prove that it performed no other work.",
+    "The output does not infer that all GameInput reports have one cause or that untested systems are unaffected."
+  ]
+}

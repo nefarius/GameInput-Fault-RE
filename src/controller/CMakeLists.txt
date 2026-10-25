@@ -1,0 +1,6 @@
+add_executable(GameInputProbeController main.cpp)
+target_compile_features(GameInputProbeController PRIVATE cxx_std_20)
+target_compile_definitions(GameInputProbeController PRIVATE _WIN32_WINNT=0x0A00)
+target_compile_options(GameInputProbeController PRIVATE /W4 /permissive- /EHsc /guard:cf)
+target_link_options(GameInputProbeController PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+target_link_libraries(GameInputProbeController PRIVATE bcrypt version wintrust crypt32 advapi32 shell32 ole32)

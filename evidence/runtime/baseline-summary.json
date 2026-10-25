@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "experiment": "Xbox USB, idle, both services running, no probe active",
+  "os_build": "26200.9457",
+  "trace_start_utc": "2026-10-25T13:27:02.3199842Z",
+  "trace_end_utc": "2026-10-25T13:27:13.9125084Z",
+  "trace_seconds": 11.5925242,
+  "trace_sha256": "9a6ace2344d4f122f0d60fe4bd1d3dc1306c8e0132e0924333aa3851ac5eb5e8",
+  "trace_bytes": 74448896,
+  "bundle_sha256": "ae14d7eb4a7a5663a835ca0433a854d77fde60d32f4e8ff85d1039c3b6b8f73f",
+  "bundle_bytes": 11007713,
+  "bundle_manifest_files_verified": 28,
+  "xperf_tracestats": {"lost_buffers": 0, "lost_events": 0},
+  "collector_exit_code": 0,
+  "inventory_issues": 0,
+  "sampled_profile_matching_rows": ["GameInputSvc.exe (6128),       2000,       0.00,         ntoskrnl.exe"],
+  "profile_interpretation": "No sustained GameInput CPU load was evident in this short sampled window. Printed 0.00% is rounded, not zero execution.",
+  "ioctl_rates": null,
+  "causal_fault_proven": false,
+  "mitigation_validated": false,
+  "limitations": [
+    "No symptomatic game/frame-time reproduction was requested during this short idle trace.",
+    "No GameInputRedistService, WUDFHost or xinputhid profile row appeared; sampling absence does not establish inactivity or absence of a fault.",
+    "Enabled ETW providers are not proof of emitted events or complete WDF coverage.",
+    "The first probe startup attempt returned access denied before creating its handshake mapping; it produced no valid IOCTL measurements.",
+    "Raw ETL, ZIP and detailed inventory remain local under ignored artifacts/runtime/validation-20261025T132640Z."
+  ]
+}

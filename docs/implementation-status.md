@@ -1,0 +1,23 @@
+# Implementation status
+
+The supplied plan is unchanged. The task checklist from the prior editor is not exposed by this client; this file records the same task IDs and their evidence.
+
+- `safe-collector`: completed — contributor instructions, bounded collector, real ETL/ZIP run, zero reported losses and 28 manifest entries verified.
+- `ioctl-probe`: completed — pass-through probe, pinned dependencies, secure mapping transfer and restricted persistent research wrapper. Native build/tests and real hook start/stop verified; active-input measurements continue below.
+- `live-proof`: observation tooling and USB/Bluetooth experiments completed; **causal proof blocked on a symptomatic capture**. Both measured paths returned pending, and the operator has no confirmed affected reproduction on this machine.
+- `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
+- `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
+- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 is explicitly untested. Evidence tests pass.
+- `supported-tool`: completed (design only) — signed helper design and contributor workflow; release remains gated on causal, performance, input/rumble, recovery and signing evidence.
+
+Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
+
+## Verification
+
+- Native MSVC x64 build succeeded; 4/4 native tests passed, including real Detours/trampoline calls, pending/error/guard-page preservation, result buffers, handle reuse, concurrency, mapping security, loaded-image export/build validation, and a suspended process-heap owner.
+- 29/29 Python evidence-analysis tests passed. Runtime/schema/diagnostic checks are recorded in the findings and derived summaries.
+- Real collector validation: ETL and ZIP created; xperf reported no lost buffers/events; all 28 packaged file hashes verified.
+- Both successful controller runs completed without wrapper errors and ended with stopped/detached probe status. Pinned modules and bounded setup resources remain until normal target-process exit; no GameInput service was stopped or disabled.
+- Four release-critical review findings were addressed: process-heap allocation during suspension, remote export address/build mismatch, executable pin consistency, and pre-call guarded-input reads.
+
+The supplied plan remains unchanged. The remaining causal/performance/input/rumble/recovery/signing gates stay explicitly unvalidated. The repository does not contain a signed helper or installer and does not claim a permanent fix.

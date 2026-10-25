@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "recorded_at_utc": "2026-10-25T13:20:01.2461313Z",
+  "scope": "inventory_and_provisional_research_only",
+  "rows": [
+    {
+      "id": "local-win11-25h2-26200.9457-x64-20261025",
+      "inventory_status": "locally_observed",
+      "observed_at_utc": "2026-10-25T13:15:03.9343525Z",
+      "os": {
+        "name": "Windows 11", "release": "25H2", "build_number": 26200,
+        "update_build_revision": 9457, "architecture": "x64",
+        "caption": "Microsoft Windows 11 Business", "registry_product_name": "Windows 10 Pro"
+      },
+      "binaries": [
+        {
+          "id": "inbox_dll", "path": "C:\\Windows\\System32\\GameInput.dll",
+          "file_version": "0.2309.26100.9278", "product_version": "0.2309.26100.9278", "size_bytes": 424376,
+          "sha256": "f9f5adbde4a2883b9b307bb1848a120094904578d92b21100828bd83f7b77cb6",
+          "signature_validation": "not_performed_by_this_inventory"
+        },
+        {
+          "id": "redist_system32_dll", "path": "C:\\Windows\\System32\\GameInputRedist.dll",
+          "file_version": "3.5.270.0", "product_version": "3.5.270.0", "size_bytes": 952448,
+          "sha256": "6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686",
+          "signature_validation": "not_performed_by_this_inventory"
+        },
+        {
+          "id": "inbox_host", "path": "C:\\Windows\\System32\\GameInputSvc.exe",
+          "file_version": "0.2309.26100.9278", "product_version": "0.2309.26100.9278", "size_bytes": 80336,
+          "sha256": "83ba5166dd6397ade67f4b6fddae6be61a694f487ed88ea83ee204f20be6d075",
+          "signature_validation": "not_performed_by_this_inventory"
+        },
+        {
+          "id": "redist_programfiles_dll", "path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRedist.dll",
+          "file_version": "3.5.270.0", "product_version": "3.5.270.0", "size_bytes": 952448,
+          "sha256": "6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686",
+          "signature_validation": "not_performed_by_this_inventory"
+        },
+        {
+          "id": "redist_host", "path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRedistService.exe",
+          "file_version": "3.5.270.0", "product_version": "3.5.270.0", "size_bytes": 435328,
+          "sha256": "1cd8e575f585de38d64b71b5a63a55ba4522d2f47e633091b660b81755db6b3b",
+          "signature_validation": "not_performed_by_this_inventory"
+        },
+        {
+          "id": "xinputhid", "path": "C:\\Windows\\System32\\drivers\\xinputhid.sys",
+          "file_version": "10.0.26100.9278 (WinBuild.160101.0800)", "product_version": "10.0.26100.9278", "size_bytes": 131072,
+          "sha256": "1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588",
+          "signature_validation": "not_performed_by_this_inventory"
+        }
+      ],
+      "redist_package": {
+        "display_name": "Microsoft GameInput", "display_version": "3.5.270.0", "publisher": "Microsoft Corporation",
+        "uninstall_key": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{C7B6BB76-07B4-48D4-B257-4511AB9E002A}"
+      },
+      "services": [
+        {"name": "GameInputSvc", "image_path": "C:\\WINDOWS\\System32\\GameInputSvc.exe", "state": "Running", "start_mode": "Manual"},
+        {"name": "GameInputRedistService", "image_path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRedistService.exe", "state": "Running", "start_mode": "Auto"}
+      ],
+      "process_observations": [
+        {
+          "pid": 7188, "process_start_utc": "2026-10-21T22:45:27.4438326Z", "observed_at_utc": "2026-10-25T13:20:01.2461313Z",
+          "image_binary_id": "redist_host", "loaded_module_binary_id": "redist_system32_dll",
+          "method": "Get-Process -Id 7188; enumerate Modules; hash backing files with Get-FileHash SHA256",
+          "limitation": "Loaded path observed; SHA256 is of the current on-disk file, not mapped process memory. PID is historical and must be rediscovered."
+        }
+      ],
+      "static_assessment": {
+        "status": "provisional", "user_mode_loop_source": "docs/gameinput-service-fault.md",
+        "loop_shape": "Independent reanalysis confirms the inbox waits for completion and requests queued mode. The redist waits for pending I/O, then requests a 1 ms post-success wait. Neither loop proves busy polling; see docs/user-mode-validation.md.",
+        "kernel_dispatch_note": "docs/kernel-xinputhid.md statically identifies xinputhid 10.0.26100.9278 DispatchGetUnfilteredGamepadState at 0x14000d1d8: nonzero input byte 3 returns cached 24 bytes; zero queues per PID until decoded-state change on the inspected path. This neither establishes a Windows 11 fault nor describes an uninspected Windows 10 driver.",
+        "runtime_causality": "unproven"
+      },
+      "win10_quirk": {
+        "static_prediction": "Prior redist version gate predicts flag clear on build 26200. A normal pending path is possible; no runtime flag or pathological loop is established.",
+        "runtime_flag_observed": null, "driver_effect_measured": "not_tested"
+      },
+      "runtime": {
+        "status": "observed_no_pathological_poll", "measured_unchanged_rate_hz": 0, "measured_cpu_one_core_percent": null,
+        "mitigation_result": "not_tested", "input_validation": "not_tested", "rumble_validation": "not_tested",
+        "poll_to_rumble_causality": "unproven", "evidence_files": ["evidence/runtime/baseline-summary.json", "evidence/runtime/active-input-summary.json", "evidence/runtime/bluetooth-active-input-summary.json"]
+      },
+      "affected_status": "not_established", "supported_tool_status": "unsupported",
+      "provenance": [
+        "Read-only local registry inventory of CurrentVersion DisplayVersion, CurrentBuild and UBR on 2026-10-25; ProductName is preserved verbatim despite stale Windows 10 branding.",
+        "Get-CimInstance Win32_OperatingSystem and Win32_Service provided actual caption/architecture and service state. Initial restricted read was denied; authorized elevated read succeeded.",
+        "Get-Item VersionInfo and Get-FileHash SHA256 read all six backing files at 2026-10-25T13:15Z. System32 and ProgramFiles redist copies matched at observation time only.",
+        "Get-Process Modules independently confirmed PID 7188 loads System32 GameInputRedist.dll at 2026-10-25T13:20Z. No controller, IOCTL rate, CPU mitigation, input or rumble validation is represented by this inventory.",
+        "Kernel dispatch note references docs/kernel-xinputhid.md and evidence/static/xinputhid-10.0.26100.9278.json. This is static evidence for this driver hash, not a locally reproduced runtime result."
+      ]
+    },
+    {
+      "id": "planned-win10-22h2-19045",
+      "inventory_status": "untested_target", "observed_at_utc": null,
+      "os": {"name": "Windows 10", "release": "22H2", "build_number": 19045, "update_build_revision": null, "architecture": null, "caption": null, "registry_product_name": null},
+      "binaries": [], "redist_package": null, "services": [], "process_observations": [],
+      "static_assessment": {"status": "not_examined", "user_mode_loop_source": null, "loop_shape": null, "kernel_dispatch_note": null, "runtime_causality": "unproven"},
+      "win10_quirk": {"static_prediction": "The locally examined redist version gate predicts a nonzero flag on build 19045 if that exact DLL is used. No Windows 10 binary, driver behavior or runtime test has been supplied.", "runtime_flag_observed": null, "driver_effect_measured": "not_tested"},
+      "runtime": {"status": "not_tested", "measured_unchanged_rate_hz": null, "measured_cpu_one_core_percent": null, "mitigation_result": "not_tested", "input_validation": "not_tested", "rumble_validation": "not_tested", "poll_to_rumble_causality": "unproven", "evidence_files": []},
+      "affected_status": "not_established", "supported_tool_status": "unsupported",
+      "provenance": ["Planned Windows 10 22H2 coverage from the attached plan only. Build family 19045 is a target, not a locally inventoried installation. No UBR, versions, hashes or runtime evidence are invented."]
+    }
+  ]
+}

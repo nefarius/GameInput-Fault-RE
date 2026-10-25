@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gameinput-research:version-matrix:1",
+  "title": "GameInput evidence inventory; inventory is not an affected or supported list",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "recorded_at_utc", "scope", "rows"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "recorded_at_utc": {"type": "string", "format": "date-time"},
+    "scope": {"const": "inventory_and_provisional_research_only"},
+    "rows": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/row"}}
+  },
+  "$defs": {
+    "nullableString": {"type": ["string", "null"]},
+    "binary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "path", "file_version", "product_version", "size_bytes", "sha256", "signature_validation"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "file_version": {"type": "string", "minLength": 1},
+        "product_version": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "signature_validation": {"const": "not_performed_by_this_inventory"}
+      }
+    },
+    "row": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "inventory_status", "observed_at_utc", "os", "binaries", "redist_package", "services", "process_observations", "static_assessment", "win10_quirk", "runtime", "affected_status", "supported_tool_status", "provenance"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "inventory_status": {"enum": ["locally_observed", "untested_target"]},
+        "observed_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "os": {
+          "type": "object", "additionalProperties": false,
+          "required": ["name", "release", "build_number", "update_build_revision", "architecture", "caption", "registry_product_name"],
+          "properties": {
+            "name": {"type": "string"}, "release": {"type": "string"},
+            "build_number": {"type": "integer", "minimum": 1},
+            "update_build_revision": {"type": ["integer", "null"], "minimum": 0},
+            "architecture": {"enum": ["x64", null]},
+            "caption": {"$ref": "#/$defs/nullableString"},
+            "registry_product_name": {"$ref": "#/$defs/nullableString"}
+          }
+        },
+        "binaries": {"type": "array", "items": {"$ref": "#/$defs/binary"}},
+        "redist_package": {
+          "type": ["object", "null"], "additionalProperties": false,
+          "required": ["display_name", "display_version", "publisher", "uninstall_key"],
+          "properties": {
+            "display_name": {"type": "string"}, "display_version": {"type": "string"},
+            "publisher": {"type": "string"}, "uninstall_key": {"type": "string"}
+          }
+        },
+        "services": {
+          "type": "array", "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["name", "image_path", "state", "start_mode"],
+            "properties": {
+              "name": {"type": "string"}, "image_path": {"type": "string"},
+              "state": {"type": "string"}, "start_mode": {"type": "string"}
+            }
+          }
+        },
+        "process_observations": {
+          "type": "array", "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["pid", "process_start_utc", "observed_at_utc", "image_binary_id", "loaded_module_binary_id", "method", "limitation"],
+            "properties": {
+              "pid": {"type": "integer", "minimum": 1},
+              "process_start_utc": {"type": "string", "format": "date-time"},
+              "observed_at_utc": {"type": "string", "format": "date-time"},
+              "image_binary_id": {"type": "string"}, "loaded_module_binary_id": {"type": "string"},
+              "method": {"type": "string"}, "limitation": {"type": "string"}
+            }
+          }
+        },
+        "static_assessment": {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "user_mode_loop_source", "loop_shape", "kernel_dispatch_note", "runtime_causality"],
+          "properties": {
+            "status": {"enum": ["provisional", "not_examined"]},
+            "user_mode_loop_source": {"$ref": "#/$defs/nullableString"},
+            "loop_shape": {"$ref": "#/$defs/nullableString"},
+            "kernel_dispatch_note": {"$ref": "#/$defs/nullableString"},
+            "runtime_causality": {"const": "unproven"}
+          }
+        },
+        "win10_quirk": {
+          "type": "object", "additionalProperties": false,
+          "required": ["static_prediction", "runtime_flag_observed", "driver_effect_measured"],
+          "properties": {
+            "static_prediction": {"$ref": "#/$defs/nullableString"},
+            "runtime_flag_observed": {"type": ["boolean", "null"]},
+            "driver_effect_measured": {"const": "not_tested"}
+          }
+        },
+        "runtime": {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "measured_unchanged_rate_hz", "measured_cpu_one_core_percent", "mitigation_result", "input_validation", "rumble_validation", "poll_to_rumble_causality", "evidence_files"],
+          "properties": {
+            "status": {"enum": ["not_tested", "observed_no_pathological_poll"]},
+            "measured_unchanged_rate_hz": {"type": ["number", "null"], "minimum": 0},
+            "measured_cpu_one_core_percent": {"type": ["number", "null"], "minimum": 0},
+            "mitigation_result": {"const": "not_tested"},
+            "input_validation": {"const": "not_tested"},
+            "rumble_validation": {"const": "not_tested"},
+            "poll_to_rumble_causality": {"const": "unproven"},
+            "evidence_files": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        "affected_status": {"const": "not_established"},
+        "supported_tool_status": {"const": "unsupported"},
+        "provenance": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "allOf": [
+        {"if": {"properties": {"inventory_status": {"const": "untested_target"}}}, "then": {
+          "properties": {
+            "observed_at_utc": {"type": "null"}, "binaries": {"maxItems": 0},
+            "redist_package": {"type": "null"}, "services": {"maxItems": 0}, "process_observations": {"maxItems": 0}
+          }
+        }},
+        {"if": {"properties": {"inventory_status": {"const": "locally_observed"}}}, "then": {
+          "properties": {"observed_at_utc": {"type": "string", "format": "date-time"}, "binaries": {"minItems": 1}}
+        }}
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gameinput-research:supported-tool-design-gates:1",
+  "title": "Fail-closed design record; a future supported release needs a separately reviewed schema",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "artifact_kind", "supported", "enabled_compatibility_entries", "gates", "limitation"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "artifact_kind": {"const": "design_only"}, "supported": {"const": false},
+    "enabled_compatibility_entries": {"type": "array", "maxItems": 0},
+    "limitation": {"type": "string", "minLength": 1},
+    "gates": {
+      "type": "array", "minItems": 10, "maxItems": 10,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "status", "evidence"],
+        "properties": {
+          "id": {"enum": ["causal_runtime_proof", "paired_90_percent_and_cpu_or_frame_time", "input_transitions_and_latency", "rumble_start_change_stop", "reconnect_respawn_shutdown_recovery", "inbox_redist_separate_and_together", "exact_identity_and_signature_enforcement", "helper_installer_signing_and_reproducible_builds", "security_product_review_and_false_positives", "rollback_uninstall_and_circuit_breaker"]},
+          "status": {"const": "not_validated"}, "evidence": {"type": "array", "maxItems": 0}
+        }
+      }
+    }
+  }
+}

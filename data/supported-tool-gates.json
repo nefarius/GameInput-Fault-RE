@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "artifact_kind": "design_only",
+  "supported": false,
+  "enabled_compatibility_entries": [],
+  "gates": [
+    {"id": "causal_runtime_proof", "status": "not_validated", "evidence": []},
+    {"id": "paired_90_percent_and_cpu_or_frame_time", "status": "not_validated", "evidence": []},
+    {"id": "input_transitions_and_latency", "status": "not_validated", "evidence": []},
+    {"id": "rumble_start_change_stop", "status": "not_validated", "evidence": []},
+    {"id": "reconnect_respawn_shutdown_recovery", "status": "not_validated", "evidence": []},
+    {"id": "inbox_redist_separate_and_together", "status": "not_validated", "evidence": []},
+    {"id": "exact_identity_and_signature_enforcement", "status": "not_validated", "evidence": []},
+    {"id": "helper_installer_signing_and_reproducible_builds", "status": "not_validated", "evidence": []},
+    {"id": "security_product_review_and_false_positives", "status": "not_validated", "evidence": []},
+    {"id": "rollback_uninstall_and_circuit_breaker", "status": "not_validated", "evidence": []}
+  ],
+  "limitation": "This is a release checklist with empty evidence, not a runtime compatibility manifest. No installer, helper or allowlisted supported release is delivered."
+}

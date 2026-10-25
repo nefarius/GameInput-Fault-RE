@@ -1,0 +1,52 @@
+{
+  "kind": "local-ghidra-static",
+  "observed_date": "2026-10-25",
+  "runtime_observed": false,
+  "source": {
+    "sha256": "6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686",
+    "preferred_base": "0x180000000",
+    "path": "C:\\Windows\\System32\\GameInputRedist.dll",
+    "file_version": "3.5.270.0",
+    "size_bytes": 952448
+  },
+  "pdb": null,
+  "ghidra": "12.1.3",
+  "java": "Temurin 25.0.4.1+1",
+  "exports": [
+    {
+      "path": "artifacts/redist-validation/1800519ec.txt",
+      "sha256": "7f20f62b5c5af8391961b3492d6443595465852955eaba6b8fe1d7bd7214715c"
+    },
+    {
+      "path": "artifacts/redist-validation/1800557a0.txt",
+      "sha256": "b91bcc1608fdd346cdaf42d1566b4b441a7637e64eca598c3886420209939b4e"
+    },
+    {
+      "path": "artifacts/redist-validation/180064fa8.txt",
+      "sha256": "d0be0bf8985d38a74c7ef1e3d39240f5ce341a6c732ba00fb678a255b192009d"
+    },
+    {
+      "path": "artifacts/redist-validation-followup/180069e38.txt",
+      "sha256": "763517f1ea7f0e2a8e4c929576afa34980754ef934e29efcb2afc5d5d58b7e81"
+    },
+    {
+      "path": "artifacts/redist-validation/180060468.txt",
+      "sha256": "35bf21828a93d4aa96bc4da3a0817d92995a67e1cb962bc2ae624e3059e737ae"
+    },
+    {
+      "path": "artifacts/redist-validation-followup/1800602ac.txt",
+      "sha256": "529f24bcbc86a401fb9f2bec583e0b44f6b755cab016d2e563aca43d0a28f67b"
+    }
+  ],
+  "source_instructions_verified": 134,
+  "excerpt": {
+    "path": "evidence/static/gameinput-redist-3.5.270.0-validation-excerpts.txt",
+    "sha256": "592087c97c9202d3019d9b4dd3ee663517204b517f137dcadb145bf5a70078b7"
+  },
+  "limitations": [
+    "Static code only; no module loading or IOCTL execution.",
+    "External import names do not identify runtime implementation or API-set routing.",
+    "Decompiler types approximate; original instruction bytes verified for retained ranges.",
+    "No successful poll rate, rumble rate, focus state or CPU causation measured."
+  ]
+}

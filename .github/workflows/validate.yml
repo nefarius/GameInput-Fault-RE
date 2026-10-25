@@ -1,0 +1,32 @@
+name: Validate research tools
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse PowerShell scripts
+        shell: powershell
+        run: |
+          $failures = @()
+          Get-ChildItem tools -Recurse -Include *.ps1,*.psm1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [void][Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors)
+            $failures += @($errors)
+          }
+          if ($failures.Count) { $failures | Format-List; throw 'PowerShell parse errors' }
+      - name: Configure x64 probe and controller
+        run: cmake -S . -B build -A x64
+      - name: Build
+        run: cmake --build build --config Release
+      - name: Run native tests
+        run: ctest --test-dir build -C Release --output-on-failure
+      - name: Run evidence analysis tests
+        run: python -m unittest discover -s tests/analysis -v
+      - name: Verify public matrix syntax
+        run: python -m json.tool data/version-matrix.json

@@ -1,0 +1,14 @@
+{
+  "capture_id": "win11-xbox-usb-active-20261025T1353Z",
+  "pair_id": "observation-only-no-mitigation-pair",
+  "environment_id": "local-win11-25h2-26200.9457-x64",
+  "os_build": "26200.9457",
+  "driver_sha256": "1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588",
+  "probe_sha256": "3198ab70c75cdd681ae5d8f3934d44d134e64e255bb068b768dd60626472dd15",
+  "controller_id": "Xbox USB VID045E-PID0B12 with xinputhid child",
+  "connection": "USB",
+  "workload_id": "manual-input-no-game",
+  "service_configuration": "both",
+  "phase": "active_input",
+  "logical_processor_count": 32
+}

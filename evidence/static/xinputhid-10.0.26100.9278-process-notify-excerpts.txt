@@ -1,0 +1,386 @@
+Local Ghidra 12.1.3 headless static evidence; literal pseudocode, not original source or runtime observation.
+Image: C:\Windows\System32\drivers\xinputhid.sys SHA256=1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588
+Pseudocode argument/types may be approximate. Selected instruction bytes match the original PE; file offsets and RVA are explicit.
+PDB GUID=f482d0de-64e0-3d63-a8b2-d58e868db1e5 age=1; GUID/age matched during import.
+
+=== xinputhid-process-notify/1400104c0 ===
+FUNCTION 1400104c0 _CreateProcessNotifyRoutine
+BODY [[1400104c0, 1400107b6] [1400107b8, 1400107bf]]
+INCOMING REFERENCES
+From: 140018660 To: 1400104c0 Type: DATA Op: 0 DEFAULT caller=null
+From: 14001d054 To: 1400104c0 Type: DATA Op: 0 DEFAULT caller=null
+From: 14001a181 To: 1400104c0 Type: DATA Op: 1 ANALYSIS caller=DriverExit
+From: 14001c4f7 To: 1400104c0 Type: DATA Op: 1 ANALYSIS caller=DriverEntry
+DIRECT CALLEES
+140011794 WPP_SF_Ds
+14000a1e4 WPP_SF_D
+14001035c SwitchFocusProcess
+140011fb0 _guard_dispatch_icall
+140011740 Feature_GameInput_XInputHidExclusiveProcTermFix__private_IsEnabledDeviceUsageNoInline
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+14000fcb0 BroadcastDevicesFocusChanged
+140005c28 RemoveProcessQuirks
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: _guard_dispatch_icall replaced with injection: guard_dispatch_icall */
+/* void __cdecl _CreateProcessNotifyRoutine(void * __ptr64,void * __ptr64,unsigned char) */
+
+void __cdecl _CreateProcessNotifyRoutine(void *param_1,void *param_2,uchar param_3)
+
+{
+  ulong uVar1;
+  undefined8 *puVar2;
+  undefined8 *puVar3;
+  code *pcVar4;
+  uchar uVar5;
+  uint uVar6;
+  char *pcVar7;
+  longlong lVar8;
+  ulonglong uVar9;
+  longlong lVar10;
+  uint uVar11;
+  ulong uVar12;
+  undefined8 *puVar13;
+  undefined7 in_register_00000081;
+  
+  uVar12 = (ulong)param_2;
+  if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+     (4 < (byte)WPP_GLOBAL_Control[0x29])) {
+    pcVar7 = "created";
+    if (param_3 == '\0') {
+      pcVar7 = "destroyed";
+    }
+    WPP_SF_Ds(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),"destroyed",
+              CONCAT71(in_register_00000081,param_3),uVar12,pcVar7);
+  }
+  if ((param_3 == '\0') && (*WdfDriverGlobals != 0)) {
+    lVar8 = (**(code **)(WdfFunctions_01015 + 0x650))
+                      (WdfDriverGlobals,*WdfDriverGlobals,
+                       PTR__WDF_DRIVER_CONTEXT_TYPE_INFO_1400171a8);
+    if (lVar8 != 0) {
+      uVar9 = Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline();
+      if ((int)uVar9 != 0) {
+        RemoveProcessQuirks(uVar12);
+      }
+      if ((param_2 != (void *)0x0) &&
+         ((uVar12 == *(ulong *)(lVar8 + 0x24) || (uVar12 == *(ulong *)(lVar8 + 0x18))))) {
+        uVar5 = '\0';
+        (**(code **)(WdfFunctions_01015 + 0x9e0))(WdfDriverGlobals,*(undefined8 *)(lVar8 + 0x38));
+        if (uVar12 == *(ulong *)(lVar8 + 0x24)) {
+          *(undefined4 *)(lVar8 + 0x24) = 0;
+        }
+        uVar1 = *(ulong *)(lVar8 + 0x18);
+        if (uVar12 == uVar1) {
+          *(undefined4 *)(lVar8 + 0x18) = 0;
+          uVar9 = Feature_GameInput_XInputHidExclusiveProcTermFix__private_IsEnabledDeviceUsageNoInline
+                            ();
+          if ((int)uVar9 != 0) {
+            *(uint *)(lVar8 + 0x28) = *(uint *)(lVar8 + 0x28) & 0xfffffffd;
+            if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+               (3 < (byte)WPP_GLOBAL_Control[0x29])) {
+              WPP_SF_D(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x12,
+                       &WPP_5d25b955c08c39723bde6004a1ff0d38_Traceguids,uVar1);
+            }
+          }
+          if (uVar1 == *(ulong *)(lVar8 + 0x20)) {
+            uVar5 = SwitchFocusProcess(*(ulong *)(lVar8 + 0x1c));
+          }
+        }
+        (**(code **)(WdfFunctions_01015 + 0x9e8))(WdfDriverGlobals,*(undefined8 *)(lVar8 + 0x38));
+        if (uVar5 != '\0') {
+          BroadcastDevicesFocusChanged();
+        }
+      }
+      uVar9 = Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline();
+      if ((int)uVar9 != 0) {
+        (**(code **)(WdfFunctions_01015 + 0x9e0))(WdfDriverGlobals,*(undefined8 *)(lVar8 + 0x38));
+        uVar6 = (**(code **)(WdfFunctions_01015 + 0x70))
+                          (WdfDriverGlobals,*(undefined8 *)(lVar8 + 0x40));
+        uVar11 = 0;
+        if (uVar6 != 0) {
+          do {
+            lVar10 = (**(code **)(WdfFunctions_01015 + 0x90))
+                               (WdfDriverGlobals,*(undefined8 *)(lVar8 + 0x40),uVar11);
+            if (lVar10 != 0) {
+              lVar10 = (**(code **)(WdfFunctions_01015 + 0x650))
+                                 (WdfDriverGlobals,lVar10,
+                                  PTR__WDF_DEVICE_CONTEXT_TYPE_INFO_140017180);
+              if (lVar10 != 0) {
+                (**(code **)(WdfFunctions_01015 + 0x9e0))
+                          (WdfDriverGlobals,*(undefined8 *)(lVar10 + 0x20));
+                puVar2 = *(undefined8 **)(lVar10 + 0x168);
+                while (puVar13 = puVar2, puVar13 != (undefined8 *)(lVar10 + 0x168)) {
+                  puVar2 = (undefined8 *)*puVar13;
+                  if (*(ulong *)(puVar13 + 3) == uVar12) {
+                    if (((undefined8 *)puVar2[1] != puVar13) ||
+                       (puVar3 = (undefined8 *)puVar13[1], (undefined8 *)*puVar3 != puVar13)) {
+                      pcVar4 = (code *)swi(0x29);
+                      (*pcVar4)(3,puVar13[2]);
+                      pcVar4 = (code *)swi(3);
+                      (*pcVar4)();
+                      return;
+                    }
+                    *puVar3 = puVar2;
+                    puVar2[1] = puVar3;
+                    (**(code **)(WdfFunctions_01015 + 0x680))(WdfDriverGlobals);
+                  }
+                }
+                (**(code **)(WdfFunctions_01015 + 0x9e8))
+                          (WdfDriverGlobals,*(undefined8 *)(lVar10 + 0x20));
+              }
+            }
+            uVar11 = uVar11 + 1;
+          } while (uVar11 < uVar6);
+        }
+        (**(code **)(WdfFunctions_01015 + 0x9e8))(WdfDriverGlobals,*(undefined8 *)(lVar8 + 0x38));
+      }
+    }
+  }
+  return;
+}
+
+
+[... selected instructions 1400104dd..1400104e0 ...]
+1400104dd RVA=0x104dd file=0x104dd 418ad8 MOV BL,R8B
+1400104e0 RVA=0x104e0 file=0x104e0 488bf2 MOV RSI,RDX
+[... selected instructions 140010520..140010535 ...]
+140010520 RVA=0x10520 file=0x10520 488b0d996f0000 MOV RCX,qword ptr [0x1400174c0]
+140010527 RVA=0x10527 file=0x10527 488b11 MOV RDX,qword ptr [RCX]
+14001052a RVA=0x1052a file=0x1052a 84db TEST BL,BL
+14001052c RVA=0x1052c file=0x1052c 0f8566020000 JNZ 0x140010798
+140010532 RVA=0x10532 file=0x10532 4885d2 TEST RDX,RDX
+140010535 RVA=0x10535 file=0x10535 0f845d020000 JZ 0x140010798
+[... selected instructions 140010573..140010629 ...]
+140010573 RVA=0x10573 file=0x10573 4885f6 TEST RSI,RSI
+140010576 RVA=0x10576 file=0x10576 0f84b2000000 JZ 0x14001062e
+14001057c RVA=0x1057c file=0x1057c 3b7b24 CMP EDI,dword ptr [RBX + 0x24]
+14001057f RVA=0x1057f file=0x1057f 7409 JZ 0x14001058a
+140010581 RVA=0x10581 file=0x10581 3b7b18 CMP EDI,dword ptr [RBX + 0x18]
+140010584 RVA=0x10584 file=0x10584 0f85a4000000 JNZ 0x14001062e
+14001058a RVA=0x1058a file=0x1058a 488b05276f0000 MOV RAX,qword ptr [0x1400174b8]
+140010591 RVA=0x10591 file=0x10591 4032ed XOR BPL,BPL
+140010594 RVA=0x10594 file=0x10594 488b5338 MOV RDX,qword ptr [RBX + 0x38]
+140010598 RVA=0x10598 file=0x10598 488b0d216f0000 MOV RCX,qword ptr [0x1400174c0]
+14001059f RVA=0x1059f file=0x1059f 488b80e0090000 MOV RAX,qword ptr [RAX + 0x9e0]
+1400105a6 RVA=0x105a6 file=0x105a6 e8051a0000 CALL 0x140011fb0
+1400105ab RVA=0x105ab file=0x105ab 3b7b24 CMP EDI,dword ptr [RBX + 0x24]
+1400105ae RVA=0x105ae file=0x105ae 7504 JNZ 0x1400105b4
+1400105b0 RVA=0x105b0 file=0x105b0 83632400 AND dword ptr [RBX + 0x24],0x0
+1400105b4 RVA=0x105b4 file=0x105b4 8b7318 MOV ESI,dword ptr [RBX + 0x18]
+1400105b7 RVA=0x105b7 file=0x105b7 3bfe CMP EDI,ESI
+1400105b9 RVA=0x105b9 file=0x105b9 754b JNZ 0x140010606
+1400105bb RVA=0x105bb file=0x105bb 83631800 AND dword ptr [RBX + 0x18],0x0
+1400105bf RVA=0x105bf file=0x105bf e87c110000 CALL 0x140011740
+1400105c4 RVA=0x105c4 file=0x105c4 85c0 TEST EAX,EAX
+1400105c6 RVA=0x105c6 file=0x105c6 742e JZ 0x1400105f6
+1400105c8 RVA=0x105c8 file=0x105c8 836328fd AND dword ptr [RBX + 0x28],0xfffffffd
+1400105cc RVA=0x105cc file=0x105cc 488b0d0d6c0000 MOV RCX,qword ptr [0x1400171e0]
+1400105d3 RVA=0x105d3 file=0x105d3 493bce CMP RCX,R14
+1400105d6 RVA=0x105d6 file=0x105d6 741e JZ 0x1400105f6
+1400105d8 RVA=0x105d8 file=0x105d8 80792904 CMP byte ptr [RCX + 0x29],0x4
+1400105dc RVA=0x105dc file=0x105dc 7218 JC 0x1400105f6
+1400105de RVA=0x105de file=0x105de 488b4918 MOV RCX,qword ptr [RCX + 0x18]
+1400105e2 RVA=0x105e2 file=0x105e2 4c8d0517430000 LEA R8,[0x140014900]
+1400105e9 RVA=0x105e9 file=0x105e9 ba12000000 MOV EDX,0x12
+1400105ee RVA=0x105ee file=0x105ee 448bce MOV R9D,ESI
+1400105f1 RVA=0x105f1 file=0x105f1 e8ee9bffff CALL 0x14000a1e4
+1400105f6 RVA=0x105f6 file=0x105f6 3b7320 CMP ESI,dword ptr [RBX + 0x20]
+1400105f9 RVA=0x105f9 file=0x105f9 750b JNZ 0x140010606
+1400105fb RVA=0x105fb file=0x105fb 8b4b1c MOV ECX,dword ptr [RBX + 0x1c]
+1400105fe RVA=0x105fe file=0x105fe e859fdffff CALL 0x14001035c
+140010603 RVA=0x10603 file=0x10603 408ae8 MOV BPL,AL
+140010606 RVA=0x10606 file=0x10606 488b0dab6e0000 MOV RCX,qword ptr [0x1400174b8]
+14001060d RVA=0x1060d file=0x1060d 488b5338 MOV RDX,qword ptr [RBX + 0x38]
+140010611 RVA=0x10611 file=0x10611 488b81e8090000 MOV RAX,qword ptr [RCX + 0x9e8]
+140010618 RVA=0x10618 file=0x10618 488b0da16e0000 MOV RCX,qword ptr [0x1400174c0]
+14001061f RVA=0x1061f file=0x1061f e88c190000 CALL 0x140011fb0
+140010624 RVA=0x10624 file=0x10624 4084ed TEST BPL,BPL
+140010627 RVA=0x10627 file=0x10627 7405 JZ 0x14001062e
+140010629 RVA=0x10629 file=0x10629 e882f6ffff CALL 0x14000fcb0
+
+=== xinputhid-process-notify/14001035c ===
+FUNCTION 14001035c SwitchFocusProcess
+BODY [[14001035c, 1400104af]]
+INCOMING REFERENCES
+From: 140018654 To: 14001035c Type: DATA Op: 0 DEFAULT caller=null
+From: 1400105fe To: 14001035c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=_CreateProcessNotifyRoutine
+From: 140010a01 To: 14001035c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=exclusiveFocusInfoChangedCallback
+From: 140010a98 To: 14001035c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=exclusiveFocusInfoChangedCallback
+From: 140010d72 To: 14001035c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=focusChangedCallback
+DIRECT CALLEES
+14000a1b8 WPP_SF_
+14000a228 WPP_SF_dD
+140011fb0 _guard_dispatch_icall
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: _guard_dispatch_icall replaced with injection: guard_dispatch_icall */
+/* unsigned char __cdecl SwitchFocusProcess(unsigned long) */
+
+uchar __cdecl SwitchFocusProcess(ulong param_1)
+
+{
+  longlong lVar1;
+  undefined2 uVar2;
+  
+  if (*WdfDriverGlobals == 0) {
+    if ((undefined **)WPP_GLOBAL_Control == &WPP_GLOBAL_Control) {
+      return '\0';
+    }
+    if (WPP_GLOBAL_Control[0x29] == '\0') {
+      return '\0';
+    }
+    uVar2 = 0xd;
+  }
+  else {
+    lVar1 = (**(code **)(WdfFunctions_01015 + 0x650))
+                      (WdfDriverGlobals,*WdfDriverGlobals,
+                       PTR__WDF_DRIVER_CONTEXT_TYPE_INFO_1400171a8);
+    if (lVar1 != 0) {
+      if (*(ulong *)(lVar1 + 0x20) == param_1) {
+        return '\0';
+      }
+      if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+         (3 < (byte)WPP_GLOBAL_Control[0x29])) {
+        WPP_SF_dD(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0xf,
+                  &WPP_5d25b955c08c39723bde6004a1ff0d38_Traceguids,*(ulong *)(lVar1 + 0x20));
+      }
+      *(int *)(lVar1 + 0x1c) = *(int *)(lVar1 + 0x20);
+      if (((*(int *)(lVar1 + 0x18) == 0) || ((*(uint *)(lVar1 + 0x28) & 2) == 0)) ||
+         (*(int *)(lVar1 + 0x20) != *(int *)(lVar1 + 0x18))) {
+        *(ulong *)(lVar1 + 0x20) = param_1;
+        return '\x01';
+      }
+      *(ulong *)(lVar1 + 0x1c) = param_1;
+      if ((undefined **)WPP_GLOBAL_Control == &WPP_GLOBAL_Control) {
+        return '\0';
+      }
+      if ((byte)WPP_GLOBAL_Control[0x29] < 3) {
+        return '\0';
+      }
+      WPP_SF_dD(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x10,
+                &WPP_5d25b955c08c39723bde6004a1ff0d38_Traceguids,param_1);
+      return '\0';
+    }
+    if ((undefined **)WPP_GLOBAL_Control == &WPP_GLOBAL_Control) {
+      return '\0';
+    }
+    if (WPP_GLOBAL_Control[0x29] == '\0') {
+      return '\0';
+    }
+    uVar2 = 0xe;
+  }
+  WPP_SF_(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),uVar2,
+          &WPP_5d25b955c08c39723bde6004a1ff0d38_Traceguids);
+  return '\0';
+}
+
+
+[... selected instructions 140010443..14001045e ...]
+140010443 RVA=0x10443 file=0x10443 448b4718 MOV R8D,dword ptr [RDI + 0x18]
+140010447 RVA=0x10447 file=0x10447 8b4f20 MOV ECX,dword ptr [RDI + 0x20]
+14001044a RVA=0x1044a file=0x1044a 894f1c MOV dword ptr [RDI + 0x1c],ECX
+14001044d RVA=0x1044d file=0x1044d 4585c0 TEST R8D,R8D
+140010450 RVA=0x10450 file=0x10450 7440 JZ 0x140010492
+140010452 RVA=0x10452 file=0x10452 8b4728 MOV EAX,dword ptr [RDI + 0x28]
+140010455 RVA=0x10455 file=0x10455 a802 TEST AL,0x2
+140010457 RVA=0x10457 file=0x10457 7439 JZ 0x140010492
+140010459 RVA=0x10459 file=0x10459 413bc8 CMP ECX,R8D
+14001045c RVA=0x1045c file=0x1045c 7534 JNZ 0x140010492
+14001045e RVA=0x1045e file=0x1045e 89771c MOV dword ptr [RDI + 0x1c],ESI
+
+=== xinputhid-process-notify/14000fcb0 ===
+FUNCTION 14000fcb0 BroadcastDevicesFocusChanged
+BODY [[14000fcb0, 14001034a] [14001034c, 140010353]]
+INCOMING REFERENCES
+From: 140018648 To: 14000fcb0 Type: DATA Op: 0 DEFAULT caller=null
+From: 140010629 To: 14000fcb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=_CreateProcessNotifyRoutine
+From: 140010ac3 To: 14000fcb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=exclusiveFocusInfoChangedCallback
+From: 140010d9b To: 14000fcb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=focusChangedCallback
+DIRECT CALLEES
+14000a1b8 WPP_SF_
+140006ac4 _SendVibrationMessage
+140011fb0 _guard_dispatch_icall
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+14000a894 WPP_SF_dDDDDDDD
+140006010 SendVibrationMessageThrottled
+140001d88 DistributeReportData
+DECOMPILATION completed=true error=
+[... selected instructions 1400100c2..1400100e2 ...]
+1400100c2 RVA=0x100c2 file=0x100c2 4533c9 XOR R9D,R9D
+1400100c5 RVA=0x100c5 file=0x100c5 4488642420 MOV byte ptr [RSP + 0x20],R12B
+1400100ca RVA=0x100ca file=0x100ca 4533c0 XOR R8D,R8D
+1400100cd RVA=0x100cd file=0x100cd 33d2 XOR EDX,EDX
+1400100cf RVA=0x100cf file=0x100cf 488bcd MOV RCX,RBP
+1400100d2 RVA=0x100d2 file=0x100d2 4438a578010000 CMP byte ptr [RBP + 0x178],R12B
+1400100d9 RVA=0x100d9 file=0x100d9 7407 JZ 0x1400100e2
+1400100db RVA=0x100db file=0x100db e8305fffff CALL 0x140006010
+1400100e0 RVA=0x100e0 file=0x100e0 eb05 JMP 0x1400100e7
+1400100e2 RVA=0x100e2 file=0x100e2 e8dd69ffff CALL 0x140006ac4
+
+=== xinputhid-process-cleanup/140005c28 ===
+FUNCTION 140005c28 RemoveProcessQuirks
+BODY [[140005c28, 140005ede] [140005ee0, 140006007]]
+INCOMING REFERENCES
+From: 140018138 To: 140005c28 Type: DATA Op: 0 DEFAULT caller=null
+From: 14001056e To: 140005c28 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=_CreateProcessNotifyRoutine
+DIRECT CALLEES
+140008e68 Feature_GameInput_XInputHIDControllerAssist__private_IsEnabledDeviceUsageNoInline
+14000a1e4 WPP_SF_D
+14000a278 WPP_SF_DDD
+14000a3c0 WPP_SF_DDDZ
+140011fb0 _guard_dispatch_icall
+14000a598 WPP_SF_DZ
+140008e14 Feature_GameInput_Take2XInputHidSessionAware__private_IsEnabledDeviceUsageNoInline
+EXTERNAL:00000028 ExFreePoolWithTag
+DECOMPILATION completed=true error=
+[... selected instructions 140005dd6..140005e2b ...]
+140005ddb RVA=0x5ddb file=0x5ddb 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8]
+140005de2 RVA=0x5de2 file=0x5de2 e8c9c10000 CALL 0x140011fb0
+140005de7 RVA=0x5de7 file=0x5de7 4584ff TEST R15B,R15B
+140005dea RVA=0x5dea file=0x5dea 7409 JZ 0x140005df5
+140005dec RVA=0x5dec file=0x5dec 4839bbd8010000 CMP qword ptr [RBX + 0x1d8],RDI
+140005df3 RVA=0x5df3 file=0x5df3 7507 JNZ 0x140005dfc
+140005df5 RVA=0x5df5 file=0x5df5 ffc5 INC EBP
+140005df7 RVA=0x5df7 file=0x5df7 e9c6feffff JMP 0x140005cc2
+140005dfc RVA=0x5dfc file=0x5dfc 488b05b5160100 MOV RAX,qword ptr [0x1400174b8]
+140005e03 RVA=0x5e03 file=0x5e03 498b5638 MOV RDX,qword ptr [R14 + 0x38]
+140005e07 RVA=0x5e07 file=0x5e07 488b0db2160100 MOV RCX,qword ptr [0x1400174c0]
+140005e0e RVA=0x5e0e file=0x5e0e 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8]
+140005e15 RVA=0x5e15 file=0x5e15 e896c10000 CALL 0x140011fb0
+140005e1a RVA=0x5e1a file=0x5e1a 488b83d8010000 MOV RAX,qword ptr [RBX + 0x1d8]
+140005e21 RVA=0x5e21 file=0x5e21 488b8bc0010000 MOV RCX,qword ptr [RBX + 0x1c0]
+140005e28 RVA=0x5e28 file=0x5e28 e883c10000 CALL 0x140011fb0
+
+=== xinputhid-process-cleanup/14001c03c ===
+FUNCTION 14001c03c DriverEntry
+BODY [[14001c03c, 14001c332] [14001c334, 14001c840]]
+INCOMING REFERENCES
+From: 1400188ac To: 14001c03c Type: DATA Op: 0 DEFAULT caller=null
+From: 1400119fa To: 14001c03c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FxDriverEntryWorker
+From: 140011a7e To: 14001c03c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=FxDriverEntryWorker
+DIRECT CALLEES
+EXTERNAL:00000026 PsSetCreateProcessNotifyRoutine
+14001a774 WppInitKm
+EXTERNAL:00000015 RtlUnregisterFeatureUsageProvider
+14000a1b8 WPP_SF_
+140012380 memset
+140011f70 __security_check_cookie
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+14000a1e4 WPP_SF_D
+14001a6f4 WppCleanupKm
+14001a804 WppLoadTracingSupport
+140011fb0 _guard_dispatch_icall
+140011820 WPP_SF_sD
+EXTERNAL:00000016 RtlUnregisterFeatureConfigurationChangeNotification
+14001c848 wil_InitializeFeatureStaging
+EXTERNAL:0000003f HidP_GetCollectionDescription
+EXTERNAL:00000042 HidP_SetUsageValue
+EXTERNAL:0000003a HidP_GetCaps
+140008e14 Feature_GameInput_Take2XInputHidSessionAware__private_IsEnabledDeviceUsageNoInline
+EXTERNAL:00000023 ExSubscribeWnfStateChange
+DECOMPILATION completed=true error=
+[... selected instructions 14001c4f5..14001c501 ...]
+14001c4f5 RVA=0x1c4f5 file=0x1c4f5 33d2 XOR EDX,EDX
+14001c4f7 RVA=0x1c4f7 file=0x1c4f7 488d0dc23fffff LEA RCX,[0x1400104c0]
+14001c4fe RVA=0x1c4fe file=0x1c4fe 418bdc MOV EBX,R12D
+14001c501 RVA=0x1c501 file=0x1c501 48ff15b8ccffff CALL qword ptr [0x1400191c0]

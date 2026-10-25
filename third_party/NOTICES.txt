@@ -1,0 +1,25 @@
+Research dependency notices
+
+Nefarius Injector v1.5.0
+Upstream: https://github.com/nefarius/Injector/tree/v1.5.0
+Asset: https://github.com/nefarius/Injector/releases/download/v1.5.0/Injector_x86_amd64_arm64.zip
+SHA256: ae8729976ae97cc068813ec67981833f26cf92b5cde0ffe16c01b7b44e346a38
+License: MIT; complete upstream text retained in Injector/LICENSE.
+Downloaded binaries live in ignored .deps, outside tracked source.
+Run tools/dependencies/Get-ResearchDependencies.ps1 explicitly to download them.
+Injector is a generic research loader. The wrapper restricts its use to exact
+GameInput binaries. Security software may flag remote-thread injection.
+
+Microsoft Detours v4.0.1
+Upstream: https://github.com/microsoft/Detours/tree/v4.0.1
+Pinned commit: e4bfd6b03e50de46b47abfbd1e46b384f0c5f833
+License: MIT; complete upstream text retained in Detours/LICENSE.md.
+Probe build/dependency pinning is defined by the native build configuration.
+Both original notices must accompany redistributed dependencies and builds.
+
+Local Detours modification: cmake/Detours.cmake applies an exact allocation-only
+patch to DetourThread and DetourOperation in the build tree. Their class new/delete
+use VirtualAlloc/VirtualFree instead of the process CRT heap. This avoids waiting
+for a process-heap lock held by a suspended target thread. Patch operations are
+prepared before suspension. The upstream checkout remains unchanged; the bounded
+heap-lock regression test exercises allocation and commit under this condition.

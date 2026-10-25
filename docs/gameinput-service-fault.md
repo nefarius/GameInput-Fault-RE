@@ -1,6 +1,8 @@
 # GameInput service fault
 
-Static findings from the installed binaries on this machine, matched to public reports. No live controller reproduction was done in this pass.
+Static findings from installed binaries, matched to public reports. **The original user-mode analysis identified a hypothesis, not a proven cause or a confirmed Windows 11 regression.** The kernel follow-up below changes an important assumption: with the request flag clear, `xinputhid` queues the unfiltered-state request instead of always returning cached state immediately. Runtime measurements and controller safety tests determine whether a mitigation applies.
+
+See [kernel analysis](kernel-xinputhid.md), [diagnostic collection](collecting-diagnostics.md), [version evidence](version-matrix.md), [research workaround](workaround.md), and [implementation status](implementation-status.md).
 
 ## Reports
 
@@ -33,9 +35,9 @@ SHA-256:
 - `GameInput.dll`: `f9f5adbde4a2883b9b307bb1848a120094904578d92b21100828bd83f7b77cb6`
 - `GameInputRedist.dll`: `6d3650dbeea5f8c639972537dbaed3f2bb465561e63d34fa9661902f24cb9686`
 
-## Mechanism
+## User-mode mechanism under investigation
 
-While an XInput HID controller is connected, GameInput repeatedly submits `IOCTL 0x8000e388` (`IOCTL_XINPUT_GET_UNFILTERED_GAMEPAD_STATE`, 0x18-byte state) into `xinputhid.sys`. That driver is the XInput filter on HID, which is why DsHidMini XInput mode is affected and SXS mode is not.
+The identified loops submit `IOCTL 0x8000e388` (`IOCTL_XINPUT_GET_UNFILTERED_GAMEPAD_STATE`, 0x18-byte state). A loop that waits on a pending request is different from a loop receiving repeated immediate completions. The mode difference in the DsHidMini reports identifies a useful comparison, but does not establish that this particular state IOCTL causes the reported rumble-off traffic.
 
 ### Redistributable, version 3.5.270.0
 
@@ -52,25 +54,45 @@ While an XInput HID controller is connected, GameInput repeatedly submits `IOCTL
 
 ### Inbox `GameInput.dll` 0.2309.26100.9278
 
-`XusbWatcher::WorkerThread` (`FUN_180042e98`) polls the same unfiltered state. The 100 ms relative delay (`NtDelayExecution`, interval `0xFFFFFFFFFFF0BDC0` = 100 ms in 100 ns units) runs only when the device index cannot be resolved or the completed transfer is not 0x18 bytes. An unchanged successful 0x18-byte state is followed by another request with no delay. If the driver completes immediately, this is a tight spin rather than a 1 ms poll.
+`XusbWatcher::WorkerThread` (`FUN_180042e98`) submits the same unfiltered-state request, **then waits on the completion event with `NtWaitForSingleObject` and a null timeout**. The earlier analysis omitted this material wait. The worker sets request byte 3 to zero, selecting the queued/change-driven path in the inspected driver. A separate support probe sets it to one. The 100 ms failure backoff is an additional delay; its absence after a valid completion does not imply a busy spin. See [independently validated user-mode control flow](user-mode-validation.md) for exact call sites and byte-checked evidence.
 
-`HidForceFeedbackScheduler::WorkerThread` (`FUN_180022678`) calls `timeBeginPeriod(1)` around each scheduled sample. The wait timeout is the time until the next sample divided by 1000. A sample that is already due becomes a 0 ms wait, and the thread loops. A generation change calls `HidForceFeedbackDriver::Reset` (`FUN_18001a570`). This is a separate stutter path: a process-wide 1 ms timer plus repeated HID force-feedback resets.
+The inbox compares output bytes 5–23, while the redist compares the packet counter at output offset zero. The probe compares all 24 bytes. These are different comparisons and must not be conflated in runtime analysis.
+
+`HidForceFeedbackScheduler::WorkerThread` (`FUN_180022678`) calls `timeBeginPeriod(1)` around scheduled sampling. The wait timeout is the time until the next sample divided by 1000. A sample that is already due becomes a 0 ms wait. A generation change calls `HidForceFeedbackDriver::Reset` (`FUN_18001a570`). These are candidate profiling sites, not demonstrated defects: a due sample can be normal scheduling, and calling `timeBeginPeriod` alone does not prove CPU or frame-time harm.
 
 `GipQuiesceWatcher` (`FUN_18001a21c`, called from `WaitForQuiesce` at `FUN_180022438`): IOCTL `0x40001dc0`. `ERROR_IO_PENDING` (`0x3E5`) is the expected arm. A synchronous success logs `GIP quiesce notification completed immediately, retrying` and retries with no sleep, at most 50 times, then returns `0x8000FFFF`. That is a burst, not the sustained poll.
 
 `FeedbackManagerState.cpp` (`FUN_180014ed8`) logs `Legacy GIP equation manager IS allowed` or `NOT allowed` from a device id/firmware table (`DAT_180054bd8`) and a flag at object offset `0xAB`. That gate is per device, not per OS build.
 
+## Kernel follow-up
+
+Ghidra with the matching public PDB identifies `DispatchGetUnfilteredGamepadState` at `0x14000d1d8`. It validates input size 4, output size 24, and the input header `0x0103`. Input byte 3 selects behavior: nonzero copies cached state and completes, while zero uses a per-requestor-process queue. See [the detailed analysis](kernel-xinputhid.md) for completion paths, feature gates, hashes, and the evidence needed to connect this to output/rumble traffic.
+
+The redist's Win10 quirk sets this byte; Windows 11 clears it. Consequently, the existence of the redist's 1 ms loop does **not** establish a 1000 Hz successful poll on Windows 11. Completion behavior must be measured. This also does not establish which version Microsoft fixed.
+
+The running per-user redistributable was observed loading `C:\Windows\System32\GameInputRedist.dll`; its SHA-256 matches the `Program Files` DLL above. Future diagnostics must record loaded module paths rather than assume the installation path.
+
+## Bluetooth comparison
+
+On the same machine/controller over Bluetooth LE, 44.75 measured seconds produced 1,439 target requests in the inbox process and 1,391 in the system redist, all pending. CPU was approximately 0.175% and 0.105% of one core, including probe overhead. The independent monitor recorded 1,279 packet values. There were no immediate successes or throttled calls. [Bluetooth summary](../evidence/runtime/bluetooth-active-input-summary.json).
+
+The operator has not knowingly observed the original symptom on this machine. Neither connection is a confirmed affected reproduction. These comparison results cannot identify Microsoft's historical fix, establish the cause of the reports, or qualify the proposed throttle for release.
+
 ## What is still open
 
+The corrected probe then completed a USB active-input run: 44.75 measured seconds, **2,014 target requests in the system redist process, all returning `ERROR_IO_PENDING`**, zero immediate successful/unchanged responses and zero throttled calls. The process used about 0.279% of one core, including instrumentation overhead. The other two instrumented GameInput processes made no matching requests in that interval. XInput independently recorded 1,246 distinct packet values. See [the reviewed runtime summary](../evidence/runtime/active-input-summary.json). This is a negative reproduction of the proposed busy-poll mechanism, not proof of a fix or proof that all Windows 11 configurations are unaffected.
+
+The first local collector validation produced an 11.59-second idle ETL with zero lost events/buffers according to `xperf`, and its ZIP passed all 28 manifest checks. The sampled GameInput row printed 0.00% (rounded). This window did not demonstrate the reported fault. The initial probe attach failed before its shared mapping existed; no request rate can be inferred from that attempt. See [derived baseline evidence](../evidence/runtime/baseline-summary.json). Later measurements must be recorded separately rather than rewriting this attempt as successful.
+
 - No live trace yet of `IOCTL 0x8000e388` rate, pending-IRP count, or `xinputhid` completing immediately versus waiting for a packet change.
-- `xinputhid.sys` was not decompiled. Nefarius's rumble-off reading is his ETW observation of the upper driver; this pass shows the GameInput poll that feeds that driver. Strings in `xinputhid.sys` include `exclusive focus` and `focus change` only.
+- The reported rumble-off flood must be independently correlated with state requests and driver output events. Reading state and writing vibration use different kernel dispatch paths.
 - Which of the two services a given report disabled is not always stated. "GameInput Service" is the inbox display name. The redist service is a second poller and was running here too.
-- The Win10 quirk flag's effect inside `xinputhid` is not known. It does not slow the user-mode loop, and it is off on Windows 11.
+- The Win10 flag selects cached immediate state rather than queueing; contributed Win10 diagnostics are still needed to test its real rate and resource impact.
 
 ## Fix direction
 
-Stopping GameInput Service removes the inbox `XusbWatcher` spin. Stopping GameInput Redist Service removes `ThreadProcSystem`. Games that require GameInput, Minecraft among those reported, then lose the API.
+Stopping a service removes its GameInput work, but that observation alone does not identify which operation caused a symptom. The inspected inbox worker waits for completion and has not been shown spinning. Games that require GameInput can lose the API when its services are disabled.
 
-The code change is to not resubmit `IOCTL 0x8000e388` when it completes with the same packet. Wait for a state change, or use the 100 ms backoff the failure path already has. `XusbWatcher::WorkerThread` needs that on the unchanged-state path. `ThreadProcSystem` needs more than 1 ms when the driver completes immediately. The Windows 10 quirk byte does not cover Windows 11.
+If an immediate unchanged-completion flood is demonstrated, the experimental hook can delay only that exact successful result while preserving buffers and errors. Its initial interval is 8 ms. This can add input latency or miss brief transitions between polls and therefore requires input/rumble/reconnect tests. Blindly applying the 100 ms failure backoff to successful reads is not a validated fix.
 
-`HidForceFeedbackScheduler` should not call `timeBeginPeriod(1)` for a sample that is already due. `GipQuiesceWatcher` should back off when `0x40001dc0` completes synchronously.
+Pending requests, errors, unrelated IOCTLs, and unsupported builds remain pass-through. Scheduler and quiesce changes need independent runtime evidence before being recommended upstream. A local A/B improvement would validate a workaround for that configuration; it would not prove every GameInput lag report has the same cause.
