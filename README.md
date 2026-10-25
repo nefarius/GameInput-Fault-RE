@@ -1,17 +1,37 @@
-# GameInput
+# GameInput Fault Investigation
 
-Notes on a Windows GameInput service fault: high CPU in `WUDFHost` / `xinputhid.sys`, or frame-time spikes, while an XInput HID controller is connected. The service implementation is closed source. This repo records what the installed binaries actually do, which Windows builds that behavior covers, and what a fix has to change.
+Getting sudden stutters, FPS drops, or unusually high CPU usage while using a controller on Windows? We're investigating reports that Microsoft's GameInput services may be involved. Our goal is to understand what goes wrong and find a reliable fix that keeps your controller working.
 
-The current write-up is [docs/gameinput-service-fault.md](docs/gameinput-service-fault.md). Kernel analysis shows that request flags select **cached immediate state or queued completion**. A user-mode polling loop alone does not prove high CPU, rumble spam, or a Windows 11 regression. The tools here are designed to test that causal chain and collect comparable evidence.
+**Need help? Come talk to us on Discord: [discord.nefarius.at](https://discord.nefarius.at/).** You don't need to be a developer. We can help you work out which details to share and how to collect a useful report.
 
-## Use the tools
+## Think you're affected? Start here
 
-- **Collect a report:** follow [collecting diagnostics](docs/collecting-diagnostics.md), starting with `tools/collector/Collect-Diagnostics.cmd`. The collector uses Windows tracing and makes a local ZIP for you to review and share manually.
-- **Research the exact calls:** follow [the probe and workaround instructions](docs/workaround.md). Build with `tools/build/build.ps1`, fetch the checksum-pinned Injector with `tools/dependencies/Get-ResearchDependencies.ps1`, then use `tools/probe/Invoke-GameInputResearch.ps1`. Observation is the default; throttle mode is an explicit, bounded experiment.
-- **Check the evidence:** see [kernel dispatch analysis](docs/kernel-xinputhid.md), [version matrix](docs/version-matrix.md), and [implementation/test status](docs/implementation-status.md).
-- **End-user release:** [the supported helper design](docs/supported-tool-design.md) describes the release gates. A signed one-click workaround is gated on real controller validation; this repository is a research prototype.
+1. **Tell us what happens.** Join [our Discord](https://discord.nefarius.at/) and describe your controller, how it connects, which games are affected, and when the problem starts. It's fine if you're unsure whether GameInput is the cause.
+2. **Collect a report while the problem is happening.** Follow the [step-by-step diagnostic guide](docs/collecting-diagnostics.md). The collector uses tools included in Windows; no programming or developer tools are needed.
+3. **Review before sharing.** The collector creates a ZIP on your PC. Ask us on Discord if you need help reviewing it or arranging private sharing. Nothing is uploaded automatically.
 
-Traces can reveal device identifiers, user paths, and other applications' activity. Read the collection notice before sharing. Raw captures, symbols, downloaded tools, and local builds are ignored by git. No tool uploads data automatically.
+To get the collector, choose **Code → Download ZIP** on this GitHub page and extract the downloaded ZIP. Inside the extracted folder, open `tools/collector` and double-click **Collect-Diagnostics.cmd**. The [guide](docs/collecting-diagnostics.md) explains the administrator prompt, privacy notice, and recording steps.
+
+Reports can contain device identifiers, your Windows user name in file paths, and information about other running applications. Read the privacy notice before collecting or sharing anything. Keep your original settings for the first report so we can investigate the behavior you're actually seeing.
+
+## Is there a fix yet?
+
+**There is no verified general fix or supported one-click workaround yet.** We have diagnostic tools and an experimental research prototype, but it still needs testing on a system experiencing the fault.
+
+Our comparison tests with an Xbox controller over USB and Bluetooth did not reproduce the suspected busy polling. That doesn't rule out problems with other controllers, drivers, Windows versions, or games. Reports from people who can reproduce the issue are especially useful.
+
+For current progress, see the [findings](docs/gameinput-service-fault.md), [Windows and GameInput version inventory](docs/version-matrix.md), and [test status](docs/implementation-status.md).
+
+<details>
+<summary>Technical information for developers and researchers</summary>
+
+The [research probe and workaround instructions](docs/workaround.md) cover the experimental Detours probe. Build with `tools/build/build.ps1`, fetch the checksum-pinned Injector with `tools/dependencies/Get-ResearchDependencies.ps1`, then use `tools/probe/Invoke-GameInputResearch.ps1`. Observation is the default; throttle mode is an explicit, bounded experiment.
+
+The [kernel analysis](docs/kernel-xinputhid.md) and [user-mode validation](docs/user-mode-validation.md) explain the inspected request paths. Their completion waits matter: finding a polling loop alone does not prove excessive CPU use or a link to repeated vibration commands.
+
+The [proposed supported helper](docs/supported-tool-design.md) remains a design, subject to validation and release requirements. Raw captures, symbols, downloaded tools, and local builds are excluded from git.
+
+</details>
 
 ## Credits
 
