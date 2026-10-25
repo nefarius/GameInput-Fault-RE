@@ -1,14 +1,73 @@
 name: Validate research tools
+
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
-  windows:
-    runs-on: windows-latest
+  native-build:
+    name: Native build (Windows x64, ${{ matrix.configuration }})
+    runs-on: windows-2022
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configure all native projects
+        run: >-
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+          -DGAMEINPUT_BUILD_PROBE=ON -DBUILD_TESTING=ON
+
+      - name: Clean build of probe, controller, libraries, and tests
+        run: cmake --build build --config ${{ matrix.configuration }} --clean-first --parallel 2
+
+      - name: Verify probe and controller outputs
+        env:
+          BUILD_CONFIGURATION: ${{ matrix.configuration }}
+        run: |
+          foreach ($name in @('GameInputProbe.dll', 'GameInputProbeController.exe')) {
+            $path = Join-Path "build/bin/$env:BUILD_CONFIGURATION" $name
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              throw "Expected native output missing: $path"
+            }
+          }
+
+      - name: Run native tests
+        run: >-
+          ctest --test-dir build -C ${{ matrix.configuration }}
+          --output-on-failure --no-tests=error --timeout 60
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-build-logs-${{ matrix.configuration }}
+          path: |
+            build/CMakeFiles/CMakeConfigureLog.yaml
+            build/Testing/Temporary/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  scripts-and-data:
+    name: Script and evidence validation
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Parse PowerShell scripts
         shell: powershell
         run: |
@@ -17,16 +76,12 @@ jobs:
             $tokens = $null
             $errors = $null
             [void][Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors)
-            $failures += @($errors)
+            if ($errors) { $failures += @($errors) }
           }
           if ($failures.Count) { $failures | Format-List; throw 'PowerShell parse errors' }
-      - name: Configure x64 probe and controller
-        run: cmake -S . -B build -A x64
-      - name: Build
-        run: cmake --build build --config Release
-      - name: Run native tests
-        run: ctest --test-dir build -C Release --output-on-failure
+
       - name: Run evidence analysis tests
         run: python -m unittest discover -s tests/analysis -v
+
       - name: Verify public matrix syntax
         run: python -m json.tool data/version-matrix.json
