@@ -31,6 +31,8 @@ For current progress, see the [findings](docs/gameinput-service-fault.md), [Wind
 <details>
 <summary>Technical information for developers and researchers</summary>
 
+Continuing the investigation with a coding agent? Start with [AGENTS.md](AGENTS.md) for the evidence standards, collection workflow, prototype boundaries, and validation commands.
+
 The [research probe and workaround instructions](docs/workaround.md) cover the experimental Detours probe. Build with `tools/build/build.ps1`, fetch the checksum-pinned Injector with `tools/dependencies/Get-ResearchDependencies.ps1`, then use `tools/probe/Invoke-GameInputResearch.ps1`. Observation is the default; throttle mode is an explicit, bounded experiment.
 
 The [kernel analysis](docs/kernel-xinputhid.md) and [user-mode validation](docs/user-mode-validation.md) explain the inspected request paths. Their completion waits matter: finding a polling loop alone does not prove excessive CPU use or a link to repeated vibration commands.
