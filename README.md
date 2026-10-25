@@ -6,13 +6,19 @@ Getting sudden stutters, FPS drops, or unusually high CPU usage while using a co
 
 ## Think you're affected? Start here
 
-1. **Tell us what happens.** Join [our Discord](https://discord.nefarius.at/) and describe your controller, how it connects, which games are affected, and when the problem starts. It's fine if you're unsure whether GameInput is the cause.
+1. **Tell us what happens.** Join [our Discord](https://discord.nefarius.at/) or [open an issue](https://github.com/nefarius/GameInput-Fault-RE/issues/new/choose) and describe your controller, how it connects, which games are affected, and when the problem starts. It's fine if you're unsure whether GameInput is the cause.
 2. **Collect a report while the problem is happening.** Follow the [step-by-step diagnostic guide](docs/collecting-diagnostics.md). The collector uses tools included in Windows; no programming or developer tools are needed.
 3. **Review before sharing.** The collector creates a ZIP on your PC. Ask us on Discord if you need help reviewing it or arranging private sharing. Nothing is uploaded automatically.
 
 To get the collector, choose **Code → Download ZIP** on this GitHub page and extract the downloaded ZIP. Inside the extracted folder, open `tools/collector` and double-click **Collect-Diagnostics.cmd**. The [guide](docs/collecting-diagnostics.md) explains the administrator prompt, privacy notice, and recording steps.
 
 Reports can contain device identifiers, your Windows user name in file paths, and information about other running applications. Read the privacy notice before collecting or sharing anything. Keep your original settings for the first report so we can investigate the behavior you're actually seeing.
+
+## Already have findings to share?
+
+**Issues and pull requests are welcome!** If you've already collected diagnostics, tested a reproduction, investigated with AI agents, or found something we missed, [open an issue](https://github.com/nefarius/GameInput-Fault-RE/issues/new/choose) to share your findings or [submit a pull request](https://github.com/nefarius/GameInput-Fault-RE/compare) with code, documentation, or evidence improvements. You don't need to join Discord first.
+
+AI-assisted contributions are welcome too. Include what you tested, the relevant Windows/controller/driver versions, and the evidence behind your conclusions. Clearly distinguish measured results from hypotheses or AI-generated suggestions so others can check and build on your work. Review diagnostics for private information before posting them publicly.
 
 ## Is there a fix yet?
 
