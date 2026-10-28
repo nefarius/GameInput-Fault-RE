@@ -14,8 +14,13 @@ contributor-hash xinputhid 10.0.19041.5794 and GameInputInbox
 version and PE/PDB identities. The contributor's XInput whole-file hash is
 unavailable. [Subsequent static inspection](windows10-queue-identity.md) found a
 missing PID initialization in the driver's per-process queue creation path;
-the inspected Windows 11 build contains that store. Live queue growth and
-causal performance impact remain unvalidated. Compatibility gates are unchanged.
+the inspected Windows 11 build contains that store. A research VM on
+19045.5796 with the exact driver hash and inbox 0.2309.19041.5794 now
+[observes the missing initialization live](../evidence/runtime/vm-queue-publication-20261028.json)
+and [repeated allocation by the same GameInput worker](../evidence/runtime/vm-queue-repeat-allocation-20261028.json).
+The VM inbox differs from the contributor's later revision. Exact growth rate,
+causal performance impact and correction efficacy remain unvalidated.
+Compatibility gates are unchanged.
 
 The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares
 a boot, game process UniqueKey/thread, profile and equal four-second windows.

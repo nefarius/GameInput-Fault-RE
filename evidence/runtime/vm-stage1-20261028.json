@@ -1,0 +1,37 @@
+{
+  "evidence_kind": "operator-reported-guest-file-inventory",
+  "observed_date": "2026-10-28",
+  "source": "Operator pasted Verify-Guest.ps1 output after installing KB5055612 and restarting the VMware guest.",
+  "os_build": "19045.5796",
+  "operator_reported_preparation": {
+    "nic_disconnected": true,
+    "snapshot_created_before_update": true
+  },
+  "files": [
+    {
+      "name": "xinputhid.sys",
+      "displayed_file_version": "10.0.19041.5794 (WinBuild.160101.0800)",
+      "sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "research_reference_hash_matches": true
+    },
+    {
+      "name": "SysWOW64/XInput1_4.dll",
+      "displayed_file_version": "10.0.19041.1 (WinBuild.160101.0800)",
+      "sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+      "research_reference_hash_matches": true,
+      "limitation": "Displayed version differs from the identical-hash local reconstruction's string and fixed version 10.0.19041.3636. The guest discrepancy is unresolved; do not replace the reported value or assert its cause."
+    },
+    {
+      "name": "GameInputInbox.dll",
+      "displayed_file_version": "0.2309.19041.5794",
+      "sha256": "59e57885256eed72cec75ab7e7ed13b59c0a2f21fa7f7872e6bcf68aa1046536",
+      "research_reference_hash_matches": false
+    }
+  ],
+  "limitations": [
+    "Inventory is operator-reported, not independently read from the guest by the analyst.",
+    "Installed-file identity does not establish loaded driver or process module identity.",
+    "The inbox file differs from the contributor's 0.2309.19041.6456 target; the complete contributor stack has not been reproduced.",
+    "No controller passthrough, kernel debugging, queue-count measurement or PoC correction was reported."
+  ]
+}

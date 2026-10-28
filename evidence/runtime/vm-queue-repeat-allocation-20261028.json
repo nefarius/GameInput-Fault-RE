@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operator-reported-live-kernel-breakpoint-observation",
+  "observed_date": "2026-10-28",
+  "source": "Operator pasted a second same-thread allocation breakpoint, registers, the prior node contents and process identity.",
+  "previous_observation": "vm-queue-publication-20261028.json",
+  "breakpoint_rva": "0x929b",
+  "observations": {
+    "requestor_pid_hex": "0x684",
+    "requestor_pid_decimal": 1668,
+    "current_process_image": "GameInputSvc.exe",
+    "current_process_parent_pid_hex": "0x164c",
+    "same_device_context_as_prior_allocation": true,
+    "same_thread_breakpoint_as_prior_observation": true,
+    "second_allocation_nonnull": true,
+    "second_allocation_differs_from_first": true,
+    "first_node_still_linked": true,
+    "first_node_pid_still_zero": true,
+    "first_node_queue_handle_unchanged": true
+  },
+  "interpretation": "The same GameInput worker reaches a distinct second node allocation while its earlier published node remains linked with PID zero. The runtime path failed to reuse that earlier node for requestor PID 1668, as predicted by the missing initialization.",
+  "limitations": [
+    "The second allocation is observed before queue creation; its subsequent creation/publication has not yet been observed.",
+    "Debugger pauses and unconfirmed physical-input timing preclude an allocation-rate or latency claim.",
+    "Existing excess queues have not been removed; frame-time impact and correction efficacy are still unmeasured.",
+    "No corrective target-data write has been applied in the observations recorded through this point."
+  ]
+}

@@ -5,7 +5,21 @@ initialization defect: its queued unfiltered-state handler searches a list by
 requestor PID, but does not initialize that field when adding a new queue entry.
 The inspected **10.0.26100.9278** Windows 11 handler does initialize it.
 
-This is a static defect with a plausible connection to the contributed
+The defect has also been observed at live queue publication in the research VM:
+a `GameInputSvc.exe` child requestor PID **1668 (0x684)** reaches the handler,
+which creates a WDF queue and links its node while leaving the PID field **zero**.
+See [allocation observation](../evidence/runtime/vm-queue-allocation-20261028.json)
+and [publication observation](../evidence/runtime/vm-queue-publication-20261028.json).
+The VM inbox is 0.2309.19041.5794, unlike the contributor's later inbox revision.
+
+A [second allocation breakpoint](../evidence/runtime/vm-queue-repeat-allocation-20261028.json)
+then observed the same worker and device allocating a different node while its
+first node remained linked with PID zero and an unchanged queue handle. This
+demonstrates failure to reuse that worker's earlier node. The second observation
+stops before its new queue is created. No correction or performance result has
+yet been recorded.
+
+This is a statically identified and live-observed defect with a plausible connection to the contributed
 [cleanup-heavy service comparison](community-capture-20261028-l4d2-pair.md).
 The contributor's live queue count and allocation history were not captured;
 the defect is **not yet a demonstrated cause of their FPS loss or a validated

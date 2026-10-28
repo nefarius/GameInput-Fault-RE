@@ -7,19 +7,37 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 - `live-proof`: observation tooling and local USB/Bluetooth experiments completed; **causal proof remains unvalidated**. Both local measured paths returned pending. A same-boot updated-collector service comparison now links the inbox-running condition to reported symptoms and expensive game-side XInput enumeration/close work. Exact workload control, frame-time measurement and the underlying driver cause remain unvalidated.
 - `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
 - `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
-- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has contributed runtime evidence and a byte-checked static queue-identity defect. Its live queue growth and causal performance impact remain unvalidated. Evidence tests pass.
+- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has contributed runtime evidence and a byte-checked queue-identity defect now observed live in a research VM, including repeated same-worker allocation. Causal performance impact and correction efficacy remain unvalidated. Evidence tests pass.
 - `supported-tool`: completed (design only) — signed helper design and contributor workflow; release remains gated on causal, performance, input/rumble, recovery and signing evidence.
 
 Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
 
 ## Verification
 
+- Live VM publication: a same-thread breakpoint pair identifies requestor PID
+  1668 in a child GameInputSvc.exe and observes its new queue node linked with
+  PID zero after queue creation. This confirms the missing initialization in
+  a real execution. Prior bounded inspection changed from zero list nodes to
+  at least seven. A second same-thread allocation now confirms that worker
+  allocates another node while its earlier PID-zero node remains linked.
+  Exact rate, performance causation and correction efficacy remain unmeasured. See
+  [publication evidence](../evidence/runtime/vm-queue-publication-20261028.json).
+
+- VMware stage 1: the operator reports Windows 10 19045.5796 after KB5055612,
+  with the exact inspected xinputhid hash and reconstructed x86 XInput hash.
+  Inbox is 0.2309.19041.5794, not the contributor's later revision. The displayed
+  guest XInput version conflicts with the identical-hash local file's version;
+  this remains unresolved. These are installed-file reports, not loaded-module
+  or queue-growth observations. See [guest inventory](../evidence/runtime/vm-stage1-20261028.json).
+
 - [Windows 10 queue identity](windows10-queue-identity.md): the contributor-hash
   driver compares per-process queue nodes by PID but omits initialization of that
   PID on allocation. The inspected Windows 11 build contains the store. The
   contributor-hash inbox worker selects the queued request path and waits for
   completion. Nine retained static exports have 1,314 source-byte-verified
-  instructions. Queue growth, FPS causation and a hardware PoC remain unvalidated.
+  instructions. The later VM observations above establish publication without PID
+  initialization and repeated same-worker allocation. FPS causation and a
+  corrective hardware PoC remain unvalidated.
 
 - [Windows 10 binary acquisition](windows10-binary-acquisition.md): reconstructed
   xinputhid 10.0.19041.5794 exactly matches the contributor's SHA-256; acquired

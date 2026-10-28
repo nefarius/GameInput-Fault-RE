@@ -1,0 +1,34 @@
+{
+  "evidence_kind": "operator-reported-live-kernel-breakpoint-observation",
+  "observed_date": "2026-10-28",
+  "source": "Operator pasted same-thread one-shot breakpoint and saved-node/register/memory output after list publication.",
+  "previous_observation": "vm-queue-allocation-20261028.json",
+  "breakpoint": {
+    "module": "xinputhid",
+    "rva": "0x93ae",
+    "symbol_offset": "DispatchGetUnfilteredGamepadState+0x346",
+    "instruction_bytes": "4d8b07",
+    "instruction": "mov r8,qword ptr [r15]",
+    "one_shot": true,
+    "restricted_to_previous_observation_thread": true,
+    "point_in_flow": "After successful WDF queue creation and the list-link stores, before forwarding the current request to the new queue."
+  },
+  "observations": {
+    "saved_requestor_pid_hex": "0x684",
+    "saved_requestor_pid_decimal": 1668,
+    "saved_node_matches_current_rsi": true,
+    "published_node_flink_equals_device_list_head": true,
+    "published_node_blink_equals_previous_tail": true,
+    "published_node_queue_handle_nonzero": true,
+    "published_node_pid_field_offset": "0x10",
+    "published_node_pid_field_value": 0,
+    "published_pid_equals_saved_requestor_pid": false
+  },
+  "interpretation": "The live handler publishes the same newly allocated node with a valid WDF queue handle and PID zero despite requestor PID 1668. This confirms the static missing-PID-initialization defect on this VM execution.",
+  "limitations": [
+    "This observation stops before forwarding the current request; its final pending status is not observed here.",
+    "The guest inbox revision is 0.2309.19041.5794, not the contributor's later 0.2309.19041.6456 revision.",
+    "No complete queue count, allocation rate, frame-time effect or efficacy of a correction is established.",
+    "Only debugger pseudo-registers and temporary observational breakpoints were used; no PID-field correction was applied."
+  ]
+}

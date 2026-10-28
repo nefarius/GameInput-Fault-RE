@@ -1,0 +1,43 @@
+{
+  "evidence_kind": "operator-reported-live-kernel-debugger-inspection",
+  "observed_date": "2026-10-28",
+  "environment": "VMware Windows 10 research guest; operator reports PS3 USB passthrough with DsHidMini XInput mode",
+  "source": "Operator pasted lmvm, drvobj, wdfdevext, wdfdevicequeues, wdfrequest, irp and dl output in this conversation.",
+  "driver": {
+    "name": "xinputhid.sys",
+    "loaded_image_size": "0x17000",
+    "loaded_checksum": "0xf5de",
+    "loaded_repro_timestamp_field": "0x8622933a",
+    "pdb_guid": "A4F14C10211FF645100498AA4182DC90",
+    "pdb_age": 1,
+    "installed_file_sha256_from_earlier_operator_report": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "loaded_whole_image_bytes_compared": false
+  },
+  "stack_driver_names": ["xinputhid", "mshidumdf"],
+  "device_context_size_bytes": 352,
+  "framework_queue_count": 5,
+  "waiting_requests": [
+    {
+      "ioctl": "0x8000e3ac",
+      "input_buffer_bytes": 4,
+      "output_buffer_bytes": 29,
+      "requestor_mode": "user",
+      "originating_process": null,
+      "is_investigated_unfiltered_state_ioctl": false
+    }
+  ],
+  "per_process_queue_list": {
+    "device_context_offset": "0x80",
+    "inspection_node_limit_including_head": 10,
+    "head_flink_points_to_head": true,
+    "head_blink_points_to_head": true,
+    "observed_node_count_excluding_head": 0
+  },
+  "limitations": [
+    "Operator-pasted output, not direct debugger access by the analyst.",
+    "GameInputSvc was earlier reported stopped/manual, but its current state after reboot and USB reconnection was not independently rechecked.",
+    "This is a paused baseline inspection, not a timed workload or evidence of queue growth.",
+    "The pending request is not IOCTL 0x8000e388; its owner and purpose are not established here.",
+    "No PID-field corruption, FPS effect or correction efficacy was measured."
+  ]
+}

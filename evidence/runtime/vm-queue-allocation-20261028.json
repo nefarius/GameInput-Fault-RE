@@ -1,0 +1,38 @@
+{
+  "evidence_kind": "operator-reported-live-kernel-breakpoint-observation",
+  "observed_date": "2026-10-28",
+  "source": "Operator pasted one-shot breakpoint, register, memory, process and bounded stack output.",
+  "driver_sha256_from_installed_file_inventory": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "breakpoint": {
+    "module": "xinputhid",
+    "rva": "0x929b",
+    "symbol_offset": "DispatchGetUnfilteredGamepadState+0x233",
+    "instruction_bytes": "488bf0",
+    "instruction": "mov rsi,rax",
+    "one_shot": true,
+    "point_in_flow": "After pool allocation, before queue creation and list publication."
+  },
+  "observations": {
+    "requestor_pid_register": "r12d",
+    "requestor_pid_hex": "0x684",
+    "requestor_pid_decimal": 1668,
+    "current_process_image": "GameInputSvc.exe",
+    "current_process_pid_hex": "0x684",
+    "current_process_parent_pid_hex": "0x164c",
+    "current_process_parent_pid_decimal": 5708,
+    "current_process_session_id": 1,
+    "same_device_context_as_prior_inspections": true,
+    "allocation_return_nonnull": true,
+    "node_pid_field_offset": "0x10",
+    "node_pid_field_value_before_creation": 0,
+    "dispatch_stack_ioctl": "0x8000e388",
+    "dispatch_stack_functions": ["DispatchGetUnfilteredGamepadState", "DispatchXINPUTIoctl", "OnIoDeviceControl", "FxIoQueue::DispatchRequestToDriver"]
+  },
+  "interpretation": "The observed queued unfiltered-state allocation runs for a GameInputSvc.exe child process on the investigated device. A fresh node's PID field is zero at this point. This identifies the requestor and branch; failure to initialize before publication still requires the next observation.",
+  "limitations": [
+    "The zero field was read before the handler's opportunity to initialize it, so this observation alone is not proof of missing initialization.",
+    "The observed allocating process is the child PID 1668, not its SCM-reported parent PID 5708.",
+    "Debugger pauses alter timing; this is not an allocation-rate, latency or frame-time measurement.",
+    "No target data field was modified, and no correction was applied."
+  ]
+}
