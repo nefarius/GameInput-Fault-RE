@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "same_boot_updated_collector_service_condition_comparison",
+  "chronological_order": [
+    "disabled",
+    "enabled"
+  ],
+  "disabled_summary": "community-20261028-4dcb7591-summary.json",
+  "enabled_summary": "community-20261028-3bd8c4d9-summary.json",
+  "matched_observations": {
+    "boot_utc": "2026-10-28T19:54:37.5000000Z",
+    "os_build": "19045.6466",
+    "logical_processors": 16,
+    "collector_sources_byte_identical": true,
+    "profile_bytes_identical": true,
+    "game_pid": 12276,
+    "hot_thread_tid": 11984,
+    "game_etl_process_unique_key_matches": true,
+    "redist_service_pid": 5280,
+    "redist_service_state": "Running/Auto",
+    "shared_binary_hashes_match": 12,
+    "power_active_scheme_and_settings_stdout_match": true,
+    "background_power_requests_stdout_match": false,
+    "reported_connection": "USB",
+    "reported_rumble": "No",
+    "reported_actions": "normal controller usage",
+    "selected_window_seconds": [
+      1,
+      5
+    ],
+    "duration_seconds_each": 4
+  },
+  "operator_symptom_observed": {
+    "disabled": "no",
+    "enabled": "yes, entire recording"
+  },
+  "hot_thread_scheduled_one_core_percent": {
+    "disabled": 64.68724999999999,
+    "enabled": 99.9108
+  },
+  "metric_note": "Inclusive sampled-stack hits per elapsed second, not call rates or exact CPU durations. Stack percentages use each thread sample denominator; inclusive rows overlap.",
+  "functions": [
+    {
+      "function": "XInput1_4.dll!XInputCore::ProcessAPIRequest",
+      "disabled": {
+        "stack_hits": 531,
+        "thread_stack_percent": 20.65,
+        "stack_hits_per_second": 132.75
+      },
+      "enabled": {
+        "stack_hits": 3537,
+        "thread_stack_percent": 88.58,
+        "stack_hits_per_second": 884.25
+      }
+    },
+    {
+      "function": "XInput1_4.dll!XInputGetState",
+      "disabled": {
+        "stack_hits": 511,
+        "thread_stack_percent": 19.87,
+        "stack_hits_per_second": 127.75
+      },
+      "enabled": {
+        "stack_hits": 3537,
+        "thread_stack_percent": 88.58,
+        "stack_hits_per_second": 884.25
+      }
+    },
+    {
+      "function": "XInput1_4.dll!DeviceEnum::GetDeviceOnPort",
+      "disabled": {
+        "stack_hits": 499,
+        "thread_stack_percent": 19.4,
+        "stack_hits_per_second": 124.75
+      },
+      "enabled": {
+        "stack_hits": 3533,
+        "thread_stack_percent": 88.48,
+        "stack_hits_per_second": 883.25
+      }
+    },
+    {
+      "function": "XInput1_4.dll!`anonymous namespace'::EnumerateXInputDevices",
+      "disabled": {
+        "stack_hits": 477,
+        "thread_stack_percent": 18.55,
+        "stack_hits_per_second": 119.25
+      },
+      "enabled": {
+        "stack_hits": 3532,
+        "thread_stack_percent": 88.45,
+        "stack_hits_per_second": 883.0
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!NtClose",
+      "disabled": {
+        "stack_hits": 80,
+        "thread_stack_percent": 3.11,
+        "stack_hits_per_second": 20.0
+      },
+      "enabled": {
+        "stack_hits": 3462,
+        "thread_stack_percent": 86.7,
+        "stack_hits_per_second": 865.5
+      }
+    },
+    {
+      "function": "wdf01000.sys!FxPkgGeneral::Dispatch",
+      "disabled": {
+        "stack_hits": 37,
+        "thread_stack_percent": 1.44,
+        "stack_hits_per_second": 9.25
+      },
+      "enabled": {
+        "stack_hits": 3460,
+        "thread_stack_percent": 86.65,
+        "stack_hits_per_second": 865.0
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!IopCloseFile",
+      "disabled": {
+        "stack_hits": 21,
+        "thread_stack_percent": 0.82,
+        "stack_hits_per_second": 5.25
+      },
+      "enabled": {
+        "stack_hits": 3460,
+        "thread_stack_percent": 86.65,
+        "stack_hits_per_second": 865.0
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!KeAcquireSpinLockRaiseToDpc",
+      "disabled": {
+        "stack_hits": 17,
+        "thread_stack_percent": 0.66,
+        "stack_hits_per_second": 4.25
+      },
+      "enabled": {
+        "stack_hits": 1285,
+        "thread_stack_percent": 32.18,
+        "stack_hits_per_second": 321.25
+      }
+    },
+    {
+      "function": "XINPUTHID.sys!EvtDeviceWdmIrpPreprocess",
+      "disabled": {
+        "stack_hits": 12,
+        "thread_stack_percent": 0.47,
+        "stack_hits_per_second": 3.0
+      },
+      "enabled": {
+        "stack_hits": 3459,
+        "thread_stack_percent": 86.63,
+        "stack_hits_per_second": 864.75
+      }
+    },
+    {
+      "function": "XINPUTHID.sys!DispatchGetGamepadState",
+      "disabled": {
+        "stack_hits": 10,
+        "thread_stack_percent": 0.39,
+        "stack_hits_per_second": 2.5
+      },
+      "enabled": {
+        "stack_hits": 19,
+        "thread_stack_percent": 0.48,
+        "stack_hits_per_second": 4.75
+      }
+    },
+    {
+      "function": "wdf01000.sys!FxObject::Release",
+      "disabled": {
+        "stack_hits": 7,
+        "thread_stack_percent": 0.27,
+        "stack_hits_per_second": 1.75
+      },
+      "enabled": {
+        "stack_hits": 1149,
+        "thread_stack_percent": 28.78,
+        "stack_hits_per_second": 287.25
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!KeReleaseSpinLock",
+      "disabled": {
+        "stack_hits": 4,
+        "thread_stack_percent": 0.16,
+        "stack_hits_per_second": 1.0
+      },
+      "enabled": {
+        "stack_hits": 872,
+        "thread_stack_percent": 21.84,
+        "stack_hits_per_second": 218.0
+      }
+    },
+    {
+      "function": "wdf01000.sys!FxPkgGeneral::Dispatch",
+      "disabled": {
+        "stack_hits": 1,
+        "thread_stack_percent": 0.04,
+        "stack_hits_per_second": 0.25
+      },
+      "enabled": {
+        "stack_hits": 3460,
+        "thread_stack_percent": 86.65,
+        "stack_hits_per_second": 865.0
+      }
+    }
+  ],
+  "service_condition_comparison_observed": true,
+  "controlled_service_ab_validated": false,
+  "fps_effect_measured": false,
+  "causal_fault_proven": false,
+  "supported_tool_eligible": false,
+  "limitations": [
+    "No numeric FPS, frame-time series, exact scene or foreground-state observation is provided.",
+    "Collector profiles and analyzed windows match, but background power requests differ and no all-other-variables-held-constant assertion is made.",
+    "Both game PID/TID and ETL process UniqueKey match in the same boot; no process creation UTC time is independently recorded.",
+    "Counts are sampled stacks, not API calls, device closes, IOCTLs, lock contention counts, output commands or latency.",
+    "No original unfiltered-state/rumble-off flood or throttle applicability was established.",
+    "Higher or lower total game CPU alone does not establish better or worse frame pacing."
+  ]
+}

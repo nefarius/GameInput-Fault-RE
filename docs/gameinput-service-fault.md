@@ -87,7 +87,19 @@ stacks, mostly through device enumeration and handle cleanup into xinputhid/WDF.
 CPU in the GameInput service processes and WUDFHost is low in that window.
 The contributor identifies the disabled-service workaround as inbox
 `GameInputSvc`, with the redist still running, but no matched disabled-service
-trace or frame-time series is available. This does not establish the original
+trace or frame-time series was available for that initial review. A later
+[updated-collector disabled run](community-capture-20261028-l4d2.md#disabled-service-follow-up-195831-4dcb7591)
+records the inbox stopped/disabled, redist running and no operator-observed
+symptom. The cleanup-dominated game-thread path is greatly diminished, but the
+machine rebooted and workload equivalence to the old enabled capture is unknown.
+The corresponding [updated-collector enabled run](community-capture-20261028-l4d2-pair.md)
+has now arrived: same boot, game process UniqueKey, thread and four-second
+window duration as the new disabled run. Inbox running correlates with the
+reported symptom throughout and XInputGetState on **88.58%** of hot-thread
+stacks, versus **19.87%** disabled. The cleanup path similarly returns, while
+the redist remains running. This supports a service-condition association; exact
+scene/focus, numeric FPS and the underlying driver cause remain unverified.
+This does not establish the original
 unfiltered-state/rumble-off flood or justify throttling it.
 
 The [2026-10-28 community package](community-capture-20261028.md) adds Windows

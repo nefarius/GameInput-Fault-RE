@@ -3,9 +3,28 @@
 **No affected or supported configuration is established by this inventory.**
 The local versions and SHA-256 values below identify files, not a reproduced
 fault or a validated workaround. Windows 10 22H2 now has a contributed inventory
-and partial CPU observation; its driver semantics and causal mechanism remain untested.
+and a same-boot service-condition CPU comparison; its driver semantics and
+underlying causal mechanism remain unproven.
 
 ## Contributed Windows 10 capture, 2026-10-28
+
+The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares
+a boot, game process UniqueKey/thread, profile and equal four-second windows.
+The inbox-running condition restores the reported symptom and XInput/cleanup
+dominated hot path while the redist remains running. This supports a local
+service-condition association, not a proven driver mechanism, measured FPS
+benefit or supported workaround. All 12 shared binary hashes match; the enabled
+inbox implementation also matches the earlier enabled inventory. Compatibility
+and mitigation gates remain unchanged.
+
+The subsequent [disabled-service run](community-capture-20261028-l4d2.md#disabled-service-follow-up-195831-4dcb7591)
+uses the updated collector, retains a usable four-second CPU window and confirms
+inbox Stopped/Disabled with redist Running/Auto. Its 12 available GameInput/
+xinputhid hashes match prior inventory; the inbox implementation was not
+inventoried this time. The operator reports no symptom, with greatly diminished
+game-side cleanup stacks. A reboot occurred since the old enabled run, and scene
+equivalence is unknown for that older comparison. Its updated-collector enabled
+counterpart has now arrived; see the new comparison below.
 
 A [second package from Left 4 Dead 2](community-capture-20261028-l4d2.md)
 matches all 13 collected GameInput/xinputhid hashes in the first package.

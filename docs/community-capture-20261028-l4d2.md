@@ -1,15 +1,20 @@
 # Left 4 Dead 2 community capture, 2026-10-28
 
-This follow-up provides a concrete runtime lead: a nearly fully occupied game
+This initial follow-up provides a concrete runtime lead: a nearly fully occupied game
 thread spends about **68% of its retained sampled stacks inside XInputGetState**,
 mostly through device enumeration and handle close/cleanup into xinputhid/WDF.
 This is expensive work charged to the game process, despite low CPU in the
 GameInput service processes. It is not evidence of the proposed unfiltered-state
-or rumble-off flood, and the service's causal role still needs a matched comparison.
+or rumble-off flood. The newer same-boot service comparison is reviewed separately.
 
 Reviewed data: [derived summary](../evidence/runtime/community-20261028-8b1526ae-summary.json).
 The [earlier Stellar Blade capture](community-capture-20261028.md) is a different
 workload and recording, not a service-disabled control for this run.
+
+Both updated-collector service-condition recordings are now available. See the
+[latest same-boot comparison](community-capture-20261028-l4d2-pair.md) for the
+stronger evidence. The older enabled trace below remains historical context;
+it is not substituted for the new enabled counterpart.
 
 ## Operator report and service identity
 
@@ -24,8 +29,9 @@ The separately supplied Services screenshot shows **GameInput Service** with
 startup type **Disabled** and no Running status displayed. **GameInput Redist
 Service** is Running / Automatic. This identifies the reported workaround as
 the inbox `GameInputSvc`, rather than the redist service. The screenshot's timing
-relative to capture is unknown. In the package's inventory, **both services
-are Running / Auto**; it is not a disabled-service trace or a paired A/B.
+relative to capture is unknown. In this enabled package's inventory, **both
+services are Running / Auto**; this package itself is not a disabled-service
+trace or a paired A/B. The later disabled recording is reviewed separately below.
 
 The screenshot is preserved privately with SHA-256
 `65a6fe94b9ca64d70feb0184dab2e926dea186cd4d0214c647fdc890aab99f08`.
@@ -169,11 +175,78 @@ For CPU, sum unrounded profile Weight in microseconds by process, divide by
 machine percent. Stack percentages use the 12,970 sampled-stack denominator.
 Keep large exports private.
 
-The next useful operator experiment, if they agree, is a matched pair using
-the **updated collector**: the same fixed menu scene, controller connection and
-vibration settings, first with the inbox service enabled and symptom visible,
-then with the operator's inbox-service workaround applied. Leave the redist
-service unchanged, record actual FPS and service states for each run, and save
-each short capture separately. Verify retention before comparing the hot thread
-and XInput enumeration/close stacks. A video can corroborate the visible FPS
-change; it cannot replace the trace comparison or prove a driver mechanism.
+The agreed follow-up is a matched pair using the **updated collector** with
+the same scene, controller connection and vibration settings, changing only the
+inbox service condition and leaving the redist running. Both disabled and
+enabled recordings have arrived; the [new pair review](community-capture-20261028-l4d2-pair.md)
+checks service states, identity and retained windows, while preserving the
+remaining scene/focus and frame-time limitations. A video can corroborate
+visible FPS changes but cannot replace the trace comparison or prove a mechanism.
+
+## Disabled-service follow-up: 195831-4dcb7591
+
+Package `GameInput-20261028-195831-4dcb7591.zip` is **4,863,846 bytes**, SHA-256
+`c4dff63f448c980a88bcc96d43c2c22cf402083cbfab743cb5f29ce63b2fa3c9`.
+All **27 manifest entries** verify. Its ETL is **34,603,008 bytes**, SHA-256
+`8f05f31be9307c35b7b7ecadf278a6fae9df8a21369cbaa290e6eb791988d49d`.
+See the [disabled-run summary](../evidence/runtime/community-20261028-4dcb7591-summary.json)
+and [historical cross-capture stack comparison](../evidence/runtime/community-20261028-l4d2-service-comparison.json).
+Raw data stays under ignored `captures/community/20261028-195831-4dcb7591/`.
+
+The inventory records **GameInputSvc Stopped / Disabled, PID 0**, and
+**GameInputRedistService Running / Auto, PID 5280**. No GameInputSvc process
+appears in the inventory's process list. Windows/build and the 12 available
+GameInput/xinputhid binary hashes match the previous package. The previously
+loaded `gameinputinbox.dll` was not inventoried in this run, so its bytes cannot
+be independently matched. DsHidMini metadata remains 3.27.0.2500.
+
+The packaged collector sources match the current scripts after line-ending
+normalization for comparison only; their original bytes are preserved. The
+single five-second symptom phase has **OperatorConfirmed=true**. After saving,
+the operator reports **no symptom**, says the workaround was applied and describes
+the action as **controller connected with normal usage**, with no vibration.
+No numeric FPS, exact scene or window-focus observation is supplied.
+
+The ETL spans **19:59:28.4232677–19:59:33.8953966 UTC** (5.4721289 seconds).
+Both corrected phase markers survive at **0.058573 s** and **5.206931 s**.
+All CPUs have sampled-profile events by **0.001573 s**, with samples extending
+beyond 5 s; reliable context switches begin at **0.005009 s** and continue to
+5.271873 s. No lost events or buffers are reported. Unlike the earlier recordings,
+the selected **1–5 s** interval has retained coverage across all processors.
+Longer run.json wall time includes readiness and questionnaire waits, not a
+two-minute trace.
+
+Within that four-second interval, game PID **12276** has **10.946% machine CPU**
+(175.13% of one core). WUDFHost PID **12776** has **0.181% machine CPU** and
+system redist PID **5280** approximately **0.00783%**. The hottest game thread,
+**11984**, has 2,587 CPU samples and **2.587490 seconds scheduled**, about
+**64.69% of one core**. It has **2,572 available sampled stacks**:
+
+- `XInputGetState`: **511 stacks / 19.87%**, versus 67.93% in the old enabled trace.
+- `EnumerateXInputDevices`: **477 / 18.55%**, versus 67.46%.
+- `NtClose`: **80 / 3.11%**, versus 63.92%.
+- `IopCloseFile`: **21 / 0.82%**, versus 63.44%.
+- `xinputhid!EvtDeviceWdmIrpPreprocess`: **12 / 0.47%**, versus 63.38%.
+- `Wdf01000!FxObject::Release`: **7 inclusive stacks / 0.27%**, versus 22.65%.
+
+Matching public PDBs were reused locally. The earlier cleanup-dominated workload
+is greatly diminished. Total game CPU is **not lower** than in the older sample;
+CPU distribution and work differ, and no numeric FPS benefit is measured here.
+The new stacks also contain `XInputSetState`/`_SendVibrationMessage` even though
+the operator reports no vibration. Sampled output-path participation exposes
+neither motor values nor packet counts and does not establish physical rumble
+or a rumble-off flood.
+
+This historical cross-capture comparison is useful supporting evidence, **not
+the new same-boot comparison**. The machine
+booted at **19:54:37.5 UTC**, versus 19:23:00.5 UTC for the older enabled capture;
+a reboot occurred between them. The collector, measured durations and confirmed
+actions also differ. Thread identities, exact scene, foreground state and FPS
+are not established as equivalent. The comparison JSON records these limits
+and labels its rates as inclusive **sampled-stack hits per second**, never API
+or IOCTL rates. No compatibility, causality or hardware-mitigation gate changes.
+
+The corresponding updated-collector enabled run has now arrived. The
+[new pair review](community-capture-20261028-l4d2-pair.md) finds a return of the
+cleanup-dominated hot path and operator-reported symptom in the same boot and
+game process. Scene/focus and numeric FPS limitations remain explicit.

@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "uncontrolled_cross_capture_stack_comparison",
+  "enabled_summary": "community-20261028-8b1526ae-summary.json",
+  "disabled_summary": "community-20261028-4dcb7591-summary.json",
+  "enabled_window_seconds": 13,
+  "disabled_window_seconds": 4,
+  "metric_note": "Inclusive sampled-stack hits per elapsed second, not call rates or exact CPU durations. Stack percentages have different per-thread sample denominators. Inclusive rows overlap.",
+  "functions": [
+    {
+      "function": "XInput1_4.dll!XInputGetState",
+      "enabled": {
+        "stack_hits": 8811,
+        "thread_stack_percent": 67.93,
+        "stack_hits_per_second": 677.7692307692307
+      },
+      "disabled": {
+        "stack_hits": 511,
+        "thread_stack_percent": 19.87,
+        "stack_hits_per_second": 127.75
+      }
+    },
+    {
+      "function": "XInput1_4.dll!XInputCore::ProcessAPIRequest",
+      "enabled": {
+        "stack_hits": 8807,
+        "thread_stack_percent": 67.9,
+        "stack_hits_per_second": 677.4615384615385
+      },
+      "disabled": {
+        "stack_hits": 531,
+        "thread_stack_percent": 20.65,
+        "stack_hits_per_second": 132.75
+      }
+    },
+    {
+      "function": "XInput1_4.dll!DeviceEnum::GetDeviceOnPort",
+      "enabled": {
+        "stack_hits": 8784,
+        "thread_stack_percent": 67.73,
+        "stack_hits_per_second": 675.6923076923077
+      },
+      "disabled": {
+        "stack_hits": 499,
+        "thread_stack_percent": 19.4,
+        "stack_hits_per_second": 124.75
+      }
+    },
+    {
+      "function": "XInput1_4.dll!`anonymous namespace'::EnumerateXInputDevices",
+      "enabled": {
+        "stack_hits": 8750,
+        "thread_stack_percent": 67.46,
+        "stack_hits_per_second": 673.0769230769231
+      },
+      "disabled": {
+        "stack_hits": 477,
+        "thread_stack_percent": 18.55,
+        "stack_hits_per_second": 119.25
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!NtClose",
+      "enabled": {
+        "stack_hits": 8291,
+        "thread_stack_percent": 63.92,
+        "stack_hits_per_second": 637.7692307692307
+      },
+      "disabled": {
+        "stack_hits": 80,
+        "thread_stack_percent": 3.11,
+        "stack_hits_per_second": 20.0
+      }
+    },
+    {
+      "function": "wdf01000.sys!FxPkgGeneral::Dispatch",
+      "enabled": {
+        "stack_hits": 8247,
+        "thread_stack_percent": 63.59,
+        "stack_hits_per_second": 634.3846153846154
+      },
+      "disabled": {
+        "stack_hits": 1,
+        "thread_stack_percent": 0.04,
+        "stack_hits_per_second": 0.25
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!IopCloseFile",
+      "enabled": {
+        "stack_hits": 8228,
+        "thread_stack_percent": 63.44,
+        "stack_hits_per_second": 632.9230769230769
+      },
+      "disabled": {
+        "stack_hits": 21,
+        "thread_stack_percent": 0.82,
+        "stack_hits_per_second": 5.25
+      }
+    },
+    {
+      "function": "XINPUTHID.sys!EvtDeviceWdmIrpPreprocess",
+      "enabled": {
+        "stack_hits": 8221,
+        "thread_stack_percent": 63.38,
+        "stack_hits_per_second": 632.3846153846154
+      },
+      "disabled": {
+        "stack_hits": 12,
+        "thread_stack_percent": 0.47,
+        "stack_hits_per_second": 3.0
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!KeAcquireSpinLockRaiseToDpc",
+      "enabled": {
+        "stack_hits": 3173,
+        "thread_stack_percent": 24.46,
+        "stack_hits_per_second": 244.07692307692307
+      },
+      "disabled": {
+        "stack_hits": 17,
+        "thread_stack_percent": 0.66,
+        "stack_hits_per_second": 4.25
+      }
+    },
+    {
+      "function": "wdf01000.sys!FxObject::Release",
+      "enabled": {
+        "stack_hits": 2938,
+        "thread_stack_percent": 22.65,
+        "stack_hits_per_second": 226.0
+      },
+      "disabled": {
+        "stack_hits": 7,
+        "thread_stack_percent": 0.27,
+        "stack_hits_per_second": 1.75
+      }
+    },
+    {
+      "function": "ntkrnlmp.exe!KeReleaseSpinLock",
+      "enabled": {
+        "stack_hits": 1776,
+        "thread_stack_percent": 13.69,
+        "stack_hits_per_second": 136.6153846153846
+      },
+      "disabled": {
+        "stack_hits": 4,
+        "thread_stack_percent": 0.16,
+        "stack_hits_per_second": 1.0
+      }
+    },
+    {
+      "function": "XINPUTHID.sys!DispatchGetGamepadState",
+      "enabled": {
+        "stack_hits": 26,
+        "thread_stack_percent": 0.2,
+        "stack_hits_per_second": 2.0
+      },
+      "disabled": {
+        "stack_hits": 10,
+        "thread_stack_percent": 0.39,
+        "stack_hits_per_second": 2.5
+      }
+    }
+  ],
+  "controlled_service_ab_validated": false,
+  "fps_effect_measured": false,
+  "causal_fault_proven": false,
+  "supported_tool_eligible": false,
+  "confounders": [
+    "A reboot occurred between enabled and disabled recordings.",
+    "Enabled recording used the old collector and a 13s retained final-phase window; this run uses the new 5s collector and a 4s selected window.",
+    "Exact scene, focus, FPS and physical action equivalence are not established. The disabled operator report says normal usage; the enabled requested phase was rumble with unconfirmed actions."
+  ]
+}
