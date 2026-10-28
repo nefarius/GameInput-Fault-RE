@@ -80,6 +80,13 @@ The operator has not knowingly observed the original symptom on this machine. Ne
 
 ## What is still open
 
+The [2026-10-28 community package](community-capture-20261028.md) adds Windows
+10 22H2 inventory and a partial CPU trace with a USB PS3 controller. Its
+memory buffers apparently wrapped, leaving only a short usable CPU tail;
+the reported symptom's occurrence during that capture is unspecified.
+It establishes neither immediate state completions nor rumble-off flooding.
+Redist 4.0.302.0 and the Windows 10 driver remain statically uninspected.
+
 The corrected probe then completed a USB active-input run: 44.75 measured seconds, **2,014 target requests in the system redist process, all returning `ERROR_IO_PENDING`**, zero immediate successful/unchanged responses and zero throttled calls. The process used about 0.279% of one core, including instrumentation overhead. The other two instrumented GameInput processes made no matching requests in that interval. XInput independently recorded 1,246 distinct packet values. See [the reviewed runtime summary](../evidence/runtime/active-input-summary.json). This is a negative reproduction of the proposed busy-poll mechanism, not proof of a fix or proof that all Windows 11 configurations are unaffected.
 
 The first local collector validation produced an 11.59-second idle ETL with zero lost events/buffers according to `xperf`, and its ZIP passed all 28 manifest checks. The sampled GameInput row printed 0.00% (rounded). This window did not demonstrate the reported fault. The initial probe attach failed before its shared mapping existed; no request rate can be inferred from that attempt. See [derived baseline evidence](../evidence/runtime/baseline-summary.json). Later measurements must be recorded separately rather than rewriting this attempt as successful.

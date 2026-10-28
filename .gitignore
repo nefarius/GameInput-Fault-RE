@@ -7,6 +7,8 @@ symbols/
 /tools/build/out-policy/
 /artifacts/
 /captures/
+# Privately supplied collector packages may initially be placed at the root.
+/GameInput-*.zip
 /.deps/
 *.etl
 *.pdb

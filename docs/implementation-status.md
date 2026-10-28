@@ -14,6 +14,11 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Community review, 2026-10-28: 28 bundle manifest entries verified; Windows
+  10 inventory and a four-second retained CPU window reviewed. Earlier CPU
+  phases did not survive memory-buffer retention. No causal proof or hardware
+  mitigation acceptance resulted; see [review](community-capture-20261028.md).
+
 - Native MSVC x64 build succeeded; 4/4 native tests passed, including real Detours/trampoline calls, pending/error/guard-page preservation, result buffers, handle reuse, concurrency, mapping security, loaded-image export/build validation, and a suspended process-heap owner.
 - 29/29 Python evidence-analysis tests passed. Runtime/schema/diagnostic checks are recorded in the findings and derived summaries.
 - Real collector validation: ETL and ZIP created; xperf reported no lost buffers/events; all 28 packaged file hashes verified.

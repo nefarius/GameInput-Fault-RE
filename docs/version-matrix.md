@@ -2,7 +2,31 @@
 
 **No affected or supported configuration is established by this inventory.**
 The local versions and SHA-256 values below identify files, not a reproduced
-fault or a validated workaround. Windows 10 22H2 remains untested.
+fault or a validated workaround. Windows 10 22H2 now has a contributed inventory
+and partial CPU observation; its driver semantics and causal mechanism remain untested.
+
+## Contributed Windows 10 capture, 2026-10-28
+
+The [community review](community-capture-20261028.md) and
+[derived summary](../evidence/runtime/community-20261028-08710ec5-summary.json)
+record Windows 10 22H2 **19045.6466**, inbox implementation
+**0.2309.19041.6456**, redist **4.0.302.0**, xinputhid **10.0.19041.5794**
+and DsHidMini trace metadata **3.27.0.2500**. Both services were running.
+The reported workload is a USB PS3 controller in Stellar Blade, with rumble
+disabled. The symptom's occurrence during recording is unspecified.
+
+The system memory buffer apparently wrapped: reliable CPU/switch coverage
+survives only near the end, preventing the requested four-phase comparison.
+The reviewed four-second tail shows approximately 0.3375% machine CPU for
+WUDFHost, 0.015625% for the inbox worker and 0.0078125% for the redist.
+No state-request/completion or rumble-off rates were established.
+
+This contributed observation is kept separately from the schema-constrained
+local/probe matrix below, which requires fields this collector did not record
+(including binary sizes and process creation times). Its generic untested
+Windows 10 target row remains a plan for mechanism testing, not an assertion
+that no Windows 10 inventory has been received. No affected/fixed/supported
+status or probe compatibility gate changes.
 
 The authoritative small machine record is [version-matrix.json](../data/version-matrix.json),
 constrained by [version-matrix.schema.json](../data/version-matrix.schema.json)

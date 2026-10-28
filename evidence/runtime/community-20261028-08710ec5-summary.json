@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "capture_id": "community-20261028-08710ec5",
+  "evidence_kind": "contributed_inventory_and_partial_cpu_trace",
+  "bundle_sha256": "c23319af1787770a8a9fada54678719f4fb02d2ddd43e5e65a561ab94e1f47a9",
+  "trace_sha256": "f8536e1049d69832ed4bf93d0ef4b1d4d908e5cbc953d4f6ca18aace3079746a",
+  "bundle_bytes": 12376172,
+  "trace_bytes": 69206016,
+  "manifest_files_verified": 28,
+  "inventory_started_utc": "2026-10-28T03:08:03.5181168Z",
+  "os": {
+    "release": "Windows 10 Pro 22H2",
+    "build": "19045.6466",
+    "architecture": "x64"
+  },
+  "operator_report": {
+    "controller": "CECHZC1U",
+    "connection": "USB",
+    "game": "Stellar Blade v1.4.1.0",
+    "rumble": "Disabled",
+    "symptom": "High cpu usage when playing with ps3 controller",
+    "workaround": "Disable GameInput Service",
+    "symptom_confirmed_during_trace": null
+  },
+  "services": [
+    {
+      "Name": "GameInputSvc",
+      "State": "Running",
+      "StartMode": "Auto",
+      "ProcessId": 5264
+    },
+    {
+      "Name": "GameInputRedistService",
+      "State": "Running",
+      "StartMode": "Auto",
+      "ProcessId": 12120
+    }
+  ],
+  "binaries": [
+    {
+      "Path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputBridge.dll",
+      "SHA256": "B6599F75B4BDF3E2F1B769F082809C3CBBED131A3835DB0063F2544E8BC5A515",
+      "FileVersion": "4.0.302.0",
+      "ProductVersion": "4.0.302.0",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRawInputProxy.exe",
+      "SHA256": "F11AF82BC8E5D32CDFA0DE1F4B29C29CBDC9614AA0FF5D20CA7A1A57A550B510",
+      "FileVersion": null,
+      "ProductVersion": null,
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRedist.dll",
+      "SHA256": "64023884B73FD66ED5A61741FF5571683B73D93DF44D3ED8D3E872A5C8E96DA3",
+      "FileVersion": "4.0.302.0",
+      "ProductVersion": "4.0.302.0",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\Program Files\\Microsoft GameInput\\x64\\GameInputRedistService.exe",
+      "SHA256": "5ABAE586702235BCA435ED835B0DE70CEECD2A2727DD7089DE967CC5E49A8F49",
+      "FileVersion": "4.0.302.0",
+      "ProductVersion": "4.0.302.0",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\Program Files\\Microsoft GameInput\\x86\\GameInputRawInputProxy.exe",
+      "SHA256": "52887AFE94EF60CBD6D300BFCF15B97433F9F809A5E67A42D562832480AAF927",
+      "FileVersion": null,
+      "ProductVersion": null,
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\Program Files\\Microsoft GameInput\\x86\\GameInputRedist.dll",
+      "SHA256": "E6D6FFF65CC3EB9555AF01E8D25FD12BE95AF284A779A6C47D103F745F9AF42B",
+      "FileVersion": "4.0.302.0",
+      "ProductVersion": "4.0.302.0",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\WINDOWS\\System32\\drivers\\xinputhid.sys",
+      "SHA256": "C358E6CFA3492D1D228AC855FB3593B6DC363EE41E3797F8BFF380A0458A4A0F",
+      "FileVersion": "10.0.19041.5794 (WinBuild.160101.0800)",
+      "ProductVersion": "10.0.19041.5794",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\WINDOWS\\System32\\GameInput.dll",
+      "SHA256": "5072B21918D1A372A1FD3B3E282C58AD004C2BF8D9ED985A377E2992309E260A",
+      "FileVersion": "0.2309.19041.6456",
+      "ProductVersion": "0.2309.19041.6456",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "c:\\windows\\system32\\gameinputinbox.dll",
+      "SHA256": "B7D2FC1EC42DBD00C3DDDB077AB32E7E5F84288B9C7E7DCAFED324150B5242F7",
+      "FileVersion": "0.2309.19041.6456",
+      "ProductVersion": "0.2309.19041.6456",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\WINDOWS\\System32\\GameInputRedist.dll",
+      "SHA256": "64023884B73FD66ED5A61741FF5571683B73D93DF44D3ED8D3E872A5C8E96DA3",
+      "FileVersion": "4.0.302.0",
+      "ProductVersion": "4.0.302.0",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\WINDOWS\\System32\\GameInputSvc.exe",
+      "SHA256": "49A635BDFA1B075F27FB408135C0A7E243E5BD4375670B86E163CDA93DBBD670",
+      "FileVersion": "0.2309.19041.6033",
+      "ProductVersion": "0.2309.19041.6033",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\WINDOWS\\SysWOW64\\GameInput.dll",
+      "SHA256": "28505E3F72768491581113F6945E861827CFB16C2EC30CD1513195CBD715BE6D",
+      "FileVersion": "0.2309.19041.5794",
+      "ProductVersion": "0.2309.19041.5794",
+      "SignatureStatus": "Valid"
+    },
+    {
+      "Path": "C:\\WINDOWS\\SysWOW64\\GameInputRedist.dll",
+      "SHA256": "E6D6FFF65CC3EB9555AF01E8D25FD12BE95AF284A779A6C47D103F745F9AF42B",
+      "FileVersion": "4.0.302.0",
+      "ProductVersion": "4.0.302.0",
+      "SignatureStatus": "Valid"
+    }
+  ],
+  "dshidmini_trace_file_version": "3.27.0.2500",
+  "dshidmini_sha256": null,
+  "trace": {
+    "start_utc": "2026-10-28T03:08:10.0546505Z",
+    "end_utc": "2026-10-28T03:09:51.6889852Z",
+    "duration_seconds": 101.6343347,
+    "lost_buffers": 0,
+    "lost_events": 0,
+    "first_sample_seconds": 92.759084,
+    "last_sample_seconds": 101.523349,
+    "first_reliable_cswitch_seconds": 96.983514,
+    "last_cswitch_seconds": 101.279396,
+    "phase_cpu_comparison_valid": false,
+    "phase_operator_confirmed": false,
+    "retained_phase_marks": 1,
+    "marks_label": "GameInput:"
+  },
+  "sampled_cpu": {
+    "start_seconds": 97,
+    "end_seconds": 101,
+    "duration_seconds": 4,
+    "logical_processors": 16,
+    "method": "Sum xperf profile -detail -range 97000000 101000000 Weight (microseconds) by process. Percent of one core = 100 * weight / 4000000; machine percent divides by 16. Statistical estimates, not API counters.",
+    "processes": [
+      {
+        "process": "WUDFHost.exe (1372)",
+        "weight_us": 216000,
+        "one_core_percent": 5.4,
+        "machine_percent": 0.3375
+      },
+      {
+        "process": "GameInputSvc.exe (6188)",
+        "weight_us": 10000,
+        "one_core_percent": 0.25,
+        "machine_percent": 0.015625
+      },
+      {
+        "process": "GameInputRedistService.exe (12120)",
+        "weight_us": 5000,
+        "one_core_percent": 0.125,
+        "machine_percent": 0.0078125
+      },
+      {
+        "process": "SB-Win64-Shipping.exe (8836)",
+        "weight_us": 14532274,
+        "one_core_percent": 363.30685,
+        "machine_percent": 22.706678125
+      }
+    ]
+  },
+  "provider_coverage": {
+    "dshidmini_events": 2,
+    "hidclass_events": 16,
+    "kernel_iotrace_user_events": 53304,
+    "kernel_iotrace_kernel_events": 33875,
+    "probe_provider": "omitted",
+    "wdf_performance_named_events": 0,
+    "wdf_note": "No named WDF performance rows decoded by xperf; 84200 UnknownEvent/Classic rows remain unclassified. Zero is not proof of absent WDF activity."
+  },
+  "ioctl_rate": null,
+  "completion_behavior": null,
+  "rumble_off_rate": null,
+  "causal_fault_proven": false,
+  "mitigation_validated": false,
+  "analysis_tool": {
+    "name": "xperf.exe",
+    "version": "10.0.28000.2270"
+  },
+  "limitations": [
+    "System memory buffers apparently wrapped; zero ETW loss counters do not guarantee retention. Early phase CPU evidence is unavailable.",
+    "All phase actions have OperatorConfirmed=false; rumble phase name does not establish vibration occurred.",
+    "Questionnaire workaround wording does not establish service disablement during the capture; both services were running in inventory.",
+    "Module-level stacks were available; function symbols were unresolved. No request/completion or output payload diagnosis established.",
+    "No service A/B, frame-time, input fidelity, throttle, or Windows 10 static driver validation performed.",
+    "Signature status and hashes are contributor inventory observations, not independently acquired binaries or compatibility approval."
+  ],
+  "private_raw_directory": "captures/community/20261028-030803-08710ec5"
+}
