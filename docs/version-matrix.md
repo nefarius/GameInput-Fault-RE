@@ -12,8 +12,10 @@ underlying causal mechanism remain unproven.
 contributor-hash xinputhid 10.0.19041.5794 and GameInputInbox
 0.2309.19041.6456 files, plus x86 XInput 10.0.19041.3636 matching the trace's
 version and PE/PDB identities. The contributor's XInput whole-file hash is
-unavailable. Acquisition does not establish Windows 10 driver semantics or
-change compatibility gates.
+unavailable. [Subsequent static inspection](windows10-queue-identity.md) found a
+missing PID initialization in the driver's per-process queue creation path;
+the inspected Windows 11 build contains that store. Live queue growth and
+causal performance impact remain unvalidated. Compatibility gates are unchanged.
 
 The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares
 a boot, game process UniqueKey/thread, profile and equal four-second windows.

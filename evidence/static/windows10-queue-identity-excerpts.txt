@@ -1,0 +1,2495 @@
+Literal headless Ghidra 12.1.3 exports; not original source.
+Pseudocode and instruction text are unchanged. All exported instruction bytes were checked against the pinned PE.
+External calls, indirect targets and decompiler types retain the limitations described in the research note.
+
+=== win10-driver-analysis / c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f ===
+FUNCTION 1c0009068 DispatchGetUnfilteredGamepadState
+BODY [[1c0009068, 1c000942c]]
+INCOMING REFERENCES
+From: 1c00102f4 To: 1c0009068 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c0009934 To: 1c0009068 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchXINPUTIoctl
+DIRECT CALLEES
+1c000ada0 _guard_dispatch_icall
+1c00022d4 WPP_SF_q
+EXTERNAL:00000019 ExFreePoolWithTag
+1c0001eac WPP_SF_
+EXTERNAL:00000002 IoGetRequestorProcessId
+EXTERNAL:0000001b ExAllocatePoolWithTag
+1c000b080 memset
+DECOMPILATION completed=true error=
+
+/* void __cdecl DispatchGetUnfilteredGamepadState(struct _DEVICE_CONTEXT * __ptr64,struct
+   WDFREQUEST__ * __ptr64) */
+
+void __cdecl DispatchGetUnfilteredGamepadState(_DEVICE_CONTEXT *param_1,WDFREQUEST__ *param_2)
+
+{
+  _DEVICE_CONTEXT *p_Var1;
+  _DEVICE_CONTEXT *p_Var2;
+  longlong lVar3;
+  code *pcVar4;
+  bool bVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  int iVar9;
+  uint uVar10;
+  undefined8 uVar11;
+  longlong *plVar12;
+  undefined8 *puVar13;
+  undefined1 *puVar14;
+  undefined1 *puVar15;
+  undefined1 *puVar16;
+  _DEVICE_CONTEXT *p_Var17;
+  short *local_res18;
+  undefined4 *local_res20;
+  undefined1 auStack_108 [8];
+  undefined1 auStack_100 [24];
+  longlong *local_e8;
+  longlong local_d8 [2];
+  undefined4 local_c8;
+  undefined4 local_c4;
+  code *local_c0;
+  undefined8 local_b8;
+  undefined4 local_b0;
+  undefined4 local_ac;
+  undefined8 local_a8;
+  undefined8 local_a0;
+  undefined8 uStack_98;
+  undefined4 local_88;
+  undefined4 local_84;
+  undefined4 local_80;
+  undefined1 local_7c [84];
+  
+  puVar15 = auStack_108;
+  puVar16 = auStack_108;
+  local_res18 = (short *)0x0;
+  local_d8[0] = 0;
+  local_e8 = local_d8;
+  local_res20 = (undefined4 *)0x0;
+  local_d8[1] = 0;
+  iVar9 = (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_2,4,&local_res18);
+  puVar14 = auStack_108;
+  if (-1 < iVar9) {
+    local_e8 = local_d8 + 1;
+    iVar9 = (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_2,0x18,&local_res20);
+    puVar14 = auStack_108;
+    if (-1 < iVar9) {
+      if (*local_res18 != 0x103) {
+        iVar9 = -0x3ffffff3;
+        puVar16 = auStack_108;
+        goto LAB_1c00093f4;
+      }
+      if (*(char *)((longlong)local_res18 + 3) != '\0') {
+        (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+        iVar9 = 0;
+        uVar6 = *(undefined4 *)(param_1 + 0x105);
+        uVar7 = *(undefined4 *)(param_1 + 0x109);
+        uVar8 = *(undefined4 *)(param_1 + 0x10d);
+        *local_res20 = *(undefined4 *)(param_1 + 0x101);
+        local_res20[1] = uVar6;
+        local_res20[2] = uVar7;
+        local_res20[3] = uVar8;
+        *(undefined8 *)(local_res20 + 4) = *(undefined8 *)(param_1 + 0x111);
+        (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+        (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_2,0x18);
+        puVar16 = auStack_108;
+        goto LAB_1c00093f4;
+      }
+      uVar11 = (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_2);
+      iVar9 = IoGetRequestorProcessId(uVar11);
+      bVar5 = true;
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals);
+      p_Var1 = param_1 + 0x80;
+      p_Var17 = *(_DEVICE_CONTEXT **)p_Var1;
+      if (*(_DEVICE_CONTEXT **)p_Var1 == p_Var1) {
+LAB_1c0009225:
+        local_c4 = 0;
+        local_b8 = 0;
+        local_b0 = 1;
+        local_ac = 1;
+        local_a8 = *(undefined8 *)(param_1 + 0x18);
+        local_a0 = 0;
+        uStack_98 = 0;
+        local_c8 = 0x38;
+        memset(local_7c,0,0x54);
+        local_88 = 0x60;
+        local_c0 = OnIOQueueCleanup;
+        local_80 = 2;
+        local_84 = 3;
+        plVar12 = (longlong *)ExAllocatePoolWithTag(0x200,0x20,0x50484958);
+        if (plVar12 == (longlong *)0x0) {
+          puVar14 = auStack_108;
+          if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+             (puVar14 = auStack_108, 1 < (byte)WPP_GLOBAL_Control[0x29])) {
+            WPP_SF_(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x34,
+                    &WPP_d9594e6f3c723d4f3ea7583a9794aaf5_Traceguids);
+            puVar14 = auStack_108;
+          }
+        }
+        else {
+          local_e8 = plVar12 + 3;
+          uVar10 = (*(code *)__guard_dispatch_icall_fptr)
+                             (WdfDriverGlobals,*(undefined8 *)(param_1 + 0x18),&local_88,&local_c8);
+          if ((uVar10 & 0xc0000000) == 0xc0000000) {
+            if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+               (1 < (byte)WPP_GLOBAL_Control[0x29])) {
+              WPP_SF_q(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x35,
+                       &WPP_d9594e6f3c723d4f3ea7583a9794aaf5_Traceguids,
+                       *(undefined8 *)(param_1 + 0x18));
+            }
+            iVar9 = -0x3ffffee0;
+            (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20))
+            ;
+            ExFreePoolWithTag(plVar12,0x50484958);
+            goto LAB_1c00093f4;
+          }
+          puVar13 = *(undefined8 **)(param_1 + 0x88);
+          puVar15 = auStack_108;
+          if ((_DEVICE_CONTEXT *)*puVar13 != p_Var1) {
+            pcVar4 = (code *)swi(0x29);
+            puVar13 = (undefined8 *)(*pcVar4)(3);
+            puVar15 = auStack_100;
+          }
+          *plVar12 = (longlong)p_Var1;
+          plVar12[1] = (longlong)puVar13;
+          *puVar13 = plVar12;
+          *(longlong **)(param_1 + 0x88) = plVar12;
+          lVar3 = plVar12[3];
+          *(undefined8 *)(puVar15 + -8) = 0x1c00093c5;
+          uVar10 = (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_2,lVar3);
+          puVar14 = puVar15;
+          if ((uVar10 & 0xc0000000) != 0xc0000000) goto LAB_1c00093d1;
+        }
+LAB_1c00092cf:
+        iVar9 = -0x3ffffee0;
+        uVar11 = *(undefined8 *)(param_1 + 0x20);
+        *(undefined8 *)(puVar14 + -8) = 0x1c00092ec;
+        (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,uVar11);
+        puVar16 = puVar14;
+        goto LAB_1c00093f4;
+      }
+      do {
+        p_Var2 = *(_DEVICE_CONTEXT **)p_Var17;
+        if (*(int *)(p_Var17 + 0x10) == iVar9) {
+          bVar5 = false;
+          uVar10 = (*(code *)__guard_dispatch_icall_fptr)
+                             (WdfDriverGlobals,param_2,*(longlong *)(p_Var17 + 0x18));
+          puVar14 = auStack_108;
+          if ((uVar10 & 0xc0000000) == 0xc0000000) goto LAB_1c00092cf;
+        }
+        p_Var17 = p_Var2;
+      } while (p_Var2 != p_Var1);
+      if (bVar5) goto LAB_1c0009225;
+LAB_1c00093d1:
+      uVar11 = *(undefined8 *)(param_1 + 0x20);
+      *(undefined8 *)(puVar15 + -8) = 0x1c00093e9;
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,uVar11);
+      iVar9 = 0x103;
+      puVar14 = puVar15;
+    }
+  }
+  puVar16 = puVar14;
+  if (iVar9 == 0x103) {
+    return;
+  }
+LAB_1c00093f4:
+  *(undefined8 *)(puVar16 + -8) = 0x1c0009411;
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_2,iVar9,6);
+  return;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+1c0009068 48895c2408 MOV qword ptr [RSP + 0x8],RBX | From: 1c0009068 To: Stack[0x8] Type: WRITE Op: 0 ANALYSIS
+1c000906d 4889742410 MOV qword ptr [RSP + 0x10],RSI | From: 1c000906d To: Stack[0x10] Type: WRITE Op: 0 ANALYSIS
+1c0009072 55 PUSH RBP | 
+1c0009073 57 PUSH RDI | 
+1c0009074 4154 PUSH R12 | 
+1c0009076 4156 PUSH R14 | 
+1c0009078 4157 PUSH R15 | 
+1c000907a 488d6c24c9 LEA RBP,[RSP + -0x37] | From: 1c000907a To: Stack[-0x5f] Type: DATA Op: 0 ANALYSIS
+1c000907f 4881ece0000000 SUB RSP,0xe0 | 
+1c0009086 488b051b5a0000 MOV RAX,qword ptr [0x1c000eaa8] | From: 1c0009086 To: 1c000eaa8 Type: READ Op: 1 DEFAULT
+1c000908d 4c8d4d77 LEA R9,[RBP + 0x77] | From: 1c000908d To: Stack[0x18] Type: DATA Op: 0 ANALYSIS
+1c0009091 4883657700 AND qword ptr [RBP + 0x77],0x0 | From: 1c0009091 To: Stack[0x18] Type: READ_WRITE Op: 0 ANALYSIS
+1c0009096 488bf9 MOV RDI,RCX | 
+1c0009099 4883658700 AND qword ptr [RBP + -0x79],0x0 | From: 1c0009099 To: Stack[-0xd8] Type: READ_WRITE Op: 0 ANALYSIS
+1c000909e 488d4d87 LEA RCX,[RBP + -0x79] | From: 1c000909e To: Stack[-0xd8] Type: DATA Op: 0 ANALYSIS
+1c00090a2 4883657f00 AND qword ptr [RBP + 0x7f],0x0 | From: 1c00090a2 To: Stack[0x20] Type: READ_WRITE Op: 0 ANALYSIS
+1c00090a7 41b804000000 MOV R8D,0x4 | 
+1c00090ad 4883658f00 AND qword ptr [RBP + -0x71],0x0 | From: 1c00090ad To: Stack[-0xd0] Type: READ_WRITE Op: 0 ANALYSIS
+1c00090b2 4c8bf2 MOV R14,RDX | 
+1c00090b5 48894c2420 MOV qword ptr [RSP + 0x20],RCX | From: 1c00090b5 To: Stack[-0xe8] Type: WRITE Op: 0 ANALYSIS
+1c00090ba 488b0dff5e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00090ba To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00090c1 ff15e1800000 CALL qword ptr [0x1c00111a8] | From: 1c00090c1 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00090c1 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00090c7 8bd8 MOV EBX,EAX | 
+1c00090c9 be03010000 MOV ESI,0x103 | 
+1c00090ce 85c0 TEST EAX,EAX | 
+1c00090d0 0f881a030000 JS 0x1c00093f0 | From: 1c00090d0 To: 1c00093f0 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00090d6 488b05d3590000 MOV RAX,qword ptr [0x1c000eab0] | From: 1c00090d6 To: 1c000eab0 Type: READ Op: 1 DEFAULT
+1c00090dd 488d4d8f LEA RCX,[RBP + -0x71] | From: 1c00090dd To: Stack[-0xd0] Type: DATA Op: 0 ANALYSIS
+1c00090e1 48894c2420 MOV qword ptr [RSP + 0x20],RCX | From: 1c00090e1 To: Stack[-0xe8] Type: WRITE Op: 0 ANALYSIS
+1c00090e6 4c8d4d7f LEA R9,[RBP + 0x7f] | From: 1c00090e6 To: Stack[0x20] Type: DATA Op: 0 ANALYSIS
+1c00090ea 488b0dcf5e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00090ea To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00090f1 41bf18000000 MOV R15D,0x18 | 
+1c00090f7 458bc7 MOV R8D,R15D | 
+1c00090fa 498bd6 MOV RDX,R14 | 
+1c00090fd ff15a5800000 CALL qword ptr [0x1c00111a8] | From: 1c00090fd To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00090fd To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0009103 8bd8 MOV EBX,EAX | 
+1c0009105 85c0 TEST EAX,EAX | 
+1c0009107 0f88e3020000 JS 0x1c00093f0 | From: 1c0009107 To: 1c00093f0 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000910d 488b4577 MOV RAX,qword ptr [RBP + 0x77] | From: 1c000910d To: Stack[0x18] Type: READ Op: 1 ANALYSIS
+1c0009111 663930 CMP word ptr [RAX],SI | 
+1c0009114 740a JZ 0x1c0009120 | From: 1c0009114 To: 1c0009120 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009116 bb0d0000c0 MOV EBX,0xc000000d | 
+1c000911b e9d4020000 JMP 0x1c00093f4 | From: 1c000911b To: 1c00093f4 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009120 80780300 CMP byte ptr [RAX + 0x3],0x0 | 
+1c0009124 488b0d955e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0009124 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000912b 7465 JZ 0x1c0009192 | From: 1c000912b To: 1c0009192 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000912d 488b05ec5a0000 MOV RAX,qword ptr [0x1c000ec20] | From: 1c000912d To: 1c000ec20 Type: READ Op: 1 DEFAULT
+1c0009134 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c0009138 ff156a800000 CALL qword ptr [0x1c00111a8] | From: 1c0009138 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0009138 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000913e 488b457f MOV RAX,qword ptr [RBP + 0x7f] | From: 1c000913e To: Stack[0x20] Type: READ Op: 1 ANALYSIS
+1c0009142 33db XOR EBX,EBX | 
+1c0009144 0f108701010000 MOVUPS XMM0,xmmword ptr [RDI + 0x101] | 
+1c000914b 0f1100 MOVUPS xmmword ptr [RAX],XMM0 | 
+1c000914e f20f108f11010000 MOVSD XMM1,qword ptr [RDI + 0x111] | 
+1c0009156 f20f114810 MOVSD qword ptr [RAX + 0x10],XMM1 | 
+1c000915b 488b05c65a0000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c000915b To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c0009162 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c0009166 488b0d535e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0009166 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000916d ff1535800000 CALL qword ptr [0x1c00111a8] | From: 1c000916d To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000916d To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0009173 488b055e590000 MOV RAX,qword ptr [0x1c000ead8] | From: 1c0009173 To: 1c000ead8 Type: READ Op: 1 DEFAULT
+1c000917a 4d8bc7 MOV R8,R15 | 
+1c000917d 488b0d3c5e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000917d To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0009184 498bd6 MOV RDX,R14 | 
+1c0009187 ff151b800000 CALL qword ptr [0x1c00111a8] | From: 1c0009187 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0009187 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000918d e962020000 JMP 0x1c00093f4 | From: 1c000918d To: 1c00093f4 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009192 488b058f590000 MOV RAX,qword ptr [0x1c000eb28] | From: 1c0009192 To: 1c000eb28 Type: READ Op: 1 DEFAULT
+1c0009199 498bd6 MOV RDX,R14 | 
+1c000919c ff1506800000 CALL qword ptr [0x1c00111a8] | From: 1c000919c To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000919c To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00091a2 488bc8 MOV RCX,RAX | 
+1c00091a5 48ff15dc7e0000 CALL qword ptr [0x1c0011088] | From: 1c00091a5 To: 1c0011088 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::IoGetRequestorProcessId
+1c00091ac 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c00091b1 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c00091b5 41b701 MOV R15B,0x1 | 
+1c00091b8 488b0d015e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00091b8 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00091bf 448be0 MOV R12D,EAX | 
+1c00091c2 488b05575a0000 MOV RAX,qword ptr [0x1c000ec20] | From: 1c00091c2 To: 1c000ec20 Type: READ Op: 1 DEFAULT
+1c00091c9 ff15d97f0000 CALL qword ptr [0x1c00111a8] | From: 1c00091c9 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00091c9 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00091cf 488d9f80000000 LEA RBX,[RDI + 0x80] | 
+1c00091d6 488b33 MOV RSI,qword ptr [RBX] | 
+1c00091d9 483bf3 CMP RSI,RBX | 
+1c00091dc 7447 JZ 0x1c0009225 | From: 1c00091dc To: 1c0009225 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00091de 4c8d06 LEA R8,[RSI] | 
+1c00091e1 488b36 MOV RSI,qword ptr [RSI] | 
+1c00091e4 45396010 CMP dword ptr [R8 + 0x10],R12D | 
+1c00091e8 752d JNZ 0x1c0009217 | From: 1c00091e8 To: 1c0009217 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00091ea 4d8b4018 MOV R8,qword ptr [R8 + 0x18] | 
+1c00091ee 498bd6 MOV RDX,R14 | 
+1c00091f1 488b0510590000 MOV RAX,qword ptr [0x1c000eb08] | From: 1c00091f1 To: 1c000eb08 Type: READ Op: 1 DEFAULT
+1c00091f8 4532ff XOR R15B,R15B | 
+1c00091fb 488b0dbe5d0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00091fb To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0009202 ff15a07f0000 CALL qword ptr [0x1c00111a8] | From: 1c0009202 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0009202 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0009208 b9000000c0 MOV ECX,0xc0000000 | 
+1c000920d 23c1 AND EAX,ECX | 
+1c000920f 3bc1 CMP EAX,ECX | 
+1c0009211 0f84b8000000 JZ 0x1c00092cf | From: 1c0009211 To: 1c00092cf Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009217 483bf3 CMP RSI,RBX | 
+1c000921a 75c2 JNZ 0x1c00091de | From: 1c000921a To: 1c00091de Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000921c 4584ff TEST R15B,R15B | 
+1c000921f 0f84ac010000 JZ 0x1c00093d1 | From: 1c000921f To: 1c00093d1 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009225 83659b00 AND dword ptr [RBP + -0x65],0x0 | From: 1c0009225 To: Stack[-0xc4] Type: READ_WRITE Op: 0 ANALYSIS
+1c0009229 488d4de3 LEA RCX,[RBP + -0x1d] | From: 1c0009229 To: Stack[-0x7c] Type: DATA Op: 0 ANALYSIS
+1c000922d 488365a700 AND qword ptr [RBP + -0x59],0x0 | From: 1c000922d To: Stack[-0xb8] Type: READ_WRITE Op: 0 ANALYSIS
+1c0009232 b801000000 MOV EAX,0x1 | 
+1c0009237 33d2 XOR EDX,EDX | 
+1c0009239 8945af MOV dword ptr [RBP + -0x51],EAX | From: 1c0009239 To: Stack[-0xb0] Type: WRITE Op: 0 ANALYSIS
+1c000923c 8945b3 MOV dword ptr [RBP + -0x4d],EAX | From: 1c000923c To: Stack[-0xac] Type: WRITE Op: 0 ANALYSIS
+1c000923f 0f57c0 XORPS XMM0,XMM0 | 
+1c0009242 488b4718 MOV RAX,qword ptr [RDI + 0x18] | 
+1c0009246 f30f7f45bf MOVDQU xmmword ptr [RBP + -0x41],XMM0 | From: 1c0009246 To: Stack[-0xa0] Type: WRITE Op: 0 ANALYSIS
+1c000924b 448d4254 LEA R8D,[RDX + 0x54] | 
+1c000924f c7459738000000 MOV dword ptr [RBP + -0x69],0x38 | From: 1c000924f To: Stack[-0xc8] Type: WRITE Op: 0 ANALYSIS
+1c0009256 488945b7 MOV qword ptr [RBP + -0x49],RAX | From: 1c0009256 To: Stack[-0xa8] Type: WRITE Op: 0 ANALYSIS
+1c000925a e8211e0000 CALL 0x1c000b080 | From: 1c000925a To: 1c000b080 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c000925f 488d051aa2ffff LEA RAX,[0x1c0003480] | From: 1c000925f To: 1c0003480 Type: DATA Op: 1 ANALYSIS
+1c0009266 c745d760000000 MOV dword ptr [RBP + -0x29],0x60 | From: 1c0009266 To: Stack[-0x88] Type: WRITE Op: 0 ANALYSIS
+1c000926d ba20000000 MOV EDX,0x20 | 
+1c0009272 4889459f MOV qword ptr [RBP + -0x61],RAX | From: 1c0009272 To: 1c0003480 Type: DATA Op: 1 ANALYSIS; From: 1c0009272 To: Stack[-0xc0] Type: WRITE Op: 0 ANALYSIS
+1c0009276 b900020000 MOV ECX,0x200 | 
+1c000927b c745df02000000 MOV dword ptr [RBP + -0x21],0x2 | From: 1c000927b To: Stack[-0x80] Type: WRITE Op: 0 ANALYSIS
+1c0009282 41b858494850 MOV R8D,0x50484958 | 
+1c0009288 c745db03000000 MOV dword ptr [RBP + -0x25],0x3 | From: 1c0009288 To: Stack[-0x84] Type: WRITE Op: 0 ANALYSIS
+1c000928f 48ff15ba7e0000 CALL qword ptr [0x1c0011150] | From: 1c000928f To: 1c0011150 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExAllocatePoolWithTag
+1c0009296 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c000929b 488bf0 MOV RSI,RAX | 
+1c000929e 4885c0 TEST RAX,RAX | 
+1c00092a1 754e JNZ 0x1c00092f1 | From: 1c00092a1 To: 1c00092f1 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00092a3 488b0d464e0000 MOV RCX,qword ptr [0x1c000e0f0] | From: 1c00092a3 To: 1c000e0f0 Type: READ Op: 1 DEFAULT
+1c00092aa 488d053f4e0000 LEA RAX,[0x1c000e0f0] | From: 1c00092aa To: 1c000e0f0 Type: DATA Op: 1 ANALYSIS
+1c00092b1 483bc8 CMP RCX,RAX | 
+1c00092b4 7419 JZ 0x1c00092cf | From: 1c00092b4 To: 1c00092cf Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00092b6 80792902 CMP byte ptr [RCX + 0x29],0x2 | From: 1c00092b6 To: 1c000e119 Type: READ Op: 0 ANALYSIS
+1c00092ba 7213 JC 0x1c00092cf | From: 1c00092ba To: 1c00092cf Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00092bc 488b4918 MOV RCX,qword ptr [RCX + 0x18] | From: 1c00092bc To: 1c000e108 Type: READ Op: 1 ANALYSIS
+1c00092c0 8d5634 LEA EDX,[RSI + 0x34] | 
+1c00092c3 4c8d05fe300000 LEA R8,[0x1c000c3c8] | From: 1c00092c3 To: 1c000c3c8 Type: DATA Op: 1 ANALYSIS
+1c00092ca e8dd8bffff CALL 0x1c0001eac | From: 1c00092ca To: 1c0001eac Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c00092cf 488b0552590000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c00092cf To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c00092d6 bb200100c0 MOV EBX,0xc0000120 | 
+1c00092db 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c00092df 488b0dda5c0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00092df To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00092e6 ff15bc7e0000 CALL qword ptr [0x1c00111a8] | From: 1c00092e6 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00092e6 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00092ec e903010000 JMP 0x1c00093f4 | From: 1c00092ec To: 1c00093f4 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c00092f1 488b5718 MOV RDX,qword ptr [RDI + 0x18] | 
+1c00092f5 4c8d7818 LEA R15,[RAX + 0x18] | 
+1c00092f9 488b0500540000 MOV RAX,qword ptr [0x1c000e700] | From: 1c00092f9 To: 1c000e700 Type: READ Op: 1 DEFAULT
+1c0009300 4c8d4d97 LEA R9,[RBP + -0x69] | From: 1c0009300 To: Stack[-0xc8] Type: DATA Op: 0 ANALYSIS
+1c0009304 488b0db55c0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0009304 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000930b 4c8d45d7 LEA R8,[RBP + -0x29] | From: 1c000930b To: Stack[-0x88] Type: DATA Op: 0 ANALYSIS
+1c000930f 4c897c2420 MOV qword ptr [RSP + 0x20],R15 | From: 1c000930f To: Stack[-0xe8] Type: WRITE Op: 0 ANALYSIS
+1c0009314 ff158e7e0000 CALL qword ptr [0x1c00111a8] | From: 1c0009314 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0009314 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000931a 41bc000000c0 MOV R12D,0xc0000000 | 
+1c0009320 4123c4 AND EAX,R12D | 
+1c0009323 413bc4 CMP EAX,R12D | 
+1c0009326 7565 JNZ 0x1c000938d | From: 1c0009326 To: 1c000938d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009328 488b0dc14d0000 MOV RCX,qword ptr [0x1c000e0f0] | From: 1c0009328 To: 1c000e0f0 Type: READ Op: 1 DEFAULT
+1c000932f 488d05ba4d0000 LEA RAX,[0x1c000e0f0] | From: 1c000932f To: 1c000e0f0 Type: DATA Op: 1 ANALYSIS
+1c0009336 483bc8 CMP RCX,RAX | 
+1c0009339 741f JZ 0x1c000935a | From: 1c0009339 To: 1c000935a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000933b 80792902 CMP byte ptr [RCX + 0x29],0x2 | From: 1c000933b To: 1c000e119 Type: READ Op: 0 ANALYSIS
+1c000933f 7219 JC 0x1c000935a | From: 1c000933f To: 1c000935a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009341 4c8b4f18 MOV R9,qword ptr [RDI + 0x18] | 
+1c0009345 4c8d057c300000 LEA R8,[0x1c000c3c8] | From: 1c0009345 To: 1c000c3c8 Type: DATA Op: 1 ANALYSIS
+1c000934c 488b4918 MOV RCX,qword ptr [RCX + 0x18] | From: 1c000934c To: 1c000e108 Type: READ Op: 1 ANALYSIS
+1c0009350 ba35000000 MOV EDX,0x35 | 
+1c0009355 e87a8fffff CALL 0x1c00022d4 | From: 1c0009355 To: 1c00022d4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c000935a 488b05c7580000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c000935a To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c0009361 bb200100c0 MOV EBX,0xc0000120 | 
+1c0009366 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c000936a 488b0d4f5c0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000936a To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0009371 ff15317e0000 CALL qword ptr [0x1c00111a8] | From: 1c0009371 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0009371 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0009377 ba58494850 MOV EDX,0x50484958 | 
+1c000937c 488bce MOV RCX,RSI | 
+1c000937f 48ff15ba7d0000 CALL qword ptr [0x1c0011140] | From: 1c000937f To: 1c0011140 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExFreePoolWithTag
+1c0009386 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c000938b eb67 JMP 0x1c00093f4 | From: 1c000938b To: 1c00093f4 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c000938d 488b4308 MOV RAX,qword ptr [RBX + 0x8] | 
+1c0009391 483918 CMP qword ptr [RAX],RBX | 
+1c0009394 7407 JZ 0x1c000939d | From: 1c0009394 To: 1c000939d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0009396 b903000000 MOV ECX,0x3 | 
+1c000939b cd29 INT 0x29 | 
+1c000939d 48891e MOV qword ptr [RSI],RBX | 
+1c00093a0 498bd6 MOV RDX,R14 | 
+1c00093a3 48894608 MOV qword ptr [RSI + 0x8],RAX | 
+1c00093a7 488930 MOV qword ptr [RAX],RSI | 
+1c00093aa 48897308 MOV qword ptr [RBX + 0x8],RSI | 
+1c00093ae 4d8b07 MOV R8,qword ptr [R15] | 
+1c00093b1 488b0550570000 MOV RAX,qword ptr [0x1c000eb08] | From: 1c00093b1 To: 1c000eb08 Type: READ Op: 1 DEFAULT
+1c00093b8 488b0d015c0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00093b8 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00093bf ff15e37d0000 CALL qword ptr [0x1c00111a8] | From: 1c00093bf To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00093bf To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00093c5 4123c4 AND EAX,R12D | 
+1c00093c8 413bc4 CMP EAX,R12D | 
+1c00093cb 0f84fefeffff JZ 0x1c00092cf | From: 1c00093cb To: 1c00092cf Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00093d1 488b0550580000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c00093d1 To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c00093d8 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c00093dc 488b0ddd5b0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00093dc To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00093e3 ff15bf7d0000 CALL qword ptr [0x1c00111a8] | From: 1c00093e3 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00093e3 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00093e9 be03010000 MOV ESI,0x103 | 
+1c00093ee 8bde MOV EBX,ESI | 
+1c00093f0 3bde CMP EBX,ESI | 
+1c00093f2 741d JZ 0x1c0009411 | From: 1c00093f2 To: 1c0009411 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00093f4 488b0585560000 MOV RAX,qword ptr [0x1c000ea80] | From: 1c00093f4 To: 1c000ea80 Type: READ Op: 1 DEFAULT
+1c00093fb 41b106 MOV R9B,0x6 | 
+1c00093fe 488b0dbb5b0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00093fe To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0009405 448bc3 MOV R8D,EBX | 
+1c0009408 498bd6 MOV RDX,R14 | 
+1c000940b ff15977d0000 CALL qword ptr [0x1c00111a8] | From: 1c000940b To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000940b To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0009411 4c8d9c24e0000000 LEA R11,[RSP + 0xe0] | From: 1c0009411 To: Stack[-0x28] Type: DATA Op: 0 ANALYSIS
+1c0009419 498b5b30 MOV RBX,qword ptr [R11 + 0x30] | From: 1c0009419 To: Stack[0x8] Type: READ Op: 1 ANALYSIS
+1c000941d 498b7338 MOV RSI,qword ptr [R11 + 0x38] | From: 1c000941d To: Stack[0x10] Type: READ Op: 1 ANALYSIS
+1c0009421 498be3 MOV RSP,R11 | 
+1c0009424 415f POP R15 | 
+1c0009426 415e POP R14 | 
+1c0009428 415c POP R12 | 
+1c000942a 5f POP RDI | 
+1c000942b 5d POP RBP | 
+1c000942c c3 RET | 
+
+
+=== win10-driver-analysis / c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f ===
+FUNCTION 1c0003240 EvtDeviceWdmIrpPreprocess
+BODY [[1c0003240, 1c000346b] [1c000346d, 1c0003474]]
+INCOMING REFERENCES
+From: 1c0010144 To: 1c0003240 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c0014010 To: 1c0003240 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c00026ea To: 1c0003240 Type: DATA Op: 1 ANALYSIS caller=EvtDriverDeviceAdd
+From: 1c00027c0 To: 1c0003240 Type: DATA Op: 1 ANALYSIS caller=EvtDriverDeviceAdd
+From: 1c000275a To: 1c0003240 Type: DATA Op: 1 ANALYSIS caller=EvtDriverDeviceAdd
+DIRECT CALLEES
+EXTERNAL:00000023 KeAcquireSpinLockRaiseToDpc
+1c000ada0 _guard_dispatch_icall
+EXTERNAL:0000001e KeReleaseSpinLock
+1c0001e20 Feature_Servicing_GameInputXUSBSystemButtons__private_IsEnabledDeviceUsage
+EXTERNAL:00000019 ExFreePoolWithTag
+DECOMPILATION completed=true error=
+
+void EvtDeviceWdmIrpPreprocess(undefined8 param_1,longlong param_2)
+
+{
+  longlong **pplVar1;
+  char *pcVar2;
+  longlong ***ppplVar3;
+  longlong ***ppplVar4;
+  longlong ****pppplVar5;
+  undefined1 uVar6;
+  ulonglong uVar7;
+  longlong lVar8;
+  code *pcVar9;
+  longlong ****pppplVar10;
+  longlong ***local_18;
+  longlong ***local_10;
+  
+  pcVar2 = *(char **)(param_2 + 0xb8);
+  if (*pcVar2 == '\x1b') {
+    if (pcVar2[1] == '\x13') {
+      if (*(int *)(pcVar2 + 8) != 0) goto LAB_1c000342d;
+      pcVar9 = QueryDeviceIdCompletionRoutine;
+    }
+    else {
+      if ((pcVar2[1] != '\a') || (*(int *)(pcVar2 + 8) != 0)) goto LAB_1c000342d;
+      pcVar9 = QDRCompletionRoutine;
+    }
+    *(undefined8 *)(pcVar2 + -0x48) = *(undefined8 *)pcVar2;
+    *(undefined8 *)(pcVar2 + -0x40) = *(undefined8 *)(pcVar2 + 8);
+    *(undefined8 *)(pcVar2 + -0x38) = *(undefined8 *)(pcVar2 + 0x10);
+    *(undefined8 *)(pcVar2 + -0x30) = *(undefined8 *)(pcVar2 + 0x18);
+    *(undefined8 *)(pcVar2 + -0x28) = *(undefined8 *)(pcVar2 + 0x20);
+    *(undefined8 *)(pcVar2 + -0x20) = *(undefined8 *)(pcVar2 + 0x28);
+    *(undefined8 *)(pcVar2 + -0x18) = *(undefined8 *)(pcVar2 + 0x30);
+    pcVar2[-0x45] = '\0';
+    lVar8 = *(longlong *)(param_2 + 0xb8);
+    *(code **)(lVar8 + -0x10) = pcVar9;
+    *(undefined8 *)(lVar8 + -8) = 0;
+    *(undefined1 *)(lVar8 + -0x45) = 0x40;
+  }
+  else {
+    uVar7 = Feature_Servicing_GameInputXUSBSystemButtons__private_IsEnabledDeviceUsage();
+    if (((int)uVar7 != 0) && (*pcVar2 == '\x12')) {
+      lVar8 = (*(code *)__guard_dispatch_icall_fptr)
+                        (WdfDriverGlobals,*WdfDriverGlobals,
+                         PTR__WDF_DRIVER_CONTEXT_TYPE_INFO_1c000e0e0);
+      if (lVar8 != 0) {
+        local_10 = (longlong ***)&local_18;
+        local_18 = (longlong ***)&local_18;
+        uVar6 = KeAcquireSpinLockRaiseToDpc(lVar8);
+        pppplVar5 = *(longlong *****)(lVar8 + 8);
+        while (pppplVar10 = pppplVar5, pppplVar10 != (longlong ****)(lVar8 + 8)) {
+          pppplVar5 = (longlong ****)*pppplVar10;
+          if (*(longlong ****)(pcVar2 + 0x30) == pppplVar10[4]) {
+            LOCK();
+            pplVar1 = pppplVar10[3][0xd];
+            pppplVar10[3][0xd] = (longlong **)0x0;
+            UNLOCK();
+            if (pplVar1 != (longlong **)0x0) {
+              ppplVar3 = *pppplVar10;
+              if (((longlong ****)ppplVar3[1] != pppplVar10) ||
+                 (ppplVar4 = pppplVar10[1], (longlong ****)*ppplVar4 != pppplVar10))
+              goto LAB_1c000346d;
+              *ppplVar4 = (longlong **)ppplVar3;
+              ppplVar3[1] = (longlong **)ppplVar4;
+              if ((longlong ****)local_18[1] != &local_18) goto LAB_1c000346d;
+              *pppplVar10 = local_18;
+              pppplVar10[1] = (longlong ***)&local_18;
+              local_18[1] = (longlong **)pppplVar10;
+              local_18 = (longlong ***)pppplVar10;
+            }
+          }
+        }
+        KeReleaseSpinLock(lVar8,uVar6);
+        while (ppplVar3 = local_18, (longlong ****)local_18 != &local_18) {
+          if (((longlong ****)local_18[1] != &local_18) ||
+             (pppplVar5 = (longlong ****)*local_18, pppplVar5[1] != local_18)) {
+LAB_1c000346d:
+            pcVar9 = (code *)swi(0x29);
+            (*pcVar9)(3);
+            pcVar9 = (code *)swi(3);
+            (*pcVar9)();
+            return;
+          }
+          pppplVar5[1] = (longlong ***)&local_18;
+          pppplVar10 = (longlong ****)(local_18 + 2);
+          local_18 = (longlong ***)pppplVar5;
+          (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*pppplVar10,0xc0000120);
+          ExFreePoolWithTag(ppplVar3,0x484e4958);
+        }
+      }
+    }
+LAB_1c000342d:
+    *(char *)(param_2 + 0x43) = *(char *)(param_2 + 0x43) + '\x01';
+    *(longlong *)(param_2 + 0xb8) = *(longlong *)(param_2 + 0xb8) + 0x48;
+  }
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_1,param_2);
+  return;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+1c0003240 488bc4 MOV RAX,RSP | 
+1c0003243 48895808 MOV qword ptr [RAX + 0x8],RBX | From: 1c0003243 To: Stack[0x8] Type: WRITE Op: 0 ANALYSIS
+1c0003247 48897010 MOV qword ptr [RAX + 0x10],RSI | From: 1c0003247 To: Stack[0x10] Type: WRITE Op: 0 ANALYSIS
+1c000324b 48897818 MOV qword ptr [RAX + 0x18],RDI | From: 1c000324b To: Stack[0x18] Type: WRITE Op: 0 ANALYSIS
+1c000324f 4c897020 MOV qword ptr [RAX + 0x20],R14 | From: 1c000324f To: Stack[0x20] Type: WRITE Op: 0 ANALYSIS
+1c0003253 55 PUSH RBP | 
+1c0003254 488bec MOV RBP,RSP | 
+1c0003257 4883ec30 SUB RSP,0x30 | 
+1c000325b 488b9ab8000000 MOV RBX,qword ptr [RDX + 0xb8] | 
+1c0003262 488bfa MOV RDI,RDX | 
+1c0003265 4c8bf1 MOV R14,RCX | 
+1c0003268 803b1b CMP byte ptr [RBX],0x1b | 
+1c000326b 7571 JNZ 0x1c00032de | From: 1c000326b To: 1c00032de Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000326d 8a4301 MOV AL,byte ptr [RBX + 0x1] | 
+1c0003270 3c13 CMP AL,0x13 | 
+1c0003272 754f JNZ 0x1c00032c3 | From: 1c0003272 To: 1c00032c3 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0003274 837b0800 CMP dword ptr [RBX + 0x8],0x0 | 
+1c0003278 0f85af010000 JNZ 0x1c000342d | From: 1c0003278 To: 1c000342d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000327e 488d0dabfcffff LEA RCX,[0x1c0002f30] | From: 1c000327e To: 1c0002f30 Type: DATA Op: 1 ANALYSIS
+1c0003285 0f1003 MOVUPS XMM0,xmmword ptr [RBX] | 
+1c0003288 0f1143b8 MOVUPS xmmword ptr [RBX + -0x48],XMM0 | 
+1c000328c 0f104b10 MOVUPS XMM1,xmmword ptr [RBX + 0x10] | 
+1c0003290 0f114bc8 MOVUPS xmmword ptr [RBX + -0x38],XMM1 | 
+1c0003294 0f104320 MOVUPS XMM0,xmmword ptr [RBX + 0x20] | 
+1c0003298 0f1143d8 MOVUPS xmmword ptr [RBX + -0x28],XMM0 | 
+1c000329c f20f104b30 MOVSD XMM1,qword ptr [RBX + 0x30] | 
+1c00032a1 f20f114be8 MOVSD qword ptr [RBX + -0x18],XMM1 | 
+1c00032a6 c643bb00 MOV byte ptr [RBX + -0x45],0x0 | 
+1c00032aa 488b82b8000000 MOV RAX,qword ptr [RDX + 0xb8] | 
+1c00032b1 488948f0 MOV qword ptr [RAX + -0x10],RCX | From: 1c00032b1 To: 1c0002f30 Type: DATA Op: 1 ANALYSIS; From: 1c00032b1 To: 1c00031b0 Type: DATA Op: 1 ANALYSIS
+1c00032b5 488360f800 AND qword ptr [RAX + -0x8],0x0 | 
+1c00032ba c640bb40 MOV byte ptr [RAX + -0x45],0x40 | 
+1c00032be e975010000 JMP 0x1c0003438 | From: 1c00032be To: 1c0003438 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c00032c3 3c07 CMP AL,0x7 | 
+1c00032c5 0f8562010000 JNZ 0x1c000342d | From: 1c00032c5 To: 1c000342d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00032cb 837b0800 CMP dword ptr [RBX + 0x8],0x0 | 
+1c00032cf 0f8558010000 JNZ 0x1c000342d | From: 1c00032cf To: 1c000342d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00032d5 488d0dd4feffff LEA RCX,[0x1c00031b0] | From: 1c00032d5 To: 1c00031b0 Type: DATA Op: 1 ANALYSIS
+1c00032dc eba7 JMP 0x1c0003285 | From: 1c00032dc To: 1c0003285 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c00032de e83debffff CALL 0x1c0001e20 | From: 1c00032de To: 1c0001e20 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c00032e3 85c0 TEST EAX,EAX | 
+1c00032e5 0f8442010000 JZ 0x1c000342d | From: 1c00032e5 To: 1c000342d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00032eb 803b12 CMP byte ptr [RBX],0x12 | 
+1c00032ee 0f8539010000 JNZ 0x1c000342d | From: 1c00032ee To: 1c000342d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00032f4 488b0dc5bc0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00032f4 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00032fb 4c8b05dead0000 MOV R8,qword ptr [0x1c000e0e0] | From: 1c00032fb To: 1c000e0e0 Type: READ Op: 1 DEFAULT; From: 1c00032fb To: 1c000e0c8 Type: PARAM Op: 0 ANALYSIS
+1c0003302 488b0587b50000 MOV RAX,qword ptr [0x1c000e890] | From: 1c0003302 To: 1c000e890 Type: READ Op: 1 DEFAULT
+1c0003309 488b11 MOV RDX,qword ptr [RCX] | 
+1c000330c ff1596de0000 CALL qword ptr [0x1c00111a8] | From: 1c000330c To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000330c To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0003312 488bf0 MOV RSI,RAX | 
+1c0003315 4885c0 TEST RAX,RAX | 
+1c0003318 0f840f010000 JZ 0x1c000342d | From: 1c0003318 To: 1c000342d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000331e 488d45f0 LEA RAX,[RBP + -0x10] | From: 1c000331e To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c0003322 488bce MOV RCX,RSI | 
+1c0003325 488945f8 MOV qword ptr [RBP + -0x8],RAX | From: 1c0003325 To: Stack[-0x10] Type: WRITE Op: 0 ANALYSIS
+1c0003329 488d45f0 LEA RAX,[RBP + -0x10] | From: 1c0003329 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c000332d 488945f0 MOV qword ptr [RBP + -0x10],RAX | From: 1c000332d To: Stack[-0x18] Type: WRITE Op: 0 ANALYSIS
+1c0003331 48ff1558de0000 CALL qword ptr [0x1c0011190] | From: 1c0003331 To: 1c0011190 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::KeAcquireSpinLockRaiseToDpc
+1c0003338 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c000333d 4c8d4e08 LEA R9,[RSI + 0x8] | 
+1c0003341 448ad0 MOV R10B,AL | 
+1c0003344 4d8b01 MOV R8,qword ptr [R9] | 
+1c0003347 eb65 JMP 0x1c00033ae | From: 1c0003347 To: 1c00033ae Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c0003349 498bd0 MOV RDX,R8 | 
+1c000334c 4d8b00 MOV R8,qword ptr [R8] | 
+1c000334f 488b4a20 MOV RCX,qword ptr [RDX + 0x20] | 
+1c0003353 48394b30 CMP qword ptr [RBX + 0x30],RCX | 
+1c0003357 7555 JNZ 0x1c00033ae | From: 1c0003357 To: 1c00033ae Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0003359 488b4a18 MOV RCX,qword ptr [RDX + 0x18] | 
+1c000335d 33c0 XOR EAX,EAX | 
+1c000335f 48874168 XCHG qword ptr [RCX + 0x68],RAX | 
+1c0003363 4885c0 TEST RAX,RAX | 
+1c0003366 7446 JZ 0x1c00033ae | From: 1c0003366 To: 1c00033ae Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0003368 488b02 MOV RAX,qword ptr [RDX] | 
+1c000336b 48395008 CMP qword ptr [RAX + 0x8],RDX | 
+1c000336f 0f85f8000000 JNZ 0x1c000346d | From: 1c000336f To: 1c000346d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0003375 488b4a08 MOV RCX,qword ptr [RDX + 0x8] | 
+1c0003379 483911 CMP qword ptr [RCX],RDX | 
+1c000337c 0f85eb000000 JNZ 0x1c000346d | From: 1c000337c To: 1c000346d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0003382 488901 MOV qword ptr [RCX],RAX | 
+1c0003385 48894808 MOV qword ptr [RAX + 0x8],RCX | 
+1c0003389 488d4df0 LEA RCX,[RBP + -0x10] | From: 1c0003389 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c000338d 488b45f0 MOV RAX,qword ptr [RBP + -0x10] | From: 1c000338d To: Stack[-0x18] Type: READ Op: 1 ANALYSIS
+1c0003391 48394808 CMP qword ptr [RAX + 0x8],RCX | From: 1c0003391 To: Stack[-0x10] Type: READ Op: 0 ANALYSIS
+1c0003395 0f85d2000000 JNZ 0x1c000346d | From: 1c0003395 To: 1c000346d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000339b 488902 MOV qword ptr [RDX],RAX | 
+1c000339e 488d4df0 LEA RCX,[RBP + -0x10] | From: 1c000339e To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c00033a2 48894a08 MOV qword ptr [RDX + 0x8],RCX | 
+1c00033a6 48895008 MOV qword ptr [RAX + 0x8],RDX | From: 1c00033a6 To: Stack[-0x10] Type: WRITE Op: 0 ANALYSIS
+1c00033aa 488955f0 MOV qword ptr [RBP + -0x10],RDX | From: 1c00033aa To: Stack[-0x18] Type: WRITE Op: 0 ANALYSIS
+1c00033ae 4d3bc1 CMP R8,R9 | 
+1c00033b1 7596 JNZ 0x1c0003349 | From: 1c00033b1 To: 1c0003349 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00033b3 418ad2 MOV DL,R10B | 
+1c00033b6 488bce MOV RCX,RSI | 
+1c00033b9 48ff15a8dd0000 CALL qword ptr [0x1c0011168] | From: 1c00033b9 To: 1c0011168 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::KeReleaseSpinLock
+1c00033c0 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c00033c5 eb59 JMP 0x1c0003420 | From: 1c00033c5 To: 1c0003420 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c00033c7 488d45f0 LEA RAX,[RBP + -0x10] | From: 1c00033c7 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c00033cb 48394308 CMP qword ptr [RBX + 0x8],RAX | From: 1c00033cb To: Stack[-0x10] Type: READ Op: 0 ANALYSIS
+1c00033cf 0f8598000000 JNZ 0x1c000346d | From: 1c00033cf To: 1c000346d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00033d5 488b03 MOV RAX,qword ptr [RBX] | From: 1c00033d5 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c00033d8 48395808 CMP qword ptr [RAX + 0x8],RBX | From: 1c00033d8 To: Stack[-0x10] Type: READ Op: 0 ANALYSIS
+1c00033dc 0f858b000000 JNZ 0x1c000346d | From: 1c00033dc To: 1c000346d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00033e2 488945f0 MOV qword ptr [RBP + -0x10],RAX | From: 1c00033e2 To: Stack[-0x18] Type: WRITE Op: 0 ANALYSIS
+1c00033e6 488d4df0 LEA RCX,[RBP + -0x10] | From: 1c00033e6 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c00033ea 48894808 MOV qword ptr [RAX + 0x8],RCX | From: 1c00033ea To: Stack[-0x10] Type: WRITE Op: 0 ANALYSIS
+1c00033ee 41b8200100c0 MOV R8D,0xc0000120 | 
+1c00033f4 488b057db60000 MOV RAX,qword ptr [0x1c000ea78] | From: 1c00033f4 To: 1c000ea78 Type: READ Op: 1 DEFAULT
+1c00033fb 488b5310 MOV RDX,qword ptr [RBX + 0x10] | From: 1c00033fb To: Stack[-0x8] Type: READ Op: 1 ANALYSIS
+1c00033ff 488b0dbabb0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00033ff To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0003406 ff159cdd0000 CALL qword ptr [0x1c00111a8] | From: 1c0003406 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0003406 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000340c ba58494e48 MOV EDX,0x484e4958 | 
+1c0003411 488bcb MOV RCX,RBX | 
+1c0003414 48ff1525dd0000 CALL qword ptr [0x1c0011140] | From: 1c0003414 To: 1c0011140 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExFreePoolWithTag
+1c000341b 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c0003420 488b5df0 MOV RBX,qword ptr [RBP + -0x10] | From: 1c0003420 To: Stack[-0x18] Type: READ Op: 1 ANALYSIS; From: 1c0003420 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c0003424 488d45f0 LEA RAX,[RBP + -0x10] | From: 1c0003424 To: Stack[-0x18] Type: DATA Op: 0 ANALYSIS
+1c0003428 483bd8 CMP RBX,RAX | 
+1c000342b 759a JNZ 0x1c00033c7 | From: 1c000342b To: 1c00033c7 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000342d fe4743 INC byte ptr [RDI + 0x43] | 
+1c0003430 488387b800000048 ADD qword ptr [RDI + 0xb8],0x48 | 
+1c0003438 488b0511af0000 MOV RAX,qword ptr [0x1c000e350] | From: 1c0003438 To: 1c000e350 Type: READ Op: 1 DEFAULT
+1c000343f 4c8bc7 MOV R8,RDI | 
+1c0003442 488b0d77bb0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0003442 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0003449 498bd6 MOV RDX,R14 | 
+1c000344c ff1556dd0000 CALL qword ptr [0x1c00111a8] | From: 1c000344c To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000344c To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0003452 488b5c2440 MOV RBX,qword ptr [RSP + 0x40] | From: 1c0003452 To: Stack[0x8] Type: READ Op: 1 ANALYSIS
+1c0003457 488b742448 MOV RSI,qword ptr [RSP + 0x48] | From: 1c0003457 To: Stack[0x10] Type: READ Op: 1 ANALYSIS
+1c000345c 488b7c2450 MOV RDI,qword ptr [RSP + 0x50] | From: 1c000345c To: Stack[0x18] Type: READ Op: 1 ANALYSIS
+1c0003461 4c8b742458 MOV R14,qword ptr [RSP + 0x58] | From: 1c0003461 To: Stack[0x20] Type: READ Op: 1 ANALYSIS
+1c0003466 4883c430 ADD RSP,0x30 | 
+1c000346a 5d POP RBP | 
+1c000346b c3 RET | 
+1c000346d b903000000 MOV ECX,0x3 | 
+1c0003472 cd29 INT 0x29 | 
+1c0003474 cc INT3 | 
+
+
+=== win10-driver-analysis / c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f ===
+FUNCTION 1c000a190 _CreateProcessNotifyRoutine
+BODY [[1c000a190, 1c000a299]]
+INCOMING REFERENCES
+From: 1c0010348 To: 1c000a190 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c0014034 To: 1c000a190 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c0013622 To: 1c000a190 Type: DATA Op: 1 ANALYSIS caller=DriverEntry
+From: 1c001285e To: 1c000a190 Type: DATA Op: 1 ANALYSIS caller=DriverExit
+DIRECT CALLEES
+1c0009968 WPP_SF_Ds
+1c000ada0 _guard_dispatch_icall
+1c000a030 SwitchFocusProcess
+1c0009a84 BroadcastDevicesFocusChanged
+DECOMPILATION completed=true error=
+
+/* void __cdecl _CreateProcessNotifyRoutine(void * __ptr64,void * __ptr64,unsigned char) */
+
+void __cdecl _CreateProcessNotifyRoutine(void *param_1,void *param_2,uchar param_3)
+
+{
+  int iVar1;
+  uchar uVar2;
+  char *pcVar3;
+  longlong lVar4;
+  int iVar5;
+  undefined7 in_register_00000081;
+  
+  iVar5 = (int)param_2;
+  if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+     (4 < (byte)WPP_GLOBAL_Control[0x29])) {
+    pcVar3 = "destroyed";
+    if (param_3 != '\0') {
+      pcVar3 = "created";
+    }
+    WPP_SF_Ds(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),"created",
+              CONCAT71(in_register_00000081,param_3),iVar5,pcVar3);
+  }
+  if ((param_3 == '\0') && (*WdfDriverGlobals != 0)) {
+    lVar4 = (*(code *)__guard_dispatch_icall_fptr)
+                      (WdfDriverGlobals,*WdfDriverGlobals,
+                       PTR__WDF_DRIVER_CONTEXT_TYPE_INFO_1c000e0e0);
+    if (((lVar4 != 0) && (param_2 != (void *)0x0)) &&
+       ((iVar5 == *(int *)(lVar4 + 0x24) || (iVar5 == *(int *)(lVar4 + 0x18))))) {
+      uVar2 = '\0';
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar4 + 0x30));
+      if (iVar5 == *(int *)(lVar4 + 0x24)) {
+        *(undefined4 *)(lVar4 + 0x24) = 0;
+      }
+      iVar1 = *(int *)(lVar4 + 0x18);
+      if ((iVar5 == iVar1) && (*(undefined4 *)(lVar4 + 0x18) = 0, iVar1 == *(int *)(lVar4 + 0x20)))
+      {
+        uVar2 = SwitchFocusProcess(*(ulong *)(lVar4 + 0x1c));
+      }
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar4 + 0x30));
+      if (uVar2 != '\0') {
+        BroadcastDevicesFocusChanged();
+      }
+    }
+  }
+  return;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+1c000a190 48895c2408 MOV qword ptr [RSP + 0x8],RBX | From: 1c000a190 To: Stack[0x8] Type: WRITE Op: 0 ANALYSIS
+1c000a195 4889742410 MOV qword ptr [RSP + 0x10],RSI | From: 1c000a195 To: Stack[0x10] Type: WRITE Op: 0 ANALYSIS
+1c000a19a 57 PUSH RDI | 
+1c000a19b 4883ec30 SUB RSP,0x30 | 
+1c000a19f 418ad8 MOV BL,R8B | 
+1c000a1a2 488bfa MOV RDI,RDX | 
+1c000a1a5 488b0d443f0000 MOV RCX,qword ptr [0x1c000e0f0] | From: 1c000a1a5 To: 1c000e0f0 Type: READ Op: 1 DEFAULT
+1c000a1ac 488d053d3f0000 LEA RAX,[0x1c000e0f0] | From: 1c000a1ac To: 1c000e0f0 Type: DATA Op: 1 ANALYSIS
+1c000a1b3 483bc8 CMP RCX,RAX | 
+1c000a1b6 742b JZ 0x1c000a1e3 | From: 1c000a1b6 To: 1c000a1e3 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a1b8 80792905 CMP byte ptr [RCX + 0x29],0x5 | From: 1c000a1b8 To: 1c000e119 Type: READ Op: 0 ANALYSIS
+1c000a1bc 7225 JC 0x1c000a1e3 | From: 1c000a1bc To: 1c000a1e3 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a1be 488b4918 MOV RCX,qword ptr [RCX + 0x18] | From: 1c000a1be To: 1c000e108 Type: READ Op: 1 ANALYSIS
+1c000a1c2 488d15ef220000 LEA RDX,[0x1c000c4b8] | From: 1c000a1c2 To: 1c000c4b8 Type: DATA Op: 1 ANALYSIS
+1c000a1c9 84db TEST BL,BL | 
+1c000a1cb 488d05ee220000 LEA RAX,[0x1c000c4c0] | From: 1c000a1cb To: 1c000c4c0 Type: DATA Op: 1 ANALYSIS
+1c000a1d2 448bcf MOV R9D,EDI | 
+1c000a1d5 480f45c2 CMOVNZ RAX,RDX | 
+1c000a1d9 4889442420 MOV qword ptr [RSP + 0x20],RAX | From: 1c000a1d9 To: 1c000c4b8 Type: DATA Op: 1 ANALYSIS; From: 1c000a1d9 To: 1c000c4c0 Type: DATA Op: 1 ANALYSIS; From: 1c000a1d9 To: Stack[-0x18] Type: WRITE Op: 0 ANALYSIS
+1c000a1de e885f7ffff CALL 0x1c0009968 | From: 1c000a1de To: 1c0009968 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c000a1e3 488b0dd64d0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000a1e3 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000a1ea 488b11 MOV RDX,qword ptr [RCX] | 
+1c000a1ed 84db TEST BL,BL | 
+1c000a1ef 0f8595000000 JNZ 0x1c000a28a | From: 1c000a1ef To: 1c000a28a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a1f5 4885d2 TEST RDX,RDX | 
+1c000a1f8 0f848c000000 JZ 0x1c000a28a | From: 1c000a1f8 To: 1c000a28a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a1fe 4c8b05db3e0000 MOV R8,qword ptr [0x1c000e0e0] | From: 1c000a1fe To: 1c000e0e0 Type: READ Op: 1 DEFAULT; From: 1c000a1fe To: 1c000e0c8 Type: PARAM Op: 0 ANALYSIS
+1c000a205 488b0584460000 MOV RAX,qword ptr [0x1c000e890] | From: 1c000a205 To: 1c000e890 Type: READ Op: 1 DEFAULT
+1c000a20c ff15966f0000 CALL qword ptr [0x1c00111a8] | From: 1c000a20c To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000a20c To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000a212 488bd8 MOV RBX,RAX | 
+1c000a215 4885c0 TEST RAX,RAX | 
+1c000a218 7470 JZ 0x1c000a28a | From: 1c000a218 To: 1c000a28a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a21a 4885ff TEST RDI,RDI | 
+1c000a21d 746b JZ 0x1c000a28a | From: 1c000a21d To: 1c000a28a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a21f 3b7824 CMP EDI,dword ptr [RAX + 0x24] | 
+1c000a222 7405 JZ 0x1c000a229 | From: 1c000a222 To: 1c000a229 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a224 3b7818 CMP EDI,dword ptr [RAX + 0x18] | 
+1c000a227 7561 JNZ 0x1c000a28a | From: 1c000a227 To: 1c000a28a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a229 488b05f0490000 MOV RAX,qword ptr [0x1c000ec20] | From: 1c000a229 To: 1c000ec20 Type: READ Op: 1 DEFAULT
+1c000a230 4032f6 XOR SIL,SIL | 
+1c000a233 488b5330 MOV RDX,qword ptr [RBX + 0x30] | 
+1c000a237 488b0d824d0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000a237 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000a23e ff15646f0000 CALL qword ptr [0x1c00111a8] | From: 1c000a23e To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000a23e To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000a244 3b7b24 CMP EDI,dword ptr [RBX + 0x24] | 
+1c000a247 7504 JNZ 0x1c000a24d | From: 1c000a247 To: 1c000a24d Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a249 83632400 AND dword ptr [RBX + 0x24],0x0 | 
+1c000a24d 8b4318 MOV EAX,dword ptr [RBX + 0x18] | 
+1c000a250 3bf8 CMP EDI,EAX | 
+1c000a252 7514 JNZ 0x1c000a268 | From: 1c000a252 To: 1c000a268 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a254 83631800 AND dword ptr [RBX + 0x18],0x0 | 
+1c000a258 3b4320 CMP EAX,dword ptr [RBX + 0x20] | 
+1c000a25b 750b JNZ 0x1c000a268 | From: 1c000a25b To: 1c000a268 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a25d 8b4b1c MOV ECX,dword ptr [RBX + 0x1c] | 
+1c000a260 e8cbfdffff CALL 0x1c000a030 | From: 1c000a260 To: 1c000a030 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c000a265 408af0 MOV SIL,AL | 
+1c000a268 488b05b9490000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c000a268 To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c000a26f 488b5330 MOV RDX,qword ptr [RBX + 0x30] | 
+1c000a273 488b0d464d0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000a273 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000a27a ff15286f0000 CALL qword ptr [0x1c00111a8] | From: 1c000a27a To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000a27a To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000a280 4084f6 TEST SIL,SIL | 
+1c000a283 7405 JZ 0x1c000a28a | From: 1c000a283 To: 1c000a28a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000a285 e8faf7ffff CALL 0x1c0009a84 | From: 1c000a285 To: 1c0009a84 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c000a28a 488b5c2440 MOV RBX,qword ptr [RSP + 0x40] | From: 1c000a28a To: Stack[0x8] Type: READ Op: 1 ANALYSIS
+1c000a28f 488b742448 MOV RSI,qword ptr [RSP + 0x48] | From: 1c000a28f To: Stack[0x10] Type: READ Op: 1 ANALYSIS
+1c000a294 4883c430 ADD RSP,0x30 | 
+1c000a298 5f POP RDI | 
+1c000a299 c3 RET | 
+
+
+=== win10-driver-analysis / c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f ===
+FUNCTION 1c0006dc0 EvtDeviceReleaseHardware
+BODY [[1c0006dc0, 1c00072f2] [1c00072f4, 1c00072fb]]
+INCOMING REFERENCES
+From: 1c0010204 To: 1c0006dc0 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c0014024 To: 1c0006dc0 Type: DATA Op: 0 DEFAULT caller=null
+From: 1c00026ac To: 1c0006dc0 Type: DATA Op: 1 ANALYSIS caller=EvtDriverDeviceAdd
+From: 1c00026b8 To: 1c0006dc0 Type: DATA Op: 1 ANALYSIS caller=EvtDriverDeviceAdd
+DIRECT CALLEES
+1c000ada0 _guard_dispatch_icall
+EXTERNAL:0000001e KeReleaseSpinLock
+EXTERNAL:00000019 ExFreePoolWithTag
+1c0001e20 Feature_Servicing_GameInputXUSBSystemButtons__private_IsEnabledDeviceUsage
+EXTERNAL:00000023 KeAcquireSpinLockRaiseToDpc
+1c00022d4 WPP_SF_q
+1c000acb0 __security_check_cookie
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+
+undefined8 EvtDeviceReleaseHardware(longlong ****param_1)
+
+{
+  longlong *******ppppppplVar1;
+  longlong lVar2;
+  undefined8 *puVar3;
+  longlong ******pppppplVar4;
+  longlong *******ppppppplVar5;
+  code *pcVar6;
+  undefined1 uVar7;
+  int iVar8;
+  longlong lVar9;
+  longlong lVar10;
+  ulonglong uVar11;
+  undefined8 uVar12;
+  longlong lVar13;
+  longlong *plVar14;
+  longlong *plVar15;
+  longlong *plVar16;
+  longlong lVar17;
+  undefined8 *puVar18;
+  undefined1 auStack_a8 [32];
+  undefined1 local_88;
+  char local_78;
+  longlong ******local_70;
+  longlong ******local_68;
+  undefined8 ***local_60;
+  undefined8 ***local_58;
+  longlong local_50 [5];
+  
+  local_50[4] = __security_cookie ^ (ulonglong)auStack_a8;
+  local_70 = (longlong ******)param_1;
+  lVar9 = (*(code *)__guard_dispatch_icall_fptr)
+                    (WdfDriverGlobals,param_1,PTR__WDF_DEVICE_CONTEXT_TYPE_INFO_1c000e0b8);
+  lVar10 = 0;
+  local_78 = '\0';
+  lVar13 = *WdfDriverGlobals;
+  if (lVar13 != 0) {
+    local_88 = 0;
+    (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,param_1,&DAT_1c000c380,0);
+    lVar10 = (*(code *)__guard_dispatch_icall_fptr)
+                       (WdfDriverGlobals,lVar13,PTR__WDF_DRIVER_CONTEXT_TYPE_INFO_1c000e0e0);
+    if (lVar10 != 0) {
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar10 + 0x30));
+      *(undefined1 *)(lVar9 + 1) = 1;
+      (*(code *)__guard_dispatch_icall_fptr)
+                (WdfDriverGlobals,*(undefined8 *)(lVar10 + 0x38),param_1);
+      iVar8 = (*(code *)__guard_dispatch_icall_fptr)
+                        (WdfDriverGlobals,*(undefined8 *)(lVar10 + 0x38));
+      local_78 = iVar8 == 0;
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar10 + 0x30));
+    }
+  }
+  local_50[0] = 0;
+  local_50[1] = 0;
+  local_50[2] = 0;
+  local_50[3] = 0;
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x20));
+  lVar13 = 0;
+  *(undefined1 *)(lVar9 + 1) = 1;
+  plVar16 = (longlong *)(lVar9 + 0xb0);
+  lVar17 = 4;
+  plVar15 = plVar16;
+  do {
+    lVar2 = *plVar15;
+    plVar15 = plVar15 + 2;
+    local_50[lVar13] = lVar2;
+    lVar13 = lVar13 + 1;
+  } while (lVar13 < 4);
+  uVar11 = Feature_Servicing_GameInputXUSBSystemButtons__private_IsEnabledDeviceUsage();
+  if ((int)uVar11 != 0) {
+    puVar18 = *(undefined8 **)(lVar9 + 0x80);
+    while (param_1 = (longlong ****)local_70, puVar18 != (undefined8 *)(lVar9 + 0x80)) {
+      puVar3 = (undefined8 *)*puVar18;
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,puVar18[3]);
+      ExFreePoolWithTag(puVar18,0x50484958);
+      puVar18 = puVar3;
+    }
+  }
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x20));
+  plVar15 = local_50;
+  lVar13 = lVar17;
+  do {
+    if (*plVar15 != 0) {
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals);
+    }
+    plVar15 = plVar15 + 1;
+    lVar13 = lVar13 + -1;
+  } while (lVar13 != 0);
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x78));
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x68));
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x70));
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x60));
+  if (*(longlong *)(lVar9 + 0x38) != 0) {
+    (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(longlong *)(lVar9 + 0x38),1);
+  }
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x20));
+  if (*(longlong *)(lVar9 + 0x38) != 0) {
+    (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals);
+    *(undefined8 *)(lVar9 + 0x38) = 0;
+  }
+  do {
+    if (*plVar16 != 0) {
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals);
+    }
+    *plVar16 = 0;
+    plVar16 = plVar16 + 2;
+    lVar17 = lVar17 + -1;
+  } while (lVar17 != 0);
+  (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*(undefined8 *)(lVar9 + 0x20));
+  if (local_78 == '\0') {
+    uVar11 = Feature_Servicing_GameInputXUSBSystemButtons__private_IsEnabledDeviceUsage();
+    if (((int)uVar11 != 0) && (lVar10 != 0)) {
+      local_58 = &local_60;
+      local_60 = &local_60;
+      uVar7 = KeAcquireSpinLockRaiseToDpc(lVar10);
+      plVar15 = *(longlong **)(lVar10 + 8);
+      do {
+        do {
+          plVar14 = plVar15;
+          plVar15 = plVar14;
+          plVar16 = (longlong *)0x0;
+          if (plVar14 == (longlong *)(lVar10 + 8)) goto LAB_1c000724a;
+          plVar15 = (longlong *)*plVar14;
+        } while ((longlong *******)param_1 != (longlong *******)plVar14[5]);
+        LOCK();
+        lVar13 = *(longlong *)(plVar14[3] + 0x68);
+        *(longlong *)(plVar14[3] + 0x68) = 0;
+        UNLOCK();
+      } while (lVar13 == 0);
+      lVar13 = *plVar14;
+      if ((*(longlong **)(lVar13 + 8) != plVar14) ||
+         (plVar16 = (longlong *)plVar14[1], (longlong *)*plVar16 != plVar14)) {
+LAB_1c00072f4:
+        pcVar6 = (code *)swi(0x29);
+        (*pcVar6)(3);
+        pcVar6 = (code *)swi(3);
+        uVar12 = (*pcVar6)();
+        return uVar12;
+      }
+      *plVar16 = lVar13;
+      *(longlong **)(lVar13 + 8) = plVar16;
+      plVar16 = plVar14;
+LAB_1c000724a:
+      KeReleaseSpinLock(lVar10,CONCAT71((int7)((ulonglong)plVar15 >> 8),uVar7));
+      if (plVar16 != (longlong *)0x0) {
+        (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,plVar16[2],0xc0000120);
+        ExFreePoolWithTag(plVar16,0x484e4958);
+      }
+    }
+  }
+  else {
+    local_68 = (longlong ******)&local_70;
+    local_70 = (longlong ******)&local_70;
+    uVar7 = KeAcquireSpinLockRaiseToDpc(lVar10);
+    ppppppplVar1 = (longlong *******)(lVar10 + 8);
+    while (ppppppplVar5 = (longlong *******)*ppppppplVar1, ppppppplVar5 != ppppppplVar1) {
+      if (((longlong *******)ppppppplVar5[1] != ppppppplVar1) ||
+         (pppppplVar4 = *ppppppplVar5, (longlong *******)pppppplVar4[1] != ppppppplVar5))
+      goto LAB_1c00072f4;
+      *ppppppplVar1 = pppppplVar4;
+      pppppplVar4[1] = (longlong *****)ppppppplVar1;
+      if ((longlong *******)local_70[1] != &local_70) goto LAB_1c00072f4;
+      *ppppppplVar5 = local_70;
+      ppppppplVar5[1] = (longlong ******)&local_70;
+      local_70[1] = (longlong *****)ppppppplVar5;
+      LOCK();
+      ppppppplVar5[3][0xd] = (longlong *****)0x0;
+      UNLOCK();
+      local_70 = (longlong ******)ppppppplVar5;
+    }
+    KeReleaseSpinLock(lVar10,CONCAT71((int7)((ulonglong)ppppppplVar1 >> 8),uVar7));
+    while (pppppplVar4 = local_70, (longlong *******)local_70 != &local_70) {
+      if (((longlong *******)local_70[1] != &local_70) ||
+         (ppppppplVar1 = (longlong *******)*local_70, ppppppplVar1[1] != local_70))
+      goto LAB_1c00072f4;
+      ppppppplVar1[1] = (longlong ******)&local_70;
+      ppppppplVar5 = (longlong *******)(local_70 + 2);
+      local_70 = (longlong ******)ppppppplVar1;
+      (*(code *)__guard_dispatch_icall_fptr)(WdfDriverGlobals,*ppppppplVar5,0xc00002b6);
+      ExFreePoolWithTag(pppppplVar4,0x484e4958);
+    }
+  }
+  if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+     (4 < (byte)WPP_GLOBAL_Control[0x29])) {
+    WPP_SF_q(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x6b,
+             &WPP_ee7f16487f9c33c0e43905c79bf36ba1_Traceguids,param_1);
+  }
+  return 0;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+1c0006dc0 48895c2410 MOV qword ptr [RSP + 0x10],RBX | From: 1c0006dc0 To: Stack[0x10] Type: WRITE Op: 0 ANALYSIS
+1c0006dc5 4889742418 MOV qword ptr [RSP + 0x18],RSI | From: 1c0006dc5 To: Stack[0x18] Type: WRITE Op: 0 ANALYSIS
+1c0006dca 48897c2420 MOV qword ptr [RSP + 0x20],RDI | From: 1c0006dca To: Stack[0x20] Type: WRITE Op: 0 ANALYSIS
+1c0006dcf 55 PUSH RBP | 
+1c0006dd0 4154 PUSH R12 | 
+1c0006dd2 4155 PUSH R13 | 
+1c0006dd4 4156 PUSH R14 | 
+1c0006dd6 4157 PUSH R15 | 
+1c0006dd8 488bec MOV RBP,RSP | 
+1c0006ddb 4881ec80000000 SUB RSP,0x80 | 
+1c0006de2 488b0567730000 MOV RAX,qword ptr [0x1c000e150] | From: 1c0006de2 To: 1c000e150 Type: READ Op: 1 DEFAULT
+1c0006de9 4833c4 XOR RAX,RSP | 
+1c0006dec 488945f8 MOV qword ptr [RBP + -0x8],RAX | From: 1c0006dec To: Stack[-0x30] Type: WRITE Op: 0 ANALYSIS
+1c0006df0 4c8b05c1720000 MOV R8,qword ptr [0x1c000e0b8] | From: 1c0006df0 To: 1c000e0b8 Type: READ Op: 1 DEFAULT
+1c0006df7 4c8be1 MOV R12,RCX | 
+1c0006dfa 488b058f7a0000 MOV RAX,qword ptr [0x1c000e890] | From: 1c0006dfa To: 1c000e890 Type: READ Op: 1 DEFAULT
+1c0006e01 488bd1 MOV RDX,RCX | 
+1c0006e04 48894db8 MOV qword ptr [RBP + -0x48],RCX | From: 1c0006e04 To: Stack[-0x70] Type: WRITE Op: 0 ANALYSIS
+1c0006e08 488b0db1810000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006e08 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006e0f ff1593a30000 CALL qword ptr [0x1c00111a8] | From: 1c0006e0f To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006e0f To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006e15 488b0da4810000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006e15 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006e1c 33f6 XOR ESI,ESI | 
+1c0006e1e 488bf8 MOV RDI,RAX | 
+1c0006e21 408875b0 MOV byte ptr [RBP + -0x50],SIL | From: 1c0006e21 To: Stack[-0x78] Type: WRITE Op: 0 ANALYSIS
+1c0006e25 488b19 MOV RBX,qword ptr [RCX] | 
+1c0006e28 4885db TEST RBX,RBX | 
+1c0006e2b 0f84b2000000 JZ 0x1c0006ee3 | From: 1c0006e2b To: 1c0006ee3 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006e31 488b0578760000 MOV RAX,qword ptr [0x1c000e4b0] | From: 1c0006e31 To: 1c000e4b0 Type: READ Op: 1 DEFAULT
+1c0006e38 4c8d0541550000 LEA R8,[0x1c000c380] | From: 1c0006e38 To: 1c000c380 Type: DATA Op: 1 ANALYSIS
+1c0006e3f 4533c9 XOR R9D,R9D | 
+1c0006e42 4088742420 MOV byte ptr [RSP + 0x20],SIL | From: 1c0006e42 To: Stack[-0x88] Type: WRITE Op: 0 ANALYSIS
+1c0006e47 498bd4 MOV RDX,R12 | 
+1c0006e4a ff1558a30000 CALL qword ptr [0x1c00111a8] | From: 1c0006e4a To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006e4a To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006e50 4c8b0589720000 MOV R8,qword ptr [0x1c000e0e0] | From: 1c0006e50 To: 1c000e0e0 Type: READ Op: 1 DEFAULT
+1c0006e57 488bd3 MOV RDX,RBX | 
+1c0006e5a 488b052f7a0000 MOV RAX,qword ptr [0x1c000e890] | From: 1c0006e5a To: 1c000e890 Type: READ Op: 1 DEFAULT
+1c0006e61 488b0d58810000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006e61 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006e68 ff153aa30000 CALL qword ptr [0x1c00111a8] | From: 1c0006e68 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006e68 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006e6e 488bf0 MOV RSI,RAX | 
+1c0006e71 4885c0 TEST RAX,RAX | 
+1c0006e74 746d JZ 0x1c0006ee3 | From: 1c0006e74 To: 1c0006ee3 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006e76 488b05a37d0000 MOV RAX,qword ptr [0x1c000ec20] | From: 1c0006e76 To: 1c000ec20 Type: READ Op: 1 DEFAULT
+1c0006e7d 488b5630 MOV RDX,qword ptr [RSI + 0x30] | 
+1c0006e81 488b0d38810000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006e81 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006e88 ff151aa30000 CALL qword ptr [0x1c00111a8] | From: 1c0006e88 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006e88 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006e8e c6470101 MOV byte ptr [RDI + 0x1],0x1 | 
+1c0006e92 4d8bc4 MOV R8,R12 | 
+1c0006e95 488b0524740000 MOV RAX,qword ptr [0x1c000e2c0] | From: 1c0006e95 To: 1c000e2c0 Type: READ Op: 1 DEFAULT
+1c0006e9c 488b5638 MOV RDX,qword ptr [RSI + 0x38] | 
+1c0006ea0 488b0d19810000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006ea0 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006ea7 ff15fba20000 CALL qword ptr [0x1c00111a8] | From: 1c0006ea7 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006ea7 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006ead 488b5638 MOV RDX,qword ptr [RSI + 0x38] | 
+1c0006eb1 488b05f8730000 MOV RAX,qword ptr [0x1c000e2b0] | From: 1c0006eb1 To: 1c000e2b0 Type: READ Op: 1 DEFAULT
+1c0006eb8 488b0d01810000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006eb8 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006ebf ff15e3a20000 CALL qword ptr [0x1c00111a8] | From: 1c0006ebf To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006ebf To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006ec5 488b5630 MOV RDX,qword ptr [RSI + 0x30] | 
+1c0006ec9 85c0 TEST EAX,EAX | 
+1c0006ecb 488b05567d0000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c0006ecb To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c0006ed2 488b0de7800000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006ed2 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006ed9 0f9445b0 SETZ byte ptr [RBP + -0x50] | From: 1c0006ed9 To: Stack[-0x78] Type: WRITE Op: 0 ANALYSIS
+1c0006edd ff15c5a20000 CALL qword ptr [0x1c00111a8] | From: 1c0006edd To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006edd To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006ee3 488b05367d0000 MOV RAX,qword ptr [0x1c000ec20] | From: 1c0006ee3 To: 1c000ec20 Type: READ Op: 1 DEFAULT
+1c0006eea 0f57c0 XORPS XMM0,XMM0 | 
+1c0006eed 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c0006ef1 488b0dc8800000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006ef1 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006ef8 0f1145d8 MOVUPS xmmword ptr [RBP + -0x28],XMM0 | From: 1c0006ef8 To: Stack[-0x50] Type: WRITE Op: 0 ANALYSIS
+1c0006efc 0f1145e8 MOVUPS xmmword ptr [RBP + -0x18],XMM0 | From: 1c0006efc To: Stack[-0x40] Type: WRITE Op: 0 ANALYSIS
+1c0006f00 ff15a2a20000 CALL qword ptr [0x1c00111a8] | From: 1c0006f00 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006f00 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006f06 33c9 XOR ECX,ECX | 
+1c0006f08 c6470101 MOV byte ptr [RDI + 0x1],0x1 | 
+1c0006f0c 4c8dbfb0000000 LEA R15,[RDI + 0xb0] | 
+1c0006f13 498bd7 MOV RDX,R15 | 
+1c0006f16 448d6904 LEA R13D,[RCX + 0x4] | 
+1c0006f1a 488b02 MOV RAX,qword ptr [RDX] | 
+1c0006f1d 488d5210 LEA RDX,[RDX + 0x10] | 
+1c0006f21 488944cdd8 MOV qword ptr [RBP + RCX*0x8 + -0x28],RAX | From: 1c0006f21 To: Stack[-0x48] Type: DATA Op: 0 ANALYSIS
+1c0006f26 48ffc1 INC RCX | 
+1c0006f29 493bcd CMP RCX,R13 | 
+1c0006f2c 7cec JL 0x1c0006f1a | From: 1c0006f2c To: 1c0006f1a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006f2e e8edaeffff CALL 0x1c0001e20 | From: 1c0006f2e To: 1c0001e20 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c0006f33 85c0 TEST EAX,EAX | 
+1c0006f35 7448 JZ 0x1c0006f7f | From: 1c0006f35 To: 1c0006f7f Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006f37 4c8da780000000 LEA R12,[RDI + 0x80] | 
+1c0006f3e 4d8b3424 MOV R14,qword ptr [R12] | 
+1c0006f42 4d3bf4 CMP R14,R12 | 
+1c0006f45 7434 JZ 0x1c0006f7b | From: 1c0006f45 To: 1c0006f7b Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006f47 488b0512780000 MOV RAX,qword ptr [0x1c000e760] | From: 1c0006f47 To: 1c000e760 Type: READ Op: 1 DEFAULT
+1c0006f4e 498bde MOV RBX,R14 | 
+1c0006f51 488b0d68800000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006f51 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006f58 4d8b36 MOV R14,qword ptr [R14] | 
+1c0006f5b 488b5318 MOV RDX,qword ptr [RBX + 0x18] | 
+1c0006f5f ff1543a20000 CALL qword ptr [0x1c00111a8] | From: 1c0006f5f To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006f5f To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006f65 ba58494850 MOV EDX,0x50484958 | 
+1c0006f6a 488bcb MOV RCX,RBX | 
+1c0006f6d 48ff15cca10000 CALL qword ptr [0x1c0011140] | From: 1c0006f6d To: 1c0011140 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExFreePoolWithTag
+1c0006f74 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c0006f79 ebc7 JMP 0x1c0006f42 | From: 1c0006f79 To: 1c0006f42 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006f7b 4c8b65b8 MOV R12,qword ptr [RBP + -0x48] | From: 1c0006f7b To: Stack[-0x70] Type: READ Op: 1 ANALYSIS
+1c0006f7f 488b05a27c0000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c0006f7f To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c0006f86 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c0006f8a 488b0d2f800000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006f8a To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006f91 ff1511a20000 CALL qword ptr [0x1c00111a8] | From: 1c0006f91 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006f91 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006f97 488d5dd8 LEA RBX,[RBP + -0x28] | From: 1c0006f97 To: Stack[-0x50] Type: DATA Op: 0 ANALYSIS
+1c0006f9b 4d8bf5 MOV R14,R13 | 
+1c0006f9e 488b13 MOV RDX,qword ptr [RBX] | From: 1c0006f9e To: Stack[-0x50] Type: DATA Op: 1 ANALYSIS
+1c0006fa1 4885d2 TEST RDX,RDX | 
+1c0006fa4 7414 JZ 0x1c0006fba | From: 1c0006fa4 To: 1c0006fba Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006fa6 488b05a37a0000 MOV RAX,qword ptr [0x1c000ea50] | From: 1c0006fa6 To: 1c000ea50 Type: READ Op: 1 DEFAULT
+1c0006fad 488b0d0c800000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006fad To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006fb4 ff15eea10000 CALL qword ptr [0x1c00111a8] | From: 1c0006fb4 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006fb4 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006fba 4883c308 ADD RBX,0x8 | 
+1c0006fbe 4983ee01 SUB R14,0x1 | 
+1c0006fc2 75da JNZ 0x1c0006f9e | From: 1c0006fc2 To: 1c0006f9e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0006fc4 488b0595770000 MOV RAX,qword ptr [0x1c000e760] | From: 1c0006fc4 To: 1c000e760 Type: READ Op: 1 DEFAULT
+1c0006fcb 488b5778 MOV RDX,qword ptr [RDI + 0x78] | 
+1c0006fcf 488b0dea7f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006fcf To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006fd6 ff15cca10000 CALL qword ptr [0x1c00111a8] | From: 1c0006fd6 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006fd6 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006fdc 488b057d770000 MOV RAX,qword ptr [0x1c000e760] | From: 1c0006fdc To: 1c000e760 Type: READ Op: 1 DEFAULT
+1c0006fe3 488b5768 MOV RDX,qword ptr [RDI + 0x68] | 
+1c0006fe7 488b0dd27f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006fe7 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0006fee ff15b4a10000 CALL qword ptr [0x1c00111a8] | From: 1c0006fee To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0006fee To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0006ff4 488b0565770000 MOV RAX,qword ptr [0x1c000e760] | From: 1c0006ff4 To: 1c000e760 Type: READ Op: 1 DEFAULT
+1c0006ffb 488b5770 MOV RDX,qword ptr [RDI + 0x70] | 
+1c0006fff 488b0dba7f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0006fff To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0007006 ff159ca10000 CALL qword ptr [0x1c00111a8] | From: 1c0007006 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0007006 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000700c 488b054d770000 MOV RAX,qword ptr [0x1c000e760] | From: 1c000700c To: 1c000e760 Type: READ Op: 1 DEFAULT
+1c0007013 488b5760 MOV RDX,qword ptr [RDI + 0x60] | 
+1c0007017 488b0da27f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0007017 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000701e ff1584a10000 CALL qword ptr [0x1c00111a8] | From: 1c000701e To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000701e To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0007024 488b5738 MOV RDX,qword ptr [RDI + 0x38] | 
+1c0007028 4885d2 TEST RDX,RDX | 
+1c000702b 7418 JZ 0x1c0007045 | From: 1c000702b To: 1c0007045 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000702d 488b052c7f0000 MOV RAX,qword ptr [0x1c000ef60] | From: 1c000702d To: 1c000ef60 Type: READ Op: 1 DEFAULT
+1c0007034 458d4601 LEA R8D,[R14 + 0x1] | 
+1c0007038 488b0d817f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0007038 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000703f ff1563a10000 CALL qword ptr [0x1c00111a8] | From: 1c000703f To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000703f To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c0007045 488b05d47b0000 MOV RAX,qword ptr [0x1c000ec20] | From: 1c0007045 To: 1c000ec20 Type: READ Op: 1 DEFAULT
+1c000704c 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c0007050 488b0d697f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0007050 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0007057 ff154ba10000 CALL qword ptr [0x1c00111a8] | From: 1c0007057 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0007057 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000705d 488b5738 MOV RDX,qword ptr [RDI + 0x38] | 
+1c0007061 4885d2 TEST RDX,RDX | 
+1c0007064 7418 JZ 0x1c000707e | From: 1c0007064 To: 1c000707e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007066 488b0553780000 MOV RAX,qword ptr [0x1c000e8c0] | From: 1c0007066 To: 1c000e8c0 Type: READ Op: 1 DEFAULT
+1c000706d 488b0d4c7f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000706d To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0007074 ff152ea10000 CALL qword ptr [0x1c00111a8] | From: 1c0007074 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0007074 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000707a 4c897738 MOV qword ptr [RDI + 0x38],R14 | 
+1c000707e 498b17 MOV RDX,qword ptr [R15] | 
+1c0007081 4885d2 TEST RDX,RDX | 
+1c0007084 7414 JZ 0x1c000709a | From: 1c0007084 To: 1c000709a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007086 488b0533780000 MOV RAX,qword ptr [0x1c000e8c0] | From: 1c0007086 To: 1c000e8c0 Type: READ Op: 1 DEFAULT
+1c000708d 488b0d2c7f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c000708d To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0007094 ff150ea10000 CALL qword ptr [0x1c00111a8] | From: 1c0007094 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0007094 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000709a 4d8937 MOV qword ptr [R15],R14 | 
+1c000709d 4983c710 ADD R15,0x10 | 
+1c00070a1 4983ed01 SUB R13,0x1 | 
+1c00070a5 75d7 JNZ 0x1c000707e | From: 1c00070a5 To: 1c000707e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00070a7 488b057a7b0000 MOV RAX,qword ptr [0x1c000ec28] | From: 1c00070a7 To: 1c000ec28 Type: READ Op: 1 DEFAULT
+1c00070ae 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+1c00070b2 488b0d077f0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c00070b2 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c00070b9 ff15e9a00000 CALL qword ptr [0x1c00111a8] | From: 1c00070b9 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c00070b9 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00070bf 443875b0 CMP byte ptr [RBP + -0x50],R14B | From: 1c00070bf To: Stack[-0x78] Type: READ Op: 0 ANALYSIS
+1c00070c3 0f84fd000000 JZ 0x1c00071c6 | From: 1c00070c3 To: 1c00071c6 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00070c9 488d45b8 LEA RAX,[RBP + -0x48] | From: 1c00070c9 To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c00070cd 488bce MOV RCX,RSI | 
+1c00070d0 488945c0 MOV qword ptr [RBP + -0x40],RAX | From: 1c00070d0 To: Stack[-0x68] Type: WRITE Op: 0 ANALYSIS
+1c00070d4 488d45b8 LEA RAX,[RBP + -0x48] | From: 1c00070d4 To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c00070d8 488945b8 MOV qword ptr [RBP + -0x48],RAX | From: 1c00070d8 To: Stack[-0x70] Type: WRITE Op: 0 ANALYSIS
+1c00070dc 48ff15ada00000 CALL qword ptr [0x1c0011190] | From: 1c00070dc To: 1c0011190 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::KeAcquireSpinLockRaiseToDpc
+1c00070e3 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c00070e8 448ac0 MOV R8B,AL | 
+1c00070eb 488d5608 LEA RDX,[RSI + 0x8] | 
+1c00070ef eb4e JMP 0x1c000713f | From: 1c00070ef To: 1c000713f Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c00070f1 48395108 CMP qword ptr [RCX + 0x8],RDX | 
+1c00070f5 0f85f9010000 JNZ 0x1c00072f4 | From: 1c00070f5 To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00070fb 488b01 MOV RAX,qword ptr [RCX] | 
+1c00070fe 48394808 CMP qword ptr [RAX + 0x8],RCX | 
+1c0007102 0f85ec010000 JNZ 0x1c00072f4 | From: 1c0007102 To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007108 488902 MOV qword ptr [RDX],RAX | 
+1c000710b 4c8d4db8 LEA R9,[RBP + -0x48] | From: 1c000710b To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c000710f 48895008 MOV qword ptr [RAX + 0x8],RDX | 
+1c0007113 488b45b8 MOV RAX,qword ptr [RBP + -0x48] | From: 1c0007113 To: Stack[-0x70] Type: READ Op: 1 ANALYSIS
+1c0007117 4c394808 CMP qword ptr [RAX + 0x8],R9 | From: 1c0007117 To: Stack[-0x68] Type: READ Op: 0 ANALYSIS
+1c000711b 0f85d3010000 JNZ 0x1c00072f4 | From: 1c000711b To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007121 488901 MOV qword ptr [RCX],RAX | 
+1c0007124 4c8d4db8 LEA R9,[RBP + -0x48] | From: 1c0007124 To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c0007128 4c894908 MOV qword ptr [RCX + 0x8],R9 | 
+1c000712c 48894808 MOV qword ptr [RAX + 0x8],RCX | From: 1c000712c To: Stack[-0x68] Type: WRITE Op: 0 ANALYSIS
+1c0007130 498bc6 MOV RAX,R14 | 
+1c0007133 48894db8 MOV qword ptr [RBP + -0x48],RCX | From: 1c0007133 To: Stack[-0x70] Type: WRITE Op: 0 ANALYSIS
+1c0007137 488b4918 MOV RCX,qword ptr [RCX + 0x18] | 
+1c000713b 48874168 XCHG qword ptr [RCX + 0x68],RAX | 
+1c000713f 488b0a MOV RCX,qword ptr [RDX] | 
+1c0007142 483bca CMP RCX,RDX | 
+1c0007145 75aa JNZ 0x1c00070f1 | From: 1c0007145 To: 1c00070f1 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007147 418ad0 MOV DL,R8B | 
+1c000714a 488bce MOV RCX,RSI | 
+1c000714d 48ff1514a00000 CALL qword ptr [0x1c0011168] | From: 1c000714d To: 1c0011168 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::KeReleaseSpinLock
+1c0007154 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c0007159 eb59 JMP 0x1c00071b4 | From: 1c0007159 To: 1c00071b4 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c000715b 488d45b8 LEA RAX,[RBP + -0x48] | From: 1c000715b To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c000715f 48394308 CMP qword ptr [RBX + 0x8],RAX | From: 1c000715f To: Stack[-0x68] Type: READ Op: 0 ANALYSIS
+1c0007163 0f858b010000 JNZ 0x1c00072f4 | From: 1c0007163 To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007169 488b03 MOV RAX,qword ptr [RBX] | From: 1c0007169 To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c000716c 48395808 CMP qword ptr [RAX + 0x8],RBX | From: 1c000716c To: Stack[-0x68] Type: READ Op: 0 ANALYSIS
+1c0007170 0f857e010000 JNZ 0x1c00072f4 | From: 1c0007170 To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007176 488945b8 MOV qword ptr [RBP + -0x48],RAX | From: 1c0007176 To: Stack[-0x70] Type: WRITE Op: 0 ANALYSIS
+1c000717a 488d4db8 LEA RCX,[RBP + -0x48] | From: 1c000717a To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c000717e 48894808 MOV qword ptr [RAX + 0x8],RCX | From: 1c000717e To: Stack[-0x68] Type: WRITE Op: 0 ANALYSIS
+1c0007182 41b8b60200c0 MOV R8D,0xc00002b6 | 
+1c0007188 488b05e9780000 MOV RAX,qword ptr [0x1c000ea78] | From: 1c0007188 To: 1c000ea78 Type: READ Op: 1 DEFAULT
+1c000718f 488b5310 MOV RDX,qword ptr [RBX + 0x10] | From: 1c000718f To: Stack[-0x60] Type: READ Op: 1 ANALYSIS
+1c0007193 488b0d267e0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0007193 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c000719a ff1508a00000 CALL qword ptr [0x1c00111a8] | From: 1c000719a To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c000719a To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c00071a0 ba58494e48 MOV EDX,0x484e4958 | 
+1c00071a5 488bcb MOV RCX,RBX | 
+1c00071a8 48ff15919f0000 CALL qword ptr [0x1c0011140] | From: 1c00071a8 To: 1c0011140 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExFreePoolWithTag
+1c00071af 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c00071b4 488b5db8 MOV RBX,qword ptr [RBP + -0x48] | From: 1c00071b4 To: Stack[-0x70] Type: READ Op: 1 ANALYSIS; From: 1c00071b4 To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c00071b8 488d45b8 LEA RAX,[RBP + -0x48] | From: 1c00071b8 To: Stack[-0x70] Type: DATA Op: 0 ANALYSIS
+1c00071bc 483bd8 CMP RBX,RAX | 
+1c00071bf 759a JNZ 0x1c000715b | From: 1c00071bf To: 1c000715b Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00071c1 e9cd000000 JMP 0x1c0007293 | From: 1c00071c1 To: 1c0007293 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+1c00071c6 e855acffff CALL 0x1c0001e20 | From: 1c00071c6 To: 1c0001e20 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c00071cb 85c0 TEST EAX,EAX | 
+1c00071cd 0f84c0000000 JZ 0x1c0007293 | From: 1c00071cd To: 1c0007293 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00071d3 4885f6 TEST RSI,RSI | 
+1c00071d6 0f84b7000000 JZ 0x1c0007293 | From: 1c00071d6 To: 1c0007293 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00071dc 488d45c8 LEA RAX,[RBP + -0x38] | From: 1c00071dc To: Stack[-0x60] Type: DATA Op: 0 ANALYSIS
+1c00071e0 488bce MOV RCX,RSI | 
+1c00071e3 488945d0 MOV qword ptr [RBP + -0x30],RAX | From: 1c00071e3 To: Stack[-0x58] Type: WRITE Op: 0 ANALYSIS
+1c00071e7 488d45c8 LEA RAX,[RBP + -0x38] | From: 1c00071e7 To: Stack[-0x60] Type: DATA Op: 0 ANALYSIS
+1c00071eb 488945c8 MOV qword ptr [RBP + -0x38],RAX | From: 1c00071eb To: Stack[-0x60] Type: WRITE Op: 0 ANALYSIS
+1c00071ef 48ff159a9f0000 CALL qword ptr [0x1c0011190] | From: 1c00071ef To: 1c0011190 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::KeAcquireSpinLockRaiseToDpc
+1c00071f6 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c00071fb 4c8d4608 LEA R8,[RSI + 0x8] | 
+1c00071ff 448ac8 MOV R9B,AL | 
+1c0007202 498b10 MOV RDX,qword ptr [R8] | 
+1c0007205 498bde MOV RBX,R14 | 
+1c0007208 493bd0 CMP RDX,R8 | 
+1c000720b 743d JZ 0x1c000724a | From: 1c000720b To: 1c000724a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c000720d 488bda MOV RBX,RDX | 
+1c0007210 488b12 MOV RDX,qword ptr [RDX] | 
+1c0007213 4c3b6328 CMP R12,qword ptr [RBX + 0x28] | 
+1c0007217 75ec JNZ 0x1c0007205 | From: 1c0007217 To: 1c0007205 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007219 488b4b18 MOV RCX,qword ptr [RBX + 0x18] | 
+1c000721d 498bc6 MOV RAX,R14 | 
+1c0007220 48874168 XCHG qword ptr [RCX + 0x68],RAX | 
+1c0007224 4885c0 TEST RAX,RAX | 
+1c0007227 74dc JZ 0x1c0007205 | From: 1c0007227 To: 1c0007205 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007229 488b03 MOV RAX,qword ptr [RBX] | 
+1c000722c 48395808 CMP qword ptr [RAX + 0x8],RBX | 
+1c0007230 0f85be000000 JNZ 0x1c00072f4 | From: 1c0007230 To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007236 488b4b08 MOV RCX,qword ptr [RBX + 0x8] | 
+1c000723a 483919 CMP qword ptr [RCX],RBX | 
+1c000723d 0f85b1000000 JNZ 0x1c00072f4 | From: 1c000723d To: 1c00072f4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007243 488901 MOV qword ptr [RCX],RAX | 
+1c0007246 48894808 MOV qword ptr [RAX + 0x8],RCX | 
+1c000724a 418ad1 MOV DL,R9B | 
+1c000724d 488bce MOV RCX,RSI | 
+1c0007250 48ff15119f0000 CALL qword ptr [0x1c0011168] | From: 1c0007250 To: 1c0011168 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::KeReleaseSpinLock
+1c0007257 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c000725c 4885db TEST RBX,RBX | 
+1c000725f 7432 JZ 0x1c0007293 | From: 1c000725f To: 1c0007293 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c0007261 488b0510780000 MOV RAX,qword ptr [0x1c000ea78] | From: 1c0007261 To: 1c000ea78 Type: READ Op: 1 DEFAULT
+1c0007268 41b8200100c0 MOV R8D,0xc0000120 | 
+1c000726e 488b5310 MOV RDX,qword ptr [RBX + 0x10] | 
+1c0007272 488b0d477d0000 MOV RCX,qword ptr [0x1c000efc0] | From: 1c0007272 To: 1c000efc0 Type: READ Op: 1 DEFAULT
+1c0007279 ff15299f0000 CALL qword ptr [0x1c00111a8] | From: 1c0007279 To: 1c00111a8 Type: READ Op: 0 DEFAULT; From: 1c0007279 To: 1c000ada0 Type: COMPUTED_CALL Op: -1 ANALYSIS
+1c000727f ba58494e48 MOV EDX,0x484e4958 | 
+1c0007284 488bcb MOV RCX,RBX | 
+1c0007287 48ff15b29e0000 CALL qword ptr [0x1c0011140] | From: 1c0007287 To: 1c0011140 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExFreePoolWithTag
+1c000728e 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+1c0007293 488b0d566e0000 MOV RCX,qword ptr [0x1c000e0f0] | From: 1c0007293 To: 1c000e0f0 Type: READ Op: 1 DEFAULT
+1c000729a 488d054f6e0000 LEA RAX,[0x1c000e0f0] | From: 1c000729a To: 1c000e0f0 Type: DATA Op: 1 ANALYSIS
+1c00072a1 483bc8 CMP RCX,RAX | 
+1c00072a4 741e JZ 0x1c00072c4 | From: 1c00072a4 To: 1c00072c4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00072a6 80792905 CMP byte ptr [RCX + 0x29],0x5 | From: 1c00072a6 To: 1c000e119 Type: READ Op: 0 ANALYSIS
+1c00072aa 7218 JC 0x1c00072c4 | From: 1c00072aa To: 1c00072c4 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+1c00072ac 488b4918 MOV RCX,qword ptr [RCX + 0x18] | From: 1c00072ac To: 1c000e108 Type: READ Op: 1 ANALYSIS
+1c00072b0 4c8d0531500000 LEA R8,[0x1c000c2e8] | From: 1c00072b0 To: 1c000c2e8 Type: DATA Op: 1 ANALYSIS
+1c00072b7 ba6b000000 MOV EDX,0x6b | 
+1c00072bc 4d8bcc MOV R9,R12 | 
+1c00072bf e810b0ffff CALL 0x1c00022d4 | From: 1c00072bf To: 1c00022d4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c00072c4 33c0 XOR EAX,EAX | 
+1c00072c6 488b4df8 MOV RCX,qword ptr [RBP + -0x8] | From: 1c00072c6 To: Stack[-0x30] Type: READ Op: 1 ANALYSIS
+1c00072ca 4833cc XOR RCX,RSP | 
+1c00072cd e8de390000 CALL 0x1c000acb0 | From: 1c00072cd To: 1c000acb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+1c00072d2 4c8d9c2480000000 LEA R11,[RSP + 0x80] | From: 1c00072d2 To: Stack[-0x30] Type: DATA Op: 0 ANALYSIS
+1c00072da 498b5b38 MOV RBX,qword ptr [R11 + 0x38] | From: 1c00072da To: Stack[0x8] Type: READ Op: 1 ANALYSIS
+1c00072de 498b7340 MOV RSI,qword ptr [R11 + 0x40] | From: 1c00072de To: Stack[0x10] Type: READ Op: 1 ANALYSIS
+1c00072e2 498b7b48 MOV RDI,qword ptr [R11 + 0x48] | From: 1c00072e2 To: Stack[0x18] Type: READ Op: 1 ANALYSIS
+1c00072e6 498be3 MOV RSP,R11 | 
+1c00072e9 415f POP R15 | 
+1c00072eb 415e POP R14 | 
+1c00072ed 415d POP R13 | 
+1c00072ef 415c POP R12 | 
+1c00072f1 5d POP RBP | 
+1c00072f2 c3 RET | 
+1c00072f4 b903000000 MOV ECX,0x3 | 
+1c00072f9 cd29 INT 0x29 | 
+1c00072fb cc INT3 | 
+
+
+=== xinputhid-analysis / 1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588 ===
+FUNCTION 14000d1d8 DispatchGetUnfilteredGamepadState
+BODY [[14000d1d8, 14000d2c9] [14000d2cb, 14000d60a]]
+INCOMING REFERENCES
+From: 140018510 To: 14000d1d8 Type: DATA Op: 0 DEFAULT caller=null
+From: 14000f178 To: 14000d1d8 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DispatchXINPUTIoctl
+DIRECT CALLEES
+140011fb0 _guard_dispatch_icall
+140012380 memset
+140004a38 IsNexusRestricted
+14000ac50 WPP_SF_q
+EXTERNAL:0000000c IoGetRequestorProcessId
+EXTERNAL:0000002b ExAllocatePoolWithTag
+140008d18 Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline
+EXTERNAL:00000028 ExFreePoolWithTag
+14000a1b8 WPP_SF_
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: _guard_dispatch_icall replaced with injection: guard_dispatch_icall */
+/* void __cdecl DispatchGetUnfilteredGamepadState(struct _DEVICE_CONTEXT * __ptr64,struct
+   WDFREQUEST__ * __ptr64) */
+
+void __cdecl DispatchGetUnfilteredGamepadState(_DEVICE_CONTEXT *param_1,WDFREQUEST__ *param_2)
+
+{
+  _DEVICE_CONTEXT *p_Var1;
+  code *pcVar2;
+  _DEVICE_CONTEXT *p_Var3;
+  bool bVar4;
+  uchar uVar5;
+  int iVar6;
+  uint uVar7;
+  ulonglong uVar8;
+  undefined8 uVar9;
+  undefined8 *puVar10;
+  longlong *plVar11;
+  undefined1 *puVar12;
+  undefined1 *puVar13;
+  _DEVICE_CONTEXT *p_Var14;
+  undefined8 *local_res18;
+  short *local_res20;
+  undefined1 auStack_118 [8];
+  undefined1 auStack_110 [24];
+  undefined8 *local_f8;
+  undefined8 local_e8;
+  undefined8 local_e0;
+  undefined8 local_d8;
+  code *local_d0;
+  undefined8 local_c8;
+  undefined4 local_c0;
+  undefined4 local_bc;
+  undefined8 local_b8;
+  undefined8 local_b0;
+  undefined8 uStack_a8;
+  undefined4 local_98;
+  undefined4 local_94;
+  undefined4 local_90;
+  undefined1 local_8c [84];
+  
+  puVar13 = auStack_118;
+  local_f8 = &local_e8;
+  local_res20 = (short *)0x0;
+  local_e8 = 0;
+  local_res18 = (undefined8 *)0x0;
+  local_e0 = 0;
+  iVar6 = (**(code **)(WdfFunctions_01015 + 0x868))(WdfDriverGlobals,param_2,4,&local_res20);
+  puVar12 = auStack_118;
+  if (-1 < iVar6) {
+    local_f8 = &local_e0;
+    iVar6 = (**(code **)(WdfFunctions_01015 + 0x870))(WdfDriverGlobals,param_2,0x18,&local_res18);
+    puVar12 = auStack_118;
+    if (iVar6 < 0) goto LAB_14000d28c;
+    if (*local_res20 != 0x103) {
+      iVar6 = -0x3ffffff3;
+      puVar12 = auStack_118;
+      goto LAB_14000d28c;
+    }
+    if (*(char *)((longlong)local_res20 + 3) != '\0') {
+      (**(code **)(WdfFunctions_01015 + 0x9e0))(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+      uVar9 = *(undefined8 *)(param_1 + 0x109);
+      *local_res18 = *(undefined8 *)(param_1 + 0x101);
+      local_res18[1] = uVar9;
+      local_res18[2] = *(undefined8 *)(param_1 + 0x111);
+      uVar8 = Feature_GameInput_DriverNexusImprovements__private_IsEnabledDeviceUsageNoInline();
+      if ((((int)uVar8 != 0) && (uVar5 = IsNexusRestricted(), uVar5 != '\0')) &&
+         (((byte)param_1[0x9d] & 0x40) != 0)) {
+        *(ushort *)((longlong)local_res18 + 6) = *(ushort *)((longlong)local_res18 + 6) | 0x400;
+      }
+      iVar6 = 0;
+      (**(code **)(WdfFunctions_01015 + 0x9e8))(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+      (**(code **)(WdfFunctions_01015 + 0x898))(WdfDriverGlobals,param_2,0x18);
+      puVar12 = auStack_118;
+      goto LAB_14000d28c;
+    }
+    uVar9 = (**(code **)(WdfFunctions_01015 + 0x8e8))(WdfDriverGlobals,param_2);
+    iVar6 = IoGetRequestorProcessId(uVar9);
+    bVar4 = true;
+    (**(code **)(WdfFunctions_01015 + 0x9e0))(WdfDriverGlobals);
+    p_Var1 = param_1 + 0x80;
+    p_Var14 = *(_DEVICE_CONTEXT **)p_Var1;
+    if (*(_DEVICE_CONTEXT **)p_Var1 != p_Var1) {
+      do {
+        p_Var3 = *(_DEVICE_CONTEXT **)p_Var14;
+        if (*(int *)(p_Var14 + 0x10) == iVar6) {
+          bVar4 = false;
+          uVar7 = (**(code **)(WdfFunctions_01015 + 0x8c8))
+                            (WdfDriverGlobals,param_2,*(longlong *)(p_Var14 + 0x18));
+          puVar12 = auStack_118;
+          if ((uVar7 & 0xc0000000) == 0xc0000000) goto LAB_14000d4c7;
+        }
+        p_Var14 = p_Var3;
+      } while (p_Var3 != p_Var1);
+      if (!bVar4) goto LAB_14000d5e8;
+    }
+    local_d8 = 0x38;
+    local_c0 = 1;
+    local_bc = 1;
+    local_b8 = *(undefined8 *)(param_1 + 0x18);
+    local_c8 = 0;
+    local_b0 = 0;
+    uStack_a8 = 0;
+    memset(local_8c,0,0x54);
+    local_98 = 0x60;
+    local_d0 = OnIOQueueCleanup;
+    local_90 = 2;
+    local_94 = 3;
+    puVar10 = (undefined8 *)ExAllocatePoolWithTag(0x200,0x20,0x50484958);
+    if (puVar10 == (undefined8 *)0x0) {
+      puVar12 = auStack_118;
+      if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+         (puVar12 = auStack_118, 1 < (byte)WPP_GLOBAL_Control[0x29])) {
+        WPP_SF_(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x3f,
+                &WPP_66fc575ffe273679cbf1f8c4efe3e170_Traceguids);
+        puVar12 = auStack_118;
+      }
+    }
+    else {
+      local_f8 = puVar10 + 3;
+      uVar7 = (**(code **)(WdfFunctions_01015 + 0x4c0))
+                        (WdfDriverGlobals,*(undefined8 *)(param_1 + 0x18),&local_98,&local_d8);
+      if ((uVar7 & 0xc0000000) == 0xc0000000) {
+        if (((undefined **)WPP_GLOBAL_Control != &WPP_GLOBAL_Control) &&
+           (1 < (byte)WPP_GLOBAL_Control[0x29])) {
+          WPP_SF_q(*(undefined8 *)(WPP_GLOBAL_Control + 0x18),0x40,
+                   &WPP_66fc575ffe273679cbf1f8c4efe3e170_Traceguids,*(undefined8 *)(param_1 + 0x18))
+          ;
+        }
+        iVar6 = -0x3ffffee0;
+        (**(code **)(WdfFunctions_01015 + 0x9e8))(WdfDriverGlobals,*(undefined8 *)(param_1 + 0x20));
+        ExFreePoolWithTag(puVar10,0x50484958);
+        puVar12 = auStack_118;
+        goto LAB_14000d28c;
+      }
+      *(int *)(puVar10 + 2) = iVar6;
+      plVar11 = *(longlong **)(param_1 + 0x88);
+      puVar13 = auStack_118;
+      if ((_DEVICE_CONTEXT *)*plVar11 != param_1 + 0x80) {
+        pcVar2 = (code *)swi(0x29);
+        plVar11 = (longlong *)(*pcVar2)(3);
+        puVar13 = auStack_110;
+      }
+      *puVar10 = param_1 + 0x80;
+      puVar10[1] = plVar11;
+      *plVar11 = (longlong)puVar10;
+      *(undefined8 **)(param_1 + 0x88) = puVar10;
+      uVar9 = puVar10[3];
+      pcVar2 = *(code **)(WdfFunctions_01015 + 0x8c8);
+      *(undefined8 *)(puVar13 + -8) = 0x14000d5dc;
+      uVar7 = (*pcVar2)(WdfDriverGlobals,param_2,uVar9);
+      puVar12 = puVar13;
+      if ((uVar7 & 0xc0000000) != 0xc0000000) {
+LAB_14000d5e8:
+        uVar9 = *(undefined8 *)(param_1 + 0x20);
+        pcVar2 = *(code **)(WdfFunctions_01015 + 0x9e8);
+        *(undefined8 *)(puVar13 + -8) = 0x14000d606;
+        (*pcVar2)(WdfDriverGlobals,uVar9);
+        return;
+      }
+    }
+LAB_14000d4c7:
+    iVar6 = -0x3ffffee0;
+    uVar9 = *(undefined8 *)(param_1 + 0x20);
+    pcVar2 = *(code **)(WdfFunctions_01015 + 0x9e8);
+    *(undefined8 *)(puVar12 + -8) = 0x14000d4ea;
+    (*pcVar2)(WdfDriverGlobals,uVar9);
+  }
+LAB_14000d28c:
+  pcVar2 = *(code **)(WdfFunctions_01015 + 0x840);
+  *(undefined8 *)(puVar12 + -8) = 0x14000d2af;
+  (*pcVar2)(WdfDriverGlobals,param_2,iVar6,6);
+  return;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+14000d1d8 48895c2408 MOV qword ptr [RSP + 0x8],RBX | From: 14000d1d8 To: Stack[0x8] Type: WRITE Op: 0 ANALYSIS
+14000d1dd 55 PUSH RBP | 
+14000d1de 56 PUSH RSI | 
+14000d1df 57 PUSH RDI | 
+14000d1e0 4154 PUSH R12 | 
+14000d1e2 4155 PUSH R13 | 
+14000d1e4 4156 PUSH R14 | 
+14000d1e6 4157 PUSH R15 | 
+14000d1e8 488d6c24d9 LEA RBP,[RSP + -0x27] | From: 14000d1e8 To: Stack[-0x5f] Type: DATA Op: 0 ANALYSIS
+14000d1ed 4881ece0000000 SUB RSP,0xe0 | 
+14000d1f4 488b05bda20000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d1f4 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d1fb 4c8d4d7f LEA R9,[RBP + 0x7f] | From: 14000d1fb To: Stack[0x20] Type: DATA Op: 0 ANALYSIS
+14000d1ff 4533ed XOR R13D,R13D | 
+14000d202 488bf9 MOV RDI,RCX | 
+14000d205 488d4c2430 LEA RCX,[RSP + 0x30] | From: 14000d205 To: Stack[-0xe8] Type: DATA Op: 0 ANALYSIS
+14000d20a 4c896d7f MOV qword ptr [RBP + 0x7f],R13 | From: 14000d20a To: Stack[0x20] Type: WRITE Op: 0 ANALYSIS
+14000d20e 4c896c2430 MOV qword ptr [RSP + 0x30],R13 | From: 14000d20e To: Stack[-0xe8] Type: WRITE Op: 0 ANALYSIS
+14000d213 4c8bf2 MOV R14,RDX | 
+14000d216 4c896d77 MOV qword ptr [RBP + 0x77],R13 | From: 14000d216 To: Stack[0x18] Type: WRITE Op: 0 ANALYSIS
+14000d21a 4c896c2438 MOV qword ptr [RSP + 0x38],R13 | From: 14000d21a To: Stack[-0xe0] Type: WRITE Op: 0 ANALYSIS
+14000d21f 458d4504 LEA R8D,[R13 + 0x4] | 
+14000d223 488b8068080000 MOV RAX,qword ptr [RAX + 0x868] | 
+14000d22a 48894c2420 MOV qword ptr [RSP + 0x20],RCX | From: 14000d22a To: Stack[-0xf8] Type: WRITE Op: 0 ANALYSIS
+14000d22f 488b0d8aa20000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d22f To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d236 e8754d0000 CALL 0x140011fb0 | From: 14000d236 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d23b 8bd8 MOV EBX,EAX | 
+14000d23d 85c0 TEST EAX,EAX | 
+14000d23f 784b JS 0x14000d28c | From: 14000d23f To: 14000d28c Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d241 488b0570a20000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d241 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d248 488d4c2438 LEA RCX,[RSP + 0x38] | From: 14000d248 To: Stack[-0xe0] Type: DATA Op: 0 ANALYSIS
+14000d24d 48894c2420 MOV qword ptr [RSP + 0x20],RCX | From: 14000d24d To: Stack[-0xf8] Type: WRITE Op: 0 ANALYSIS
+14000d252 418d7518 LEA ESI,[R13 + 0x18] | 
+14000d256 488b0d63a20000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d256 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d25d 4c8d4d77 LEA R9,[RBP + 0x77] | From: 14000d25d To: Stack[0x18] Type: DATA Op: 0 ANALYSIS
+14000d261 448bc6 MOV R8D,ESI | 
+14000d264 498bd6 MOV RDX,R14 | 
+14000d267 488b8070080000 MOV RAX,qword ptr [RAX + 0x870] | 
+14000d26e e83d4d0000 CALL 0x140011fb0 | From: 14000d26e To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d273 8bd8 MOV EBX,EAX | 
+14000d275 85c0 TEST EAX,EAX | 
+14000d277 7813 JS 0x14000d28c | From: 14000d277 To: 14000d28c Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d279 488b457f MOV RAX,qword ptr [RBP + 0x7f] | From: 14000d279 To: Stack[0x20] Type: READ Op: 1 ANALYSIS
+14000d27d b903010000 MOV ECX,0x103 | 
+14000d282 663908 CMP word ptr [RAX],CX | 
+14000d285 7444 JZ 0x14000d2cb | From: 14000d285 To: 14000d2cb Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d287 bb0d0000c0 MOV EBX,0xc000000d | 
+14000d28c 488b0525a20000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d28c To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d293 41b106 MOV R9B,0x6 | 
+14000d296 488b0d23a20000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d296 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d29d 448bc3 MOV R8D,EBX | 
+14000d2a0 498bd6 MOV RDX,R14 | 
+14000d2a3 488b8040080000 MOV RAX,qword ptr [RAX + 0x840] | 
+14000d2aa e8014d0000 CALL 0x140011fb0 | From: 14000d2aa To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d2af 488b9c2420010000 MOV RBX,qword ptr [RSP + 0x120] | From: 14000d2af To: Stack[0x8] Type: READ Op: 1 ANALYSIS
+14000d2b7 4881c4e0000000 ADD RSP,0xe0 | 
+14000d2be 415f POP R15 | 
+14000d2c0 415e POP R14 | 
+14000d2c2 415d POP R13 | 
+14000d2c4 415c POP R12 | 
+14000d2c6 5f POP RDI | 
+14000d2c7 5e POP RSI | 
+14000d2c8 5d POP RBP | 
+14000d2c9 c3 RET | 
+14000d2cb 44386803 CMP byte ptr [RAX + 0x3],R13B | 
+14000d2cf 488b05e2a10000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d2cf To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d2d6 488b0de3a10000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d2d6 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d2dd 0f8499000000 JZ 0x14000d37c | From: 14000d2dd To: 14000d37c Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d2e3 488b80e0090000 MOV RAX,qword ptr [RAX + 0x9e0] | 
+14000d2ea 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+14000d2ee e8bd4c0000 CALL 0x140011fb0 | From: 14000d2ee To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d2f3 488b4577 MOV RAX,qword ptr [RBP + 0x77] | From: 14000d2f3 To: Stack[0x18] Type: READ Op: 1 ANALYSIS
+14000d2f7 0f108701010000 MOVUPS XMM0,xmmword ptr [RDI + 0x101] | 
+14000d2fe 0f1100 MOVUPS xmmword ptr [RAX],XMM0 | 
+14000d301 f20f108f11010000 MOVSD XMM1,qword ptr [RDI + 0x111] | 
+14000d309 f20f114810 MOVSD qword ptr [RAX + 0x10],XMM1 | 
+14000d30e e805baffff CALL 0x140008d18 | From: 14000d30e To: 140008d18 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d313 85c0 TEST EAX,EAX | 
+14000d315 741f JZ 0x14000d336 | From: 14000d315 To: 14000d336 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d317 e81c77ffff CALL 0x140004a38 | From: 14000d317 To: 140004a38 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d31c 84c0 TEST AL,AL | 
+14000d31e 7416 JZ 0x14000d336 | From: 14000d31e To: 14000d336 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d320 f6879d00000040 TEST byte ptr [RDI + 0x9d],0x40 | 
+14000d327 740d JZ 0x14000d336 | From: 14000d327 To: 14000d336 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d329 488b4577 MOV RAX,qword ptr [RBP + 0x77] | From: 14000d329 To: Stack[0x18] Type: READ Op: 1 ANALYSIS
+14000d32d b900040000 MOV ECX,0x400 | 
+14000d332 66094806 OR word ptr [RAX + 0x6],CX | 
+14000d336 488b057ba10000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d336 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d33d 418bdd MOV EBX,R13D | 
+14000d340 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+14000d344 488b0d75a10000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d344 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d34b 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8] | 
+14000d352 e8594c0000 CALL 0x140011fb0 | From: 14000d352 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d357 488b055aa10000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d357 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d35e 4c8bc6 MOV R8,RSI | 
+14000d361 488b0d58a10000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d361 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d368 498bd6 MOV RDX,R14 | 
+14000d36b 488b8098080000 MOV RAX,qword ptr [RAX + 0x898] | 
+14000d372 e8394c0000 CALL 0x140011fb0 | From: 14000d372 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d377 e910ffffff JMP 0x14000d28c | From: 14000d377 To: 14000d28c Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+14000d37c 488b80e8080000 MOV RAX,qword ptr [RAX + 0x8e8] | 
+14000d383 498bd6 MOV RDX,R14 | 
+14000d386 e8254c0000 CALL 0x140011fb0 | From: 14000d386 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d38b 488bc8 MOV RCX,RAX | 
+14000d38e 48ff155bbd0000 CALL qword ptr [0x1400190f0] | From: 14000d38e To: 1400190f0 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::IoGetRequestorProcessId
+14000d395 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+14000d39a 488b0d17a10000 MOV RCX,qword ptr [0x1400174b8] | From: 14000d39a To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d3a1 41b701 MOV R15B,0x1 | 
+14000d3a4 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+14000d3a8 448be0 MOV R12D,EAX | 
+14000d3ab 488b81e0090000 MOV RAX,qword ptr [RCX + 0x9e0] | 
+14000d3b2 488b0d07a10000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d3b2 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d3b9 e8f24b0000 CALL 0x140011fb0 | From: 14000d3b9 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d3be 488d9f80000000 LEA RBX,[RDI + 0x80] | 
+14000d3c5 488b33 MOV RSI,qword ptr [RBX] | 
+14000d3c8 483bf3 CMP RSI,RBX | 
+14000d3cb 7454 JZ 0x14000d421 | From: 14000d3cb To: 14000d421 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d3cd 4c8d06 LEA R8,[RSI] | 
+14000d3d0 488b36 MOV RSI,qword ptr [RSI] | 
+14000d3d3 45396010 CMP dword ptr [R8 + 0x10],R12D | 
+14000d3d7 7533 JNZ 0x14000d40c | From: 14000d3d7 To: 14000d40c Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d3d9 488b05d8a00000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d3d9 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d3e0 498bd6 MOV RDX,R14 | 
+14000d3e3 4d8b4018 MOV R8,qword ptr [R8 + 0x18] | 
+14000d3e7 458afd MOV R15B,R13B | 
+14000d3ea 488b0dcfa00000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d3ea To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d3f1 488b80c8080000 MOV RAX,qword ptr [RAX + 0x8c8] | 
+14000d3f8 e8b34b0000 CALL 0x140011fb0 | From: 14000d3f8 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d3fd b9000000c0 MOV ECX,0xc0000000 | 
+14000d402 23c1 AND EAX,ECX | 
+14000d404 3bc1 CMP EAX,ECX | 
+14000d406 0f84bb000000 JZ 0x14000d4c7 | From: 14000d406 To: 14000d4c7 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d40c 483bf3 CMP RSI,RBX | 
+14000d40f 75bc JNZ 0x14000d3cd | From: 14000d40f To: 14000d3cd Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d411 4584ff TEST R15B,R15B | 
+14000d414 0f84ce010000 JZ 0x14000d5e8 | From: 14000d414 To: 14000d5e8 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d41a 488d9f80000000 LEA RBX,[RDI + 0x80] | 
+14000d421 b801000000 MOV EAX,0x1 | 
+14000d426 48c7458738000000 MOV qword ptr [RBP + -0x79],0x38 | From: 14000d426 To: Stack[-0xd8] Type: WRITE Op: 0 ANALYSIS
+14000d42e 33d2 XOR EDX,EDX | 
+14000d430 89459f MOV dword ptr [RBP + -0x61],EAX | From: 14000d430 To: Stack[-0xc0] Type: WRITE Op: 0 ANALYSIS
+14000d433 8945a3 MOV dword ptr [RBP + -0x5d],EAX | From: 14000d433 To: Stack[-0xbc] Type: WRITE Op: 0 ANALYSIS
+14000d436 488d4dd3 LEA RCX,[RBP + -0x2d] | From: 14000d436 To: Stack[-0x8c] Type: DATA Op: 0 ANALYSIS
+14000d43a 488b4718 MOV RAX,qword ptr [RDI + 0x18] | 
+14000d43e 0f57c0 XORPS XMM0,XMM0 | 
+14000d441 4c896d97 MOV qword ptr [RBP + -0x69],R13 | From: 14000d441 To: Stack[-0xc8] Type: WRITE Op: 0 ANALYSIS
+14000d445 448d4254 LEA R8D,[RDX + 0x54] | 
+14000d449 488945a7 MOV qword ptr [RBP + -0x59],RAX | From: 14000d449 To: Stack[-0xb8] Type: WRITE Op: 0 ANALYSIS
+14000d44d f30f7f45af MOVDQU xmmword ptr [RBP + -0x51],XMM0 | From: 14000d44d To: Stack[-0xb0] Type: WRITE Op: 0 ANALYSIS
+14000d452 e8294f0000 CALL 0x140012380 | From: 14000d452 To: 140012380 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d457 488d05a2c9ffff LEA RAX,[0x140009e00] | From: 14000d457 To: 140009e00 Type: DATA Op: 1 ANALYSIS
+14000d45e c745c760000000 MOV dword ptr [RBP + -0x39],0x60 | From: 14000d45e To: Stack[-0x98] Type: WRITE Op: 0 ANALYSIS
+14000d465 ba20000000 MOV EDX,0x20 | 
+14000d46a 4889458f MOV qword ptr [RBP + -0x71],RAX | From: 14000d46a To: 140009e00 Type: DATA Op: 1 ANALYSIS; From: 14000d46a To: Stack[-0xd0] Type: WRITE Op: 0 ANALYSIS
+14000d46e b900020000 MOV ECX,0x200 | 
+14000d473 c745cf02000000 MOV dword ptr [RBP + -0x31],0x2 | From: 14000d473 To: Stack[-0x90] Type: WRITE Op: 0 ANALYSIS
+14000d47a 41b858494850 MOV R8D,0x50484958 | 
+14000d480 c745cb03000000 MOV dword ptr [RBP + -0x35],0x3 | From: 14000d480 To: Stack[-0x94] Type: WRITE Op: 0 ANALYSIS
+14000d487 48ff155abd0000 CALL qword ptr [0x1400191e8] | From: 14000d487 To: 1400191e8 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExAllocatePoolWithTag
+14000d48e 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+14000d493 488bf0 MOV RSI,RAX | 
+14000d496 4885c0 TEST RAX,RAX | 
+14000d499 7554 JNZ 0x14000d4ef | From: 14000d499 To: 14000d4ef Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d49b 488b0d3e9d0000 MOV RCX,qword ptr [0x1400171e0] | From: 14000d49b To: 1400171e0 Type: READ Op: 1 DEFAULT
+14000d4a2 488d05379d0000 LEA RAX,[0x1400171e0] | From: 14000d4a2 To: 1400171e0 Type: DATA Op: 1 ANALYSIS
+14000d4a9 483bc8 CMP RCX,RAX | 
+14000d4ac 7419 JZ 0x14000d4c7 | From: 14000d4ac To: 14000d4c7 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d4ae 80792902 CMP byte ptr [RCX + 0x29],0x2 | From: 14000d4ae To: 140017209 Type: READ Op: 0 ANALYSIS
+14000d4b2 7213 JC 0x14000d4c7 | From: 14000d4b2 To: 14000d4c7 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d4b4 488b4918 MOV RCX,qword ptr [RCX + 0x18] | From: 14000d4b4 To: 1400171f8 Type: READ Op: 1 ANALYSIS
+14000d4b8 8d563f LEA EDX,[RSI + 0x3f] | 
+14000d4bb 4c8d056e720000 LEA R8,[0x140014730] | From: 14000d4bb To: 140014730 Type: DATA Op: 1 ANALYSIS
+14000d4c2 e8f1ccffff CALL 0x14000a1b8 | From: 14000d4c2 To: 14000a1b8 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d4c7 488b05ea9f0000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d4c7 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d4ce bb200100c0 MOV EBX,0xc0000120 | 
+14000d4d3 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+14000d4d7 488b0de29f0000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d4d7 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d4de 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8] | 
+14000d4e5 e8c64a0000 CALL 0x140011fb0 | From: 14000d4e5 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d4ea e99dfdffff JMP 0x14000d28c | From: 14000d4ea To: 14000d28c Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+14000d4ef 488b05c29f0000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d4ef To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d4f6 4c8d7e18 LEA R15,[RSI + 0x18] | 
+14000d4fa 488b5718 MOV RDX,qword ptr [RDI + 0x18] | 
+14000d4fe 4c8d4d87 LEA R9,[RBP + -0x79] | From: 14000d4fe To: Stack[-0xd8] Type: DATA Op: 0 ANALYSIS
+14000d502 488b0db79f0000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d502 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d509 4c8d45c7 LEA R8,[RBP + -0x39] | From: 14000d509 To: Stack[-0x98] Type: DATA Op: 0 ANALYSIS
+14000d50d 4c897c2420 MOV qword ptr [RSP + 0x20],R15 | From: 14000d50d To: Stack[-0xf8] Type: WRITE Op: 0 ANALYSIS
+14000d512 488b80c0040000 MOV RAX,qword ptr [RAX + 0x4c0] | 
+14000d519 e8924a0000 CALL 0x140011fb0 | From: 14000d519 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d51e 41bd000000c0 MOV R13D,0xc0000000 | 
+14000d524 4123c5 AND EAX,R13D | 
+14000d527 413bc5 CMP EAX,R13D | 
+14000d52a 756e JNZ 0x14000d59a | From: 14000d52a To: 14000d59a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d52c 488b0dad9c0000 MOV RCX,qword ptr [0x1400171e0] | From: 14000d52c To: 1400171e0 Type: READ Op: 1 DEFAULT
+14000d533 488d05a69c0000 LEA RAX,[0x1400171e0] | From: 14000d533 To: 1400171e0 Type: DATA Op: 1 ANALYSIS
+14000d53a 483bc8 CMP RCX,RAX | 
+14000d53d 741f JZ 0x14000d55e | From: 14000d53d To: 14000d55e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d53f 80792902 CMP byte ptr [RCX + 0x29],0x2 | From: 14000d53f To: 140017209 Type: READ Op: 0 ANALYSIS
+14000d543 7219 JC 0x14000d55e | From: 14000d543 To: 14000d55e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d545 4c8b4f18 MOV R9,qword ptr [RDI + 0x18] | 
+14000d549 4c8d05e0710000 LEA R8,[0x140014730] | From: 14000d549 To: 140014730 Type: DATA Op: 1 ANALYSIS
+14000d550 488b4918 MOV RCX,qword ptr [RCX + 0x18] | From: 14000d550 To: 1400171f8 Type: READ Op: 1 ANALYSIS
+14000d554 ba40000000 MOV EDX,0x40 | 
+14000d559 e8f2d6ffff CALL 0x14000ac50 | From: 14000d559 To: 14000ac50 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d55e 488b05539f0000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d55e To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d565 bb200100c0 MOV EBX,0xc0000120 | 
+14000d56a 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+14000d56e 488b0d4b9f0000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d56e To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d575 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8] | 
+14000d57c e82f4a0000 CALL 0x140011fb0 | From: 14000d57c To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d581 ba58494850 MOV EDX,0x50484958 | 
+14000d586 488bce MOV RCX,RSI | 
+14000d589 48ff1540bc0000 CALL qword ptr [0x1400191d0] | From: 14000d589 To: 1400191d0 Type: READ Op: 0 DEFAULT; ->NTOSKRNL.EXE::ExFreePoolWithTag
+14000d590 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+14000d595 e9f2fcffff JMP 0x14000d28c | From: 14000d595 To: 14000d28c Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+14000d59a 44896610 MOV dword ptr [RSI + 0x10],R12D | 
+14000d59e 488b4308 MOV RAX,qword ptr [RBX + 0x8] | 
+14000d5a2 483918 CMP qword ptr [RAX],RBX | 
+14000d5a5 7407 JZ 0x14000d5ae | From: 14000d5a5 To: 14000d5ae Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d5a7 b903000000 MOV ECX,0x3 | 
+14000d5ac cd29 INT 0x29 | 
+14000d5ae 48891e MOV qword ptr [RSI],RBX | 
+14000d5b1 498bd6 MOV RDX,R14 | 
+14000d5b4 48894608 MOV qword ptr [RSI + 0x8],RAX | 
+14000d5b8 488930 MOV qword ptr [RAX],RSI | 
+14000d5bb 48897308 MOV qword ptr [RBX + 0x8],RSI | 
+14000d5bf 488b05f29e0000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d5bf To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d5c6 4d8b07 MOV R8,qword ptr [R15] | 
+14000d5c9 488b0df09e0000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d5c9 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d5d0 488b80c8080000 MOV RAX,qword ptr [RAX + 0x8c8] | 
+14000d5d7 e8d4490000 CALL 0x140011fb0 | From: 14000d5d7 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d5dc 4123c5 AND EAX,R13D | 
+14000d5df 413bc5 CMP EAX,R13D | 
+14000d5e2 0f84dffeffff JZ 0x14000d4c7 | From: 14000d5e2 To: 14000d4c7 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+14000d5e8 488b05c99e0000 MOV RAX,qword ptr [0x1400174b8] | From: 14000d5e8 To: 1400174b8 Type: READ Op: 1 DEFAULT
+14000d5ef 488b5720 MOV RDX,qword ptr [RDI + 0x20] | 
+14000d5f3 488b0dc69e0000 MOV RCX,qword ptr [0x1400174c0] | From: 14000d5f3 To: 1400174c0 Type: READ Op: 1 DEFAULT
+14000d5fa 488b80e8090000 MOV RAX,qword ptr [RAX + 0x9e8] | 
+14000d601 e8aa490000 CALL 0x140011fb0 | From: 14000d601 To: 140011fb0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+14000d606 e9a4fcffff JMP 0x14000d2af | From: 14000d606 To: 14000d2af Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+
+
+=== win10-inbox-analysis / b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7 ===
+FUNCTION 18003b524 RequestUnfilteredState
+BODY [[18003b524, 18003b671]]
+INCOMING REFERENCES
+From: 18005e9e0 To: 18003b524 Type: DATA Op: 0 DEFAULT caller=null
+From: 18003b44e To: 18003b524 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::IsUnfilteredStateIOCTLSupported
+From: 18003b7df To: 18003b524 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::WorkerThread
+DIRECT CALLEES
+1800011ec Write<_tlgWrapSz<char>,_tlgWrapperByVal<4>,_tlgWrapperByVal<4>_>
+EXTERNAL:0000005e GetLastError
+EXTERNAL:00000074 DeviceIoControl
+EXTERNAL:00000047 ResetEvent
+DECOMPILATION completed=true error=
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* private: static bool __cdecl XusbWatcher::RequestUnfilteredState(void * __ptr64,void *
+   __ptr64,unsigned int,bool,struct GamepadState0101::GamepadData * __ptr64,struct _OVERLAPPED *
+   __ptr64) */
+
+bool __cdecl
+XusbWatcher::RequestUnfilteredState
+          (void *param_1,void *param_2,uint param_3,bool param_4,GamepadData *param_5,
+          _OVERLAPPED *param_6)
+
+{
+  _OVERLAPPED *lpOverlapped;
+  bool bVar1;
+  BOOL BVar2;
+  DWORD DVar3;
+  undefined7 in_register_00000089;
+  _GUID *p_Var4;
+  char *local_res10;
+  DWORD local_res18 [2];
+  undefined2 local_res20;
+  undefined1 local_res22;
+  undefined1 local_res23;
+  
+  lpOverlapped = param_6;
+  local_res20 = 0x103;
+  p_Var4 = (_GUID *)(CONCAT71(in_register_00000089,param_4) ^ 1);
+  local_res22 = (undefined1)param_3;
+  local_res23 = SUB81(p_Var4,0);
+  *(undefined8 *)param_5 = 0;
+  *(undefined8 *)(param_5 + 8) = 0;
+  *(undefined8 *)(param_5 + 0x10) = 0;
+  param_6->Internal = 0;
+  param_6->InternalHigh = 0;
+  (param_6->u).Pointer = (PVOID)0x0;
+  param_6->hEvent = param_2;
+  BVar2 = ResetEvent(param_2);
+  if (BVar2 == 0) {
+    local_res18[0] = GetLastError();
+    if (((2 < DAT_18005b000) && ((_DAT_18005b010 & 0x400) != 0)) &&
+       ((_tlgProvider_t *)((ulonglong)DAT_18005b018 & 0x400) == DAT_18005b018)) {
+      param_6._0_4_ = 0x10e;
+      local_res10 = "onecore\\xbox\\gameinput2\\server\\XusbWatcher.cpp";
+      _tlgWriteTemplate<long___cdecl(_tlgProvider_t_const*___ptr64,void_const*___ptr64,_GUID_const*___ptr64,_GUID_const*___ptr64,unsigned_int,_EVENT_DATA_DESCRIPTOR*___ptr64),&long___cdecl__tlgWriteTransfer_GameInputEventWriteTransfer(struct__tlgProvider_t_const*___ptr64,void_const*___ptr64,struct__GUID_const*___ptr64,struct__GUID_const*___ptr64,unsigned_int,struct__EVENT_DATA_DESCRIPTOR*___ptr64),_GUID_const*___ptr64,_GUID_const*___ptr64>
+      ::Write<_tlgWrapSz<char>,_tlgWrapperByVal<4>,_tlgWrapperByVal<4>_>
+                ((_tlgProvider_t *)((ulonglong)DAT_18005b018 & 0x400),&DAT_180055f77,(_GUID *)0x400,
+                 p_Var4,(_tlgWrapSz<char> *)&local_res10,(_tlgWrapperByVal<4> *)&param_6,
+                 (_tlgWrapperByVal<4> *)local_res18);
+    }
+LAB_18003b664:
+    bVar1 = false;
+  }
+  else {
+    BVar2 = DeviceIoControl(param_1,0x8000e388,&local_res20,4,param_5,0x18,(LPDWORD)0x0,lpOverlapped
+                           );
+    if (BVar2 == 0) {
+      DVar3 = GetLastError();
+      if (DVar3 != 0x3e5) goto LAB_18003b664;
+    }
+    bVar1 = true;
+  }
+  return bVar1;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+18003b524 4053 PUSH RBX | 
+18003b526 56 PUSH RSI | 
+18003b527 57 PUSH RDI | 
+18003b528 4883ec40 SUB RSP,0x40 | 
+18003b52c 488b9c2488000000 MOV RBX,qword ptr [RSP + 0x88] | From: 18003b52c To: Stack[0x30] Type: READ Op: 1 ANALYSIS
+18003b534 b803010000 MOV EAX,0x103 | 
+18003b539 488bbc2480000000 MOV RDI,qword ptr [RSP + 0x80] | From: 18003b539 To: Stack[0x28] Type: READ Op: 1 ANALYSIS
+18003b541 0f57c0 XORPS XMM0,XMM0 | 
+18003b544 6689442478 MOV word ptr [RSP + 0x78],AX | From: 18003b544 To: Stack[0x20] Type: WRITE Op: 0 ANALYSIS
+18003b549 4180f101 XOR R9B,0x1 | 
+18003b54d 33c0 XOR EAX,EAX | 
+18003b54f 448844247a MOV byte ptr [RSP + 0x7a],R8B | From: 18003b54f To: Stack[0x22] Type: WRITE Op: 0 ANALYSIS
+18003b554 44884c247b MOV byte ptr [RSP + 0x7b],R9B | From: 18003b554 To: Stack[0x23] Type: WRITE Op: 0 ANALYSIS
+18003b559 488bf1 MOV RSI,RCX | 
+18003b55c 0f1107 MOVUPS xmmword ptr [RDI],XMM0 | 
+18003b55f 48894710 MOV qword ptr [RDI + 0x10],RAX | 
+18003b563 488bca MOV RCX,RDX | 
+18003b566 482103 AND qword ptr [RBX],RAX | 
+18003b569 48214308 AND qword ptr [RBX + 0x8],RAX | 
+18003b56d 48214310 AND qword ptr [RBX + 0x10],RAX | 
+18003b571 48895318 MOV qword ptr [RBX + 0x18],RDX | 
+18003b575 48ff159c460100 CALL qword ptr [0x18004fc18] | From: 18003b575 To: 18004fc18 Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-SYNCH-L1-1-0.DLL::ResetEvent
+18003b57c 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b581 85c0 TEST EAX,EAX | 
+18003b583 0f858d000000 JNZ 0x18003b616 | From: 18003b583 To: 18003b616 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b589 48ff1578440100 CALL qword ptr [0x18004fa08] | From: 18003b589 To: 18004fa08 Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-ERRORHANDLING-L1-1-0.DLL::GetLastError
+18003b590 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b595 833d64fa010002 CMP dword ptr [0x18005b000],0x2 | From: 18003b595 To: 18005b000 Type: READ Op: 0 DEFAULT
+18003b59c 0f86c2000000 JBE 0x18003b664 | From: 18003b59c To: 18003b664 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b5a2 41b800040000 MOV R8D,0x400 | 
+18003b5a8 4c850561fa0100 TEST qword ptr [0x18005b010],R8 | From: 18003b5a8 To: 18005b010 Type: READ Op: 0 DEFAULT
+18003b5af 0f84af000000 JZ 0x18003b664 | From: 18003b5af To: 18003b664 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b5b5 488b0d5cfa0100 MOV RCX,qword ptr [0x18005b018] | From: 18003b5b5 To: 18005b018 Type: READ Op: 1 DEFAULT
+18003b5bc 4923c8 AND RCX,R8 | 
+18003b5bf 483b0d52fa0100 CMP RCX,qword ptr [0x18005b018] | From: 18003b5bf To: 18005b018 Type: READ Op: 1 DEFAULT
+18003b5c6 0f8598000000 JNZ 0x18003b664 | From: 18003b5c6 To: 18003b664 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b5cc 89442470 MOV dword ptr [RSP + 0x70],EAX | From: 18003b5cc To: Stack[0x18] Type: WRITE Op: 0 ANALYSIS
+18003b5d0 488d15a0a90100 LEA RDX,[0x180055f77] | From: 18003b5d0 To: 180055f77 Type: DATA Op: 1 ANALYSIS
+18003b5d7 488d05128c0100 LEA RAX,[0x1800541f0] | From: 18003b5d7 To: 1800541f0 Type: DATA Op: 1 ANALYSIS
+18003b5de c78424880000000e010000 MOV dword ptr [RSP + 0x88],0x10e | From: 18003b5de To: Stack[0x30] Type: WRITE Op: 0 ANALYSIS
+18003b5e9 4889442468 MOV qword ptr [RSP + 0x68],RAX | From: 18003b5e9 To: 1800541f0 Type: DATA Op: 1 ANALYSIS; From: 18003b5e9 To: Stack[0x10] Type: WRITE Op: 0 ANALYSIS
+18003b5ee 488d442470 LEA RAX,[RSP + 0x70] | From: 18003b5ee To: Stack[0x18] Type: DATA Op: 0 ANALYSIS
+18003b5f3 4889442430 MOV qword ptr [RSP + 0x30],RAX | From: 18003b5f3 To: Stack[-0x28] Type: WRITE Op: 0 ANALYSIS
+18003b5f8 488d842488000000 LEA RAX,[RSP + 0x88] | From: 18003b5f8 To: Stack[0x30] Type: DATA Op: 0 ANALYSIS
+18003b600 4889442428 MOV qword ptr [RSP + 0x28],RAX | From: 18003b600 To: Stack[-0x30] Type: WRITE Op: 0 ANALYSIS
+18003b605 488d442468 LEA RAX,[RSP + 0x68] | From: 18003b605 To: Stack[0x10] Type: DATA Op: 0 ANALYSIS
+18003b60a 4889442420 MOV qword ptr [RSP + 0x20],RAX | From: 18003b60a To: Stack[-0x38] Type: WRITE Op: 0 ANALYSIS
+18003b60f e8d85bfcff CALL 0x1800011ec | From: 18003b60f To: 1800011ec Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b614 eb4e JMP 0x18003b664 | From: 18003b614 To: 18003b664 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+18003b616 48895c2438 MOV qword ptr [RSP + 0x38],RBX | From: 18003b616 To: Stack[-0x20] Type: WRITE Op: 0 ANALYSIS
+18003b61b 4c8d442478 LEA R8,[RSP + 0x78] | From: 18003b61b To: Stack[0x20] Type: DATA Op: 0 ANALYSIS
+18003b620 488364243000 AND qword ptr [RSP + 0x30],0x0 | From: 18003b620 To: Stack[-0x28] Type: READ_WRITE Op: 0 ANALYSIS
+18003b626 41b904000000 MOV R9D,0x4 | 
+18003b62c c744242818000000 MOV dword ptr [RSP + 0x28],0x18 | From: 18003b62c To: Stack[-0x30] Type: WRITE Op: 0 ANALYSIS
+18003b634 ba88e30080 MOV EDX,0x8000e388 | 
+18003b639 488bce MOV RCX,RSI | 
+18003b63c 48897c2420 MOV qword ptr [RSP + 0x20],RDI | From: 18003b63c To: Stack[-0x38] Type: WRITE Op: 0 ANALYSIS
+18003b641 48ff1540440100 CALL qword ptr [0x18004fa88] | From: 18003b641 To: 18004fa88 Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-IO-L1-1-0.DLL::DeviceIoControl
+18003b648 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b64d 85c0 TEST EAX,EAX | 
+18003b64f 7517 JNZ 0x18003b668 | From: 18003b64f To: 18003b668 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b651 48ff15b0430100 CALL qword ptr [0x18004fa08] | From: 18003b651 To: 18004fa08 Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-ERRORHANDLING-L1-1-0.DLL::GetLastError
+18003b658 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b65d 3de5030000 CMP EAX,0x3e5 | 
+18003b662 7404 JZ 0x18003b668 | From: 18003b662 To: 18003b668 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b664 32c0 XOR AL,AL | 
+18003b666 eb02 JMP 0x18003b66a | From: 18003b666 To: 18003b66a Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+18003b668 b001 MOV AL,0x1 | 
+18003b66a 4883c440 ADD RSP,0x40 | 
+18003b66e 5f POP RDI | 
+18003b66f 5e POP RSI | 
+18003b670 5b POP RBX | 
+18003b671 c3 RET | 
+
+
+=== win10-inbox-analysis / b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7 ===
+FUNCTION 18003b758 WorkerThread
+BODY [[18003b758, 18003b98e] [18003b990, 18003b99f] [18003b9a1, 18003b9b8]]
+INCOMING REFERENCES
+From: 18005ea04 To: 18003b758 Type: DATA Op: 0 DEFAULT caller=null
+From: 18003b744 To: 18003b758 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XusbWatcher::WorkerThreadProc
+DIRECT CALLEES
+18000c720 GameInputCurrentTime
+18004a180 __security_check_cookie
+EXTERNAL:00000027 NtDelayExecution
+18003960c ParseControllerInput
+EXTERNAL:0000005e GetLastError
+1800383c0 HandleXusbNexusChange
+EXTERNAL:00000022 NtWaitForSingleObject
+18003b524 RequestUnfilteredState
+18003b324 GetXusbDeviceIndex
+18000bf18 GameInputFailFast
+18003a0d4 UpdateSystemButtonState
+EXTERNAL:00000073 CancelIoEx
+18004b519 memcmp
+DECOMPILATION completed=true error=
+
+/* WARNING: Function: __security_check_cookie replaced with injection: security_check_cookie */
+/* private: void __cdecl XusbWatcher::WorkerThread(void) __ptr64 */
+
+void __thiscall XusbWatcher::WorkerThread(XusbWatcher *this)
+
+{
+  GameInputServerDevice *this_00;
+  undefined2 uVar1;
+  bool bVar2;
+  int iVar3;
+  BOOL BVar4;
+  DWORD DVar5;
+  uint uVar6;
+  LARGE_INTEGER LVar7;
+  undefined8 *puVar8;
+  XusbWatcher *_Buf2;
+  XusbWatcher XVar9;
+  undefined1 auStackY_f8 [32];
+  uint local_c8 [2];
+  undefined8 local_c0;
+  undefined8 uStack_b8;
+  undefined8 local_b0;
+  undefined8 local_a8;
+  _OVERLAPPED local_a0;
+  undefined8 local_80;
+  undefined8 uStack_78;
+  undefined2 local_70;
+  XusbWatcher local_6e;
+  undefined8 local_68;
+  undefined8 uStack_60;
+  undefined2 local_58;
+  XusbWatcher local_56;
+  LARGE_INTEGER local_55;
+  GamepadData local_48 [5];
+  undefined8 local_43;
+  undefined8 uStack_3b;
+  undefined2 local_33;
+  XusbWatcher local_31;
+  ulonglong local_30;
+  
+  local_30 = __security_cookie ^ (ulonglong)auStackY_f8;
+  XVar9 = this[0x28];
+  do {
+    if (XVar9 != (XusbWatcher)0x0) {
+      return;
+    }
+    bVar2 = GetXusbDeviceIndex(*(IXusbGameControllerProviderPrivate **)(this + 0x18),local_c8);
+    if (bVar2) {
+      bVar2 = RequestUnfilteredState
+                        (*(void **)this,*(void **)(this + 8),local_c8[0],true,local_48,&local_a0);
+      if (!bVar2) {
+        local_a8 = 0xfffffffffff0bdc0;
+        puVar8 = &local_a8;
+        goto LAB_18003b902;
+      }
+      iVar3 = NtWaitForSingleObject(*(undefined8 *)(this + 8),1,0);
+      uVar1 = local_33;
+      if (iVar3 == 0) {
+        if (this[0x28] == (XusbWatcher)0x0) {
+          if (((int)local_a0.Internal != 0) || (local_a0.InternalHigh != 0x18)) {
+            local_c0 = 0xfffffffffff0bdc0;
+            puVar8 = &local_c0;
+            goto LAB_18003b902;
+          }
+          _Buf2 = this + 0x29;
+          puVar8 = &local_80;
+          XVar9 = local_31;
+          if (*(int *)(this + 0x3c) != 0) {
+            XVar9 = (XusbWatcher)0x0;
+          }
+          local_c0 = local_43;
+          uStack_b8 = uStack_3b;
+          local_70 = local_33;
+          local_80 = local_43;
+          uStack_78 = uStack_3b;
+          local_6e = XVar9;
+          iVar3 = memcmp(puVar8,_Buf2,0x13);
+          if (iVar3 != 0) {
+            this_00 = *(GameInputServerDevice **)(this + 0x10);
+            LVar7 = GameInputCurrentTime(puVar8,(__uint64)_Buf2);
+            GameInputServerDevice::HandleXusbNexusChange
+                      (this_00,LVar7.QuadPart,(bool)((byte)((ulonglong)local_80 >> 0x10) >> 2 & 1));
+            if ((GameInputServerDevice)((byte)XVar9 & 1) != this_00[0xe5]) {
+              this_00[0xe5] = (GameInputServerDevice)((byte)XVar9 & 1);
+              GameInputServerDevice::UpdateSystemButtonState(this_00,LVar7.QuadPart);
+            }
+            local_58 = uVar1;
+            local_68 = local_c0;
+            uStack_60 = uStack_b8;
+            local_56 = XVar9;
+            local_55 = LVar7;
+            GameInputServerDevice::ParseControllerInput(this_00,0xff,0x1b,(uchar *)&local_68);
+            *(undefined8 *)(this + 0x29) = local_c0;
+            *(undefined8 *)(this + 0x31) = uStack_b8;
+            *(undefined2 *)(this + 0x39) = uVar1;
+            this[0x3b] = XVar9;
+          }
+        }
+      }
+      else {
+        BVar4 = CancelIoEx(*(HANDLE *)this,(LPOVERLAPPED)0x0);
+        if (((BVar4 == 0) && (DVar5 = GetLastError(), DVar5 != 0)) && (DVar5 != 0x490)) {
+          uVar6 = DVar5 & 0xffff | 0x80070000;
+          if ((int)DVar5 < 1) {
+            uVar6 = DVar5;
+          }
+                    /* WARNING: Subroutine does not return */
+          GameInputFailFast(uVar6,0x1b1);
+        }
+        uVar6 = NtWaitForSingleObject(*(undefined8 *)(this + 8),0,0);
+        if (uVar6 != 0) {
+                    /* WARNING: Subroutine does not return */
+          GameInputFailFast(uVar6 | 0x10000000,0x1b6);
+        }
+      }
+    }
+    else {
+      local_b0 = 0xfffffffffff0bdc0;
+      puVar8 = &local_b0;
+LAB_18003b902:
+      NtDelayExecution(1,puVar8);
+    }
+    XVar9 = this[0x28];
+  } while( true );
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+18003b758 488bc4 MOV RAX,RSP | 
+18003b75b 48895810 MOV qword ptr [RAX + 0x10],RBX | From: 18003b75b To: Stack[0x10] Type: WRITE Op: 0 ANALYSIS
+18003b75f 48897018 MOV qword ptr [RAX + 0x18],RSI | From: 18003b75f To: Stack[0x18] Type: WRITE Op: 0 ANALYSIS
+18003b763 48897820 MOV qword ptr [RAX + 0x20],RDI | From: 18003b763 To: Stack[0x20] Type: WRITE Op: 0 ANALYSIS
+18003b767 55 PUSH RBP | 
+18003b768 4154 PUSH R12 | 
+18003b76a 4155 PUSH R13 | 
+18003b76c 4156 PUSH R14 | 
+18003b76e 4157 PUSH R15 | 
+18003b770 488d68a1 LEA RBP,[RAX + -0x5f] | From: 18003b770 To: Stack[-0x5f] Type: DATA Op: 0 ANALYSIS
+18003b774 4881ecd0000000 SUB RSP,0xd0 | 
+18003b77b 488b05fef80100 MOV RAX,qword ptr [0x18005b080] | From: 18003b77b To: 18005b080 Type: READ Op: 1 DEFAULT
+18003b782 4833c4 XOR RAX,RSP | 
+18003b785 4889452f MOV qword ptr [RBP + 0x2f],RAX | From: 18003b785 To: Stack[-0x30] Type: WRITE Op: 0 ANALYSIS
+18003b789 8a4128 MOV AL,byte ptr [RCX + 0x28] | 
+18003b78c 488bd9 MOV RBX,RCX | 
+18003b78f 4533ed XOR R13D,R13D | 
+18003b792 84c0 TEST AL,AL | 
+18003b794 0f85c8010000 JNZ 0x18003b962 | From: 18003b794 To: 18003b962 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b79a 48c7c7c0bdf0ff MOV RDI,-0xf4240 | 
+18003b7a1 488b4b18 MOV RCX,qword ptr [RBX + 0x18] | 
+18003b7a5 488d5597 LEA RDX,[RBP + -0x69] | From: 18003b7a5 To: Stack[-0xc8] Type: DATA Op: 0 ANALYSIS
+18003b7a9 e876fbffff CALL 0x18003b324 | From: 18003b7a9 To: 18003b324 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b7ae 84c0 TEST AL,AL | 
+18003b7b0 750d JNZ 0x18003b7bf | From: 18003b7b0 To: 18003b7bf Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b7b2 48897daf MOV qword ptr [RBP + -0x51],RDI | From: 18003b7b2 To: Stack[-0xb0] Type: WRITE Op: 0 ANALYSIS
+18003b7b6 488d55af LEA RDX,[RBP + -0x51] | From: 18003b7b6 To: Stack[-0xb0] Type: DATA Op: 0 ANALYSIS
+18003b7ba e943010000 JMP 0x18003b902 | From: 18003b7ba To: 18003b902 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+18003b7bf 448b4597 MOV R8D,dword ptr [RBP + -0x69] | From: 18003b7bf To: Stack[-0xc8] Type: READ Op: 1 ANALYSIS
+18003b7c3 488d45bf LEA RAX,[RBP + -0x41] | From: 18003b7c3 To: Stack[-0xa0] Type: DATA Op: 0 ANALYSIS
+18003b7c7 488b5308 MOV RDX,qword ptr [RBX + 0x8] | 
+18003b7cb 41b101 MOV R9B,0x1 | 
+18003b7ce 488b0b MOV RCX,qword ptr [RBX] | 
+18003b7d1 4889442428 MOV qword ptr [RSP + 0x28],RAX | From: 18003b7d1 To: Stack[-0xd0] Type: WRITE Op: 0 ANALYSIS
+18003b7d6 488d4517 LEA RAX,[RBP + 0x17] | From: 18003b7d6 To: Stack[-0x48] Type: DATA Op: 0 ANALYSIS
+18003b7da 4889442420 MOV qword ptr [RSP + 0x20],RAX | From: 18003b7da To: Stack[-0xd8] Type: WRITE Op: 0 ANALYSIS
+18003b7df e840fdffff CALL 0x18003b524 | From: 18003b7df To: 18003b524 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b7e4 84c0 TEST AL,AL | 
+18003b7e6 750d JNZ 0x18003b7f5 | From: 18003b7e6 To: 18003b7f5 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b7e8 48897db7 MOV qword ptr [RBP + -0x49],RDI | From: 18003b7e8 To: Stack[-0xa8] Type: WRITE Op: 0 ANALYSIS
+18003b7ec 488d55b7 LEA RDX,[RBP + -0x49] | From: 18003b7ec To: Stack[-0xa8] Type: DATA Op: 0 ANALYSIS
+18003b7f0 e90d010000 JMP 0x18003b902 | From: 18003b7f0 To: 18003b902 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+18003b7f5 488b4b08 MOV RCX,qword ptr [RBX + 0x8] | 
+18003b7f9 4533c0 XOR R8D,R8D | 
+18003b7fc b201 MOV DL,0x1 | 
+18003b7fe 48ff1513460100 CALL qword ptr [0x18004fe18] | From: 18003b7fe To: 18004fe18 Type: READ Op: 0 DEFAULT; ->NTDLL.DLL::NtWaitForSingleObject
+18003b805 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b80a 85c0 TEST EAX,EAX | 
+18003b80c 0f8500010000 JNZ 0x18003b912 | From: 18003b80c To: 18003b912 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b812 8a4328 MOV AL,byte ptr [RBX + 0x28] | 
+18003b815 84c0 TEST AL,AL | 
+18003b817 0f853a010000 JNZ 0x18003b957 | From: 18003b817 To: 18003b957 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b81d 44396dbf CMP dword ptr [RBP + -0x41],R13D | From: 18003b81d To: Stack[-0xa0] Type: READ Op: 0 ANALYSIS
+18003b821 0f85d3000000 JNZ 0x18003b8fa | From: 18003b821 To: 18003b8fa Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b827 48837dc718 CMP qword ptr [RBP + -0x39],0x18 | From: 18003b827 To: Stack[-0x98] Type: READ Op: 0 ANALYSIS
+18003b82c 0f85c8000000 JNZ 0x18003b8fa | From: 18003b82c To: 18003b8fa Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b832 0f10451c MOVUPS XMM0,xmmword ptr [RBP + 0x1c] | From: 18003b832 To: Stack[-0x43] Type: READ Op: 1 ANALYSIS
+18003b836 44396b3c CMP dword ptr [RBX + 0x3c],R13D | 
+18003b83a 488d5329 LEA RDX,[RBX + 0x29] | 
+18003b83e 0fb6752e MOVZX ESI,byte ptr [RBP + 0x2e] | From: 18003b83e To: Stack[-0x31] Type: READ Op: 1 ANALYSIS
+18003b842 488d4ddf LEA RCX,[RBP + -0x21] | From: 18003b842 To: Stack[-0x80] Type: DATA Op: 0 ANALYSIS
+18003b846 440fb7652c MOVZX R12D,word ptr [RBP + 0x2c] | From: 18003b846 To: Stack[-0x33] Type: READ Op: 1 ANALYSIS
+18003b84b 410f45f5 CMOVNZ ESI,R13D | 
+18003b84f 41b813000000 MOV R8D,0x13 | 
+18003b855 408875f1 MOV byte ptr [RBP + -0xf],SIL | From: 18003b855 To: Stack[-0x6e] Type: WRITE Op: 0 ANALYSIS
+18003b859 0f11459f MOVUPS xmmword ptr [RBP + -0x61],XMM0 | From: 18003b859 To: Stack[-0xc0] Type: WRITE Op: 0 ANALYSIS
+18003b85d 66448965ef MOV word ptr [RBP + -0x11],R12W | From: 18003b85d To: Stack[-0x70] Type: WRITE Op: 0 ANALYSIS
+18003b862 0f1145df MOVUPS xmmword ptr [RBP + -0x21],XMM0 | From: 18003b862 To: Stack[-0x80] Type: WRITE Op: 0 ANALYSIS
+18003b866 e8aefc0000 CALL 0x18004b519 | From: 18003b866 To: 18004b519 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b86b 85c0 TEST EAX,EAX | 
+18003b86d 0f84e4000000 JZ 0x18003b957 | From: 18003b86d To: 18003b957 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b873 488b7b10 MOV RDI,qword ptr [RBX + 0x10] | 
+18003b877 e8a40efdff CALL 0x18000c720 | From: 18003b877 To: 18000c720 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b87c 440fb745e0 MOVZX R8D,word ptr [RBP + -0x20] | From: 18003b87c To: Stack[-0x7f] Type: READ Op: 1 ANALYSIS
+18003b881 488bd0 MOV RDX,RAX | 
+18003b884 6641c1e80a SHR R8W,0xa | 
+18003b889 488bcf MOV RCX,RDI | 
+18003b88c 4180e001 AND R8B,0x1 | 
+18003b890 4c8bf0 MOV R14,RAX | 
+18003b893 e828cbffff CALL 0x1800383c0 | From: 18003b893 To: 1800383c0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b898 408ace MOV CL,SIL | 
+18003b89b 80e101 AND CL,0x1 | 
+18003b89e 3a8fe5000000 CMP CL,byte ptr [RDI + 0xe5] | 
+18003b8a4 7411 JZ 0x18003b8b7 | From: 18003b8a4 To: 18003b8b7 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b8a6 888fe5000000 MOV byte ptr [RDI + 0xe5],CL | 
+18003b8ac 498bd6 MOV RDX,R14 | 
+18003b8af 488bcf MOV RCX,RDI | 
+18003b8b2 e81de8ffff CALL 0x18003a0d4 | From: 18003b8b2 To: 18003a0d4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b8b7 0f10459f MOVUPS XMM0,xmmword ptr [RBP + -0x61] | From: 18003b8b7 To: Stack[-0xc0] Type: READ Op: 1 ANALYSIS
+18003b8bb 4c8d4df7 LEA R9,[RBP + -0x9] | From: 18003b8bb To: Stack[-0x68] Type: DATA Op: 0 ANALYSIS
+18003b8bf 6644896507 MOV word ptr [RBP + 0x7],R12W | From: 18003b8bf To: Stack[-0x58] Type: WRITE Op: 0 ANALYSIS
+18003b8c4 41b81b000000 MOV R8D,0x1b | 
+18003b8ca 40887509 MOV byte ptr [RBP + 0x9],SIL | From: 18003b8ca To: Stack[-0x56] Type: WRITE Op: 0 ANALYSIS
+18003b8ce b2ff MOV DL,0xff | 
+18003b8d0 4c89750a MOV qword ptr [RBP + 0xa],R14 | From: 18003b8d0 To: Stack[-0x55] Type: WRITE Op: 0 ANALYSIS
+18003b8d4 488bcf MOV RCX,RDI | 
+18003b8d7 0f1145f7 MOVUPS xmmword ptr [RBP + -0x9],XMM0 | From: 18003b8d7 To: Stack[-0x68] Type: WRITE Op: 0 ANALYSIS
+18003b8db e82cddffff CALL 0x18003960c | From: 18003b8db To: 18003960c Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b8e0 0f10459f MOVUPS XMM0,xmmword ptr [RBP + -0x61] | From: 18003b8e0 To: Stack[-0xc0] Type: READ Op: 1 ANALYSIS
+18003b8e4 48c7c7c0bdf0ff MOV RDI,-0xf4240 | 
+18003b8eb 0f114329 MOVUPS xmmword ptr [RBX + 0x29],XMM0 | 
+18003b8ef 6644896339 MOV word ptr [RBX + 0x39],R12W | 
+18003b8f4 4088733b MOV byte ptr [RBX + 0x3b],SIL | 
+18003b8f8 eb5d JMP 0x18003b957 | From: 18003b8f8 To: 18003b957 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+18003b8fa 48897d9f MOV qword ptr [RBP + -0x61],RDI | From: 18003b8fa To: Stack[-0xc0] Type: WRITE Op: 0 ANALYSIS
+18003b8fe 488d559f LEA RDX,[RBP + -0x61] | From: 18003b8fe To: Stack[-0xc0] Type: DATA Op: 0 ANALYSIS
+18003b902 b101 MOV CL,0x1 | 
+18003b904 48ff1535450100 CALL qword ptr [0x18004fe40] | From: 18003b904 To: 18004fe40 Type: READ Op: 0 DEFAULT; ->NTDLL.DLL::NtDelayExecution
+18003b90b 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b910 eb45 JMP 0x18003b957 | From: 18003b910 To: 18003b957 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+18003b912 488b0b MOV RCX,qword ptr [RBX] | 
+18003b915 33d2 XOR EDX,EDX | 
+18003b917 48ff1562410100 CALL qword ptr [0x18004fa80] | From: 18003b917 To: 18004fa80 Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-IO-L1-1-0.DLL::CancelIoEx
+18003b91e 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b923 85c0 TEST EAX,EAX | 
+18003b925 7517 JNZ 0x18003b93e | From: 18003b925 To: 18003b93e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b927 48ff15da400100 CALL qword ptr [0x18004fa08] | From: 18003b927 To: 18004fa08 Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-ERRORHANDLING-L1-1-0.DLL::GetLastError
+18003b92e 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b933 85c0 TEST EAX,EAX | 
+18003b935 7407 JZ 0x18003b93e | From: 18003b935 To: 18003b93e Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b937 3d90040000 CMP EAX,0x490 | 
+18003b93c 7563 JNZ 0x18003b9a1 | From: 18003b93c To: 18003b9a1 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b93e 488b4b08 MOV RCX,qword ptr [RBX + 0x8] | 
+18003b942 4533c0 XOR R8D,R8D | 
+18003b945 33d2 XOR EDX,EDX | 
+18003b947 48ff15ca440100 CALL qword ptr [0x18004fe18] | From: 18003b947 To: 18004fe18 Type: READ Op: 0 DEFAULT; ->NTDLL.DLL::NtWaitForSingleObject
+18003b94e 0f1f440000 NOP dword ptr [RAX + RAX*0x1] | 
+18003b953 85c0 TEST EAX,EAX | 
+18003b955 7539 JNZ 0x18003b990 | From: 18003b955 To: 18003b990 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b957 8a4328 MOV AL,byte ptr [RBX + 0x28] | 
+18003b95a 84c0 TEST AL,AL | 
+18003b95c 0f843ffeffff JZ 0x18003b7a1 | From: 18003b95c To: 18003b7a1 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+18003b962 488b4d2f MOV RCX,qword ptr [RBP + 0x2f] | From: 18003b962 To: Stack[-0x30] Type: READ Op: 1 ANALYSIS
+18003b966 4833cc XOR RCX,RSP | 
+18003b969 e812e80000 CALL 0x18004a180 | From: 18003b969 To: 18004a180 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b96e 4c8d9c24d0000000 LEA R11,[RSP + 0xd0] | From: 18003b96e To: Stack[-0x30] Type: DATA Op: 0 ANALYSIS
+18003b976 498b5b38 MOV RBX,qword ptr [R11 + 0x38] | From: 18003b976 To: Stack[0x8] Type: READ Op: 1 ANALYSIS
+18003b97a 498b7340 MOV RSI,qword ptr [R11 + 0x40] | From: 18003b97a To: Stack[0x10] Type: READ Op: 1 ANALYSIS
+18003b97e 498b7b48 MOV RDI,qword ptr [R11 + 0x48] | From: 18003b97e To: Stack[0x18] Type: READ Op: 1 ANALYSIS
+18003b982 498be3 MOV RSP,R11 | 
+18003b985 415f POP R15 | 
+18003b987 415e POP R14 | 
+18003b989 415d POP R13 | 
+18003b98b 415c POP R12 | 
+18003b98d 5d POP RBP | 
+18003b98e c3 RET | 
+18003b990 0fbae81c BTS EAX,0x1c | 
+18003b994 bab6010000 MOV EDX,0x1b6 | 
+18003b999 8bc8 MOV ECX,EAX | 
+18003b99b e87805fdff CALL 0x18000bf18 | From: 18003b99b To: 18000bf18 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+18003b9a1 0fb7c8 MOVZX ECX,AX | 
+18003b9a4 bab1010000 MOV EDX,0x1b1 | 
+18003b9a9 81c900000780 OR ECX,0x80070000 | 
+18003b9af 85c0 TEST EAX,EAX | 
+18003b9b1 0f4ec8 CMOVLE ECX,EAX | 
+18003b9b4 e85f05fdff CALL 0x18000bf18 | From: 18003b9b4 To: 18000bf18 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+
+
+=== win10-xinput-analysis / afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d ===
+FUNCTION 10004e01 EnumerateXInputDevices
+BODY [[10004e01, 10004edb]]
+INCOMING REFERENCES
+From: 10004f30 To: 10004e01 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=DeviceEnum::GetDeviceOnPort
+DIRECT CALLEES
+100060f5 OpenDevice
+EXTERNAL:00000012 CloseHandle
+10005f40 EnumDeviceInterfaces
+10004c69 EnumerateDevicesOnDeviceInterface
+10005fe4 DestroyDeviceInfoList
+100071b0 __security_check_cookie
+10005edc CreateDeviceInfoList
+10005f0d GetClassDevs
+10004aa2 GetDeviceInterfaceDetail
+DECOMPILATION completed=true error=
+
+void `anonymous_namespace'::EnumerateXInputDevices(void)
+
+{
+  void *this;
+  int iVar1;
+  void *hObject;
+  ushort *extraout_ECX;
+  ushort *extraout_ECX_00;
+  ushort *puVar2;
+  ushort *extraout_ECX_01;
+  ushort *extraout_ECX_02;
+  ushort *extraout_ECX_03;
+  _DO_DEVINFO_DATA *p_Var3;
+  _DO_DEVICE_INTERFACE_DATA *unaff_ESI;
+  ushort *unaff_EDI;
+  _GUID *in_stack_ffffffb8;
+  ushort *in_stack_ffffffbc;
+  _func_ulong_DODE_NOTIFYTYPE_void_ptr__DO_DEVINFO_DATA_ptr_void_ptr *in_stack_ffffffc0;
+  int local_28;
+  _GUID local_24;
+  undefined4 local_14;
+  undefined4 local_10;
+  undefined4 local_c;
+  uint local_8;
+  
+  local_8 = ___security_cookie ^ (uint)&stack0xfffffffc;
+  p_Var3 = (_DO_DEVINFO_DATA *)0x0;
+  this = DriverComm::SetupDiWrapper::CreateDeviceInfoList
+                   (in_stack_ffffffb8,in_stack_ffffffbc,in_stack_ffffffc0,unaff_EDI,unaff_ESI);
+  if ((this != (void *)0x0) && (this != (void *)0xffffffff)) {
+    iVar1 = DriverComm::SetupDiWrapper::GetClassDevs
+                      ((void *)0x0,(_GUID *)0x12,extraout_ECX,(ulong)extraout_ECX,unaff_EDI,
+                       unaff_ESI);
+    puVar2 = extraout_ECX_00;
+    if (iVar1 == 0) {
+      DriverComm::SetupDiWrapper::DestroyDeviceInfoList(unaff_EDI);
+    }
+    else {
+      while( true ) {
+        local_28 = 0;
+        local_24.Data2 = 0;
+        local_24.Data3 = 0;
+        local_24.Data4[0] = '\0';
+        local_24.Data4[1] = '\0';
+        local_24.Data4[2] = '\0';
+        local_24.Data4[3] = '\0';
+        local_24.Data4[4] = '\0';
+        local_24.Data4[5] = '\0';
+        local_24.Data4[6] = '\0';
+        local_24.Data4[7] = '\0';
+        local_14 = 0;
+        local_10 = 0;
+        local_c = 0;
+        local_24.Data1 = 0x1c;
+        iVar1 = DriverComm::SetupDiWrapper::EnumDeviceInterfaces
+                          (puVar2,p_Var3,&local_24,(ulong)unaff_EDI,unaff_ESI);
+        if (iVar1 == 0) break;
+        p_Var3 = p_Var3 + 1;
+        iVar1 = GetDeviceInterfaceDetail(this,&local_28);
+        puVar2 = extraout_ECX_01;
+        if (-1 < iVar1) {
+          local_28 = local_28 + 4;
+          hObject = Utilities::OpenDevice(extraout_ECX_01,0x80,(ulong)unaff_EDI,(ulong)unaff_ESI);
+          puVar2 = extraout_ECX_02;
+          if (hObject != (void *)0xffffffff) {
+            EnumerateDevicesOnDeviceInterface(hObject);
+            CloseHandle(hObject);
+            puVar2 = extraout_ECX_03;
+          }
+        }
+      }
+      DriverComm::SetupDiWrapper::DestroyDeviceInfoList(unaff_EDI);
+    }
+  }
+  __security_check_cookie(local_8 ^ (uint)&stack0xfffffffc);
+  return;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+10004e01 8bff MOV EDI,EDI | 
+10004e03 55 PUSH EBP | 
+10004e04 8bec MOV EBP,ESP | 
+10004e06 83ec2c SUB ESP,0x2c | 
+10004e09 a144800010 MOV EAX,[0x10008044] | From: 10004e09 To: 10008044 Type: READ Op: 1 DEFAULT
+10004e0e 33c5 XOR EAX,EBP | 
+10004e10 8945fc MOV dword ptr [EBP + -0x4],EAX | From: 10004e10 To: Stack[-0x8] Type: WRITE Op: 0 ANALYSIS
+10004e13 53 PUSH EBX | 
+10004e14 56 PUSH ESI | 
+10004e15 57 PUSH EDI | 
+10004e16 83ec0c SUB ESP,0xc | 
+10004e19 33f6 XOR ESI,ESI | 
+10004e1b 8bde MOV EBX,ESI | 
+10004e1d e8ba100000 CALL 0x10005edc | From: 10004e1d To: 10005edc Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004e22 8bf8 MOV EDI,EAX | 
+10004e24 85ff TEST EDI,EDI | 
+10004e26 7421 JZ 0x10004e49 | From: 10004e26 To: 10004e49 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004e28 83ffff CMP EDI,-0x1 | 
+10004e2b 741c JZ 0x10004e49 | From: 10004e2b To: 10004e49 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004e2d 51 PUSH ECX | 
+10004e2e 51 PUSH ECX | 
+10004e2f 6a12 PUSH 0x12 | 
+10004e31 56 PUSH ESI | 
+10004e32 ba6c140010 MOV EDX,0x1000146c | From: 10004e32 To: 1000146c Type: DATA Op: 1 ANALYSIS
+10004e37 8bcf MOV ECX,EDI | 
+10004e39 e8cf100000 CALL 0x10005f0d | From: 10004e39 To: 10005f0d Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004e3e 85c0 TEST EAX,EAX | 
+10004e40 751d JNZ 0x10004e5f | From: 10004e40 To: 10004e5f Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004e42 8bcf MOV ECX,EDI | 
+10004e44 e89b110000 CALL 0x10005fe4 | From: 10004e44 To: 10005fe4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004e49 be05400080 MOV ESI,0x80004005 | 
+10004e4e 8b4dfc MOV ECX,dword ptr [EBP + -0x4] | From: 10004e4e To: Stack[-0x8] Type: READ Op: 1 ANALYSIS
+10004e51 8bc6 MOV EAX,ESI | 
+10004e53 5f POP EDI | 
+10004e54 5e POP ESI | 
+10004e55 33cd XOR ECX,EBP | 
+10004e57 5b POP EBX | 
+10004e58 e853230000 CALL 0x100071b0 | From: 10004e58 To: 100071b0 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004e5d c9 LEAVE | 
+10004e5e c3 RET | 
+10004e5f 8d45e0 LEA EAX,[EBP + -0x20] | From: 10004e5f To: Stack[-0x24] Type: DATA Op: 0 ANALYSIS
+10004e62 8975dc MOV dword ptr [EBP + -0x24],ESI | From: 10004e62 To: Stack[-0x28] Type: WRITE Op: 0 ANALYSIS
+10004e65 50 PUSH EAX | 
+10004e66 53 PUSH EBX | 
+10004e67 51 PUSH ECX | 
+10004e68 8bcf MOV ECX,EDI | 
+10004e6a 8975e4 MOV dword ptr [EBP + -0x1c],ESI | From: 10004e6a To: Stack[-0x20] Type: WRITE Op: 0 ANALYSIS
+10004e6d 8975e8 MOV dword ptr [EBP + -0x18],ESI | From: 10004e6d To: Stack[-0x1c] Type: WRITE Op: 0 ANALYSIS
+10004e70 8975ec MOV dword ptr [EBP + -0x14],ESI | From: 10004e70 To: Stack[-0x18] Type: WRITE Op: 0 ANALYSIS
+10004e73 8975f0 MOV dword ptr [EBP + -0x10],ESI | From: 10004e73 To: Stack[-0x14] Type: WRITE Op: 0 ANALYSIS
+10004e76 8975f4 MOV dword ptr [EBP + -0xc],ESI | From: 10004e76 To: Stack[-0x10] Type: WRITE Op: 0 ANALYSIS
+10004e79 8975f8 MOV dword ptr [EBP + -0x8],ESI | From: 10004e79 To: Stack[-0xc] Type: WRITE Op: 0 ANALYSIS
+10004e7c c745e01c000000 MOV dword ptr [EBP + -0x20],0x1c | From: 10004e7c To: Stack[-0x24] Type: WRITE Op: 0 ANALYSIS
+10004e83 e8b8100000 CALL 0x10005f40 | From: 10004e83 To: 10005f40 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004e88 8bcf MOV ECX,EDI | 
+10004e8a 85c0 TEST EAX,EAX | 
+10004e8c 7444 JZ 0x10004ed2 | From: 10004e8c To: 10004ed2 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004e8e 8d45dc LEA EAX,[EBP + -0x24] | From: 10004e8e To: Stack[-0x28] Type: DATA Op: 0 ANALYSIS
+10004e91 43 INC EBX | 
+10004e92 50 PUSH EAX | 
+10004e93 8d55e0 LEA EDX,[EBP + -0x20] | From: 10004e93 To: Stack[-0x24] Type: DATA Op: 0 ANALYSIS
+10004e96 e807fcffff CALL 0x10004aa2 | From: 10004e96 To: 10004aa2 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004e9b 85c0 TEST EAX,EAX | 
+10004e9d 78c0 JS 0x10004e5f | From: 10004e9d To: 10004e5f Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004e9f 8b45dc MOV EAX,dword ptr [EBP + -0x24] | From: 10004e9f To: Stack[-0x28] Type: READ Op: 1 ANALYSIS
+10004ea2 83c004 ADD EAX,0x4 | 
+10004ea5 6880000000 PUSH 0x80 | 
+10004eaa 51 PUSH ECX | 
+10004eab 8bc8 MOV ECX,EAX | 
+10004ead 8945dc MOV dword ptr [EBP + -0x24],EAX | From: 10004ead To: Stack[-0x28] Type: WRITE Op: 0 ANALYSIS
+10004eb0 e840120000 CALL 0x100060f5 | From: 10004eb0 To: 100060f5 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004eb5 8945d8 MOV dword ptr [EBP + -0x28],EAX | From: 10004eb5 To: Stack[-0x2c] Type: WRITE Op: 0 ANALYSIS
+10004eb8 83f8ff CMP EAX,-0x1 | 
+10004ebb 74a2 JZ 0x10004e5f | From: 10004ebb To: 10004e5f Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004ebd 8b55dc MOV EDX,dword ptr [EBP + -0x24] | From: 10004ebd To: Stack[-0x28] Type: READ Op: 1 ANALYSIS
+10004ec0 8bc8 MOV ECX,EAX | 
+10004ec2 e8a2fdffff CALL 0x10004c69 | From: 10004ec2 To: 10004c69 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004ec7 ff75d8 PUSH dword ptr [EBP + -0x28] | From: 10004ec7 To: Stack[-0x2c] Type: READ Op: 0 ANALYSIS
+10004eca ff154c900010 CALL dword ptr [0x1000904c] | From: 10004eca To: 1000904c Type: READ Op: 0 DEFAULT; ->API-MS-WIN-CORE-HANDLE-L1-1-0.DLL::CloseHandle
+10004ed0 eb8d JMP 0x10004e5f | From: 10004ed0 To: 10004e5f Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+10004ed2 e80d110000 CALL 0x10005fe4 | From: 10004ed2 To: 10005fe4 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004ed7 e972ffffff JMP 0x10004e4e | From: 10004ed7 To: 10004e4e Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+
+
+=== win10-xinput-analysis / afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d ===
+FUNCTION 10004efc GetDeviceOnPort
+BODY [[10004efc, 10004f5c]]
+INCOMING REFERENCES
+From: 10003021 To: 10004efc Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XInputCore::EnableCommunications
+From: 10001ed6 To: 10004efc Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XInputGetState
+From: 1000381b To: 10004efc Type: UNCONDITIONAL_CALL Op: 0 DEFAULT caller=XInputCore::ProcessAPIRequest
+DIRECT CALLEES
+10004e01 EnumerateXInputDevices
+DECOMPILATION completed=true error=
+
+/* long __stdcall DeviceEnum::GetDeviceOnPort(unsigned long,struct tagDeviceInfo * *,bool) */
+
+long DeviceEnum::GetDeviceOnPort(ulong param_1,tagDeviceInfo **param_2,bool param_3)
+
+{
+  long lVar1;
+  uint in_ECX;
+  int *in_EDX;
+  uint uVar2;
+  int iVar3;
+  
+  uVar2 = param_1 & 0xff;
+  if (in_ECX < _anon_7F4C74CC::g_dwDeviceListSize) {
+    iVar3 = *(int *)(_anon_7F4C74CC::g_pDeviceList + in_ECX * 4);
+  }
+  else {
+    iVar3 = 0;
+  }
+  *in_EDX = iVar3;
+  while (((lVar1 = 0, iVar3 == 0 && (lVar1 = 0, uVar2 != 0)) &&
+         (lVar1 = `anonymous_namespace'::EnumerateXInputDevices(), -1 < lVar1))) {
+    if (in_ECX < _anon_7F4C74CC::g_dwDeviceListSize) {
+      iVar3 = *(int *)(_anon_7F4C74CC::g_pDeviceList + in_ECX * 4);
+    }
+    else {
+      iVar3 = 0;
+    }
+    *in_EDX = iVar3;
+    uVar2 = uVar2 - 1;
+  }
+  return lVar1;
+}
+
+
+INSTRUCTIONS (analysis bytes, not runtime)
+10004efc 8bff MOV EDI,EDI | 
+10004efe 55 PUSH EBP | 
+10004eff 8bec MOV EBP,ESP | 
+10004f01 51 PUSH ECX | 
+10004f02 51 PUSH ECX | 
+10004f03 53 PUSH EBX | 
+10004f04 0fb65d08 MOVZX EBX,byte ptr [EBP + 0x8] | From: 10004f04 To: Stack[0x4] Type: READ Op: 1 ANALYSIS
+10004f08 56 PUSH ESI | 
+10004f09 57 PUSH EDI | 
+10004f0a 8bf9 MOV EDI,ECX | 
+10004f0c 3b3d6c840010 CMP EDI,dword ptr [0x1000846c] | From: 10004f0c To: 1000846c Type: READ Op: 1 DEFAULT
+10004f12 7204 JC 0x10004f18 | From: 10004f12 To: 10004f18 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004f14 33f6 XOR ESI,ESI | 
+10004f16 eb08 JMP 0x10004f20 | From: 10004f16 To: 10004f20 Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+10004f18 a174840010 MOV EAX,[0x10008474] | From: 10004f18 To: 10008474 Type: READ Op: 1 DEFAULT
+10004f1d 8b34b8 MOV ESI,dword ptr [EAX + EDI*0x4] | 
+10004f20 33c0 XOR EAX,EAX | 
+10004f22 8932 MOV dword ptr [EDX],ESI | 
+10004f24 85f6 TEST ESI,ESI | 
+10004f26 752e JNZ 0x10004f56 | From: 10004f26 To: 10004f56 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004f28 8bf2 MOV ESI,EDX | 
+10004f2a 33c0 XOR EAX,EAX | 
+10004f2c 85db TEST EBX,EBX | 
+10004f2e 7426 JZ 0x10004f56 | From: 10004f2e To: 10004f56 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004f30 e8ccfeffff CALL 0x10004e01 | From: 10004f30 To: 10004e01 Type: UNCONDITIONAL_CALL Op: 0 DEFAULT
+10004f35 85c0 TEST EAX,EAX | 
+10004f37 781d JS 0x10004f56 | From: 10004f37 To: 10004f56 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004f39 3b3d6c840010 CMP EDI,dword ptr [0x1000846c] | From: 10004f39 To: 1000846c Type: READ Op: 1 DEFAULT
+10004f3f 7204 JC 0x10004f45 | From: 10004f3f To: 10004f45 Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004f41 33c9 XOR ECX,ECX | 
+10004f43 eb08 JMP 0x10004f4d | From: 10004f43 To: 10004f4d Type: UNCONDITIONAL_JUMP Op: 0 DEFAULT
+10004f45 a174840010 MOV EAX,[0x10008474] | From: 10004f45 To: 10008474 Type: READ Op: 1 DEFAULT
+10004f4a 8b0cb8 MOV ECX,dword ptr [EAX + EDI*0x4] | 
+10004f4d 33c0 XOR EAX,EAX | 
+10004f4f 890e MOV dword ptr [ESI],ECX | 
+10004f51 4b DEC EBX | 
+10004f52 85c9 TEST ECX,ECX | 
+10004f54 74d4 JZ 0x10004f2a | From: 10004f54 To: 10004f2a Type: CONDITIONAL_JUMP Op: 0 DEFAULT
+10004f56 5f POP EDI | 
+10004f57 5e POP ESI | 
+10004f58 5b POP EBX | 
+10004f59 c9 LEAVE | 
+10004f5a c20400 RET 0x4 | 

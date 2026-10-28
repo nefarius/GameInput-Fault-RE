@@ -78,8 +78,8 @@ and x86 XInput 10.0.19041.7722. The driver candidate also failed the known
 whole-file hash. They remain preserved separately and are not treated as the
 contributor's exact files. PDB identity alone does not prove whole-file identity.
 
-Next, inspect the acquired driver's close/preprocess path and x86 XInput
-enumeration/cleanup logic with the matching PDBs, then relate those static paths
-to the measured game-thread stacks. Windows 10 request semantics, repeated
-rumble-off causation and a safe PoC fix remain unproven. No throttle experiment,
-service change or compatibility-gate change follows from acquisition.
+The [subsequent static investigation](windows10-queue-identity.md) inspected the
+driver and x86 XInput paths, found a missing PID initialization in the driver's
+queued-state handling, and verified inbox reachability. Live queue growth,
+repeated rumble-off causation and a safe PoC fix remain unproven. No throttle
+experiment, service change or compatibility-gate change follows from acquisition.

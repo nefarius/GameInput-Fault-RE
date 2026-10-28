@@ -1,5 +1,11 @@
 # xinputhid kernel investigation
 
+The later [Windows 10 investigation](windows10-queue-identity.md) inspects the
+exact contributor-hash 10.0.19041.5794 driver and finds a missing PID store in
+per-process queue creation. The Windows 11 handler below contains that store.
+This static defect has not yet been tied to measured live queue growth or
+validated with a hardware PoC.
+
 ## Result and contrary evidence
 
 For **xinputhid.sys 10.0.26100.9278**, `0x8000e388` has two different successful paths. Input byte 3 **nonzero** returns a cached 24-byte state and completes in the handler. Byte 3 **zero** forwards the request to a per-requestor-PID manual WDF queue and returns without completing it. On the inspected HID gamepad path, queued delivery is gated on a change in **decoded state**, not every HID report.
@@ -91,7 +97,7 @@ The focus section is entered only when the exiting PID matches driver field `+0x
 
 There is separate feature-gated exit cleanup in `RemoveProcessQuirks` (`0x140005c28`). It removes PID-specific records and can invoke an indirect controller-assist callback at device `+0x1d8` when the exiting PID matches that device's assist PID at `+0x1ac`. The indirect callback's lower behavior is not established here. This additional callback is also PID-gated; it does not establish a zero-vibration write on every arbitrary process exit.
 
-Thus spawning a diagnostic helper every 250 ms is **not sufficient by itself** to trigger this callback's focus-zero path. A helper acquiring a relevant tracked/exclusive/focus role, separate WNF focus notifications, or another runtime mechanism would need independent evidence. Persistent native capture is a useful way to reduce observer effects, but this static finding does not establish process churn as the cause of the reported rumble flood.
+Thus spawning a diagnostic helper every 250 ms is **not sufficient by itself** to trigger this callback's focus-zero path. A helper acquiring a relevant tracked/exclusive/focus role, separate WNF focus notifications, or another runtime mechanism would need independent evidence. Persistent native capture is a useful way to reduce observer effects, but this static finding establishes neither a rumble flood nor process churn as its cause. The original rumble-off idea was an assumption from one issue ETL, not observed traffic.
 
 [Literal process-callback evidence](../evidence/static/xinputhid-10.0.26100.9278-process-notify-excerpts.txt) and [provenance](../evidence/static/xinputhid-10.0.26100.9278-process-notify.json) retain the predicates, registration, focus update and zero-vibration call sites, with 95 additional source-byte-verified instructions. The earlier 209-instruction evidence bundle remains unchanged.
 

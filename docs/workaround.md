@@ -105,10 +105,13 @@ Their measured latency is API-return latency, not full pending-I/O lifetime.
 Use additional kernel/completion evidence where those distinctions matter.
 
 On the inspected Windows 11 driver, flag-clear state requests can queue until
-decoded state changes. No Windows 10 driver was inspected. The state-poll to
-rumble-off causal chain is **unproven**: correlate lower output writes, set-state
-IOCTLs, focus changes and force-feedback/timer activity separately. CPU, frame
-time, input and rumble are distinct observations.
+decoded state changes. The later [Windows 10 investigation](windows10-queue-identity.md)
+found a missing PID initialization in queue creation, with live consequences
+still unvalidated. Repeated rumble-off traffic was an assumption from one GitHub
+issue ETL, not an observed packet sequence. Establish whether such traffic occurs
+before testing a causal link to state requests; correlate lower output writes,
+set-state IOCTLs, focus changes and force-feedback/timer activity separately.
+CPU, frame time, input and rumble are distinct observations.
 
 ## Controlled A/B experiments
 

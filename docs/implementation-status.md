@@ -7,18 +7,25 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 - `live-proof`: observation tooling and local USB/Bluetooth experiments completed; **causal proof remains unvalidated**. Both local measured paths returned pending. A same-boot updated-collector service comparison now links the inbox-running condition to reported symptoms and expensive game-side XInput enumeration/close work. Exact workload control, frame-time measurement and the underlying driver cause remain unvalidated.
 - `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
 - `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
-- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has contributed runtime evidence; its driver semantics remain statically uninspected. Evidence tests pass.
+- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has contributed runtime evidence and a byte-checked static queue-identity defect. Its live queue growth and causal performance impact remain unvalidated. Evidence tests pass.
 - `supported-tool`: completed (design only) — signed helper design and contributor workflow; release remains gated on causal, performance, input/rumble, recovery and signing evidence.
 
 Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
 
 ## Verification
 
+- [Windows 10 queue identity](windows10-queue-identity.md): the contributor-hash
+  driver compares per-process queue nodes by PID but omits initialization of that
+  PID on allocation. The inspected Windows 11 build contains the store. The
+  contributor-hash inbox worker selects the queued request path and waits for
+  completion. Nine retained static exports have 1,314 source-byte-verified
+  instructions. Queue growth, FPS causation and a hardware PoC remain unvalidated.
+
 - [Windows 10 binary acquisition](windows10-binary-acquisition.md): reconstructed
   xinputhid 10.0.19041.5794 exactly matches the contributor's SHA-256; acquired
   GameInputInbox also matches. Reconstructed x86 XInput 10.0.19041.3636 matches
   trace version and PE/PDB identities; contributor backing-file hash is unknown.
-  No acquired code was executed, and Windows 10 driver semantics remain uninspected.
+  No acquired code was executed. Subsequent static inspection is recorded above.
 
 - Updated-collector service pair: both 27-entry manifests verify, with matching
   four-second retained windows, boot, game process UniqueKey/thread, collector

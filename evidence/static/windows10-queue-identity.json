@@ -1,0 +1,76 @@
+{
+  "evidence_kind": "local-ghidra-static-excerpts",
+  "observed_date": "2026-10-28",
+  "runtime_observed": false,
+  "files": [
+    {
+      "binary_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "entry": "0x1c0009068",
+      "export": "artifacts/win10-driver-analysis/1c0009068.txt",
+      "export_sha256": "bf0d6a937573fe3f1de943c0cf8d4e663dbbf708ea83d6cba598f44478232e5e",
+      "verified_instructions": 216
+    },
+    {
+      "binary_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "entry": "0x1c0003240",
+      "export": "artifacts/win10-driver-analysis/1c0003240.txt",
+      "export_sha256": "1504abc8a48986241ee21fe0b8b0e8b53ac72632ef652da42bf57da0b8455284",
+      "verified_instructions": 136
+    },
+    {
+      "binary_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "entry": "0x1c000a190",
+      "export": "artifacts/win10-driver-analysis/1c000a190.txt",
+      "export_sha256": "10d21f6215cd1103309256c483c3d4ff705a3725baff7ea4d37962484ddb138b",
+      "verified_instructions": 67
+    },
+    {
+      "binary_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "entry": "0x1c0006dc0",
+      "export": "artifacts/win10-driver-analysis/1c0006dc0.txt",
+      "export_sha256": "c760732c34f1bda8554ce96b8f05213b3cff42b9811ee5db63a08fc0f4acd411",
+      "verified_instructions": 302
+    },
+    {
+      "binary_sha256": "1e85d1a191f09ed62645658c94f908b733da5a026ed2b6b662635ebbddf84588",
+      "entry": "0x14000d1d8",
+      "export": "artifacts/xinputhid-analysis/14000d1d8.txt",
+      "export_sha256": "46e4d71110995f1635d9af9b98e752d2642f0ab86ac0d756ef9c83e442a7ce2c",
+      "verified_instructions": 239
+    },
+    {
+      "binary_sha256": "b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7",
+      "entry": "0x18003b524",
+      "export": "artifacts/win10-inbox-analysis/18003b524.txt",
+      "export_sha256": "f892e6813dd1aa98ad5ea4f7a38a7555a51b1632d672160bc7e18f84d9a238ff",
+      "verified_instructions": 73
+    },
+    {
+      "binary_sha256": "b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7",
+      "entry": "0x18003b758",
+      "export": "artifacts/win10-inbox-analysis/18003b758.txt",
+      "export_sha256": "5e1a3bb7e5449faa4a89521bafb5c71a715df8964cdaf6a6eb1efa7e42a3a203",
+      "verified_instructions": 156
+    },
+    {
+      "binary_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+      "entry": "0x10004e01",
+      "export": "artifacts/win10-xinput-analysis/10004e01.txt",
+      "export_sha256": "f59ddfc296d33274da5648f38e58b5a3c4112444c270030fcecb70d28ae031be",
+      "verified_instructions": 82
+    },
+    {
+      "binary_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+      "entry": "0x10004efc",
+      "export": "artifacts/win10-xinput-analysis/10004efc.txt",
+      "export_sha256": "d30bb7abe1e400399fb31289975bd2fb9cb1313f0576a027f398f4588d96bfec",
+      "verified_instructions": 43
+    }
+  ],
+  "excerpts_sha256": "f2f951ac75621a3ad9b23c72d64710f32881c721b53d62c73ada6b88b2251af9",
+  "limitations": [
+    "Static evidence does not measure the contributor's live queue count or prove FPS causation.",
+    "XInput contributor whole-file hash is unavailable; trace version and PE/PDB identities match.",
+    "Windows 11 comparison applies only to the pinned 10.0.26100.9278 image."
+  ]
+}

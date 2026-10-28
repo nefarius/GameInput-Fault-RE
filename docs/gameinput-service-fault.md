@@ -6,7 +6,7 @@ See [kernel analysis](kernel-xinputhid.md), [diagnostic collection](collecting-d
 
 ## Reports
 
-- [nefarius/DsHidMini#438](https://github.com/nefarius/DsHidMini/issues/438), closed as an external component. Windows 10 22H2. After a controller is connected in XInput HID mode, `WUDFHost.exe` and `xinputhid.sys` climb in CPU and games stutter. SXS mode does not. Unplug or killing `WUDFHost` clears it until the device returns. Nefarius traced repeated rumble-off packets from `xinputhid.sys` into DsHidMini, which completes them immediately and so does not throttle the caller.
+- [nefarius/DsHidMini#438](https://github.com/nefarius/DsHidMini/issues/438), closed as an external component. Windows 10 22H2. After a controller is connected in XInput HID mode, `WUDFHost.exe` and `xinputhid.sys` climb in CPU and games stutter. SXS mode does not. Unplug or killing `WUDFHost` clears it until the device returns. Repeated rumble-off traffic was an assumption based on one ETL supplied in that issue, not an observed packet sequence or established cause. The operator clarified this on 2026-10-28; the earlier wording that Nefarius had traced those packets was incorrect.
 - [microsoftconnect/GameInput#34](https://github.com/microsoftconnect/GameInput/issues/34). Disabling GameInput Service stops FPS drops reported in games such as Gears Reloaded, Marathon (2026), and Battlefield 6. On 2026-07-23 Microsoft said this was a compatibility issue with older Windows 10, fixed in newer GameInput, and named neither the fault, the Windows builds, nor the package versions. On 2026-10-25 the reporter pointed at a new Windows 11 report and said the stutter is likely back.
 - The PCMR thread cited there could not be fetched (Reddit challenge page).
 
@@ -37,7 +37,7 @@ SHA-256:
 
 ## User-mode mechanism under investigation
 
-The identified loops submit `IOCTL 0x8000e388` (`IOCTL_XINPUT_GET_UNFILTERED_GAMEPAD_STATE`, 0x18-byte state). A loop that waits on a pending request is different from a loop receiving repeated immediate completions. The mode difference in the DsHidMini reports identifies a useful comparison, but does not establish that this particular state IOCTL causes the reported rumble-off traffic.
+The identified loops submit `IOCTL 0x8000e388` (`IOCTL_XINPUT_GET_UNFILTERED_GAMEPAD_STATE`, 0x18-byte state). A loop that waits on a pending request is different from a loop receiving repeated immediate completions. The mode difference in the DsHidMini reports identifies a useful comparison, but neither repeated rumble-off traffic nor a causal link from this state IOCTL was established by the issue's ETL.
 
 ### Redistributable, version 3.5.270.0
 
@@ -114,11 +114,20 @@ The corrected probe then completed a USB active-input run: 44.75 measured second
 The first local collector validation produced an 11.59-second idle ETL with zero lost events/buffers according to `xperf`, and its ZIP passed all 28 manifest checks. The sampled GameInput row printed 0.00% (rounded). This window did not demonstrate the reported fault. The initial probe attach failed before its shared mapping existed; no request rate can be inferred from that attempt. See [derived baseline evidence](../evidence/runtime/baseline-summary.json). Later measurements must be recorded separately rather than rewriting this attempt as successful.
 
 - No live trace yet of `IOCTL 0x8000e388` rate, pending-IRP count, or `xinputhid` completing immediately versus waiting for a packet change.
-- The reported rumble-off flood must be independently correlated with state requests and driver output events. Reading state and writing vibration use different kernel dispatch paths.
+- Repeated rumble-off traffic was an assumption, not a measured flood. Its existence would first need to be demonstrated before testing any correlation with state requests and driver output events. Reading state and writing vibration use different kernel dispatch paths.
 - Which of the two services a given report disabled is not always stated. "GameInput Service" is the inbox display name. The redist service is a second poller and was running here too.
-- The Win10 flag selects cached immediate state rather than queueing; contributed Win10 diagnostics are still needed to test its real rate and resource impact.
+- The inspected redist's Windows 10 quirk selects cached immediate state; the inspected Windows 10 inbox worker instead selects queued state. Their actual request rates and resource impact require separate runtime measurement.
 
 ## Fix direction
+
+The [exact Windows 10 driver follow-up](windows10-queue-identity.md) now
+identifies a concrete missing PID initialization in the queued unfiltered-state
+path. The contributor-hash inbox worker selects that path. Repeated creation
+of queues instead of reuse could amplify the game's measured WDF cleanup cost;
+actual queue accumulation and its causal performance impact remain unmeasured.
+The inspected Windows 11 driver includes the missing store. This gives a focused
+correction to test separately from the earlier throttling hypothesis; it does not
+enable any compatibility or mitigation gate.
 
 Stopping a service removes its GameInput work, but that observation alone does not identify which operation caused a symptom. The inspected inbox worker waits for completion and has not been shown spinning. Games that require GameInput can lose the API when its services are disabled.
 
