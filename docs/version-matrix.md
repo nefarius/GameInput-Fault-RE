@@ -8,6 +8,13 @@ underlying causal mechanism remain unproven.
 
 ## Contributed Windows 10 capture, 2026-10-28
 
+[Offline acquisition](windows10-binary-acquisition.md) now supplies the exact
+contributor-hash xinputhid 10.0.19041.5794 and GameInputInbox
+0.2309.19041.6456 files, plus x86 XInput 10.0.19041.3636 matching the trace's
+version and PE/PDB identities. The contributor's XInput whole-file hash is
+unavailable. Acquisition does not establish Windows 10 driver semantics or
+change compatibility gates.
+
 The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares
 a boot, game process UniqueKey/thread, profile and equal four-second windows.
 The inbox-running condition restores the reported symptom and XInput/cleanup

@@ -14,6 +14,12 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- [Windows 10 binary acquisition](windows10-binary-acquisition.md): reconstructed
+  xinputhid 10.0.19041.5794 exactly matches the contributor's SHA-256; acquired
+  GameInputInbox also matches. Reconstructed x86 XInput 10.0.19041.3636 matches
+  trace version and PE/PDB identities; contributor backing-file hash is unknown.
+  No acquired code was executed, and Windows 10 driver semantics remain uninspected.
+
 - Updated-collector service pair: both 27-entry manifests verify, with matching
   four-second retained windows, boot, game process UniqueKey/thread, collector
   sources and profile. Redist stays running. Inbox enabled restores the reported
