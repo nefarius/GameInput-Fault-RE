@@ -16,6 +16,14 @@ int main() {
     CHECK(!d.unchanged && !d.delay);
     CHECK(p.observe(1, b, 8100, 8000, true).delay == 0);
     CHECK(p.observe(1, b, 8100, 8000, false).delay == 0);
+    // Enabling mitigation does not restart an 8ms deadline. Only the remainder
+    // since the last observation is delayed, or nothing if the interval passed.
+    Policy cadence;
+    CHECK(cadence.observe(1, b, 100, 8000, false).tracked);
+    d = cadence.observe(1, b, 3100, 8000, true);
+    CHECK(d.unchanged && d.delay == 5000);
+    d = cadence.observe(1, b, 16100, 8000, true);
+    CHECK(d.unchanged && d.delay == 0);
     CHECK(!p.observe(2, b, 8100, 8000, true).unchanged);
     p.close(1);
     CHECK(!p.observe(1, b, 8100, 8000, true).unchanged);

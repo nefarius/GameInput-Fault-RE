@@ -20,6 +20,8 @@ std::atomic<bool> close_success{true};
 std::atomic<DWORD> incoming{};
 std::array<std::uint8_t, packet_bytes> payload{};
 Engine engine;
+Observation last_observation{};
+void capture_observation(const Observation& event) noexcept { last_observation = event; }
 __declspec(noinline) BOOL WINAPI synthetic(HANDLE, DWORD, LPVOID, DWORD, LPVOID output,
                                         DWORD, LPDWORD returned, LPOVERLAPPED ov) {
     incoming = GetLastError(); ++calls;
@@ -102,6 +104,15 @@ int main(int argc, char** argv) {
     engine.real_io = target; engine.real_close = close_fake; engine.completion = complete; engine.enabled = 1;
     shared.interval_us = 8000;
     CHECK(engine.initialize_timers());
+    // Exercise the real wait independently of the cadence policy. A native wait
+    // can hit its fail-open timeout; do not require a wall-clock latency floor.
+    std::uint64_t actual_wait{};
+    const auto drops_before_wait = shared.state_drops;
+    CHECK(engine.delay(engine.frequency * 8 / 1000, actual_wait));
+    CHECK(actual_wait > 0);
+    std::cout << "direct 8ms wait actual_ms=" << actual_wait * 1000.0 / engine.frequency
+              << " state_drops=" << shared.state_drops - drops_before_wait << "\n";
+    engine.emit = capture_observation; // single-threaded assertions only
     CHECK(DetourTransactionBegin() == NO_ERROR);
     CHECK(DetourUpdateThread(GetCurrentThread()) == NO_ERROR);
     CHECK(DetourAttach(reinterpret_cast<PVOID*>(&target), hook) == NO_ERROR);
@@ -111,16 +122,31 @@ int main(int argc, char** argv) {
     invoke(h); invoke(h);
     CHECK(shared.calls == 2 && shared.sync_success == 2 && shared.unchanged == 1 && !shared.throttled);
     shared.mode = 1; shared.controller_heartbeat_qpc = qpc();
+    const auto delay_before = shared.delay_qpc;
     auto elapsed = invoke(h);
-    CHECK(elapsed >= engine.frequency * 6 / 1000); // Windows scheduling tolerance
-    CHECK(shared.throttled == 1);
-    std::cout << "unchanged 8ms actual_ms=" << elapsed * 1000.0 / engine.frequency << "\n";
+    // Cadence is measured from the preceding observation, not this API entry.
+    // Preemption between calls may consume the interval entirely. The wait can
+    // also time out and fail open, so neither case guarantees >=6ms here.
+    CHECK(shared.unchanged == 2 && last_observation.observed);
+    CHECK(shared.throttled == 0 || shared.throttled == 1);
+    CHECK(shared.delay_qpc - delay_before == last_observation.delay);
+    CHECK(elapsed >= last_observation.delay);
+    CHECK((shared.throttled != 0) == (last_observation.delay != 0));
+    std::cout << "unchanged nominal_us=8000 actual_ms=" << elapsed * 1000.0 / engine.frequency
+              << " intentional_wait_ms=" << last_observation.delay * 1000.0 / engine.frequency
+              << " throttled=" << shared.throttled << " state_drops=" << shared.state_drops << "\n";
     auto before_throttled = shared.throttled;
     payload[23] = 1; invoke(h); CHECK(shared.throttled == before_throttled);
     OVERLAPPED ov{};
     payload[22] = 2; invoke(h, target_ioctl, 4, 24, &ov);
     CHECK(completion_queries == 1);
-    invoke(h, target_ioctl, 4, 24, &ov); CHECK(shared.throttled == before_throttled + 1);
+    const auto unchanged_before = shared.unchanged;
+    const auto prior_delay = shared.delay_qpc;
+    elapsed = invoke(h, target_ioctl, 4, 24, &ov);
+    CHECK(shared.unchanged == unchanged_before + 1 && last_observation.observed);
+    CHECK(shared.throttled == before_throttled || shared.throttled == before_throttled + 1);
+    CHECK(shared.delay_qpc - prior_delay == last_observation.delay && elapsed >= last_observation.delay);
+    CHECK((shared.throttled != before_throttled) == (last_observation.delay != 0));
     before_throttled = shared.throttled;
     behavior = Behavior::Pending; invoke(h, target_ioctl, 4, 24, &ov);
     CHECK(shared.pending == 1 && completion_queries == 2 && shared.throttled == before_throttled);
@@ -173,6 +199,7 @@ int main(int argc, char** argv) {
     CHECK(GetLastError() == ERROR_INVALID_HANDLE);
     engine.real_io = target;
     // Concurrent observations and close/reuse use bounded synchronized state.
+    engine.emit = nullptr;
     std::vector<std::thread> workers;
     for (int i = 0; i < 8; ++i) workers.emplace_back([i] {
         DWORD in{}, bytes{}; std::array<std::uint8_t, 24> out{};
