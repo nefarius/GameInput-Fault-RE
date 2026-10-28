@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "capture_id": "community-20261028-8b1526ae",
+  "evidence_kind": "contributed_inventory_partial_cpu_and_symbolized_stacks",
+  "bundle_sha256": "3580d870776cd1cb94187db92e8047c068bf81e015349782564ce038b2f65968",
+  "trace_sha256": "d0a05680939302844c3a7a0c7a0df32747906eabe04c7be1d8e57055c2610f59",
+  "bundle_bytes": 10959496,
+  "trace_bytes": 67108864,
+  "manifest_files_verified": 28,
+  "inventory_started_utc": "2026-10-28T19:28:56.5156375Z",
+  "os": {
+    "release": "Windows 10 Pro 22H2",
+    "build": "19045.6466",
+    "architecture": "x64"
+  },
+  "operator_report": {
+    "controller": "CECHZC1U",
+    "connection": "USB",
+    "game": "Left 4 Dead 2; questionnaire says latest version June 30th, 2026",
+    "rumble": "No",
+    "menu_fps_service_enabled": "below 100",
+    "menu_fps_comparison": "over 900",
+    "ingame_fps_service_enabled": "below 100 with heavy stuttering",
+    "ingame_fps_comparison": "around 600",
+    "disabled_service_display_name": "GameInput Service",
+    "service_name_inferred_from_display_name": "GameInputSvc",
+    "redist_running_in_screenshot": true,
+    "screenshot_sha256": "65a6fe94b9ca64d70feb0184dab2e926dea186cd4d0214c647fdc890aab99f08",
+    "screenshot_timing_relative_to_trace": "unknown",
+    "symptom_confirmed_during_retained_window": null,
+    "frame_times_measured": false
+  },
+  "collector": {
+    "same_sources_as_first_package": true,
+    "workflow": "old four-phase 15s recording + 10s preparation per phase",
+    "script_sha256": "fd4a832633e7dadc0455c9d4cde03a0753c8b100b96846837e04c6936f83e569",
+    "phase_operator_confirmed": false
+  },
+  "services": [
+    {
+      "Name": "GameInputRedistService",
+      "State": "Running",
+      "StartMode": "Auto",
+      "ProcessId": 5508
+    },
+    {
+      "Name": "GameInputSvc",
+      "State": "Running",
+      "StartMode": "Auto",
+      "ProcessId": 11188
+    }
+  ],
+  "binary_inventory_reference": "community-20261028-08710ec5-summary.json#/binaries",
+  "all_13_gameinput_xinputhid_inventory_hashes_match_first_package": true,
+  "dshidmini_trace_file_version": "3.27.0.2500",
+  "dshidmini_sha256": null,
+  "trace": {
+    "start_utc": "2026-10-28T19:29:03.0874344Z",
+    "end_utc": "2026-10-28T19:30:44.3906656Z",
+    "duration_seconds": 101.3032312,
+    "lost_buffers": 0,
+    "lost_events": 0,
+    "first_sample_seconds": 65.130557,
+    "last_sample_seconds": 101.195265,
+    "latest_first_cpu_sample_seconds": 86.78404,
+    "first_reliable_cswitch_seconds": 86.787816,
+    "last_cswitch_seconds": 100.987652,
+    "phase_comparison_valid": false,
+    "retained_gameinput_marks_seconds": [
+      85.795245,
+      100.86521
+    ],
+    "mark_labels": "GameInput:"
+  },
+  "sampled_cpu": {
+    "start_seconds": 87,
+    "end_seconds": 100,
+    "duration_seconds": 13,
+    "logical_processors": 16,
+    "method": "Sum xperf profile -detail -range 87000000 100000000 Weight (microseconds). One-core percent = 100*weight/13000000; machine percent divides by 16. Statistical CPU estimates.",
+    "processes": [
+      {
+        "process": "left4dead2.exe (12076)",
+        "weight_us": 20818237,
+        "one_core_percent": 160.14028461538462,
+        "machine_percent": 10.008767788461538
+      },
+      {
+        "process": "WUDFHost.exe (1388)",
+        "weight_us": 336014,
+        "one_core_percent": 2.584723076923077,
+        "machine_percent": 0.16154519230769232
+      },
+      {
+        "process": "GameInputSvc.exe (11956)",
+        "weight_us": 44036,
+        "one_core_percent": 0.33873846153846154,
+        "machine_percent": 0.021171153846153846
+      },
+      {
+        "process": "GameInputRedistService.exe (5508)",
+        "weight_us": 13000,
+        "one_core_percent": 0.1,
+        "machine_percent": 0.00625
+      }
+    ]
+  },
+  "hot_game_thread": {
+    "pid": 12076,
+    "tid": 11880,
+    "sampled_profile_event_count": 12983,
+    "scheduled_time_us": 12987294,
+    "scheduled_one_core_percent": 99.90226153846153,
+    "scheduled_time_method": "Sum CSwitch intervals per CPU clipped to [87s,100s), after FirstReliableCSwitchEventTimeStamp. Scheduling residency includes interrupt activity; it is not a per-function CPU measurement.",
+    "stack_sample_count": 12970,
+    "symbols": [
+      {
+        "function": "XInput1_4.dll!XInputGetState",
+        "inclusive_hits": 8811,
+        "inclusive_percent_of_thread_stacks": 67.93,
+        "exclusive_hits": 1,
+        "function_rva": "0x00001df0"
+      },
+      {
+        "function": "XInput1_4.dll!XInputCore::ProcessAPIRequest",
+        "inclusive_hits": 8807,
+        "inclusive_percent_of_thread_stacks": 67.9,
+        "exclusive_hits": 1,
+        "function_rva": "0x00003702"
+      },
+      {
+        "function": "XInput1_4.dll!DeviceEnum::GetDeviceOnPort",
+        "inclusive_hits": 8784,
+        "inclusive_percent_of_thread_stacks": 67.73,
+        "exclusive_hits": 1,
+        "function_rva": "0x00004efc"
+      },
+      {
+        "function": "XInput1_4.dll!`anonymous namespace'::EnumerateXInputDevices",
+        "inclusive_hits": 8750,
+        "inclusive_percent_of_thread_stacks": 67.46,
+        "exclusive_hits": 2,
+        "function_rva": "0x00004e01"
+      },
+      {
+        "function": "ntkrnlmp.exe!NtClose",
+        "inclusive_hits": 8291,
+        "inclusive_percent_of_thread_stacks": 63.92,
+        "exclusive_hits": 2,
+        "function_rva": "0x0063e0a0"
+      },
+      {
+        "function": "wdf01000.sys!FxPkgGeneral::Dispatch",
+        "inclusive_hits": 8247,
+        "inclusive_percent_of_thread_stacks": 63.59,
+        "exclusive_hits": 286,
+        "function_rva": "0x00006d30"
+      },
+      {
+        "function": "ntkrnlmp.exe!IopCloseFile",
+        "inclusive_hits": 8228,
+        "inclusive_percent_of_thread_stacks": 63.44,
+        "exclusive_hits": 2,
+        "function_rva": "0x0064a140"
+      },
+      {
+        "function": "XINPUTHID.sys!EvtDeviceWdmIrpPreprocess",
+        "inclusive_hits": 8221,
+        "inclusive_percent_of_thread_stacks": 63.38,
+        "exclusive_hits": 0,
+        "function_rva": "0x00003240"
+      },
+      {
+        "function": "ntkrnlmp.exe!KeAcquireSpinLockRaiseToDpc",
+        "inclusive_hits": 3173,
+        "inclusive_percent_of_thread_stacks": 24.46,
+        "exclusive_hits": 3165,
+        "function_rva": "0x002d89e0"
+      },
+      {
+        "function": "wdf01000.sys!FxObject::Release",
+        "inclusive_hits": 2938,
+        "inclusive_percent_of_thread_stacks": 22.65,
+        "exclusive_hits": 2938,
+        "function_rva": "0x00002940"
+      },
+      {
+        "function": "ntkrnlmp.exe!KeReleaseSpinLock",
+        "inclusive_hits": 1776,
+        "inclusive_percent_of_thread_stacks": 13.69,
+        "exclusive_hits": 1774,
+        "function_rva": "0x002e0c70"
+      },
+      {
+        "function": "XINPUTHID.sys!DispatchGetGamepadState",
+        "inclusive_hits": 26,
+        "inclusive_percent_of_thread_stacks": 0.2,
+        "exclusive_hits": 0,
+        "function_rva": "0x000087d4"
+      }
+    ],
+    "representative_stack": {
+      "timestamp_seconds": 90.000157,
+      "direction": "caller to sampled leaf; WOW64 transitions and intermediate frames omitted",
+      "frames": [
+        "inputsystem.dll+0x6275",
+        "GameOverlayRenderer.dll+0xba4b2",
+        "XInput1_4.dll!XInputGetState",
+        "XInput1_4.dll!XInputCore::ProcessAPIRequest",
+        "XInput1_4.dll!DeviceEnum::GetDeviceOnPort",
+        "XInput1_4.dll!`anonymous namespace'::EnumerateXInputDevices",
+        "ntkrnlmp.exe!NtClose",
+        "ntkrnlmp.exe!IopCloseFile",
+        "XINPUTHID.sys!EvtDeviceWdmIrpPreprocess+0x211",
+        "Wdf01000.sys!FxPkgGeneral::Dispatch+0x2f9",
+        "ntkrnlmp.exe!KeAcquireSpinLockRaiseToDpc+0x59"
+      ]
+    }
+  },
+  "public_symbols": [
+    {
+      "pdb": "kernelbase.pdb",
+      "guid": "53B51385668728BA4297C9C78EEC92DD",
+      "age": 1,
+      "sha256": "7ea3dd101107a9e0d2a3c76b8f0afd9c52a121997c7420f7892dec0dff2a9347"
+    },
+    {
+      "pdb": "ntkrnlmp.pdb",
+      "guid": "F57E740B088E5056E8AF0772F1CC5BEB",
+      "age": 1,
+      "sha256": "b06e15ab4cbcb75bc5f85880b0554a0978b58cae521f6f8f2847ead8fc2e87f8"
+    },
+    {
+      "pdb": "Wdf01000.pdb",
+      "guid": "CCF30DF686C87755B01C27769D6D70FE",
+      "age": 1,
+      "sha256": "fb2b9200ca16d6a73f62fac8fa86de03b221e2e15ca319bf112a4942291c3ea0"
+    },
+    {
+      "pdb": "XINPUTHID.pdb",
+      "guid": "A4F14C10211FF645100498AA4182DC90",
+      "age": 1,
+      "sha256": "daae04e8fb7b5a1f533358c50ee51b97d4b748b74673d201445557f29a2127c5"
+    },
+    {
+      "pdb": "XInput1_4.pdb",
+      "guid": "F13A2EB43514AC330CBD0CD5AA3A2D67",
+      "age": 1,
+      "sha256": "4fbc3eb8260d465021a2650c0b1d532bd8ec7099d3007607ed94a2b6f884af72"
+    },
+    {
+      "pdb": "XInput1_4.pdb",
+      "guid": "822D0923E019D817BF1A55A08D50A9A2",
+      "age": 1,
+      "sha256": "e272cb5bc8e5933cbbc33339941bc82879e281fd029d3d3a0fb6e9fe24a8100f"
+    }
+  ],
+  "provider_coverage": {
+    "dshidmini_events": 2,
+    "hidclass_named_events": 0,
+    "wdf_performance_named_events": 0,
+    "unclassified_classic_events": 248365,
+    "kernel_iotrace_user_events": 50559,
+    "kernel_iotrace_kernel_events": 36234,
+    "kernel_iotrace_note": "Decoded payload columns contain activity identifiers, not IOCTL codes, completion state or command bytes.",
+    "probe_provider": "omitted"
+  },
+  "ioctl_rate": null,
+  "completion_behavior": null,
+  "rumble_off_rate": null,
+  "service_ab_validated": false,
+  "causal_fault_proven": false,
+  "mitigation_validated": false,
+  "analysis_tool": {
+    "name": "xperf.exe",
+    "version": "10.0.28000.2270"
+  },
+  "limitations": [
+    "CPU buffers apparently wrapped despite zero reported event loss; only a common retained tail was analyzed.",
+    "Requested rumble phase overlaps the tail, but actual vibration is unconfirmed and questionnaire says No.",
+    "Reported FPS values are operator observations; no frame-time series or disabled-service trace was provided.",
+    "Sampled stacks identify where CPU was spent, not operation counts, API latency, lock ownership or contention cause.",
+    "Steam overlay frames are present on the call chain; their presence does not establish that the overlay caused the issue.",
+    "The Windows 10 driver and inbox implementation remain statically uninspected; Windows 11 semantics are not assumed.",
+    "Public PDBs matched the ETL debug identities; game and some Windows frames remain unresolved.",
+    "No live experiment, injection, throttle or service change was performed during this analysis."
+  ],
+  "private_raw_directory": "captures/community/20261028-192856-8b1526ae",
+  "hot_path_module_metadata": {
+    "source": "ETL FileVersion and DbgId/RSDS records",
+    "game_xinput1_4": {
+      "architecture": "x86 (WOW64 game)",
+      "file_version": "10.0.19041.3636 (WinBuild.160101.0800)",
+      "image_size": "0x0000d000",
+      "pe_timestamp": "0x781fbf32",
+      "pdb_guid": "822D0923E019D817BF1A55A08D50A9A2",
+      "pdb_age": 1,
+      "sha256": null
+    },
+    "wdf01000": {
+      "file_version": "1.31.19041.5794 (WinBuild.160101.0800)",
+      "image_size": "0x000d1000",
+      "pe_timestamp": "0x488b79bb",
+      "sha256": null
+    }
+  }
+}

@@ -7,6 +7,17 @@ and partial CPU observation; its driver semantics and causal mechanism remain un
 
 ## Contributed Windows 10 capture, 2026-10-28
 
+A [second package from Left 4 Dead 2](community-capture-20261028-l4d2.md)
+matches all 13 collected GameInput/xinputhid hashes in the first package.
+Its [derived summary](../evidence/runtime/community-20261028-8b1526ae-summary.json)
+records an expensive game-thread XInputGetState/device-enumeration/close path
+with trace-matched Microsoft symbols. Both services were running in inventory;
+the separately supplied screenshot identifies the reported workaround as
+disabling inbox GameInput Service while leaving the redist running. A matched
+service A/B, frame-time impact, state-request semantics and workaround safety
+remain unvalidated. The old collector was used again, so only a retained tail
+supports CPU analysis. This observation does not change compatibility gates.
+
 The [community review](community-capture-20261028.md) and
 [derived summary](../evidence/runtime/community-20261028-08710ec5-summary.json)
 record Windows 10 22H2 **19045.6466**, inbox implementation

@@ -80,6 +80,16 @@ The operator has not knowingly observed the original symptom on this machine. Ne
 
 ## What is still open
 
+The [Left 4 Dead 2 follow-up](community-capture-20261028-l4d2.md) adds a
+different runtime lead on Windows 10: in a retained 13-second interval, a
+nearly fully occupied game thread has XInputGetState on 67.93% of sampled
+stacks, mostly through device enumeration and handle cleanup into xinputhid/WDF.
+CPU in the GameInput service processes and WUDFHost is low in that window.
+The contributor identifies the disabled-service workaround as inbox
+`GameInputSvc`, with the redist still running, but no matched disabled-service
+trace or frame-time series is available. This does not establish the original
+unfiltered-state/rumble-off flood or justify throttling it.
+
 The [2026-10-28 community package](community-capture-20261028.md) adds Windows
 10 22H2 inventory and a partial CPU trace with a USB PS3 controller. Its
 memory buffers apparently wrapped, leaving only a short usable CPU tail;

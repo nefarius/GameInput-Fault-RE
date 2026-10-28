@@ -4,7 +4,7 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 
 - `safe-collector`: completed — contributor instructions, bounded collector, real ETL/ZIP run, zero reported losses and 28 manifest entries verified.
 - `ioctl-probe`: completed — pass-through probe, pinned dependencies, secure mapping transfer and restricted persistent research wrapper. Native build/tests and real hook start/stop verified; active-input measurements continue below.
-- `live-proof`: observation tooling and USB/Bluetooth experiments completed; **causal proof blocked on a symptomatic capture**. Both measured paths returned pending, and the operator has no confirmed affected reproduction on this machine.
+- `live-proof`: observation tooling and local USB/Bluetooth experiments completed; **causal proof remains unvalidated**. Both local measured paths returned pending. A contributed Left 4 Dead 2 trace now identifies expensive game-side XInput enumeration/close work; a matched service comparison and frame-time evidence are still missing.
 - `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
 - `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
 - `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 is explicitly untested. Evidence tests pass.
@@ -13,6 +13,12 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
 
 ## Verification
+
+- Left 4 Dead 2 community follow-up: 28 manifest entries verified; all 13
+  GameInput/xinputhid inventory hashes match the first package. A retained
+  13-second window and trace-matched public symbols locate game-thread CPU
+  work in XInput enumeration and handle cleanup, not a measured unfiltered-state
+  or rumble-off flood. See [review](community-capture-20261028-l4d2.md).
 
 - Collector follow-up: five-second symptomatic default, explicit interactive
   readiness before tracing, separate ETLs/watchdogs for comparison phases,
