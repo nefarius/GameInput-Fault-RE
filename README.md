@@ -10,7 +10,7 @@ Getting sudden stutters, FPS drops, or unusually high CPU usage while using a co
 2. **Collect a report while the problem is happening.** Follow the [step-by-step diagnostic guide](docs/collecting-diagnostics.md). The collector uses tools included in Windows; no programming or developer tools are needed.
 3. **Review before sharing.** The collector creates a ZIP on your PC. Ask us on Discord if you need help reviewing it or arranging private sharing. Nothing is uploaded automatically.
 
-To get the collector, choose **Code → Download ZIP** on this GitHub page and extract the downloaded ZIP. Inside the extracted folder, open `tools/collector` and double-click **Collect-Diagnostics.cmd**. The [guide](docs/collecting-diagnostics.md) explains the administrator prompt, privacy notice, and recording steps.
+To get the collector, choose **Code → Download ZIP** on this GitHub page and extract the downloaded ZIP. Inside the extracted folder, open `tools/collector` and double-click **Collect-Diagnostics.cmd**. The default is one five-second recording: reproduce the problem, press Enter when ready, then describe what happened during those seconds. The [guide](docs/collecting-diagnostics.md) explains the administrator prompt, privacy notice, and recording steps. Longer recordings can overwrite earlier data in the fixed memory buffers.
 
 Reports can contain device identifiers, your Windows user name in file paths, and information about other running applications. Read the privacy notice before collecting or sharing anything. Keep your original settings for the first report so we can investigate the behavior you're actually seeing.
 

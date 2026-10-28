@@ -5,7 +5,7 @@ Collect bounded GameInput diagnostics with Windows built-in tools, after consent
 .EXAMPLE
 .\Collect-Diagnostics.ps1 -InventoryOnly -Consent -NonInteractive
 .EXAMPLE
-.\Collect-Diagnostics.ps1 -Consent -NonInteractive -Phases idle -PhaseSeconds 15 -Controller 'Xbox One' -Connection USB
+.\Collect-Diagnostics.ps1 -Consent -NonInteractive -Phases symptom -PhaseSeconds 5 -Controller 'Xbox One' -Connection USB
 #>
 [CmdletBinding()]
 param(
@@ -13,8 +13,8 @@ param(
     [switch]$Consent,
     [switch]$NonInteractive,
     [string]$OutputDirectory = (Join-Path $PSScriptRoot 'output'),
-    [ValidateSet('baseline', 'idle', 'input', 'rumble')][string[]]$Phases = @('baseline', 'idle', 'input', 'rumble'),
-    [ValidateRange(3, 60)][int]$PhaseSeconds = 15,
+    [ValidateSet('symptom', 'baseline', 'idle', 'input', 'rumble')][ValidateCount(1, 5)][string[]]$Phases = @('symptom'),
+    [ValidateRange(3, 60)][int]$PhaseSeconds = 5,
     [ValidateRange(0, 30)][int]$PreparationSeconds = 10,
     [ValidateRange(15, 300)][int]$MaxTraceSeconds = 180,
     [ValidateRange(128, 512)][int]$MaxOutputMB = 256,
@@ -67,9 +67,10 @@ if (-not $Consent) {
 if (-not $InventoryOnly -and -not (Test-CollectorAdministrator)) {
     throw 'Tracing requires Administrator. Double-click Collect-Diagnostics.cmd, or use -InventoryOnly.'
 }
-if (-not $InventoryOnly -and (($PhaseSeconds + $PreparationSeconds) * $Phases.Count) -gt $MaxTraceSeconds) {
-    throw 'Requested phases exceed MaxTraceSeconds. Shorten phases/preparation or raise the limit (maximum 300 seconds).'
+if (-not $InventoryOnly -and $PhaseSeconds -gt $MaxTraceSeconds) {
+    throw 'PhaseSeconds exceeds the per-recording MaxTraceSeconds limit.'
 }
+if (@($Phases | Select-Object -Unique).Count -ne $Phases.Count) { throw 'Duplicate phases are not supported.' }
 
 $questionnaire = [ordered]@{ RecordedUtc = [DateTime]::UtcNow.ToString('o');
     Controller = $Controller; Connection = $Connection; Game = $Game; Rumble = $Rumble;
@@ -83,7 +84,7 @@ if (-not $NonInteractive) {
         @('Game', 'Game/test application and version'),
         @('Rumble', 'Rumble enabled? How will it be requested?'),
         @('Symptom', 'Symptom and how to reproduce it'),
-        @('WorkaroundState', 'Workaround state (collect once without it first)'))) {
+        @('WorkaroundState', 'Current service/workaround settings (leave unchanged for this capture)'))) {
         if (-not $questionnaire[$question[0]]) { $questionnaire[$question[0]] = Read-Host $question[1] }
     }
 }
@@ -112,6 +113,7 @@ $traceAttempted = $false
 $traceStopped = $false
 $cleanupSucceeded = $true
 $traceClock = $null
+$watchdogDirectory = $run
 $exitCode = 0
 
 function Write-CollectionStatus {
@@ -136,7 +138,7 @@ function Invoke-RunCommand {
 function Assert-TraceBudget {
     if ($traceClock -and $traceClock.Elapsed.TotalSeconds -ge $MaxTraceSeconds) { throw 'Trace duration limit reached.' }
     if ((Get-CollectorBytes $run) -gt $maxBytes) { throw 'Output size limit reached.' }
-    if (Test-Path -LiteralPath (Join-Path $run 'watchdog-result.json')) { throw 'Watchdog stopped this recording; see watchdog-result.json.' }
+    if (Test-Path -LiteralPath (Join-Path $watchdogDirectory 'watchdog-result.json')) { throw 'Watchdog stopped this recording; see its watchdog-result.json.' }
 }
 
 function Wait-PhaseInterval {
@@ -242,64 +244,100 @@ try {
         $validation = Invoke-RunCommand $wpr @('-profiles', $profilePath)
         if ($validation.ExitCode -ne 0) { throw 'Generated WPR profile failed validation; see command transcript.' }
 
-        # Start watchdog BEFORE WPR; it can clean up even a partially failed start.
-        $owner = Get-Process -Id $PID
-        $watchArguments = @('-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
-            (Join-Path $PSScriptRoot 'Trace-Watchdog.ps1'), '-InstanceName', $instance,
-            '-OwnerProcessId', "$PID", '-OwnerStartTicks', "$($owner.StartTime.ToUniversalTime().Ticks)",
-            '-RunDirectory', $run, '-DeadlineSeconds', "$($MaxTraceSeconds + 120)", '-MaxOutputMB', "$MaxOutputMB")
-        $watchdog = Start-Process -FilePath $powershell -ArgumentList (($watchArguments | ForEach-Object {
-            ConvertTo-NativeArgument $_ }) -join ' ') -WindowStyle Hidden -PassThru
-        $readyClock = [Diagnostics.Stopwatch]::StartNew()
-        while (-not (Test-Path -LiteralPath (Join-Path $run 'watchdog.ready'))) {
-            if ($watchdog.HasExited -or $readyClock.Elapsed.TotalSeconds -gt 10) { throw 'Cleanup watchdog did not become ready; WPR was not started.' }
-            Start-Sleep -Milliseconds 100
-        }
-        $traceAttempted = $true
-        Write-CollectionStatus 'trace-start'
-        $started = Invoke-RunCommand $wpr @('-start', ($profilePath + '!GameInput'), '-instancename', $instance) 30
-        if ($started.ExitCode -ne 0) { throw 'WPR start failed. Only this random instance will be cancelled; existing recordings are left alone.' }
-        foreach ($record in $selected) { $record.Status = 'enabled'; $record.Reason += ' WPR start succeeded; event production is not guaranteed.' }
-        $traceClock = [Diagnostics.Stopwatch]::StartNew()
         foreach ($phase in $Phases) {
-            Write-CollectionStatus ('phase-' + $phase)
+            # Each phase has its own saved trace and watchdog. No WPR session is
+            # active while waiting for readiness or collecting post-capture answers.
+            $traceClock = $null
+            $traceAttempted = $false
+            $traceStopped = $false
+            $instance = 'GameInput_' + [guid]::NewGuid().ToString('N')
+            $state.InstanceName = $instance
+            $phaseDirectory = $run
+            if ($Phases.Count -gt 1) { $phaseDirectory = Join-Path $run $phase }
+            [void][IO.Directory]::CreateDirectory($phaseDirectory)
+            $watchdogDirectory = $phaseDirectory
             $instruction = switch ($phase) {
+                'symptom' { 'Keep your current controller, game, vibration and service settings. Reproduce the problem before pressing Enter.' }
                 'baseline' { 'Disconnect the controller if safe; leave the test app in its baseline state.' }
                 'idle' { 'Connect the controller; keep hands off buttons/sticks; stop rumble in your app.' }
                 'input' { 'Move sticks and press buttons in your existing game/test app; keep rumble off.' }
-                'rumble' { 'Request rumble in your existing game/test app; note if unsupported. No rumble is sent by this script.' }
+                'rumble' { 'Request rumble in your existing game/test app; skip if unavailable. No rumble is sent by this script.' }
             }
             $record = [ordered]@{ Name = $phase; Instruction = $instruction; PromptUtc = [DateTime]::UtcNow.ToString('o');
                 Preparation = $null; StartUtc = $null; EndUtc = $null; StartQpc = $null; EndQpc = $null;
                 QpcFrequency = [Diagnostics.Stopwatch]::Frequency; Result = 'not-started';
-                OperatorConfirmed = $false; StartMarker = $null; EndMarker = $null }
+                OperatorConfirmed = $false; StartMarker = $null; EndMarker = $null;
+                InstanceName = $instance; TracePath = $null; TraceSaved = $false;
+                CoverageStatus = 'not-checked'; Observations = $null }
             $phaseRecords.Add($record)
+            Write-CollectionStatus ('prepare-' + $phase)
             Write-Host "`nPHASE: $phase ($PhaseSeconds seconds). $instruction" -ForegroundColor Cyan
-            Write-Host "Preparation: $PreparationSeconds seconds. Enter = ready; S = skip; Q = cancel."
-            $preparation = Wait-PhaseInterval $PreparationSeconds -Preparation
-            $record.Preparation = $preparation
-            if ($preparation -eq 'skipped') { $record.Result = 'skipped'; continue }
-            $record.OperatorConfirmed = ($preparation -eq 'ready')
+            Write-Host 'Short recordings can still wrap. Saving files does not confirm retained coverage or a reproduced fault.'
+            if ($NonInteractive) {
+                $record.Preparation = Wait-PhaseInterval $PreparationSeconds -Preparation
+            } else {
+                $record.Preparation = Read-CollectorReadiness
+            }
+            if ($record.Preparation -eq 'skipped') {
+                $record.Result = 'skipped'
+                Write-CollectorJson (Join-Path $run 'phases.json') $phaseRecords.ToArray()
+                continue
+            }
+            $record.OperatorConfirmed = ($record.Preparation -eq 'ready')
+            Assert-TraceBudget
+            # Arm cleanup before WPR, with a fresh bounded deadline for this phase.
+            $owner = Get-Process -Id $PID
+            $watchArguments = @('-NoLogo', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
+                (Join-Path $PSScriptRoot 'Trace-Watchdog.ps1'), '-InstanceName', $instance,
+                '-OwnerProcessId', "$PID", '-OwnerStartTicks', "$($owner.StartTime.ToUniversalTime().Ticks)",
+                '-RunDirectory', $phaseDirectory, '-SizeWatchDirectory', $run,
+                '-DeadlineSeconds', "$($MaxTraceSeconds + 120)", '-MaxOutputMB', "$MaxOutputMB")
+            $watchdog = Start-Process -FilePath $powershell -ArgumentList (($watchArguments | ForEach-Object {
+                ConvertTo-NativeArgument $_ }) -join ' ') -WindowStyle Hidden -PassThru
+            $readyClock = [Diagnostics.Stopwatch]::StartNew()
+            while (-not (Test-Path -LiteralPath (Join-Path $phaseDirectory 'watchdog.ready'))) {
+                if ($watchdog.HasExited -or $readyClock.Elapsed.TotalSeconds -gt 10) { throw 'Cleanup watchdog did not become ready; WPR was not started.' }
+                Start-Sleep -Milliseconds 100
+            }
+            $traceAttempted = $true
+            Write-CollectionStatus ('trace-start-' + $phase)
+            $started = Invoke-RunCommand $wpr @('-start', ($profilePath + '!GameInput'), '-instancename', $instance) 30
+            if ($started.ExitCode -ne 0) { throw 'WPR start failed. Only this random instance will be cancelled; existing recordings are left alone.' }
+            foreach ($provider in $selected) {
+                $provider.Status = 'enabled'
+                $provider.Reason = 'Registered provider; all keywords, level 5. WPR start succeeded; event production is not guaranteed.'
+            }
+            $traceClock = [Diagnostics.Stopwatch]::StartNew()
             $record.StartUtc = [DateTime]::UtcNow.ToString('o')
             $record.StartQpc = [Diagnostics.Stopwatch]::GetTimestamp()
-            $record.StartMarker = Invoke-RunCommand $wpr @('-marker', "GameInput:$phase:start", '-instancename', $instance) 5
+            $record.StartMarker = Invoke-RunCommand $wpr @('-marker', "GameInput:${phase}:start", '-instancename', $instance) 5
             $record.Result = 'recording'
             Write-Host "Recording $phase now..."
             try { $record.Result = Wait-PhaseInterval $PhaseSeconds }
             finally {
                 $record.EndUtc = [DateTime]::UtcNow.ToString('o'); $record.EndQpc = [Diagnostics.Stopwatch]::GetTimestamp()
                 if ($record.Result -eq 'recording') { $record.Result = 'interrupted' }
-                $record.EndMarker = Invoke-RunCommand $wpr @('-marker', "GameInput:$phase:end", '-instancename', $instance) 5
+                $record.EndMarker = Invoke-RunCommand $wpr @('-marker', "GameInput:${phase}:end", '-instancename', $instance) 5
                 Write-CollectorJson (Join-Path $run 'phases.json') $phaseRecords.ToArray()
             }
+            # Save immediately; status queries and questionnaire prompts come afterwards.
+            Write-Host 'Saving this recording (up to 90 seconds)...'
+            Write-CollectionStatus ('trace-save-' + $phase)
+            $etl = Join-Path $phaseDirectory 'capture.etl'
+            $record.TracePath = $etl.Substring($run.Length + 1).Replace('\', '/')
+            $stopped = Invoke-RunCommand $wpr @('-stop', $etl, '-skipPdbGen', '-instancename', $instance) 90
+            if ($stopped.ExitCode -ne 0) { throw 'WPR save failed or exceeded its time/size budget; cleanup will cancel this instance.' }
+            $traceStopped = $true
+            $traceClock = $null
+            $record.TraceSaved = Test-Path -LiteralPath $etl -PathType Leaf
+            if (-not $record.TraceSaved) { throw 'WPR reported success but the ETL is missing.' }
+            'complete' | Set-Content -LiteralPath (Join-Path $phaseDirectory 'watchdog.complete') -Encoding ASCII
+            if (-not $watchdog.WaitForExit(3000)) { throw 'Watchdog did not exit after trace save; further recordings refused.' }
+            $watchdog.Dispose()
+            $watchdog = $null
+            $record.Observations = Read-CollectorObservations -NonInteractive:$NonInteractive
+            Write-CollectorJson (Join-Path $run 'phases.json') $phaseRecords.ToArray()
         }
-        $status = Invoke-RunCommand $wpr @('-status', 'collectors', '-details', '-instancename', $instance) 10
-        $status.Stdout | Set-Content -LiteralPath (Join-Path $run 'trace-status.txt') -Encoding UTF8
-        Write-Host 'Saving this collector trace (up to 90 seconds)...'
-        Write-CollectionStatus 'trace-save'
-        $stopped = Invoke-RunCommand $wpr @('-stop', (Join-Path $run 'capture.etl'), '-skipPdbGen', '-instancename', $instance) 90
-        if ($stopped.ExitCode -ne 0) { throw 'WPR save failed or exceeded its time/size budget; cleanup will cancel this instance.' }
-        $traceStopped = $true
     }
     $state.Status = 'complete'
     if ($state.InventoryIssueCount -gt 0) { $state.Status = 'complete-with-omissions' }
@@ -321,16 +359,18 @@ try {
         } catch { $cleanupSucceeded = $false; $errors.Add("Cleanup: $($_.Exception.Message)") }
     }
     if ($cleanupSucceeded) {
-        'complete' | Set-Content -LiteralPath (Join-Path $run 'watchdog.complete') -Encoding ASCII
+        'complete' | Set-Content -LiteralPath (Join-Path $watchdogDirectory 'watchdog.complete') -Encoding ASCII
         if ($watchdog) { [void]$watchdog.WaitForExit(3000); $watchdog.Dispose() }
     } else {
         $errors.Add("Cleanup could not be verified. Watchdog remains armed. Recovery: wpr -cancel -instancename $instance")
     }
-    # Enforce the artifact cap even if WPR merge metadata expanded beyond buffers.
-    $etl = Join-Path $run 'capture.etl'
-    if ((Get-CollectorBytes $run) -gt $maxBytes -and (Test-Path -LiteralPath $etl)) {
-        Remove-Item -LiteralPath $etl -Force
-        $errors.Add('ETL removed because total staging output exceeded MaxOutputMB. No trace is included.')
+    # Enforce the shared artifact cap across all independently saved phases.
+    if ((Get-CollectorBytes $run) -gt $maxBytes) {
+        foreach ($traceFile in Get-ChildItem -LiteralPath $run -Filter *.etl -File -Recurse) {
+            Remove-Item -LiteralPath $traceFile.FullName -Force
+        }
+        foreach ($record in $phaseRecords) { $record.TraceSaved = $false }
+        $errors.Add('ETLs removed because total staging output exceeded MaxOutputMB. No trace is included.')
     }
     if ($errors.Count -gt 0) { $state.Status = 'incomplete'; $exitCode = 1 }
     $state.Providers = @($providerRecords.ToArray()); $state.Phases = @($phaseRecords.ToArray())
@@ -340,7 +380,7 @@ try {
     Write-CollectorJson (Join-Path $run 'phases.json') $phaseRecords.ToArray()
     Write-CollectorJson (Join-Path $run 'providers.json') $providerRecords.ToArray()
     $summary = @"
-GameInput diagnostics - $($state.Status)
+GameInput diagnostics - collection $($state.Status) (coverage and diagnosis not verified)
 UTC: $($state.StartedUtc) to $($state.FinishedUtc)
 Mode: $($state.Mode)
 WPR instance: $instance
@@ -350,7 +390,7 @@ Game/test app: $($questionnaire.Game)
 Rumble: $($questionnaire.Rumble)
 Workaround state: $($questionnaire.WorkaroundState)
 Symptom: $($questionnaire.Symptom)
-Trace present: $(Test-Path -LiteralPath $etl)
+Saved traces: $(($phaseRecords | Where-Object TraceSaved | ForEach-Object TracePath) -join ", ")
 Phases: $(($phaseRecords | ForEach-Object { $_.Name + '=' + $_.Result }) -join ', ')
 Omissions: $(($providerRecords | Where-Object Status -eq 'omitted' | ForEach-Object Name) -join ', ')
 Errors: $($errors -join ' | ')
@@ -359,10 +399,12 @@ Inventory issues: $($state.InventoryIssueCount) (see inventory.json)
 Read consent-privacy.txt before sharing. Inventory and ETL are not anonymized.
 Inventory is a snapshot; inaccessible modules, absent providers, and event loss
 must not be interpreted as proof of absence. Timer snapshot may be unavailable.
-Fixed 64 MiB system + 16 MiB event buffers can wrap; early phases may be lost.
-Inspect trace-status.txt / WPA for loss, stacks, and actual event coverage.
-Phase timestamps describe requested actions; timed preparation does not confirm
-the controller state or that input/rumble occurred. InventoryOnly has no ETL.
+Each phase is saved separately. Fixed 64 MiB system + 16 MiB event buffers can
+wrap even in a short recording. Zero lost events does not prove full retention.
+CoverageStatus=not-checked: inspect retained timestamps, stacks and providers in
+WPA before comparing phases. Collection complete means files saved, not a diagnosis.
+Read phases.json for readiness and post-capture operator reports; readiness alone
+does not prove input/vibration occurred. InventoryOnly has no ETL.
 No automatic upload. SHA256SUMS.txt covers all packaged files except itself.
 "@
     $summary | Set-Content -LiteralPath (Join-Path $run 'summary.txt') -Encoding UTF8

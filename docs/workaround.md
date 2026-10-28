@@ -33,17 +33,17 @@ upload is requested. Keep raw ETL/JSONL locally under ignored `captures/` or
 `artifacts/`; commit only reviewed small summaries without serial/instance IDs.
 Hashes provide integrity, not anonymization.
 
-For a bounded single idle trace from an administrator x64 PowerShell terminal,
+For a bounded single symptomatic trace from an administrator x64 PowerShell terminal,
 the existing collector supports:
 
 ```powershell
-./tools/collector/Collect-Diagnostics.ps1 -Consent -Phases idle -PhaseSeconds 30 -PreparationSeconds 10 -Controller 'Xbox One' -Connection USB -WorkaroundState 'disabled'
+./tools/collector/Collect-Diagnostics.ps1 -Consent -Phases symptom -PhaseSeconds 5 -Controller 'Xbox One' -Connection USB -WorkaroundState 'original service settings; no experimental workaround'
 ```
 
 `-Consent` accepts the script's displayed privacy notice; omit it to use the
 interactive consent prompt. Supply the actual controller and connection rather
 than copying those labels onto a different test. Check trace/provider failures,
-loss counters and symbol coverage. A quiet trace is a useful negative result.
+loss counters and symbol coverage. A quiet trace does not rule out an intermittent symptom; check retained timestamp coverage before interpreting it.
 
 The [agent-collected local baseline summary](../evidence/runtime/baseline-summary.json)
 records a WPR trace on 2026-10-25 from 13:27:02.3199842 through

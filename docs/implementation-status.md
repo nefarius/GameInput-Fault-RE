@@ -14,6 +14,12 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Collector follow-up: five-second symptomatic default, explicit interactive
+  readiness before tracing, separate ETLs/watchdogs for comparison phases,
+  corrected phase markers and post-save operator reports. Windows PowerShell
+  5.1 parser and mocked orchestration checks cover these changes; live WPR
+  retention on a symptomatic machine remains unvalidated.
+
 - Community review, 2026-10-28: 28 bundle manifest entries verified; Windows
   10 inventory and a four-second retained CPU window reviewed. Earlier CPU
   phases did not survive memory-buffer retention. No causal proof or hardware

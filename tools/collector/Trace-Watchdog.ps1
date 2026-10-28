@@ -7,6 +7,7 @@ param(
     [Parameter(Mandatory)][int]$OwnerProcessId,
     [Parameter(Mandatory)][long]$OwnerStartTicks,
     [Parameter(Mandatory)][string]$RunDirectory,
+    [string]$SizeWatchDirectory = '',
     [ValidateRange(30, 900)][int]$DeadlineSeconds = 480,
     [ValidateRange(128, 512)][int]$MaxOutputMB = 256
 )
@@ -14,6 +15,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'Collector.Common.ps1')
 $clock = [Diagnostics.Stopwatch]::StartNew()
 $reason = 'deadline'
+if (-not $SizeWatchDirectory) { $SizeWatchDirectory = $RunDirectory }
 try {
     'ready' | Set-Content -LiteralPath (Join-Path $RunDirectory 'watchdog.ready') -Encoding ASCII
     while ($clock.Elapsed.TotalSeconds -lt $DeadlineSeconds) {
@@ -22,7 +24,7 @@ try {
             $owner = Get-Process -Id $OwnerProcessId -ErrorAction Stop
             if ($owner.StartTime.ToUniversalTime().Ticks -ne $OwnerStartTicks) { $reason = 'owner-replaced'; break }
         } catch { $reason = 'owner-exited'; break }
-        if ((Get-CollectorBytes $RunDirectory) -gt ($MaxOutputMB * 1MB)) { $reason = 'size-limit'; break }
+        if ((Get-CollectorBytes $SizeWatchDirectory) -gt ($MaxOutputMB * 1MB)) { $reason = 'size-limit'; break }
         Start-Sleep -Milliseconds 500
     }
     $result = Invoke-CollectorCommand (Get-SystemTool 'wpr.exe') @('-cancel', '-instancename', $InstanceName) 30

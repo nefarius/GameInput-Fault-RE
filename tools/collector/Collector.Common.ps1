@@ -85,6 +85,37 @@ function Test-CollectorAdministrator {
     $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
+function Read-CollectorReadiness {
+    # Called before WPR/watchdog startup: waiting for the operator records no trace.
+    while ($true) {
+        $answer = Read-Host 'Reproduce/prepare the requested state, then Enter = ready; S = skip; Q = cancel'
+        switch ($answer.Trim().ToUpperInvariant()) {
+            '' { return 'ready' }
+            'S' { return 'skipped' }
+            'Q' { throw 'Operator cancelled before recording.' }
+            default { Write-Host 'Press Enter, S, or Q.' }
+        }
+    }
+}
+
+function Read-CollectorObservations {
+    param([switch]$NonInteractive)
+    $result = [ordered]@{ RecordedUtc = [DateTime]::UtcNow.ToString('o');
+        SymptomObserved = 'unknown'; SymptomTiming = ''; HighCpuProcess = '';
+        ActualActions = ''; VibrationObserved = 'unknown'; DisabledServiceWorkaround = '' }
+    if ($NonInteractive) { return $result }
+    # Ask only after the ETL is saved, so answers cannot displace the symptom.
+    do { $answer = (Read-Host 'Was the problem visible during those recorded seconds? Y / N / U (unknown)').Trim().ToUpperInvariant() }
+    until ($answer -in @('Y', 'N', 'U', ''))
+    $result.SymptomObserved = switch ($answer) { 'Y' { 'yes' } 'N' { 'no' } default { 'unknown' } }
+    $result.SymptomTiming = Read-Host 'When did it happen within this recording? (or unknown)'
+    $result.HighCpuProcess = Read-Host 'Which process showed high CPU, and roughly how much? (or unknown)'
+    $result.ActualActions = Read-Host 'What did you actually do: connected/disconnected, input, vibration?'
+    $result.VibrationObserved = Read-Host 'Was vibration actually felt? Yes / no / not requested / unknown'
+    $result.DisabledServiceWorkaround = Read-Host 'Which exact service do you normally disable as a workaround? (or none/unknown; do not change it now)'
+    $result
+}
+
 function Write-CollectorProfile {
     param([string]$Path, [object[]]$Providers = @(), [switch]$WdfKeywords)
     $eventDefinitions = ''

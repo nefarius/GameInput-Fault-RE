@@ -13,16 +13,29 @@ Close sensitive applications. This collector makes a **system-wide trace**: proc
 1. Open `tools/collector` and double-click **Collect-Diagnostics.cmd**. Accept the Windows administrator prompt.
 2. Read the displayed privacy notice. Type **COLLECT** to accept collection, or close the window to decline.
 3. Answer the short questionnaire. A controller model is enough; do not enter a serial number.
-4. Follow the four phase prompts: controller disconnected/baseline, connected and idle, buttons/sticks moving, and vibration requested in your existing game/test app. Press Enter when ready, S to skip an unavailable phase, or Q to cancel. The collector does not generate input or vibration. Describe skipped or unverified actions honestly.
-5. Wait for the ZIP path and SHA-256 to appear. The default output is `tools/collector/output`. Saving the trace may take longer than recording it. `collector-status.json` shows the current stage.
+4. Keep the original controller, game, vibration and service settings. Reproduce the problem, then press Enter when ready. The default recording lasts **5 seconds** and is saved immediately. S skips recording; Q cancels. Waiting for readiness does not record a trace.
+5. After saving, report whether the symptom was visible during those seconds, which process showed high CPU and roughly how much, what you actually did, and whether vibration was felt. Name the exact service you normally disable as a workaround, without changing it for this capture. Unknown answers are fine.
+6. Wait for the ZIP path and SHA-256 to appear. Saving may take longer than recording. The default output is `tools/collector/output`; `collector-status.json` shows progress.
 
-The default phase recording is 15 seconds plus 10 seconds of preparation per phase. You can reproduce a delayed fault first, then collect while it is happening. A quiet short capture does not rule out an intermittent fault. If unplugging the controller would disrupt a game or reproduction, skip that phase and explain why.
+**Record while the problem is happening. Longer is not automatically better.**
+The trace uses fixed memory buffers that can wrap under load, even during a short
+recording. Extending the duration or output-size limit does not guarantee more
+retained history. A quiet short capture does not rule out an intermittent fault.
+If the problem disappears before recording, say so rather than treating the run
+as a reproduction.
+
+The optional baseline/idle/input/rumble phases are for an agreed comparison.
+Each phase gets its own ETL, saved before proceeding to the next phase. Press
+Enter only when ready, or S to skip. Readiness is not proof that input or
+vibration occurred: record actual actions afterwards. Skip vibration if it is
+unavailable, disabled, or would change the symptom. Do not unplug the controller
+if that would disrupt the reproduction.
 
 The collector reads configuration and records tracing. It does not inject a DLL, stop services, install drivers, change power plans, or repair the system. Administrator access allows Windows tracing and access to service/module inventory.
 
 ## Review and provide the report
 
-Keep the local staging directory until the report has been checked. Open `summary.txt`, `questionnaire.json`, `inventory.json`, `providers.json`, `phases.json`, and `run.json`. Confirm that the listed controller, actual actions, errors, and service/workaround state are accurate. The ZIP also includes the exact collector scripts/profile used and `consent-privacy.txt`.
+Keep the local staging directory until the report has been checked. Open `summary.txt`, `questionnaire.json`, `inventory.json`, `providers.json`, `phases.json`, and `run.json`. A single recording uses `capture.etl`; comparisons use `<phase>/capture.etl`. Each phase records its trace path, save status, readiness and post-capture observations. Confirm that the listed controller, actual actions, errors, and service/workaround state are accurate. The ZIP also includes the exact collector scripts/profile used and `consent-privacy.txt`.
 
 ETL is binary and can contain identifying data even if the JSON looks harmless. Ask a maintainer for a private sharing method if you cannot review it or if public disclosure is inappropriate. Do not post a trace containing sensitive activity publicly. Do not delete or edit identifying fields and retain the old checksum manifest: produce a new reviewed package and document what changed.
 
@@ -48,13 +61,23 @@ Never attach Windows binaries, full process memory dumps, or downloaded symbol/b
 
 ## Optional command-line collection
 
-In an administrator PowerShell terminal at the repository root, collect only an idle reproduction:
+In an administrator PowerShell terminal at the repository root, collect only the existing symptomatic state:
 
 ```powershell
-.\tools\collector\Collect-Diagnostics.ps1 -Phases idle -PhaseSeconds 30 -PreparationSeconds 10 -Controller 'your model' -Connection USB
+.\tools\collector\Collect-Diagnostics.ps1 -Phases symptom -PhaseSeconds 5 -Controller 'your model' -Connection USB
 ```
 
 To automate an already agreed experiment, `-Consent -NonInteractive` explicitly accepts the exact notice printed by the script. It does **not** confirm that a controller was disconnected or that input/vibration happened. Phase timestamps and operator-confirmation fields must be interpreted accordingly.
+
+For an agreed four-phase comparison, explicitly select the phases:
+
+```powershell
+.\tools\collector\Collect-Diagnostics.ps1 -Phases baseline,idle,input,rumble -PhaseSeconds 5
+```
+
+Interactive readiness waits happen before recording. `-PreparationSeconds`
+applies only to unattended runs; it does not confirm any physical action.
+Unattended observations remain unknown until reviewed with the operator.
 
 For inventory without ETL (usable without administrator access, with access limitations recorded):
 
@@ -62,7 +85,7 @@ For inventory without ETL (usable without administrator access, with access limi
 .\tools\collector\Collect-Diagnostics.ps1 -InventoryOnly
 ```
 
-The trace duration is bounded by `-MaxTraceSeconds` (maximum 300 seconds); each phase is 3–60 seconds. `-MaxOutputMB` is 128–512 MiB, default 256. Tracing uses bounded memory buffers, not an indefinitely growing file recording. Buffers can wrap: the output limit does not guarantee that every earlier event survives. Inventory and save/packaging have separate bounded waits.
+Each recording is bounded by `-MaxTraceSeconds` (maximum 300 seconds); each phase is 3–60 seconds. `-MaxOutputMB` is 128–512 MiB, default 256. Tracing uses bounded memory buffers, not an indefinitely growing file recording. Buffers can wrap: the output limit does not guarantee that every earlier event survives. Inventory and save/packaging have separate bounded waits.
 
 Researchers collecting a trace while the separately authorized probe runs may specify `-IncludeProbeProvider`. That only enables its ETW provider; it does not load or start the probe. See [the research workflow](workaround.md).
 
@@ -89,5 +112,11 @@ Never run an unqualified `wpr -cancel`: another recording may belong to somebody
 ## What maintainers need to check
 
 Match OS/build and loaded-module/driver paths, versions, signatures and SHA-256; do not infer them from installed package names. Inspect provider omissions, WPR errors, event loss and CPU stack coverage. A registered/enabled provider does not guarantee that it emitted events. The bounded WDF configuration is documented in the run; it is not a promise of every private driver event.
+
+`complete` means collection finished, not that a fault was reproduced or all
+requested seconds survived. `CoverageStatus` starts as `not-checked`; zero
+lost-event counters do not prove retention. Check actual sample timestamps per
+CPU and reliable switch coverage before comparing phases or calculating CPU
+percentages. Each ETL has its own timeline; match it to its entry in `phases.json`.
 
 Establish request rate, completion behavior, byte/packet changes and actual CPU or frame-time impact separately. The inspected Windows 11 `xinputhid` has a queued/change-driven path; the original state-poll-to-rumble hypothesis remains unproven. See [the findings](gameinput-service-fault.md), [kernel analysis](kernel-xinputhid.md) and [version matrix](version-matrix.md).

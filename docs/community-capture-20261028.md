@@ -60,6 +60,11 @@ consistent with the collector's status. However:
 - Only one `GameInput:` phase mark survives, at 101.137488 s; it lacks a
   phase-specific label. JSON phase times remain available independently.
 
+The subsequent collector review found why the label is generic: PowerShell
+expands `"GameInput:$phase:start"` to `GameInput:`. The collector now braces
+the variable (`"GameInput:${phase}:start"` and the corresponding end marker).
+This correction does not restore missing events in the contributed trace.
+
 This is consistent with the documented 64 MiB system memory buffer wrapping.
 Zero loss counters do not establish retention of earlier events. Whole-trace
 CPU percentages dilute the surviving samples over missing time and must not
