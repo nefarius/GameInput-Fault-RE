@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>GameInput Field Notes — Controller stutter, under investigation</title>
+  <meta name="description" content="Plain-English updates on our community investigation into controller-related stutter and FPS drops on Windows. What we found, what is still uncertain, and how to help.">
+  <meta property="og:title" content="GameInput Field Notes">
+  <meta property="og:description" content="Controller stutter, under investigation. Follow the findings without having to read the developer notes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nefarius.github.io/GameInput-Fault-RE/">
+  <link rel="canonical" href="https://nefarius.github.io/GameInput-Fault-RE/">
+  <meta name="theme-color" content="#214f3c">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the updates</a>
+  <header class="masthead wrap">
+    <a class="brand" href="./" aria-label="GameInput Field Notes home"><span class="brand-mark" aria-hidden="true">✚</span><span>GameInput <strong>Field Notes</strong></span></a>
+    <nav aria-label="Main navigation"><a href="#updates">The updates</a><a href="#help">Get involved</a><a class="repo-link" href="https://github.com/nefarius/GameInput-Fault-RE">On GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="headline">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Community-led investigation</p>
+        <h1 id="headline">Controller plugged in.<br>Frame rate <em>tanks?</em></h1>
+        <p class="hero-deck">Some players report sudden stutter and FPS drops linked to Windows’ GameInput services. We’re investigating why — and sharing what we learn along the way.</p>
+        <a class="button" href="#latest">Read the latest <span aria-hidden="true">↓</span></a>
+        <span class="hero-note">Plain English. Evidence linked.</span>
+      </div>
+      <aside class="status-card" aria-labelledby="status-title">
+        <div class="status-top"><span class="eyebrow">Where things stand</span><span class="edition">29 OCT 2026</span></div>
+        <svg class="controller" viewBox="0 0 320 150" fill="none" aria-hidden="true"><path d="M105 35h110c22 0 36 16 43 40l14 43c5 17-14 26-26 14l-33-30H107l-33 30c-12 12-31 3-26-14l14-43c7-24 21-40 43-40Z" stroke="currentColor" stroke-width="3"/><path d="M102 56v34m-17-17h34" stroke="currentColor" stroke-width="7"/><circle cx="213" cy="61" r="5" fill="currentColor"/><circle cx="230" cy="77" r="5" fill="currentColor"/><circle cx="196" cy="77" r="5" fill="currentColor"/><circle cx="213" cy="93" r="5" fill="currentColor"/><circle cx="139" cy="105" r="13" stroke="currentColor" stroke-width="3"/><circle cx="180" cy="105" r="13" stroke="currentColor" stroke-width="3"/><path d="M146 66h10m9 0h10M130 35l5-12h50l5 12" stroke="currentColor" stroke-width="3"/></svg>
+        <h2 id="status-title">A promising lab result.<br>No public fix yet.</h2>
+        <p>We found a specific Windows 10 driver problem and demonstrated a limited correction. We have <strong>not yet proven an in-game FPS improvement.</strong></p>
+        <a href="#what-we-know">What this means for players <span aria-hidden="true">↗</span></a>
+      </aside>
+    </section>
+
+    <div class="section-bar wrap" id="updates"><h2>The investigation log</h2><span>Latest first · 4 updates</span></div>
+    <div class="editorial-grid wrap">
+      <div class="stories">
+        <article id="latest" class="story feature" aria-labelledby="latest-title">
+          <div class="story-meta"><time datetime="2026-10-29">29 October 2026</time><span class="tag">Lab finding</span></div>
+          <h2 id="latest-title">A small missing detail. A growing pile of extra work.</h2>
+          <p class="standfirst">We can now reproduce a specific controller-driver problem in a Windows 10 test machine — and show that correcting one missing value changes its behavior.</p>
+          <p>Behind the scenes, Windows creates places for controller updates to wait. In the driver we tested, a missing detail means it keeps creating new ones for the same program instead of reusing the one it already has. That growing pile can make controller checks more expensive.</p>
+          <p>In earlier lab comparisons, correcting the missing value stopped that buildup and made some controller checks much quicker. Basic held-button, stick and vibration checks also worked with the correction.</p>
+          <div class="editor-note"><span class="note-label">The important bit</span><p>This is a temporary debugger experiment, not a fix you can download. It was tested with a PS3 controller through DsHidMini on one Windows 10 setup. We still need to show a benefit inside a real game and check controller behavior more thoroughly.</p></div>
+          <p>Our test machine also has an older GameInput revision than the reporting player’s machine. The matching driver gives us a useful lead, but it doesn’t make every part of the setup identical.</p>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/vm-validation-checklist.md">Evidence &amp; test limits <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="latest" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+        </article>
+
+        <article id="movement-test" class="story" aria-labelledby="movement-title">
+          <div class="story-meta"><time datetime="2026-10-29">29 October 2026</time><span class="tag secondary">What we learned</span></div>
+          <h2 id="movement-title">Leaving the controller alone didn’t tell the whole story.</h2>
+          <p>A fresh comparison with the controller left untouched showed little timing difference. That matters: the problem doesn’t mean every controller check is automatically slow.</p>
+          <p>After a 30-second moving-stick test, the uncorrected setup had accumulated thousands of internal entries. Checks for controller slots with nothing connected became roughly four to ten times more expensive than in the earlier idle test. <strong>That is a controller-call measurement, not an FPS multiplier.</strong></p>
+          <p>Stopping GameInput Service afterward stopped the programs producing those entries, but left the accumulated entries and the extra cost behind. Restarting the service didn’t clear them either.</p>
+          <p>We haven’t run that exact continuous-movement test on a fresh corrected setup yet. It’s another useful clue, not a complete comparison or a reason to start changing services on your own PC.</p>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/vm-validation-checklist.md">Read the test notes <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="movement-test" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+        </article>
+
+        <article id="community-report" class="story" aria-labelledby="community-title">
+          <div class="story-meta"><time datetime="2026-10-28">28 October 2026</time><span class="tag secondary">From the community</span></div>
+          <h2 id="community-title">A Left 4 Dead 2 report gave us a better trail to follow.</h2>
+          <p>A player reported a large FPS drop and heavy stutter with GameInput Service enabled and a controller connected. Follow-up recordings compared the service off and on during the same Windows session, with the game still running.</p>
+          <p>When the player reported the stutter, the game was spending much more of its sampled time checking controllers and cleaning up after those checks. With the service disabled, that expensive path was much less prominent.</p>
+          <p>Those recordings helped us focus the investigation. They did not independently measure the reported FPS numbers, prove the driver caused that player’s entire problem, or establish a universal fix.</p>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/community-capture-20261028-l4d2-pair.md">The report behind this update <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="community-report" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+        </article>
+
+        <article id="early-tests" class="story" aria-labelledby="early-title">
+          <div class="story-meta"><time datetime="2026-10-25">25 October 2026</time><span class="tag secondary">Starting the investigation</span><time datetime="2026-10-29">Updated 29 October</time></div>
+          <h2 id="early-title">First, check whether the obvious explanation holds up.</h2>
+          <p>One early idea was that GameInput might keep asking for the same controller state as fast as possible. Our Xbox-controller tests over USB and Bluetooth didn’t reproduce that suspected behavior. The tested requests waited for input updates.</p>
+          <p>That didn’t make the player reports go away. It told us to keep looking instead of treating an early theory as a confirmed cause. Repeated “rumble off” traffic was also an assumption, not something the original recording established.</p>
+          <p>We made the diagnostic tools easier to use and asked for reports captured while the problem was actually happening. The Windows 10 queue problem described above is a later, more specific finding.</p>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/gameinput-service-fault.md">Findings, including corrected assumptions <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="early-tests" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+        </article>
+      </div>
+
+      <aside class="sidebar" aria-label="Player information">
+        <section id="what-we-know" class="sidebar-block">
+          <p class="eyebrow">Before you change anything</p><h2>The short version</h2>
+          <ul class="takeaways"><li>There is a real driver defect in the Windows 10 version we tested.</li><li>We don’t know whether it explains every report of controller-related stutter.</li><li>There is no supported one-click fix to install from this project.</li></ul>
+        </section>
+        <section class="sidebar-block questions" aria-labelledby="questions-title">
+          <p class="eyebrow">Quick answers</p><h2 id="questions-title">You might be wondering…</h2>
+          <details><summary>Is my controller affected?</summary><p>We can’t tell from the model alone. Windows version, driver, connection and game all matter. Describe what happens and we’ll help you work out what to collect.</p></details>
+          <details><summary>Should I disable GameInput?</summary><p>Keep your original settings for the first report. Some games need GameInput. Talk to us before changing services so we can help you test without losing useful evidence.</p></details>
+          <details><summary>Does this also affect Windows 11?</summary><p>There are Windows 11 reports too. This particular lab result is from a Windows 10 driver; we haven’t established that every Windows 11 report has the same cause.</p></details>
+          <details><summary>Can I help without coding?</summary><p>Yes. A clear description and a short recording while the stutter happens can be very useful. Our collector uses tools already included in Windows.</p></details>
+        </section>
+        <section class="source-note"><span class="eyebrow">Open notebook</span><p>These updates are written from our repository history and reviewed findings. Sources are linked under each story. We keep negative results and correct earlier assumptions.</p><a href="https://github.com/nefarius/GameInput-Fault-RE/commits/master/">Browse the project history <span aria-hidden="true">↗</span></a></section>
+      </aside>
+    </div>
+
+    <section id="help" class="help-section wrap" aria-labelledby="help-title">
+      <div><p class="eyebrow">Your report could help</p><h2 id="help-title">Seeing the stutter?<br>Come tell us about it.</h2><p>Bring your controller model, how it connects, the game, and what happens. You don’t need to know whether GameInput is responsible.</p></div>
+      <div class="help-actions"><a class="button" href="https://discord.nefarius.at/">Talk to us on Discord <span aria-hidden="true">↗</span></a><a href="https://github.com/nefarius/GameInput-Fault-RE/issues/new/choose">Or open a GitHub issue <span aria-hidden="true">↗</span></a><p>If we ask for a recording, the default is a short five-second capture while the problem happens. Review it before sharing: recordings can include device details, user paths and other running apps. Nothing is uploaded automatically.</p><a class="small-link" href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/collecting-diagnostics.md">How to collect a report</a></div>
+    </section>
+  </main>
+  <footer class="footer wrap"><p><strong>GameInput Field Notes</strong><br>A community investigation by Nefarius and contributors.</p><p>Not affiliated with Microsoft.<br><a href="https://github.com/nefarius/GameInput-Fault-RE">Source, credits &amp; technical notes <span aria-hidden="true">↗</span></a></p></footer>
+  <p id="share-status" class="share-status" role="status" aria-live="polite"></p>
+</body>
+</html>

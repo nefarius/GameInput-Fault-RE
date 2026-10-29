@@ -2,6 +2,8 @@
 
 Getting sudden stutters, FPS drops, or unusually high CPU usage while using a controller on Windows? We're investigating reports that Microsoft's GameInput services may be involved. Our goal is to understand what goes wrong and find a reliable fix that keeps your controller working.
 
+**Looking for the plain-English updates? Read [GameInput Field Notes](https://nefarius.github.io/GameInput-Fault-RE/)** — a shareable investigation log for players. Website source and publishing notes are in [site/](site/) and [the maintenance guide](docs/publishing-field-notes.md).
+
 **Need help? Come talk to us on Discord: [discord.nefarius.at](https://discord.nefarius.at/).** You don't need to be a developer. We can help you work out which details to share and how to collect a useful report.
 
 ## Think you're affected? Start here
