@@ -1,0 +1,282 @@
+{
+  "evidence_kind": "controlled-inbox-service-stop-start-retention-and-api-followup",
+  "date": "2026-10-29",
+  "configuration_reference": "vm-component-inventory-20261029.json",
+  "prior_activity_reference": "vm-active-input-growth-20261029.json",
+  "service": {
+    "original": {
+      "Name": "GameInputSvc",
+      "State": "Running",
+      "StartMode": "Manual",
+      "ProcessId": 5708
+    },
+    "stopped": {
+      "Name": "GameInputSvc",
+      "State": "Stopped",
+      "StartMode": "Manual",
+      "ProcessId": 0
+    },
+    "restored": {
+      "Name": "GameInputSvc",
+      "State": "Running",
+      "StartMode": "Manual",
+      "ProcessId": 3392
+    },
+    "stopAttempted": true,
+    "stopError": null,
+    "restoreError": null,
+    "reason": "matching-resume-request",
+    "stoppedUtc": "2026-10-29T18:18:15.5856276Z",
+    "restorationStartedUtc": "2026-10-29T18:21:15.5702885Z",
+    "finishedUtc": "2026-10-29T18:21:15.9918535Z",
+    "scriptSha256": "36c82172f2e2476e6d515839c1b8ac44541750283292d16fc3d478bba7befc27",
+    "processesAfterStop": []
+  },
+  "process_queue_complete_counts": {
+    "before_stop_after_activity": 3383,
+    "while_stopped": 3383,
+    "after_restore": 3384
+  },
+  "inspected_original_manual_queue_while_stopped": {
+    "still_present": true,
+    "waiting_requests": 0,
+    "driver_owned_requests": 0,
+    "power_state": "PowerOn"
+  },
+  "restored_kernel_process_observation": {
+    "scm_parent_pid": 3392,
+    "session_1_worker_pid": 4320,
+    "worker_parent_matches_scm_pid": true
+  },
+  "api_cases": [
+    {
+      "id": "uncorrected-after-active",
+      "source": "uncorrected-after-active.result.json",
+      "source_sha256": "e399ff0598c7a43b74693fa29891a0969e62808262c1567e836b4eb680e723cd",
+      "runner_pid": 5532,
+      "status": "completed",
+      "sample_count": 400,
+      "elapsed_seconds": 1.5733308,
+      "service_before": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 5708
+        }
+      ],
+      "service_after": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 5708
+        }
+      ],
+      "slots": [
+        {
+          "slot": 0,
+          "count": 100,
+          "result_codes": [
+            0
+          ],
+          "median_microseconds": 15.2
+        },
+        {
+          "slot": 1,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 773.15
+        },
+        {
+          "slot": 2,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 518.95
+        },
+        {
+          "slot": 3,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 489.45
+        }
+      ]
+    },
+    {
+      "id": "service-stopped",
+      "source": "service-stopped.result.json",
+      "source_sha256": "034b971256893baa7a3088a80ad11ba04432f1183f7cdae0dac1f5126f5ae269",
+      "runner_pid": 5532,
+      "status": "completed",
+      "sample_count": 400,
+      "elapsed_seconds": 1.5664293999999999,
+      "service_before": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Stopped",
+          "StartMode": "Manual",
+          "ProcessId": 0
+        }
+      ],
+      "service_after": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Stopped",
+          "StartMode": "Manual",
+          "ProcessId": 0
+        }
+      ],
+      "slots": [
+        {
+          "slot": 0,
+          "count": 100,
+          "result_codes": [
+            0
+          ],
+          "median_microseconds": 14.65
+        },
+        {
+          "slot": 1,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 1018.65
+        },
+        {
+          "slot": 2,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 546.5
+        },
+        {
+          "slot": 3,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 469.85
+        }
+      ]
+    },
+    {
+      "id": "service-restored",
+      "source": "service-restored.result.json",
+      "source_sha256": "e9d6859642276fc1f9c97d182d9e83620ff9a990ba644b51ab0f08d082ca11c5",
+      "runner_pid": 5532,
+      "status": "completed",
+      "sample_count": 400,
+      "elapsed_seconds": 1.5791905,
+      "service_before": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 3392
+        }
+      ],
+      "service_after": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 3392
+        }
+      ],
+      "slots": [
+        {
+          "slot": 0,
+          "count": 100,
+          "result_codes": [
+            0
+          ],
+          "median_microseconds": 14.8
+        },
+        {
+          "slot": 1,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 749.25
+        },
+        {
+          "slot": 2,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 509.0
+        },
+        {
+          "slot": 3,
+          "count": 100,
+          "result_codes": [
+            1167
+          ],
+          "median_microseconds": 491.65
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "basename": "stopped.ready.json",
+      "sha256": "aee0ac5ed25f2577f61cf0639a394f87ed719b62de87be389fb4e34e43381fc0"
+    },
+    {
+      "basename": "ended.json",
+      "sha256": "2ade27f9a5d8e2c6e26132947f0d00cc72f938f7f903f7bb33ba177262bb21a8"
+    },
+    {
+      "basename": "service-stopped-queue-debugger-raw.json",
+      "sha256": "1b53ecbc71a1af788d9d7b05b31bccfaee46d77a4b3dd49285ea54329b0b9bcb"
+    },
+    {
+      "basename": "service-restored-queue-debugger-raw.json",
+      "sha256": "e0acfa980c221000ab934db16a67d8604d6ba9e32be66b8e46b51c9885e5805e"
+    },
+    {
+      "basename": "session.ended.json",
+      "sha256": "56a5f2958fba8fc4641b9e9d803437df93bfb541fda38550f0194e9e4f04dd3f",
+      "role": "renewed-comparison-runner-cleanup"
+    },
+    {
+      "basename": "session.ended.json",
+      "sha256": "f7fb9a181d3fcd9c697c46efe0eea6fe6b3dd93ffcb78c40dd8eb84e58cc1f8c",
+      "role": "first-activity-runner-cleanup"
+    },
+    {
+      "basename": "vm-validation-host-state.json",
+      "sha256": "a357210fa85b52e3f50898311bfd74971ccf2c022fd1e9c576c1662e2cb40c3d",
+      "role": "host-share-cleanup-state"
+    }
+  ],
+  "cleanup": {
+    "both_runners_ended_on_requested_stop": true,
+    "fatal_errors": [],
+    "outstanding_motor_stop_attempts": [],
+    "experiment_breakpoints_remaining": 0,
+    "guest_running": true,
+    "runtime_shared_folders_disabled": true,
+    "configured_share_count": 0,
+    "inactive_vmx_slot_records_remain_beyond_zero_count": true,
+    "raw_results_and_issued_sources_retained_privately": true
+  },
+  "interpretation": "Stopping the inbox producer did not remove the accumulated queue population or restore the earlier small-population API medians. Restart restored service processes and Running/Manual configuration, while the old device lifetime retained its accumulated population. This supports distinguishing prevention of accumulation from cleanup of an already affected device.",
+  "limitations": [
+    "Serial service-condition follow-up on one unmodified device lifetime; no fresh corrected counterpart or game frame times.",
+    "Only one original manual queue was inspected for pending requests. No claim that every queue was empty.",
+    "Population equality and persistence of the first original node were observed; the identity of every old node was not separately compared.",
+    "Guest backing-file module inventory predates service restart; new process identities and public API returns were observed afterward.",
+    "VMware retained inactive cached VMX share slot records despite effective share count zero; the running VMX was not manually edited."
+  ]
+}

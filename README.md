@@ -22,7 +22,13 @@ AI-assisted contributions are welcome too. Include what you tested, the relevant
 
 ## Is there a fix yet?
 
-**There is no verified general fix or supported one-click workaround yet.** We have diagnostic tools and an experimental research prototype, but it still needs testing on a system experiencing the fault.
+**There is no verified general fix or supported one-click workaround yet.** We have identified a specific Windows 10 driver defect and demonstrated a limited correction in a research VM.
+
+In the tested Windows 10 setup, `xinputhid.sys` can create new queues instead of reusing an existing queue for the same process. Correcting a missing process ID in one fresh entry restored reuse and reduced handle-close and XInput API costs in earlier comparisons. Coarse input and vibration checks also succeeded. This debugger-only correction is tied to one process and device lifetime; it is not a downloadable fix.
+
+The latest tests add two important limits: an idle comparison with few queues showed no clear API cost difference, while controller activity was followed by thousands of queues and higher costs. Stopping GameInput Service afterward left the accumulated queues and elevated costs in place. See the [VM results and limitations](docs/vm-validation-checklist.md).
+
+**A game FPS benefit, full controller compatibility, and applicability to other Windows versions remain unproven.** The VM uses a PS3 controller through DsHidMini in XInput mode and the contributor-matching Windows 10 driver, with an older inbox GameInput revision than the contributor's.
 
 Our comparison tests with an Xbox controller over USB and Bluetooth did not reproduce the suspected busy polling. That doesn't rule out problems with other controllers, drivers, Windows versions, or games. Reports from people who can reproduce the issue are especially useful.
 
@@ -37,6 +43,8 @@ The [research probe and workaround instructions](docs/workaround.md) cover the e
 
 The [kernel analysis](docs/kernel-xinputhid.md) and [user-mode validation](docs/user-mode-validation.md) explain the inspected request paths. Their completion waits matter: finding a polling loop alone does not prove excessive CPU use or a link to repeated vibration commands.
 
+The [Windows 10 queue-identity investigation](docs/windows10-queue-identity.md) covers the missing initialization in `xinputhid.sys` 10.0.19041.5794. Live debugger observations now confirm repeated allocation, corrected-node reuse, and an XInput call reaching the loaded WDF cleanup traversal. This queue-accumulation mechanism does not establish the immediate unchanged-response flood required to justify the separate throttling prototype.
+
 The [proposed supported helper](docs/supported-tool-design.md) remains a design, subject to validation and release requirements. Raw captures, symbols, downloaded tools, and local builds are excluded from git.
 
 </details>
@@ -48,6 +56,7 @@ Analysis tools:
 - [REA](https://github.com/morluto/rea) (`rea-agents` 6.8.0), connected to Cursor as the local MCP server and used to open the binaries, recover strings, and decompile with Ghidra. Install notes: [rea.tools/get-started](https://rea.tools/get-started/).
 - [Ghidra](https://ghidra-sre.org/) 12.1.3, the provider REA used for `GameInput.dll` and `GameInputRedist.dll`.
 - [Microsoft public symbol server](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/microsoft-public-symbols) and [dbh.exe](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/dbh) from the Windows SDK, used to read the inbox `GameInput.pdb`.
+- WinDbg and its built-in MCP server, for live kernel queue, cleanup-path, and recovery observations in the research VM.
 - [Microsoft Detours](https://github.com/microsoft/Detours), pinned to the v4.0.1 commit, for the research API hooks.
 - [Nefarius Injector](https://github.com/nefarius/Injector/releases/tag/v1.5.0) v1.5.0, for loading the probe into allowlisted GameInput processes. Its release archive is verified with the published SHA-256 before extraction.
 - [Windows Performance Recorder](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-recorder) and [Windows Performance Analyzer](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer), for CPU stacks and ETW correlation; [DeviceIoControl](https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol) and [GetOverlappedResult](https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult), for completion semantics.
@@ -57,6 +66,6 @@ Third-party license texts and dependency pins are in [third_party/NOTICES.txt](t
 
 Reports and upstream projects:
 
-- [DsHidMini issue 438](https://github.com/nefarius/DsHidMini/issues/438), including the `xinputhid.sys` rumble-off trace. Driver project: [nefarius/DsHidMini](https://github.com/nefarius/DsHidMini). Trace instructions: [Debugging the Drivers](https://docs.nefarius.at/projects/DsHidMini/v3/Debugging-the-drivers/).
+- [DsHidMini issue 438](https://github.com/nefarius/DsHidMini/issues/438), for controller-mode/CPU reports and contributed diagnostics. Repeated rumble-off traffic was an assumption, not an established observation from its ETL. Driver project: [nefarius/DsHidMini](https://github.com/nefarius/DsHidMini). Trace instructions: [Debugging the Drivers](https://docs.nefarius.at/projects/DsHidMini/v3/Debugging-the-drivers/).
 - [GameInput issue 34](https://github.com/microsoftconnect/GameInput/issues/34) and the [GameInput releases](https://github.com/microsoftconnect/GameInput/releases), including [v3.3.195.0](https://github.com/microsoftconnect/GameInput/releases/tag/v3.3.195.0). Upstream repo: [microsoftconnect/GameInput](https://github.com/microsoftconnect/GameInput).
 - [PCMR report](https://www.reddit.com/r/pcmasterrace/comments/1xee4qw/psa_microsoft_gameinput_service_can_cause_severe/) that the issue 34 reporter cited for a return of the stutter on Windows 11.

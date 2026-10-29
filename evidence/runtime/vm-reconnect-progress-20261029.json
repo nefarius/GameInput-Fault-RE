@@ -1,0 +1,61 @@
+{
+  "evidence_kind": "operator-triggered-USB-reconnect-and-fresh-correction-observation",
+  "date": "2026-10-29",
+  "configuration_reference": "vm-component-inventory-20261029.json",
+  "operator_reports": [
+    "Disconnected",
+    "Reconnected to VM"
+  ],
+  "disconnected": {
+    "all_four_slots": 1167,
+    "old_device_removal_pending": true,
+    "old_devnode_state": "DeviceNodeDeletePendingCloses (0x313)",
+    "wdf_open_file_objects": 1,
+    "retained_file_object_handle_count": 2,
+    "retained_handle_owners": "Not found in inspected service-parent, worker or runner file-handle tables; other owners unknown."
+  },
+  "reconnected": {
+    "fresh_device_context_observed": true,
+    "first_process_list_empty_at_allocation": true,
+    "worker_process_identity_verified": true,
+    "first_pid_field_before_correction": "0x4c83d980",
+    "original_corrected_node_not_carried_into_fresh_context": true,
+    "metadata_correction": {
+      "scope": "Single fresh node PID DWORD at offset 0x10, before publication; no driver code or file patch",
+      "saved_original_field": true,
+      "new_field": "0x684",
+      "survived_publication": true,
+      "exact_node_reuse_by_same_worker_observed": true
+    },
+    "slots": [
+      0,
+      1167,
+      1167,
+      1167
+    ]
+  },
+  "sources": [
+    {
+      "basename": "disconnected.result.json",
+      "sha256": "a095ff7f0f7760fe0fdcc575868378aad22acdc2f689ea447d1507da3034286a"
+    },
+    {
+      "basename": "reconnected-corrected.result.json",
+      "sha256": "30073b35ebe9c92316a2577747669d5a7b82e3118cab1b1abbfce0a8d2005950"
+    },
+    {
+      "basename": "session.ended.json",
+      "sha256": "f7fb9a181d3fcd9c697c46efe0eea6fe6b3dd93ffcb78c40dd8eb84e58cc1f8c"
+    },
+    {
+      "basename": "disconnected-handle-debugger-raw.txt",
+      "sha256": "163c8a3e7053aa8ff2ca6d8e880237085f209325738b4ffcbdd848c68fee6280"
+    }
+  ],
+  "limitations": [
+    "Old device still awaited open-handle closure; complete retired-device teardown is not established.",
+    "The handle inspection exceeded the MCP 120-second timeout; later command history confirmed completion and was preserved.",
+    "Fresh corrected-first API comparison has not yet run; runner renewal was required.",
+    "Service stop/start recovery and any game benefit remain untested."
+  ]
+}

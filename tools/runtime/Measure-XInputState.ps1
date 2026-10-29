@@ -23,6 +23,12 @@ namespace GameInputStateResearch {
         public short LeftX,LeftY,RightX,RightY;
     }
     [StructLayout(LayoutKind.Sequential)] public struct State { public uint Packet; public Gamepad Pad; }
+    [StructLayout(LayoutKind.Sequential)] public struct Vibration { public ushort Left,Right; }
+    public sealed class InputSample {
+        public uint Slot,Result; public long Ticks;
+        public uint? Packet; public ushort? Buttons; public byte? LeftTrigger,RightTrigger;
+        public short? LeftX,LeftY,RightX,RightY;
+    }
     public sealed class Sample {
         public int Cycle; public uint Slot,Result; public long Ticks; public uint? Packet;
     }
@@ -64,8 +70,11 @@ namespace GameInputStateResearch {
         static extern IntPtr GetProcAddress(IntPtr module,string name);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         delegate uint GetState(uint slot,out State state);
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        delegate uint SetState(uint slot,ref Vibration vibration);
         static IntPtr module;
         static GetState getState;
+        static SetState setState;
         // The retained module reference belongs only to this benchmark process.
         public static string Load(string fullPath) {
             if(module!=IntPtr.Zero) throw new InvalidOperationException("Use a fresh benchmark process");
@@ -94,6 +103,36 @@ namespace GameInputStateResearch {
             return row;
         }
         static bool Expected(Sample sample) { return sample.Result==0 || sample.Result==1167; }
+        public static Sample ReadSingle(uint slot) {
+            if(slot>3) throw new ArgumentOutOfRangeException("slot");
+            if(getState==null) throw new InvalidOperationException("Bind the verified module first");
+            return Read(-1,slot);
+        }
+        public static InputSample ReadInput(uint slot) {
+            if(slot>3) throw new ArgumentOutOfRangeException("slot");
+            if(getState==null) throw new InvalidOperationException("Bind the verified module first");
+            State state; long start=Stopwatch.GetTimestamp();
+            uint result=getState(slot,out state);
+            InputSample row=new InputSample {Slot=slot,Result=result,Ticks=Stopwatch.GetTimestamp()-start};
+            if(result==0) {
+                row.Packet=state.Packet; row.Buttons=state.Pad.Buttons;
+                row.LeftTrigger=state.Pad.LeftTrigger; row.RightTrigger=state.Pad.RightTrigger;
+                row.LeftX=state.Pad.LeftX; row.LeftY=state.Pad.LeftY;
+                row.RightX=state.Pad.RightX; row.RightY=state.Pad.RightY;
+            }
+            return row;
+        }
+        public static uint SetVibration(uint slot,ushort left,ushort right) {
+            if(slot>3 || left>16384 || right>16384) throw new ArgumentOutOfRangeException();
+            if(module==IntPtr.Zero) throw new InvalidOperationException("Load the verified module first");
+            if(setState==null) {
+                IntPtr address=GetProcAddress(module,"XInputSetState");
+                if(address==IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
+                setState=(SetState)Marshal.GetDelegateForFunctionPointer(address,typeof(SetState));
+            }
+            Vibration value=new Vibration {Left=left,Right=right};
+            return setState(slot,ref value);
+        }
         public static Measurement Run(int cycles,int seconds) {
             if(cycles<1 || cycles>500 || seconds<1 || seconds>30) throw new ArgumentOutOfRangeException();
             if(getState==null) throw new InvalidOperationException("Bind the verified module first");

@@ -1,0 +1,46 @@
+{
+  "evidence_kind": "uninterrupted-corrected-repeat-after-input",
+  "configuration_reference": "vm-input-vibration-20261029.json",
+  "source": "corrected-post-input.result.json",
+  "source_sha256": "1f35467817192a6d0bf4732a5a6009bf8964f2566cb94886532f6433e82323c6",
+  "sample_count": 400,
+  "elapsed_seconds": 1.5697971,
+  "slots": [
+    {
+      "slot": 0,
+      "count": 100,
+      "result_codes": [
+        0
+      ],
+      "median_microseconds": 16.35
+    },
+    {
+      "slot": 1,
+      "count": 100,
+      "result_codes": [
+        1167
+      ],
+      "median_microseconds": 176.25
+    },
+    {
+      "slot": 2,
+      "count": 100,
+      "result_codes": [
+        1167
+      ],
+      "median_microseconds": 56.55
+    },
+    {
+      "slot": 3,
+      "count": 100,
+      "result_codes": [
+        1167
+      ],
+      "median_microseconds": 46.45
+    }
+  ],
+  "limitations": [
+    "Reuses the corrected device lifetime; not the fresh reversed API comparison.",
+    "No game workload or frame-time measurement."
+  ]
+}

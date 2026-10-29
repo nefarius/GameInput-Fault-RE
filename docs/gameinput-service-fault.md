@@ -143,7 +143,33 @@ has now completed: disconnected-slot medians fell from 1.83-2.75 ms to
 42-125 microseconds, with 100 calls per slot/condition, matching binaries and
 the corrected queue list still at one. This is direct API-level PoC evidence
 for the local mechanism, retaining single-pair/exposure/teardown limits.
-Game frame times and a per-call enumeration/cleanup stack remain unmeasured.
+A [process-scoped cleanup observation](../evidence/runtime/vm-xinput-cleanup-route-20261029.json)
+now follows the controlled absent-slot call through NtClose, xinputhid cleanup
+and the actual loaded WDF queue traversal, including the corrected manual queue.
+The x86 user stack could not be unwound, so user-mode enumeration frames are not
+claimed. Debugger-paused calls are excluded from latency measurements.
+[Coarse input and vibration checks](../evidence/runtime/vm-input-vibration-20261029.json)
+also succeeded in this corrected guest lifetime: 1028 held-input samples, API
+success for vibration start/stop and the operator's physical confirmation. This
+does not establish every transition, physical input latency or game frame times.
+The [fresh corrected-first idle comparison](../evidence/runtime/vm-xinput-fresh-reversed-pair-20261029.json)
+is a useful negative control: with approximately four minutes untouched per
+condition, the unmodified device had 48 entries versus one corrected entry,
+but API medians were similar. A later
+[30-second moving-stick phase](../evidence/runtime/vm-active-input-growth-20261029.json)
+was followed by 3383 entries and absent-slot medians of 489-773 microseconds,
+roughly 4-10 times the preceding unmodified idle result. This is an
+activity-associated accumulation/cost observation, not an unchanged-state flood
+or a precisely measured allocation rate. Its continuous movement workload has
+no fresh corrected counterpart.
+
+The [service stop/start check](../evidence/runtime/vm-service-recovery-20261029.json)
+then terminated the observed producer processes but retained 3383 entries and
+elevated API costs. Restoring Running/Manual service state produced new service
+processes and 3384 entries, with similar elevated costs. In this guest, stopping
+the producer after accumulation does not clear the accumulated device lifetime.
+See the [completed VM batch checklist](vm-validation-checklist.md) for provenance,
+coarse input/reconnect results and limitations. Game frame times remain untested.
 The inspected Windows 11 driver includes the missing store. This gives a focused
 correction to test separately from the earlier throttling hypothesis; it does not
 enable any compatibility or mitigation gate.

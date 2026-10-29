@@ -106,8 +106,14 @@ Use additional kernel/completion evidence where those distinctions matter.
 
 On the inspected Windows 11 driver, flag-clear state requests can queue until
 decoded state changes. The later [Windows 10 investigation](windows10-queue-identity.md)
-found a missing PID initialization in queue creation, with live consequences
-still unvalidated. Repeated rumble-off traffic was an assumption from one GitHub
+found a missing PID initialization in queue creation. The
+[specific-driver VM work](vm-validation-checklist.md) now observes repeated
+allocation, restored reuse after a one-entry correction, and higher close/API
+cost with accumulated queues. A small-population idle comparison was negative;
+continuous input was followed by substantial growth. These results identify a
+queue-identity mechanism and do not establish a successful unchanged-response
+flood or justify the rate-throttling prototype. Repeated rumble-off traffic was
+an assumption from one GitHub
 issue ETL, not an observed packet sequence. Establish whether such traffic occurs
 before testing a causal link to state requests; correlate lower output writes,
 set-state IOCTLs, focus changes and force-feedback/timer activity separately.

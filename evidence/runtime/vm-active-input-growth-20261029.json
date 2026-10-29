@@ -1,0 +1,109 @@
+{
+  "evidence_kind": "uncorrected-device-active-input-growth-and-api-cost-followup",
+  "date": "2026-10-29",
+  "configuration_reference": "vm-component-inventory-20261029.json",
+  "control_reference": "vm-xinput-fresh-reversed-pair-20261029.json",
+  "active_window": {
+    "requestedSeconds": 30,
+    "elapsedSeconds": 30.0030808,
+    "maximumSamples": 3000,
+    "operatorReport": "yes",
+    "error": null,
+    "nativeScriptSha256": "a7dee09f72eddcb6590ec5ddf7a360ecee51687b9eb73669cff100683b6d1083",
+    "scriptSha256": "c9fabf16179bbbdeed380f771e660a2f86222280978cdfd7799b3dbc34cd854d",
+    "driverSha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "loadedXInputBackingSha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+    "sameFileAsExpected": true,
+    "source": "active-input-cd0e5ced2dfb458595957d6270b180d2.result.json",
+    "source_sha256": "7a8dc29f4351f2cd0265eaba109caeacc3a06e76246f98746055fb2eb1f0eab8",
+    "samples": 1906,
+    "successful_samples": 1906,
+    "result_codes": [
+      0
+    ],
+    "distinct_left_stick_position_pairs": 974,
+    "successful_state_ranges": {
+      "Buttons": {
+        "min": 0,
+        "max": 0
+      },
+      "LeftTrigger": {
+        "min": 0,
+        "max": 91
+      },
+      "RightTrigger": {
+        "min": 0,
+        "max": 63
+      },
+      "LeftX": {
+        "min": -32768,
+        "max": 32767
+      },
+      "LeftY": {
+        "min": -32768,
+        "max": 32767
+      },
+      "RightX": {
+        "min": 128,
+        "max": 128
+      },
+      "RightY": {
+        "min": -129,
+        "max": -129
+      }
+    }
+  },
+  "post_activity_api": {
+    "source": "uncorrected-after-active.result.json",
+    "source_sha256": "e399ff0598c7a43b74693fa29891a0969e62808262c1567e836b4eb680e723cd",
+    "samples": 400,
+    "elapsed_seconds": 1.5733308,
+    "runner_process_id": 5532,
+    "slots": [
+      {
+        "slot": 0,
+        "count": 100,
+        "result_codes": [
+          0
+        ],
+        "median_microseconds": 15.2
+      },
+      {
+        "slot": 1,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 773.15
+      },
+      {
+        "slot": 2,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 518.95
+      },
+      {
+        "slot": 3,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 489.45
+      }
+    ]
+  },
+  "process_queue_snapshots": {
+    "before_active_complete_count": 48,
+    "after_active_and_api_complete_count": 3383
+  },
+  "target_memory_edited_in_this_lifetime": false,
+  "limitations": [
+    "The operator answered yes to the action-report prompt; no more detailed physical-motion description was supplied.",
+    "Input state variation was observed in the API data; physical-to-API latency and delivery of every transition were not measured.",
+    "Queue snapshots bracket additional idle/transfer/inspection time, so the count increase is not a precise 30-second allocation rate.",
+    "No fresh corrected lifetime received the same 30-second movement workload in this follow-up. Earlier corrected held-state checks retained one node.",
+    "Serial same-lifetime follow-up, no service-state change yet, no game frame-time measurement."
+  ]
+}

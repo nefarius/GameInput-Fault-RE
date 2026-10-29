@@ -1,0 +1,126 @@
+{
+  "evidence_kind": "fresh-device-corrected-first-x86-api-idle-comparison",
+  "date": "2026-10-29",
+  "configuration_reference": "vm-component-inventory-20261029.json",
+  "corrected": {
+    "source": "fresh-corrected-first.result.json",
+    "source_sha256": "15947da2c4fbf4af9ed1a8f1d336388c28e29f355997e29e30c27e842379e2de",
+    "status": "completed",
+    "runner_process_id": 5532,
+    "native_script_sha256": "a7dee09f72eddcb6590ec5ddf7a360ecee51687b9eb73669cff100683b6d1083",
+    "runner_sha256": "cedf048c48f2514d324faacdad41b4228a1e5b38be49f84bb6d327f8046886e3",
+    "requested_cycles": 100,
+    "requested_seconds": 5,
+    "elapsed_seconds": 1.5835464,
+    "sample_count": 400,
+    "complete_post_measurement_process_queue_count": 1,
+    "slots": [
+      {
+        "slot": 0,
+        "count": 100,
+        "result_codes": [
+          0
+        ],
+        "median_microseconds": 18.15
+      },
+      {
+        "slot": 1,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 181.8
+      },
+      {
+        "slot": 2,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 80.25
+      },
+      {
+        "slot": 3,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 54.9
+      }
+    ],
+    "host_resume_to_command_file_mtime_seconds": 241.981879
+  },
+  "uncorrected": {
+    "source": "fresh-uncorrected-second.result.json",
+    "source_sha256": "084d6b1dcc73e9ac415ee600ad06d71e8ad35c2cf92984294c93c55fd2cd84fb",
+    "status": "completed",
+    "runner_process_id": 5532,
+    "requested_cycles": 100,
+    "requested_seconds": 5,
+    "elapsed_seconds": 1.5853446999999998,
+    "sample_count": 400,
+    "complete_post_measurement_process_queue_count": 48,
+    "first_original_pid_field": "0x68547844",
+    "distinct_second_allocation_by_same_worker_observed": true,
+    "target_memory_edited": false,
+    "slots": [
+      {
+        "slot": 0,
+        "count": 100,
+        "result_codes": [
+          0
+        ],
+        "median_microseconds": 18.5
+      },
+      {
+        "slot": 1,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 177.0
+      },
+      {
+        "slot": 2,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 81.25
+      },
+      {
+        "slot": 3,
+        "count": 100,
+        "result_codes": [
+          1167
+        ],
+        "median_microseconds": 50.35
+      }
+    ],
+    "host_resume_to_command_file_mtime_seconds": 242.531884
+  },
+  "comparison_complete": true,
+  "limitations": [
+    "Host resume-to-command-file timestamps approximate uninterrupted exposure; guest case timestamps are retained privately, and host/guest clock synchronization was not independently verified.",
+    "No matched continuous movement was requested; identical controller state changes or exact first-request timing are not established.",
+    "Older device contexts can remain pending open-handle closure.",
+    "Fixed slot order and serial conditions; no game frame times or complete input-fidelity claim."
+  ],
+  "same_runner_process": true,
+  "inventory_before_matches_after_each_case": true,
+  "matching_inventory_fields": [
+    "processId",
+    "architecture",
+    "osBuild",
+    "osUBR",
+    "driverSha256",
+    "loadedXInputPath",
+    "loadedXInputBackingSha256",
+    "loadedXInputSameFileAsExpected",
+    "nativeScriptSha256",
+    "runnerSha256",
+    "qpcFrequency",
+    "services"
+  ],
+  "interpretation": "With roughly four minutes untouched in each fresh lifetime, the unmodified list grew to 48 entries versus one corrected entry, but API median costs remained similar. This negative timing control does not reproduce the earlier high-queue cost difference."
+}

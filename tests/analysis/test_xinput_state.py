@@ -17,8 +17,11 @@ FAKE = r'''
 namespace GameInputStateResearch {
     public static class SyntheticStateTests {
         static uint code;
+        static ushort lastLeft,lastRight;
+        static uint FakeSet(uint slot,ref Vibration value) { lastLeft=value.Left;lastRight=value.Right;return 0; }
         static uint Fake(uint slot,out State state) {
-            state=new State(); state.Packet=12345; return code;
+            state=new State(); state.Packet=12345; state.Pad.Buttons=0x1000;
+            state.Pad.LeftTrigger=64; state.Pad.LeftX=1234; return code;
         }
         static void Check(bool ok) { if(!ok) throw new System.Exception("Synthetic state assertion failed"); }
         static void Bind(uint result) {
@@ -33,15 +36,35 @@ namespace GameInputStateResearch {
             var success=Benchmark.Run(2,1);
             Check(success.Warmup.Length==4 && success.Samples.Length==8);
             foreach(var row in success.Samples) Check(row.Result==0 && row.Packet==12345 && row.Ticks>=0);
+            var input=Benchmark.ReadInput(0);
+            Check(input.Packet==12345 && input.Buttons==0x1000 && input.LeftTrigger==64 && input.LeftX==1234);
+            Check(Benchmark.ReadSingle(1).Packet==12345);
             Bind(1167);
             var disconnected=Benchmark.Run(2,1);
             Check(disconnected.Warmup.Length==4 && disconnected.Samples.Length==8);
             foreach(var row in disconnected.Samples) Check(row.Result==1167 && row.Packet==null);
+            var absent=Benchmark.ReadInput(0);
+            Check(absent.Packet==null && absent.Buttons==null && absent.LeftTrigger==null && absent.LeftX==null);
             Bind(5);
             var failed=Benchmark.Run(2,1);
             Check(failed.Warmup.Length==1 && failed.Samples.Length==0 && failed.Warmup[0].Packet==null);
+            var bad=Benchmark.ReadInput(0);
+            Check(bad.Packet==null && bad.Buttons==null && bad.RightTrigger==null && bad.RightY==null);
             bool refused=false;
             try { Benchmark.Run(501,1); } catch(System.ArgumentOutOfRangeException) { refused=true; }
+            Check(refused);
+            Check(System.Runtime.InteropServices.Marshal.SizeOf(typeof(Vibration))==4);
+            var flags=System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static;
+            typeof(Benchmark).GetField("module",flags).SetValue(null,new System.IntPtr(1));
+            var setter=typeof(Benchmark).GetField("setState",flags);
+            setter.SetValue(null,System.Delegate.CreateDelegate(setter.FieldType,typeof(SyntheticStateTests).GetMethod("FakeSet",flags)));
+            Check(Benchmark.SetVibration(0,8192,4096)==0 && lastLeft==8192 && lastRight==4096);
+            Check(Benchmark.SetVibration(0,0,0)==0 && lastLeft==0 && lastRight==0);
+            refused=false;
+            try { Benchmark.SetVibration(0,16385,0); } catch(System.ArgumentOutOfRangeException) { refused=true; }
+            Check(refused);
+            refused=false;
+            try { Benchmark.ReadSingle(4); } catch(System.ArgumentOutOfRangeException) { refused=true; }
             Check(refused);
         }
     }

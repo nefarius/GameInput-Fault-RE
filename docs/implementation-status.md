@@ -4,7 +4,7 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 
 - `safe-collector`: completed — contributor instructions, bounded collector, real ETL/ZIP run, zero reported losses and 28 manifest entries verified.
 - `ioctl-probe`: completed — pass-through probe, pinned dependencies, secure mapping transfer and restricted persistent research wrapper. Native build/tests and real hook start/stop verified; active-input measurements continue below.
-- `live-proof`: Windows 11 observation tooling and USB/Bluetooth experiments completed; both measured paths returned pending. The Windows 10 VM now demonstrates missing PID initialization, repeated queue allocation, restored reuse and lower close/x86 XInput API cost after a one-entry correction. The same-boot contributor comparison links the inbox-running condition to reported symptoms and expensive enumeration/close work. **Causal proof of the contributor's game FPS loss remains unvalidated**; exact game workload control, frame times and per-call cleanup-stack verification remain outstanding.
+- `live-proof`: Windows 11 observation tooling and USB/Bluetooth experiments completed; both measured paths returned pending. The Windows 10 VM demonstrates missing PID initialization, repeated queue allocation, restored reuse and lower close/x86 XInput API cost after a one-entry correction. A controlled call now reaches the actual kernel cleanup traversal. A fresh idle pair found no clear API cost difference at a small queue population; active input was followed by thousands of queues and increased cost, which persisted after the producer exited. The same-boot contributor comparison links the inbox-running condition to reported symptoms and expensive enumeration/close work. **Causal proof of the contributor's game FPS loss remains unvalidated**; exact game workload control, frame times and the complete x86 user stack remain outstanding.
 - `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
 - `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
 - `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has a byte-checked and live-observed queue-identity defect. Fresh-device PID corrections restored reuse and suppressed queue growth. Two serial handle-close comparisons and one x86 XInput API pair measured substantially lower costs. Game FPS benefit, controller fidelity and supported-fix acceptance remain unvalidated. Evidence tests pass.
@@ -13,6 +13,22 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
 
 ## Verification
+
+- VM-only follow-up, 2026-10-29: a process-scoped absent-slot call reached
+  xinputhid cleanup and the actual WDF traversal of the corrected manual queue.
+  Loaded WDF backing identity and DsHidMini 3.27.0.2500 are now inventoried.
+  Eight held-state windows produced 1028 successful input samples. Vibration
+  start/stop and 64 during/after queries succeeded, with operator confirmation
+  of physical start/stop; the corrected process queue list remained one.
+  WOW64 user unwind failed; every transition, physical latency, game performance,
+  and full input fidelity remain outside these results. A fresh corrected-first
+  idle pair completed 400 calls per condition: 48 unmodified entries versus one
+  corrected entry, but similar API medians. Continuous input then preceded 3383
+  entries and 4-10 times higher absent-slot medians in the unmodified lifetime.
+  Stopping the service terminated the observed producer processes but retained
+  3383 entries and elevated costs; Running/Manual state was restored successfully.
+  Both runners stopped cleanly and temporary runtime sharing was disabled. See
+  the [VM-only checklist](vm-validation-checklist.md) for evidence and limitations.
 
 - Corrected x86 XInput comparison, 2026-10-29: all 400 calls per condition
   completed with identical slot status groups and matching OS/binary/script

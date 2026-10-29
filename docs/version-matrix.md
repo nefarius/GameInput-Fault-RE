@@ -54,6 +54,24 @@ still had one queue node. This is a local API-level PoC with one serial pair,
 unequal exposure and incomplete teardown control; per-call stacks, game frame
 times and input fidelity remain unvalidated.
 
+The later [kernel cleanup route observation](../evidence/runtime/vm-xinput-cleanup-route-20261029.json)
+reaches the corrected per-process manual queue in loaded WDF 1.31.19041.1;
+the guest backing-file PE identity matches that module. The
+[component inventory](../evidence/runtime/vm-component-inventory-20261029.json)
+also identifies loaded DsHidMini 3.27.0.2500 and inbox 0.2309.19041.5794.
+[Held-state and vibration checks](../evidence/runtime/vm-input-vibration-20261029.json)
+completed with operator observations and one process queue afterward. These
+coarse checks do not establish full input fidelity or general compatibility.
+
+The [fresh corrected-first idle control](../evidence/runtime/vm-xinput-fresh-reversed-pair-20261029.json)
+found similar API costs with 48 unmodified entries versus one corrected entry.
+After [continuous input](../evidence/runtime/vm-active-input-growth-20261029.json),
+the unmodified guest held 3383 entries and absent-slot medians were 4-10 times
+its earlier idle result. A [service stop/start check](../evidence/runtime/vm-service-recovery-20261029.json)
+retained that population and elevated API costs after producer exit; service
+state/startup were restored. This is the same specific guest/driver configuration,
+with no matching corrected continuous-motion run or measured game frame times.
+
 The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares
 a boot, game process UniqueKey/thread, profile and equal four-second windows.
 The inbox-running condition restores the reported symptom and XInput/cleanup

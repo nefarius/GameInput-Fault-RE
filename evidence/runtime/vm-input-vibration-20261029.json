@@ -1,0 +1,364 @@
+{
+  "evidence_kind": "bounded-held-input-and-operator-observed-vibration",
+  "date": "2026-10-29",
+  "configuration_reference": "vm-xinput-cleanup-route-20261029.json",
+  "condition": "corrected lifetime; one process queue before and after activity",
+  "input_cases": [
+    {
+      "phase": "neutral",
+      "operator_report": "Nothing",
+      "samples": 128,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": -1414,
+          "max": -1157
+        },
+        "LeftY": {
+          "min": -386,
+          "max": -386
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-10-neutral.result.json",
+      "source_sha256": "da52b0fcc85d52126efbc3a155a1752151aea2613db2bbf020f5551abc8001be"
+    },
+    {
+      "phase": "hold-a",
+      "operator_report": "X",
+      "samples": 129,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 4096,
+          "max": 4096
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": -1414,
+          "max": -1157
+        },
+        "LeftY": {
+          "min": -386,
+          "max": -386
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-11-hold-a.result.json",
+      "source_sha256": "8c113a7e9188023a27da9401eb048f34c469d6c777df5172f4f8b55e34e64263"
+    },
+    {
+      "phase": "hold-b",
+      "operator_report": "Circle",
+      "samples": 129,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 8192,
+          "max": 8192
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": -1414,
+          "max": -1157
+        },
+        "LeftY": {
+          "min": -386,
+          "max": -386
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-12-hold-b.result.json",
+      "source_sha256": "50b9aa88254649e5ca240a25afaeb2dfad5af8b9fa9bd4af4ee51d0cdb668c0d"
+    },
+    {
+      "phase": "hold-up",
+      "operator_report": "Dup",
+      "samples": 128,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 1,
+          "max": 1
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": -1414,
+          "max": -1157
+        },
+        "LeftY": {
+          "min": -386,
+          "max": -386
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-13-hold-up.result.json",
+      "source_sha256": "fd7b7413676514b3b60921d032e9d7f121bf6d52ef1e066b0fda923fdc5d17a7"
+    },
+    {
+      "phase": "left-trigger",
+      "operator_report": "L2",
+      "samples": 129,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftTrigger": {
+          "min": 255,
+          "max": 255
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": -1414,
+          "max": -1157
+        },
+        "LeftY": {
+          "min": -386,
+          "max": -386
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-14-left-trigger.result.json",
+      "source_sha256": "f2ed58bf1c00a12f7780749e945fd33b74f859366742e0a17eb1d9750231ffae"
+    },
+    {
+      "phase": "left-stick",
+      "operator_report": "LX+",
+      "samples": 128,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 62
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": 32767,
+          "max": 32767
+        },
+        "LeftY": {
+          "min": -6811,
+          "max": -5783
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-15-left-stick.result.json",
+      "source_sha256": "954bfd71b4f33d8515087874894a5df40f3c434c7e3e942749d719e5c7ab0374"
+    },
+    {
+      "phase": "right-stick",
+      "operator_report": "RX+",
+      "samples": 129,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": 128,
+          "max": 642
+        },
+        "LeftY": {
+          "min": -643,
+          "max": -129
+        },
+        "RightX": {
+          "min": 32767,
+          "max": 32767
+        },
+        "RightY": {
+          "min": 1670,
+          "max": 1927
+        }
+      },
+      "source": "input-16-right-stick.result.json",
+      "source_sha256": "bc4d4ea5bd85416d5bda3452aa20b038a18d6ab1150c92fa298b67e2512f0480"
+    },
+    {
+      "phase": "neutral",
+      "operator_report": "nothing",
+      "samples": 128,
+      "result_codes": [
+        0
+      ],
+      "successful_state_ranges": {
+        "Buttons": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "RightTrigger": {
+          "min": 0,
+          "max": 0
+        },
+        "LeftX": {
+          "min": 128,
+          "max": 642
+        },
+        "LeftY": {
+          "min": -643,
+          "max": -129
+        },
+        "RightX": {
+          "min": 128,
+          "max": 128
+        },
+        "RightY": {
+          "min": -129,
+          "max": -129
+        }
+      },
+      "source": "input-17-neutral.result.json",
+      "source_sha256": "159523fcbb5975e9259c379dceee38ae5063fbec7ab491a589db650f3bd4df26"
+    }
+  ],
+  "limitations": [
+    "Held-state windows do not establish every transition, input latency or full controller fidelity.",
+    "Right trigger and individual motor identity were not separately tested.",
+    "Incidental trigger movement during the left-stick phase is retained.",
+    "No game workload or frame times."
+  ],
+  "vibration": {
+    "requestedLeft": 8192,
+    "requestedRight": 8192,
+    "startResult": 0,
+    "stopAttempted": true,
+    "stopResult": 0,
+    "operatorObservation": "yes",
+    "source": "rumble-corrected-low.result.json",
+    "source_sha256": "0737977c31c2ab001cb44c813f4898a17ba991ee360d31b395a16fbd96312168",
+    "windows": {
+      "during": {
+        "samples": 32,
+        "result_codes": [
+          0
+        ]
+      },
+      "after": {
+        "samples": 32,
+        "result_codes": [
+          0
+        ]
+      }
+    }
+  },
+  "input_samples_total": 1028,
+  "post_activity_queue_inspection_source": {
+    "basename": "post-input-queue-debugger-raw.json",
+    "sha256": "30d9f9c89290f63e8bde50a07f315354ebb0afe7b0b929bc0731967883a1b3d1",
+    "complete_count": 1
+  }
+}

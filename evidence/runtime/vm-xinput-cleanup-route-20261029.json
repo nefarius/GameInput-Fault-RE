@@ -1,0 +1,85 @@
+{
+  "evidence_kind": "agent-observed-process-scoped-kernel-cleanup-route",
+  "observed_date": "2026-10-29",
+  "configuration_reference": "vm-xinput-x86-pair-20261029.json",
+  "workload": {
+    "runner": "tools/runtime/Start-VMValidation.ps1",
+    "runner_sha256": "cedf048c48f2514d324faacdad41b4228a1e5b38be49f84bb6d327f8046886e3",
+    "native_script_sha256": "a7dee09f72eddcb6590ec5ddf7a360ecee51687b9eb73669cff100683b6d1083",
+    "process_id": 3888,
+    "architecture": "x86",
+    "command_kind": "route",
+    "requested_slot": 1,
+    "bounded_cases": 2,
+    "both_returned": 1167,
+    "timing_eligible": false,
+    "driver_and_x86_dll_backing_hashes_match_references": true
+  },
+  "observations": {
+    "process_scoped_driver_breakpoint_rva": "0x3240",
+    "requestor_process_matches_verified_runner": true,
+    "irp_major_function": "IRP_MJ_CLEANUP (0x12)",
+    "irp_requestor_mode": "KernelMode; cleanup IRP generated on the close path",
+    "driver_stack": [
+      "NtClose",
+      "ObCloseHandleTableEntry",
+      "IopCloseFile",
+      "IofCallDriver",
+      "Wdf01000!FxDevice::DispatchWithLock",
+      "xinputhid!EvtDeviceWdmIrpPreprocess"
+    ],
+    "same_cleanup_thread_reached_wdf_flush": true,
+    "framework_stack": [
+      "xinputhid!EvtDeviceWdmIrpPreprocess+0x211",
+      "Wdf01000!imp_WdfDeviceWdmDispatchPreprocessedIrp",
+      "FxDevice::DispatchPreprocessedIrp",
+      "FxPkgGeneral::OnCleanup",
+      "FxPkgIo::FlushAllQueuesByFileObject",
+      "FxPkgIo::GetNextIoQueueLocked",
+      "FxIoQueue::_FromIoPkgListEntry"
+    ],
+    "wdf_flush_observation_rva": "0x6ec4",
+    "first_queue_observation_rva": "0x6f90",
+    "subsequent_queue_observation_rva": "0x70ed",
+    "io_package_queue_list_offset": "0x80",
+    "queue_object_list_node_offset": "0x388",
+    "complete_wdf_queue_list_count_before_traversal": 6,
+    "first_queue_dispatch": "Parallel",
+    "corrected_manual_queue_node_reached_in_subsequent_traversal": true,
+    "visited_manual_queue_device_matches_corrected_device": true,
+    "known_corrected_manual_queue_inspection": {
+      "waiting_requests_at_stop": 1,
+      "driver_owned_requests_at_stop": 0,
+      "power_state": "PowerOn"
+    },
+    "experiment_breakpoints_cleared": true
+  },
+  "loaded_framework": {
+    "name": "Wdf01000.sys",
+    "timestamp": "0x488b79bb",
+    "checksum": "0xd413e",
+    "image_size": "0xd1000",
+    "pdb_guid": "CCF30DF686C87755B01C27769D6D70FE",
+    "pdb_age": 1,
+    "backing_file_sha256": "65b027f70a07367dcb32e485e3cf384b6edd22da6ab7cc9e6fe502468f9ec62f",
+    "instruction_bytes_read_live": true,
+    "backing_file_version": "1.31.19041.1 (WinBuild.160101.0800)",
+    "backing_file_pe_identity_matches_loaded_module": true
+  },
+  "failed_or_corrected_inspections": [
+    "WOW64 context selection and combined WOW64 stack walk failed to yield a valid x86 unwind; no user-mode enumeration frames are claimed from those outputs.",
+    "The first exact-node conditional breakpoint targeted only the first-queue inline copy and did not match the last manual queue. A separate next-queue inline copy was then resolved and the exact manual-node visit was observed.",
+    "An initial FxPkgIo type display used the pointer field address without dereferencing it; its invalid field values were discarded. The dereferenced package had consistent type, device and queue-list fields."
+  ],
+  "interpretation": "The controlled absent-slot XInput call reached xinputhid cleanup through NtClose and the loaded WDF implementation traversed the corrected device's queue list, including the GameInput-associated manual queue. This directly observes the proposed kernel cleanup route instead of relying only on published WDF source.",
+  "limitations": [
+    "The x86 user stack was unavailable in this debugger context. API provenance comes from the verified runner and its single-call command, not a successfully unwound XInput enumeration frame.",
+    "Breakpoints and inspection pauses heavily perturb these calls; their recorded tick durations must not be used in latency comparisons.",
+    "This observation used the corrected six-WDF-queue device, including one per-process queue. It is not a traversal-cost measurement for thousands of uncorrected queues.",
+    "No game frame-time, complete input fidelity, vibration or recovery result follows from this trace. Raw debugger output remains private because it includes addresses and process environment data."
+  ],
+  "inventory_source": {
+    "basename": "inventory-20261029-173933-1703f67e8ce74b50a572f31b5f373ecf.json",
+    "sha256": "e012081d3c9397c250b39494087c78a7f04fb4bfeb113ada31f09f96094f7a08"
+  }
+}

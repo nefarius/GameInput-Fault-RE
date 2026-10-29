@@ -1,0 +1,134 @@
+{
+  "evidence_kind": "read-only-guest-backing-file-and-process-module-inventory",
+  "date": "2026-10-29",
+  "build": "19045",
+  "ubr": 5796,
+  "source": "inventory-20261029-173933-1703f67e8ce74b50a572f31b5f373ecf.json",
+  "source_sha256": "e012081d3c9397c250b39494087c78a7f04fb4bfeb113ada31f09f96094f7a08",
+  "files": [
+    {
+      "sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "fileVersion": "10.0.19041.5794 (WinBuild.160101.0800)",
+      "productVersion": "10.0.19041.5794",
+      "peTimestamp": "8622933a",
+      "imageSize": 94208,
+      "checksum": 62942,
+      "error": null,
+      "name": "xinputhid.sys"
+    },
+    {
+      "sha256": "65b027f70a07367dcb32e485e3cf384b6edd22da6ab7cc9e6fe502468f9ec62f",
+      "fileVersion": "1.31.19041.1 (WinBuild.160101.0800)",
+      "productVersion": "1.31.19041.1",
+      "peTimestamp": "488b79bb",
+      "imageSize": 856064,
+      "checksum": 868670,
+      "error": null,
+      "name": "Wdf01000.sys"
+    },
+    {
+      "sha256": "1fdb7e28ccaf757603c4b754e1ac9c470e5e60e85de067375902f108f5e34608",
+      "fileVersion": "10.0.19041.1 (WinBuild.160101.0800)",
+      "productVersion": "10.0.19041.1",
+      "peTimestamp": "74f37228",
+      "imageSize": 45056,
+      "checksum": 44933,
+      "error": null,
+      "name": "mshidumdf.sys"
+    },
+    {
+      "sha256": "59e57885256eed72cec75ab7e7ed13b59c0a2f21fa7f7872e6bcf68aa1046536",
+      "fileVersion": "0.2309.19041.5794",
+      "productVersion": "0.2309.19041.5794",
+      "peTimestamp": "0a9a4d86",
+      "imageSize": 409600,
+      "checksum": 428942,
+      "error": null,
+      "name": "GameInputInbox.dll"
+    },
+    {
+      "sha256": "2ca3cee444284f68dc08e3da498e990e9be4e07786d93defd9c68a2821452531",
+      "fileVersion": "0.2309.19041.5794",
+      "productVersion": "0.2309.19041.5794",
+      "peTimestamp": "519445c4",
+      "imageSize": 69632,
+      "checksum": 90465,
+      "error": null,
+      "name": "GameInputSvc.exe"
+    },
+    {
+      "sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+      "fileVersion": "10.0.19041.1 (WinBuild.160101.0800)",
+      "productVersion": "10.0.19041.1",
+      "peTimestamp": "781fbf32",
+      "imageSize": 53248,
+      "checksum": 93350,
+      "error": null,
+      "name": "XInput1_4.dll"
+    }
+  ],
+  "loaded_implementations": [
+    {
+      "process": "GameInputSvc",
+      "error": null,
+      "modules": [
+        {
+          "sha256": "2ca3cee444284f68dc08e3da498e990e9be4e07786d93defd9c68a2821452531",
+          "fileVersion": "0.2309.19041.5794",
+          "productVersion": "0.2309.19041.5794",
+          "peTimestamp": "519445c4",
+          "imageSize": 69632,
+          "checksum": 90465,
+          "error": null,
+          "name": "GameInputSvc.exe"
+        },
+        {
+          "sha256": "59e57885256eed72cec75ab7e7ed13b59c0a2f21fa7f7872e6bcf68aa1046536",
+          "fileVersion": "0.2309.19041.5794",
+          "productVersion": "0.2309.19041.5794",
+          "peTimestamp": "0a9a4d86",
+          "imageSize": 409600,
+          "checksum": 428942,
+          "error": null,
+          "name": "gameinputinbox.dll"
+        }
+      ]
+    },
+    {
+      "process": "GameInputSvc",
+      "error": null,
+      "modules": [
+        {
+          "sha256": "2ca3cee444284f68dc08e3da498e990e9be4e07786d93defd9c68a2821452531",
+          "fileVersion": "0.2309.19041.5794",
+          "productVersion": "0.2309.19041.5794",
+          "peTimestamp": "519445c4",
+          "imageSize": 69632,
+          "checksum": 90465,
+          "error": null,
+          "name": "GameInputSvc.exe"
+        }
+      ]
+    },
+    {
+      "process": "WUDFHost",
+      "error": null,
+      "modules": [
+        {
+          "sha256": "84c22c152fccc8d0e17595e0f3a1125312b2c4d1a45cd814c74b635a505e077a",
+          "fileVersion": "3.27.0.2500",
+          "productVersion": "3.27.0.2500",
+          "peTimestamp": "6ad346f0",
+          "imageSize": 380928,
+          "checksum": 431710,
+          "error": null,
+          "name": "dshidmini.dll"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Backed-file hashes and loaded module paths were collected; no full loaded-image memory hash.",
+    "Device identifiers, user paths and INF identifiers remain in ignored raw inventory."
+  ]
+}
