@@ -123,8 +123,15 @@ The first local collector validation produced an 11.59-second idle ETL with zero
 The [exact Windows 10 driver follow-up](windows10-queue-identity.md) now
 identifies a concrete missing PID initialization in the queued unfiltered-state
 path. The contributor-hash inbox worker selects that path. Repeated creation
-of queues instead of reuse could amplify the game's measured WDF cleanup cost;
-actual queue accumulation and its causal performance impact remain unmeasured.
+of queues instead of reuse can add handle-close cost in the research VM:
+uncorrected fresh-device queues accumulated, while initializing one GameInput
+entry's PID restored reuse and retained one node. In a
+[single paired metadata-only benchmark](vm-queue-comparison.md#paired-handle-close-result),
+median close duration fell from 411.45 to 11.7 microseconds across 100 successful
+pairs per condition. Unequal exposure and incomplete retired-device teardown
+limit that comparison; the game's x86 path, frame times and controller fidelity
+remain unvalidated. This is a focused mechanism/performance PoC in one guest,
+not proof of the contributor's FPS cause or a supported fix.
 The inspected Windows 11 driver includes the missing store. This gives a focused
 correction to test separately from the earlier throttling hypothesis; it does not
 enable any compatibility or mitigation gate.

@@ -1,0 +1,37 @@
+{
+  "evidence_kind": "operator-reported-live-kernel-correction-observation",
+  "observed_date": "2026-10-29",
+  "source": "Operator pasted the corrected MASM guard, four-byte PID write and same-thread publication breakpoint output; subsequently reported sleep, resume and controller reconnection before a reuse result was supplied.",
+  "previous_observation": "vm-queue-repeat-allocation-20261028.json",
+  "correction": {
+    "allocation_breakpoint_rva": "0x929b",
+    "guard_checks": ["instruction pointer", "exact current allocation address", "device context address", "requestor PID"],
+    "target": "The new allocation's PID field at offset 0x10",
+    "write_bytes": 4,
+    "saved_original_field": 0,
+    "written_pid_hex": "0x684",
+    "written_pid_decimal": 1668,
+    "driver_file_modified": false,
+    "prior_attempt": "The first guard used unsupported && syntax under MASM and returned a parser error; the operator retried with MASM and operators."
+  },
+  "publication_observation": {
+    "breakpoint_rva": "0x93ae",
+    "same_thread": true,
+    "saved_corrected_node": true,
+    "node_linked_to_device_list": true,
+    "published_pid_field_hex": "0x684",
+    "published_queue_handle_nonzero": true,
+    "pid_correction_survived_queue_creation_and_publication": true
+  },
+  "interruption": {
+    "operator_report": "Controller disconnected due to sleep; operator resumed and plugged it back in.",
+    "old_device_and_queue_addresses_valid_for_further_commands": false,
+    "new_device_lifetime_must_be_rediscovered": true
+  },
+  "limitations": [
+    "The displayed date records receipt and retention, not a verified timestamp of the guest memory write.",
+    "No subsequent queue reuse breakpoint result was supplied before the sleep/reconnection interruption.",
+    "Do not assume the one-node correction survived device teardown or that old saved pointers remain valid.",
+    "Existing excess queues were not removed; allocation-rate, cleanup latency, frame-time, input, vibration and recovery effects remain unmeasured."
+  ]
+}

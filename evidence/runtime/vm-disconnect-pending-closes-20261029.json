@@ -1,0 +1,34 @@
+{
+  "evidence_kind": "agent-observed-live-kernel-disconnect-state",
+  "observed_date": "2026-10-29",
+  "source": "Operator reported ISO mounted and controller disconnected. Direct WinDbg MCP inspection after breaking the running guest.",
+  "context": "Follow-up to vm-queue-corrected-reuse-20261029.json, before a fresh uncorrected performance run",
+  "observations": {
+    "old_xinputhid_device_object_still_listed": true,
+    "same_old_device_context_rediscovered": true,
+    "pnp_state": "DeviceNodeDeletePendingCloses (0x313)",
+    "previous_pnp_state": "DeviceNodeAwaitingQueuedDeletion (0x30e)",
+    "wdf_pnp_state": "WdfDevStatePnpFailedWaitForRemove (0x12e)",
+    "wdf_power_state": "WdfDevStatePowerStopped (0x315)",
+    "wdf_power_policy_state": "WdfDevStatePwrPolRemoved (0x58e)",
+    "wdf_reported_open_file_objects": 1,
+    "file_object_device_driver": "mshidumdf",
+    "file_object_flags_hex": "0x40002",
+    "file_object_flag_names": ["Synchronous IO", "Handle Created"],
+    "object_header_handle_count": 2,
+    "object_header_pointer_count_reported": 32766,
+    "inspected_worker": {
+      "image": "GameInputSvc.exe",
+      "pid_hex": "0x684",
+      "file_handle_list_contains_retained_file_object": false
+    }
+  },
+  "limitations": [
+    "The file-handle owner was not identified; only the previously observed GameInput worker's file handles were searched.",
+    "The object header pointer count is reported literally; it is not used as an exact outstanding I/O or reference-lifetime measurement.",
+    "A disconnected controller does not establish that all former device objects and queues were destroyed.",
+    "No handles were forcibly closed and no services or power settings were changed.",
+    "A later reconnect must independently establish a new device context, present interface routing and queue-list baseline. Retired-device residency remains a possible comparison confound.",
+    "This observation does not establish a new defect, leak or causal connection to the reported game FPS loss."
+  ]
+}

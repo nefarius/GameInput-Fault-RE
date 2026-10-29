@@ -1,0 +1,154 @@
+{
+  "evidence_kind": "agent-validated-guest-handle-close-pair-with-live-queue-observations",
+  "observed_date": "2026-10-29",
+  "environment_reference": "vm-queue-corrected-growth-20261029.json",
+  "driver_version": "10.0.19041.5794",
+  "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "script": "tools/runtime/Measure-XInputHandleClose.ps1",
+  "script_sha256": "21a15797926b952e4ae84f957edd166619846aa5e2b84605364daa96b198a853",
+  "raw_files_are_private": true,
+  "private_raw_files": {
+    "uncorrected": "captures/vm-queue-comparison/uncorrected-close.json",
+    "corrected": "captures/vm-queue-comparison/corrected-close.json"
+  },
+  "matching_fields": [
+    "devicePath",
+    "driverSha256",
+    "scriptSha256",
+    "processArchitecture",
+    "requestedSamples",
+    "requestedSeconds",
+    "osVersion"
+  ],
+  "matched_metadata": true,
+  "validation": {
+    "samples_per_condition": 100,
+    "contiguous_zero_based_indices": true,
+    "all_opens_and_closes_succeeded": true,
+    "all_error_fields_zero": true,
+    "ticks_nonnegative_integers": true,
+    "reference_driver_hash_verified": true,
+    "script_hash_matches_current_source": true,
+    "all_samples_included": true
+  },
+  "statistics_method": {
+    "duration_unit": "microseconds",
+    "conversion": "ticks * 1000000 / qpc_frequency",
+    "median": "arithmetic mean of two middle values for n=100",
+    "percentile": "nearest rank: sorted samples[ceil(p*n)-1]"
+  },
+  "conditions": {
+    "uncorrected": {
+      "sha256": "3f6e069a44b2d7e92fc323f6e943404c0159626504f295c6d4eb31b37c16bc82",
+      "startUtc": "2026-10-29T15:35:44.5515678Z",
+      "elapsedSeconds": 1.5841733999999998,
+      "actualSamples": 100,
+      "qpcFrequency": 10000000,
+      "services": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 5708
+        }
+      ],
+      "statistics": {
+        "OpenTicks": {
+          "min_us": 13.6,
+          "median_us": 23.85,
+          "p95_us": 41.5,
+          "p99_us": 160.9,
+          "max_us": 188.6,
+          "mean_us": 25.964
+        },
+        "CloseTicks": {
+          "min_us": 301.9,
+          "median_us": 411.45,
+          "p95_us": 733.2,
+          "p99_us": 960.1,
+          "max_us": 1311.8,
+          "mean_us": 486.067
+        }
+      }
+    },
+    "corrected": {
+      "sha256": "94f9bca79116bf3564a063cab57e9558e7c1c3c1fe8f157543a5f7fbc22659b9",
+      "startUtc": "2026-10-29T15:47:41.7115861Z",
+      "elapsedSeconds": 1.5927707999999998,
+      "actualSamples": 100,
+      "qpcFrequency": 10000000,
+      "services": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 5708
+        }
+      ],
+      "statistics": {
+        "OpenTicks": {
+          "min_us": 13.2,
+          "median_us": 26.8,
+          "p95_us": 85.9,
+          "p99_us": 187.2,
+          "max_us": 659.1,
+          "mean_us": 36.949
+        },
+        "CloseTicks": {
+          "min_us": 5.6,
+          "median_us": 11.7,
+          "p95_us": 38.3,
+          "p99_us": 88.3,
+          "max_us": 166.8,
+          "mean_us": 14.537
+        }
+      }
+    }
+  },
+  "close_comparison": {
+    "median_us": {
+      "uncorrected_over_corrected": 35.166666666666664,
+      "reduction_fraction": 0.9715639810426541
+    },
+    "p95_us": {
+      "uncorrected_over_corrected": 19.14360313315927,
+      "reduction_fraction": 0.9477632296781233
+    },
+    "mean_us": {
+      "uncorrected_over_corrected": 33.43654123959551,
+      "reduction_fraction": 0.9700926004028251
+    }
+  },
+  "queue_counts": {
+    "uncorrected": {
+      "pre_benchmark_complete_count": 1994,
+      "post_transfer_lower_bound": 4096,
+      "post_transfer_scan_complete": false
+    },
+    "corrected": {
+      "pre_benchmark_complete_count": 1,
+      "post_transfer_complete_count": 1,
+      "post_transfer_scan_limit": 512,
+      "post_transfer_scan_complete": true,
+      "corrected_pid_and_queue_handle_still_present": true
+    }
+  },
+  "post_snapshot": {
+    "target": "LiveKernel AMD64, stopped",
+    "breakpoints_remaining": 0,
+    "correction_still_present": true
+  },
+  "interpretation": "In this single serial pair, the corrected fresh device retained one queue node and metadata-only CloseHandle duration was substantially lower. Combined with observed missing initialization and restored reuse, this supports excess queue accumulation as a contributor to this device handle-close cost.",
+  "limitations": [
+    "One uncorrected-then-corrected pair with different exposure times and incomplete retired-device teardown; order and background activity are not controlled.",
+    "Queue counts are debugger snapshots before the benchmark and after operator transfer, not exact per-call populations or exact queue growth rates.",
+    "Metadata-only handles differ from x86 XInput access and enumeration IOCTLs; the benchmark is x64, not the contributor's x86 game workload.",
+    "Open latency did not show the same improvement: corrected median and p95 were higher; do not claim a universal speedup for all operations.",
+    "Timing includes interop, scheduling and last-error retrieval. Sample caps ended both runs before the five-second limit.",
+    "GameInput service state and PID match in post-run inventories; complete service/activity continuity was not independently measured.",
+    "Hands-off controller activity was requested but not independently measured. Input fidelity, vibration and recovery remain untested.",
+    "These are live data corrections for one requestor in disposable device lifetimes, not a driver-file patch, installed fix or supported release.",
+    "Guest inbox is 0.2309.19041.5794, differing from contributor 0.2309.19041.6456. The contributor's FPS loss has not been reproduced or corrected here.",
+    "Ratio and reduction describe this pair's observed durations, not statistical confidence, game FPS improvement, hardware acceptance gates or general Windows-version coverage."
+  ]
+}

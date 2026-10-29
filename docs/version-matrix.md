@@ -23,8 +23,22 @@ the inspected Windows 11 build contains that store. A research VM on
 19045.5796 with the exact driver hash and inbox 0.2309.19041.5794 now
 [observes the missing initialization live](../evidence/runtime/vm-queue-publication-20261028.json)
 and [repeated allocation by the same GameInput worker](../evidence/runtime/vm-queue-repeat-allocation-20261028.json).
-The VM inbox differs from the contributor's later revision. Exact growth rate,
-causal performance impact and correction efficacy remain unvalidated.
+The VM inbox differs from the contributor's later revision. A subsequent
+[one-entry PID correction](../evidence/runtime/vm-queue-corrected-reuse-20261029.json)
+now demonstrates that the same GameInput process selects the corrected node
+and reuses its manual WDF queue. Exact growth rate, causal performance impact
+and performance/input effects of a correction remain unvalidated.
+A [fresh corrected-device observation](../evidence/runtime/vm-queue-corrected-growth-20261029.json)
+retained one queue node after a short run, while the earlier uncorrected fresh
+device grew to 332. This is evidence for correction of queue growth in the
+specific guest, with approximate timing and incomplete retired-device teardown;
+it is not a game-performance or supported-fix result.
+A subsequent [100-pair x64 handle-close comparison](../evidence/runtime/vm-handle-close-pair-20261029.json)
+measured median 411.45 microseconds uncorrected versus 11.7 corrected, with
+matching interface, driver/script hashes and requested limits. Corrected count
+remained one after transfer. This supports the local queue-growth/close-cost
+mechanism but retains the single-pair, unequal-exposure and teardown limitations;
+the contributor's x86 game FPS and controller behavior remain unvalidated.
 Compatibility gates are unchanged.
 
 The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares

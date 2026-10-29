@@ -1,0 +1,82 @@
+{
+  "evidence_kind": "agent-observed-live-kernel-correction-and-reuse",
+  "observed_date": "2026-10-29",
+  "source": "Microsoft WinDbg built-in MCP, existing VMware serial kernel session; direct register, memory, process and WDF queue observations.",
+  "environment": {
+    "guest_inventory_reference": "vm-stage1-20261028.json",
+    "os_build_previously_reported": "19045.5796",
+    "inbox_version_previously_reported": "0.2309.19041.5794",
+    "controller": "Operator-prepared PS3 USB controller in DsHidMini XInput mode; reconnected after sleep",
+    "loaded_driver": {
+      "name": "xinputhid.sys",
+      "reference_version": "10.0.19041.5794",
+      "reference_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "observed_timestamp": "0x8622933a",
+      "observed_checksum": "0xf5de",
+      "observed_image_size": "0x17000",
+      "loaded_pdb_identity": "A4F14C10211FF645100498AA4182DC90/1",
+      "loaded_memory_hash_measured": false
+    },
+    "new_device_context_rediscovered": true,
+    "wdf_device_context_size": "0x160",
+    "same_driver_above_mshidumdf": true,
+    "prior_device_pointers_reused": false
+  },
+  "requestor": {
+    "image": "GameInputSvc.exe",
+    "pid_decimal": 1668,
+    "pid_hex": "0x684",
+    "session_id": 1,
+    "parent_pid_hex": "0x164c"
+  },
+  "correction": {
+    "allocation_breakpoint_rva": "0x929b",
+    "allocation_nonnull": true,
+    "guard_checks": ["instruction pointer", "exact fresh allocation address", "rediscovered device context", "requestor PID"],
+    "node_pid_offset": "0x10",
+    "saved_original_pid_field_hex": "0x00650067",
+    "written_pid_hex": "0x684",
+    "write_bytes": 4,
+    "other_node_bytes_intentionally_changed": false,
+    "driver_file_modified": false,
+    "publication_breakpoint_rva": "0x93ae",
+    "publication_breakpoint_same_thread": true,
+    "same_node_published_with_corrected_pid": true,
+    "published_queue_handle_nonzero": true
+  },
+  "reuse": {
+    "match_breakpoint_rva": "0x91ea",
+    "same_requestor_process_and_device": true,
+    "r8_equals_saved_corrected_node": true,
+    "node_pid_still_matches_requestor": true,
+    "after_queue_handle_load_breakpoint_rva": "0x91ee",
+    "r8_equals_corrected_node_queue_handle": true,
+    "wdfqueue_inspection": {
+      "handle_resolved": true,
+      "dispatch": "Manual",
+      "power_managed": false,
+      "power_state": "PowerOn",
+      "can_accept": true,
+      "can_dispatch": true,
+      "driver_owned_requests_at_break": 0,
+      "waiting_requests_at_break": 0
+    },
+    "conclusion": "A subsequent queued-state request by the same GameInput process selected the corrected node and loaded its existing WDF queue handle instead of taking the allocation branch."
+  },
+  "end_state": {
+    "target": "LiveKernel AMD64, stopped at driver RVA 0x91ee",
+    "remaining_breakpoints": 0,
+    "pid_field_restored": false,
+    "existing_excess_queues_removed": false
+  },
+  "limitations": [
+    "This is a one-entry live data correction and one observed queue reuse, not a driver-code patch or installable fix.",
+    "The corrected field remains in the current device lifetime; no claim is made about later teardown or reconnect.",
+    "Zero queue requests were observed before the current request was forwarded; this does not characterize completion timing or rates.",
+    "Allocation growth, cleanup latency, CPU, FPS/frame time, input fidelity/latency, vibration and recovery were not measured.",
+    "Existing excess queues remain, preventing an interpretation as a clean corrected performance baseline.",
+    "Guest inbox revision differs from the contributor's 0.2309.19041.6456; FPS causation and a general workaround remain unproven.",
+    "Breakpoint pauses introduce observer overhead; no elapsed-time or throughput claim is derived from this experiment.",
+    "The wait_for_break tool was advertised by the proxy but unavailable on the connected server; explicit target-state queries confirmed stops before inspection."
+  ]
+}

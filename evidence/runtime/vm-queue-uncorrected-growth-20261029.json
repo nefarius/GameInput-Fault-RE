@@ -1,0 +1,66 @@
+{
+  "evidence_kind": "agent-observed-live-kernel-fresh-device-queue-growth",
+  "observed_date": "2026-10-29",
+  "source": "Microsoft WinDbg built-in MCP, after operator reported USB reconnected and allocation breakpoint hit",
+  "environment_reference": "vm-queue-corrected-reuse-20261029.json",
+  "retired_device_reference": "vm-disconnect-pending-closes-20261029.json",
+  "condition": "Uncorrected fresh device context; no PID write in this lifetime",
+  "fresh_allocation": {
+    "breakpoint_rva": "0x929b",
+    "different_device_context_from_prior_lifetime": true,
+    "list_flink_equals_head": true,
+    "list_blink_equals_head": true,
+    "linked_node_count": 0,
+    "requestor_image": "GameInputSvc.exe",
+    "requestor_pid_hex": "0x684",
+    "requestor_session_id": 1,
+    "fresh_node_pid_field_hex": "0x4c7bc810"
+  },
+  "publication": {
+    "breakpoint_rva": "0x93ae",
+    "same_thread": true,
+    "same_node_linked": true,
+    "linked_node_count": 1,
+    "pid_field_still_hex": "0x4c7bc810",
+    "queue_handle_nonzero": true,
+    "wdf_device_context_size": "0x160"
+  },
+  "host_timing_markers": {
+    "resume_tool_return_utc": "2026-10-29T15:29:52Z",
+    "requested_sleep_milliseconds": 10000,
+    "reported_sleep_milliseconds": 10013.8,
+    "break_tool_request_utc": "2026-10-29T15:30:07Z",
+    "break_tool_return_utc": "2026-10-29T15:30:12Z",
+    "clock_resolution_seconds": 1,
+    "exact_guest_running_interval_measured": false
+  },
+  "post_run_count": {
+    "maximum_nodes_to_visit": 512,
+    "visited_nodes": 332,
+    "returned_to_list_head": true,
+    "complete_count": true,
+    "first_published_node_still_linked": true,
+    "first_node_pid_field_still_hex": "0x4c7bc810",
+    "first_node_queue_handle_unchanged": true,
+    "breakpoints_remaining": 0
+  },
+  "later_pre_benchmark_snapshot": {
+    "source": "After operator listed the sole present XInput interface as index 0; guest was paused again before benchmark instructions",
+    "maximum_nodes_to_visit": 4096,
+    "visited_nodes": 1994,
+    "returned_to_list_head": true,
+    "complete_count": true,
+    "breakpoints_remaining": 0,
+    "benchmark_had_run": false,
+    "limitation": "The guest will resume before operator starts the benchmark; this is not the exact queue population during timed calls."
+  },
+  "interpretation": "The verified fresh device list grew from one published node to 332 nodes during the short resumed interval without a PID correction; a later complete pre-benchmark snapshot found 1994 nodes.",
+  "limitations": [
+    "Hands-off controller state was requested, not independently observed or explicitly confirmed by the operator.",
+    "No benchmark or deliberate input/vibration command was run during this interval; other guest processes were not exhaustively excluded.",
+    "Only the first allocation/publication was attributed directly to GameInput; later node origins were not individually traced.",
+    "Host tool-return/request times and requested sleep are not exact guest execution timestamps; no allocation-per-second rate is claimed.",
+    "The prior disconnected device remained pending closes at its earlier inspection. Successful retired-device teardown was not established.",
+    "No corrected fresh-device growth comparison, handle-close timing or game frame-time result is yet available."
+  ]
+}

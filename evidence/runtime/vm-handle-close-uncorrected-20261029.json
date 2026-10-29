@@ -1,0 +1,60 @@
+{
+  "evidence_kind": "guest-microbenchmark-with-agent-validated-raw-file",
+  "observed_date": "2026-10-29",
+  "condition": "uncorrected",
+  "source": {
+    "private_raw_file": "captures/vm-queue-comparison/uncorrected-close.json",
+    "sha256": "3f6e069a44b2d7e92fc323f6e943404c0159626504f295c6d4eb31b37c16bc82",
+    "transfer": "Operator copied the guest JSON to the host after reporting successful completion",
+    "script": "tools/runtime/Measure-XInputHandleClose.ps1",
+    "script_sha256": "21a15797926b952e4ae84f957edd166619846aa5e2b84605364daa96b198a853"
+  },
+  "configuration": {
+    "guest_reported_start_utc": "2026-10-29T15:35:44.5515678Z",
+    "os_version_from_benchmark": "10.0.19045.0",
+    "full_guest_revision_reference": "vm-stage1-20261028.json",
+    "architecture": "x64",
+    "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "driver_and_script_hashes_match_references": true,
+    "selected_interface_matches_previously_inspected_xinput_profile": true,
+    "service_post_run": {"name": "GameInputSvc", "state": "Running", "start_mode": "Manual", "pid": 5708},
+    "queue_context_reference": "vm-queue-uncorrected-growth-20261029.json",
+    "pre_benchmark_complete_node_count": 1994,
+    "pre_snapshot_is_exact_count_during_timed_calls": false,
+    "post_transfer_queue_snapshot": {
+      "maximum_nodes_to_visit": 4096,
+      "visited_nodes": 4096,
+      "returned_to_list_head": false,
+      "complete_count": false,
+      "count_interpretation": "At least 4096 nodes at the paused snapshot after operator transfer",
+      "limitation": "Includes guest activity before and after the 100-pair benchmark and file transfer; growth cannot be attributed to the benchmark."
+    }
+  },
+  "measurement": {
+    "requested_max_samples": 100,
+    "requested_max_seconds": 5,
+    "actual_samples": 100,
+    "elapsed_seconds": 1.5841733999999998,
+    "qpc_frequency": 10000000,
+    "all_sample_indices_contiguous": true,
+    "successful_opens": 100,
+    "successful_closes": 100,
+    "reported_errors": 0,
+    "all_samples_included_in_statistics": true,
+    "percentile_method": "Nearest rank: sorted samples at ceil(p*n)-1; median averages the two middle values for n=100",
+    "unit_conversion": "microseconds = ticks * 1000000 / qpc_frequency",
+    "open_microseconds": {"min": 13.6, "median": 23.85, "p95": 41.5, "p99": 160.9, "max": 188.6, "mean": 25.964},
+    "close_microseconds": {"min": 301.9, "median": 411.45, "p95": 733.2, "p99": 960.1, "max": 1311.8, "mean": 486.067}
+  },
+  "limitations": [
+    "No corrected fresh-device benchmark has yet been supplied; no speedup or causal performance conclusion is established.",
+    "Metadata-only handles omit XInput's read/write access and enumeration IOCTLs; these are not game frame times or a full reproduction of its path.",
+    "Timing includes interop, scheduling and last-error retrieval; all samples, including the first, are retained.",
+    "The 100-pair cap ended the run before the five-second time limit; this was not five measured seconds of benchmark activity.",
+    "Queue population can grow between the debugger snapshot, operator start and timed calls; 1994 is not a verified queue count for each sample.",
+    "The operator was asked to leave the controller untouched; independent input activity and fidelity were not measured.",
+    "Retired-device teardown remained incomplete at its earlier inspection, and benchmark timing alone does not establish the cause of that state.",
+    "Service inventory was collected after the timed interval; the exact per-user worker identity was established separately by kernel observations.",
+    "Raw interface path remains in the ignored file and is omitted here."
+  ]
+}

@@ -21,14 +21,37 @@ A [second allocation breakpoint](../evidence/runtime/vm-queue-repeat-allocation-
 then observed the same worker and device allocating a different node while its
 first node remained linked with PID zero and an unchanged queue handle. This
 demonstrates failure to reuse that worker's earlier node. The second observation
-stops before its new queue is created. No correction or performance result has
-yet been recorded.
+stops before its new queue is created. A later
+[one-node corrective experiment](../evidence/runtime/vm-queue-corrected-publication-20261029.json)
+initialized that fresh node's PID to 0x684 and observed it survive queue creation
+and list publication. Sleep and controller reconnection interrupted the session
+before any queue-reuse result was supplied. The correction's effect on reuse and
+performance remained unmeasured at that interruption; old pointers must not be
+reused after reconnection.
+
+After rediscovering the reconnected device, a
+[direct MCP experiment](../evidence/runtime/vm-queue-corrected-reuse-20261029.json)
+initialized another fresh node's PID from stale pool data **0x00650067** to
+**0x684** before publication. A subsequent request from the same GameInput
+process selected that exact node at driver RVA **0x91ea**, then loaded its
+existing WDF queue handle at **0x91ee**. WDF resolved the handle as a manual
+queue. This demonstrates queue reuse after the missing PID initialization is
+supplied. It is a one-entry mechanism PoC, not a measured performance fix:
+existing excess queues remain, and growth rate, cleanup cost, FPS and input
+behavior have not been compared. The VM was left paused with the correction
+still present and no remaining experiment breakpoints.
 
 This is a statically identified and live-observed defect with a plausible connection to the contributed
 [cleanup-heavy service comparison](community-capture-20261028-l4d2-pair.md).
 The contributor's live queue count and allocation history were not captured;
-the defect is **not yet a demonstrated cause of their FPS loss or a validated
-PoC fix**. The older rumble-off idea was an assumption based on one ETL from
+the defect is **not yet a demonstrated cause of their FPS loss or a supported
+fix**. A later [fresh-device comparison](vm-queue-comparison.md#paired-handle-close-result)
+now supplies a limited mechanism/performance PoC: corrected queue count stayed
+at one, while the uncorrected device accumulated thousands, and median
+metadata-only handle-close time fell from **411.45 to 11.7 microseconds** across
+100 successful pairs per condition. The single serial pair has unequal exposure
+and incomplete retired-device teardown; game FPS and controller fidelity remain
+untested. The older rumble-off idea was an assumption based on one ETL from
 the GitHub issue, not an observed packet sequence; this finding does not
 establish such traffic either.
 

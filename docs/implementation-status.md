@@ -7,12 +7,55 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 - `live-proof`: observation tooling and local USB/Bluetooth experiments completed; **causal proof remains unvalidated**. Both local measured paths returned pending. A same-boot updated-collector service comparison now links the inbox-running condition to reported symptoms and expensive game-side XInput enumeration/close work. Exact workload control, frame-time measurement and the underlying driver cause remain unvalidated.
 - `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
 - `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
-- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has contributed runtime evidence and a byte-checked queue-identity defect now observed live in a research VM, including repeated same-worker allocation. Causal performance impact and correction efficacy remain unvalidated. Evidence tests pass.
+- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has a byte-checked and live-observed queue-identity defect. A fresh-device PID correction restored reuse, suppressed observed queue growth and substantially reduced metadata-only handle-close cost in one serial VM pair. Game FPS benefit, controller fidelity and supported-fix acceptance remain unvalidated. Evidence tests pass.
 - `supported-tool`: completed (design only) — signed helper design and contributor workflow; release remains gated on causal, performance, input/rumble, recovery and signing evidence.
 
 Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
 
 ## Verification
+
+- Paired handle-close result, 2026-10-29: 100 successful pairs per condition
+  with matching interface, driver/script hashes, architecture and limits.
+  Corrected post-transfer list still had one node. Median close duration fell
+  from 411.45 to 11.7 microseconds (35.17 times lower); p95 from 733.2 to 38.3.
+  This supports the queue-accumulation/close-cost mechanism in the guest.
+  Single serial pair, unequal exposure and incomplete retired-device teardown
+  limit causality; game FPS and controller fidelity remain untested. See
+  [pair evidence](../evidence/runtime/vm-handle-close-pair-20261029.json).
+
+- Fresh corrected VM lifetime, 2026-10-29: initialized the first GameInput
+  entry's missing PID before publication and observed reuse by the same
+  process. After the short resumed observation, its complete list still had
+  one node versus 332 in the earlier uncorrected short run. This supports the
+  missing initialization as the cause of excess queue creation in this guest;
+  exact running intervals and other activity were not fully matched. Corrected
+  handle-close timings and game performance remain pending. See
+  [corrected growth evidence](../evidence/runtime/vm-queue-corrected-growth-20261029.json).
+
+- Fresh uncorrected VM lifetime, 2026-10-29: a distinct context began with an
+  empty list, published a stale-PID node and later contained 332 nodes. An x64
+  metadata-only open/close benchmark completed 100 successful pairs; median
+  close time was 411.45 microseconds, p95 733.2 microseconds. Earlier pre-run
+  count was 1994; post-transfer count was at least 4096, with exact population
+  during timed calls unknown. Corrected comparison remains pending. See
+  [comparison workflow and baseline](vm-queue-comparison.md).
+
+- Direct MCP correction/reuse, 2026-10-29: after rediscovering the device
+  following reconnect, a guarded four-byte write initialized a fresh node's PID
+  to 0x684. It survived publication; a subsequent request by the same GameInput
+  process selected that exact node and loaded its existing manual WDF queue.
+  This proves reuse for the observed request, not a performance fix. Existing
+  excess queues remain; growth rate, cleanup cost, FPS and input behavior are
+  unmeasured. VM left paused, corrected field retained, no breakpoints remaining.
+  See [reuse evidence](../evidence/runtime/vm-queue-corrected-reuse-20261029.json).
+
+- One-node correction in the VM: the operator initialized a fresh node's PID
+  to its captured requestor PID 0x684 and observed that value survive WDF queue
+  creation and list publication. Sleep and controller reconnection interrupted
+  the follow-up before a reuse result was supplied. Old device/queue pointers
+  must be discarded and the new lifetime rediscovered. This is not proof of
+  queue reuse or a performance fix. See
+  [corrected publication evidence](../evidence/runtime/vm-queue-corrected-publication-20261029.json).
 
 - Contributed binary ZIP, 2026-10-29: all three members pass CRC checks and
   exactly match the analyzed GameInputInbox, x86 XInput1_4 and xinputhid files
