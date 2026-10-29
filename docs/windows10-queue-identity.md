@@ -1,5 +1,10 @@
 # Windows 10 per-process queue identity defect
 
+The [2026-10-29 contributor binary package](windows10-binary-acquisition.md#contributor-files-received-2026-10-29)
+is byte-identical to all three Windows 10 analysis copies, including x86 XInput.
+This resolves the earlier whole-file identity gap; capture-time caveats below
+record what was available during the original investigation.
+
 The exact contributor-hash **xinputhid.sys 10.0.19041.5794** contains a concrete
 initialization defect: its queued unfiltered-state handler searches a list by
 requestor PID, but does not initialize that field when adding a new queue entry.

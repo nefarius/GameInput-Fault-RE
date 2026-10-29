@@ -8,6 +8,11 @@ underlying causal mechanism remain unproven.
 
 ## Contributed Windows 10 capture, 2026-10-28
 
+**2026-10-29 binary follow-up:** the operator-provided `xinput files.zip`
+contains all three analyzed binaries, each byte-identical to the acquired or
+reconstructed copy. This closes the x86 XInput whole-file comparison gap noted
+below. See [binary identity evidence](../evidence/static/contributed-binary-identities-20261029.json).
+
 [Offline acquisition](windows10-binary-acquisition.md) now supplies the exact
 contributor-hash xinputhid 10.0.19041.5794 and GameInputInbox
 0.2309.19041.6456 files, plus x86 XInput 10.0.19041.3636 matching the trace's

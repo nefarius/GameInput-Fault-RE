@@ -1,0 +1,88 @@
+{
+  "observed_date": "2026-10-29",
+  "source": "User-provided xinput files.zip",
+  "archive_bytes": 239709,
+  "archive_sha256": "e1df942c10fdcbb011a66ea75d978c81be170c57661306ac8acef193f3e778ec",
+  "results": [
+    {
+      "name": "GameInputInbox.dll",
+      "bytes": 392536,
+      "sha256": "b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7",
+      "previous_reference_sha256": "b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7",
+      "hash_matches_reference": true,
+      "bytes_equal_reference": true,
+      "pe": {
+        "sha256": "b7d2fc1ec42dbd00c3dddb077ab32e7e5f84288b9c7e7dcafed324150b5242f7",
+        "bytes": 392536,
+        "machine": "0x8664",
+        "timestamp": "0xd0cb92c8",
+        "size_of_image": "0x64000",
+        "checksum": "0x66cfa",
+        "codeview": [
+          {
+            "guid": "EC4F06E945E009F4F9A91A045A44ADE7",
+            "age": 1,
+            "pdb": "GameInputInbox.pdb"
+          }
+        ]
+      },
+      "observed_local_file_version": "0.2309.19041.6456"
+    },
+    {
+      "name": "XInput1_4.dll",
+      "bytes": 36864,
+      "sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+      "previous_reference_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+      "hash_matches_reference": true,
+      "bytes_equal_reference": true,
+      "pe": {
+        "sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+        "bytes": 36864,
+        "machine": "0x14c",
+        "timestamp": "0x781fbf32",
+        "size_of_image": "0xd000",
+        "checksum": "0x16ca6",
+        "codeview": [
+          {
+            "guid": "822D0923E019D817BF1A55A08D50A9A2",
+            "age": 1,
+            "pdb": "XInput1_4.pdb"
+          }
+        ]
+      },
+      "observed_local_file_version": "10.0.19041.3636"
+    },
+    {
+      "name": "xinputhid.sys",
+      "bytes": 61952,
+      "sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "previous_reference_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+      "hash_matches_reference": true,
+      "bytes_equal_reference": true,
+      "pe": {
+        "sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+        "bytes": 61952,
+        "machine": "0x8664",
+        "timestamp": "0x8622933a",
+        "size_of_image": "0x17000",
+        "checksum": "0xf5de",
+        "codeview": [
+          {
+            "guid": "A4F14C10211FF645100498AA4182DC90",
+            "age": 1,
+            "pdb": "XINPUTHID.pdb"
+          }
+        ]
+      },
+      "observed_local_file_version": "10.0.19041.5794"
+    }
+  ],
+  "executed_or_installed": false,
+  "evidence_kind": "contributed-binary-identity-comparison",
+  "method": "Python zipfile CRC validation and bounded member extraction; SHA-256 and direct byte comparison; PE header/CodeView parsing; Windows FileVersionInfo string and fixed version fields",
+  "limitations": [
+    "The user identified these as the contributor binaries; ZIP provenance is operator supplied, not a cryptographically attested capture-time export.",
+    "All files exactly match the previously analysed copies; this does not itself establish performance causation or correction efficacy."
+  ],
+  "stored_archive": "captures/community/20261029-user-binaries/GameInput-Win10-Binaries-20261029-e1df942c.zip"
+}

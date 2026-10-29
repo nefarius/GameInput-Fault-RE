@@ -14,6 +14,12 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Contributed binary ZIP, 2026-10-29: all three members pass CRC checks and
+  exactly match the analyzed GameInputInbox, x86 XInput1_4 and xinputhid files
+  by SHA-256 and direct byte comparison. The contributor x86 XInput hash gap
+  is closed; earlier capture-time limitations remain historical. See
+  [identity evidence](../evidence/static/contributed-binary-identities-20261029.json).
+
 - Live VM publication: a same-thread breakpoint pair identifies requestor PID
   1668 in a child GameInputSvc.exe and observes its new queue node linked with
   PID zero after queue creation. This confirms the missing initialization in

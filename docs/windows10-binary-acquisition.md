@@ -1,5 +1,25 @@
 # Windows 10 binary acquisition, 2026-10-28
 
+## Contributor files received, 2026-10-29
+
+The operator supplied `xinput files.zip` (239,709 bytes), SHA-256
+`e1df942c10fdcbb011a66ea75d978c81be170c57661306ac8acef193f3e778ec`.
+All three members pass ZIP CRC checks and match the previously analyzed files
+by both SHA-256 and direct byte comparison: GameInputInbox 0.2309.19041.6456,
+x86 XInput1_4 10.0.19041.3636 and xinputhid 10.0.19041.5794.
+In particular, the contributed x86 XInput DLL matches the reconstructed hash
+`afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d`.
+This resolves the previously unavailable contributor whole-file comparison;
+the historical acquisition limitations below describe what was known then.
+See [reviewed identity evidence](../evidence/static/contributed-binary-identities-20261029.json).
+The ZIP is stored as
+`captures/community/20261029-user-binaries/GameInput-Win10-Binaries-20261029-e1df942c.zip`;
+the ZIP and extracted raw files remain local and ignored. Only reviewed identity
+metadata and documentation are committed. No contributed binary was executed
+or installed. The archive's contributor provenance is operator supplied.
+
+## Original acquisition
+
 The [community service comparison](community-capture-20261028-l4d2-pair.md)
 identified a game-side XInput enumeration/handle-close path. Offline acquisition
 now supplies the Windows 10 binaries needed to inspect it without another
