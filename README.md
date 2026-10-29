@@ -39,6 +39,8 @@ For current progress, see the [findings](docs/gameinput-service-fault.md), [Wind
 
 Continuing the investigation with a coding agent? Start with [AGENTS.md](AGENTS.md) for the evidence standards, collection workflow, prototype boundaries, and validation commands.
 
+The [research environment and procedure](docs/research-environment.md) records the VMware Workstation guest, WinDbg/MCP connection, tool versions, operator steps, workload transfer, measurement controls and cleanup used for the VM experiments.
+
 The [research probe and workaround instructions](docs/workaround.md) cover the experimental Detours probe. Build with `tools/build/build.ps1`, fetch the checksum-pinned Injector with `tools/dependencies/Get-ResearchDependencies.ps1`, then use `tools/probe/Invoke-GameInputResearch.ps1`. Observation is the default; throttle mode is an explicit, bounded experiment.
 
 The [kernel analysis](docs/kernel-xinputhid.md) and [user-mode validation](docs/user-mode-validation.md) explain the inspected request paths. Their completion waits matter: finding a polling loop alone does not prove excessive CPU use or a link to repeated vibration commands.
@@ -56,11 +58,14 @@ Analysis tools:
 - [REA](https://github.com/morluto/rea) (`rea-agents` 6.8.0), connected to Cursor as the local MCP server and used to open the binaries, recover strings, and decompile with Ghidra. Install notes: [rea.tools/get-started](https://rea.tools/get-started/).
 - [Ghidra](https://ghidra-sre.org/) 12.1.3, the provider REA used for `GameInput.dll` and `GameInputRedist.dll`.
 - [Microsoft public symbol server](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/microsoft-public-symbols) and [dbh.exe](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/dbh) from the Windows SDK, used to read the inbox `GameInput.pdb`.
-- WinDbg and its built-in MCP server, for live kernel queue, cleanup-path, and recovery observations in the research VM.
+- [WinDbg and its built-in MCP server](https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/windbg-mcp-overview) 1.2610.1001.0, connected through Microsoft's `DbgX.Mcp.Proxy.exe`, for live kernel queue, cleanup-path, and recovery observations.
+- [VMware Workstation](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion) 26.0.1 build 25688693, for the Windows 10 VM, snapshots, USB controller passthrough and virtual serial debugging. `vmrun` and VMware Tools supplied the temporary guest-tool/result transfers.
+- Cursor and Codex desktop, for AI-assisted analysis, scripting and debugger orchestration. Findings were checked against binary and runtime evidence; the [procedure](docs/research-environment.md) records the roles and limitations.
 - [Microsoft Detours](https://github.com/microsoft/Detours), pinned to the v4.0.1 commit, for the research API hooks.
 - [Nefarius Injector](https://github.com/nefarius/Injector/releases/tag/v1.5.0) v1.5.0, for loading the probe into allowlisted GameInput processes. Its release archive is verified with the published SHA-256 before extraction.
 - [Windows Performance Recorder](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-recorder) and [Windows Performance Analyzer](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer), for CPU stacks and ETW correlation; [DeviceIoControl](https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol) and [GetOverlappedResult](https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult), for completion semantics.
 - [Visual Studio](https://visualstudio.microsoft.com/), [CMake](https://cmake.org/), [PowerShell](https://github.com/PowerShell/PowerShell), [Python](https://www.python.org/), and [Git](https://git-scm.com/), for building, collection, evidence analysis, and version control.
+- 7-Zip 26.01 and Windows `msdelta.dll`, for offline reference-file extraction/reconstruction; Windows IMAPI2FS, for preparing guest-tool ISOs. See [binary provenance](docs/windows10-binary-acquisition.md) and the [environment record](docs/research-environment.md).
 
 Third-party license texts and dependency pins are in [third_party/NOTICES.txt](third_party/NOTICES.txt).
 

@@ -8,6 +8,10 @@ input and motor observations belong to the operator. Game frame times are
 explicitly outside this phase. Do not claim full input fidelity or a supported
 fix from the coarse checks below.
 
+The [research environment and procedure](research-environment.md) records the
+VMware Workstation/WinDbg MCP setup, verified tool versions, transfer methods,
+operator roles and measurement controls used for this batch.
+
 ## Checklist
 
 - [x] Missing PID initialization, repeated allocation and corrected-node reuse.
