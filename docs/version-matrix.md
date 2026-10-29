@@ -1,10 +1,10 @@
 # Version inventory and evidence matrix
 
-**No affected or supported configuration is established by this inventory.**
-The local versions and SHA-256 values below identify files, not a reproduced
-fault or a validated workaround. Windows 10 22H2 now has a contributed inventory
-and a same-boot service-condition CPU comparison; its driver semantics and
-underlying causal mechanism remain unproven.
+**File inventory alone does not establish a supported correction.**
+Windows 10 22H2 now has contributed inventory, a same-boot service-condition
+CPU comparison and a specific-driver VM mechanism/performance PoC described
+below. The contributor's game FPS cause and a supported workaround remain
+unproven; do not generalize the VM findings to uninspected versions.
 
 ## Contributed Windows 10 capture, 2026-10-28
 
@@ -16,8 +16,9 @@ below. See [binary identity evidence](../evidence/static/contributed-binary-iden
 [Offline acquisition](windows10-binary-acquisition.md) now supplies the exact
 contributor-hash xinputhid 10.0.19041.5794 and GameInputInbox
 0.2309.19041.6456 files, plus x86 XInput 10.0.19041.3636 matching the trace's
-version and PE/PDB identities. The contributor's XInput whole-file hash is
-unavailable. [Subsequent static inspection](windows10-queue-identity.md) found a
+version and PE/PDB identities. The contributor's XInput whole-file hash was
+unavailable at acquisition; the follow-up above resolves that gap.
+[Subsequent static inspection](windows10-queue-identity.md) found a
 missing PID initialization in the driver's per-process queue creation path;
 the inspected Windows 11 build contains that store. A research VM on
 19045.5796 with the exact driver hash and inbox 0.2309.19041.5794 now
@@ -26,8 +27,8 @@ and [repeated allocation by the same GameInput worker](../evidence/runtime/vm-qu
 The VM inbox differs from the contributor's later revision. A subsequent
 [one-entry PID correction](../evidence/runtime/vm-queue-corrected-reuse-20261029.json)
 now demonstrates that the same GameInput process selects the corrected node
-and reuses its manual WDF queue. Exact growth rate, causal performance impact
-and performance/input effects of a correction remain unvalidated.
+and reuses its manual WDF queue. Performance effects were not yet measured
+at this observation; subsequent comparisons follow below.
 A [fresh corrected-device observation](../evidence/runtime/vm-queue-corrected-growth-20261029.json)
 retained one queue node after a short run, while the earlier uncorrected fresh
 device grew to 332. This is evidence for correction of queue growth in the
@@ -39,7 +40,19 @@ matching interface, driver/script hashes and requested limits. Corrected count
 remained one after transfer. This supports the local queue-growth/close-cost
 mechanism but retains the single-pair, unequal-exposure and teardown limitations;
 the contributor's x86 game FPS and controller behavior remain unvalidated.
+A [reversed-order check](../evidence/runtime/vm-handle-close-reversed-pair-20261029.json)
+reproduced the difference: median 437.8 microseconds in a new uncorrected
+lifetime versus 11.15 in the reused corrected lifetime. Device age/exposure and
+retired-device state remain incompletely controlled; no compatibility gate changes.
 Compatibility gates are unchanged.
+
+The [x86 XInput API pair](../evidence/runtime/vm-xinput-x86-pair-20261029.json)
+then completed 400 calls per condition on confirmed guest 19045.5796, with
+matching reference driver/DLL/script identities and limits. Disconnected-slot
+medians fell from 1834-2747 to 42-125 microseconds and the corrected device
+still had one queue node. This is a local API-level PoC with one serial pair,
+unequal exposure and incomplete teardown control; per-call stacks, game frame
+times and input fidelity remain unvalidated.
 
 The [new updated-collector pair](community-capture-20261028-l4d2-pair.md) shares
 a boot, game process UniqueKey/thread, profile and equal four-second windows.
@@ -180,11 +193,12 @@ Windows 11 installation or its controller affected.
 
 The redist's static OS gate predicts a clear flag on build 26200 and a set flag
 on build 19045. Actual submitted bytes, request/device routing and completion
-timing need runtime evidence. **No Windows 10 driver has been inspected here.**
-The Windows 11 driver's byte semantics must not be projected onto an older
-Windows 10 driver. The planned Windows 10 22H2 row contains build family 19045
-only; revision, architecture, packages, binaries, hashes, rate and mitigation
-results remain unknown. A release-note statement is not binary or runtime proof.
+timing need runtime evidence. The initial investigation covered Windows 11
+only; subsequent Windows 10 inspection and VM observations above cover the
+specific 10.0.19041.5794 driver. Neither build's semantics should be projected
+onto other uninspected drivers. The schema's generic planned Windows 10 row
+does not encode or replace those separately retained contributed/VM results,
+and no supported target is enabled. A release note is not binary/runtime proof.
 
 ## Reproduce the inventory
 

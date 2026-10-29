@@ -107,7 +107,8 @@ The [2026-10-28 community package](community-capture-20261028.md) adds Windows
 memory buffers apparently wrapped, leaving only a short usable CPU tail;
 the reported symptom's occurrence during that capture is unspecified.
 It establishes neither immediate state completions nor rumble-off flooding.
-Redist 4.0.302.0 and the Windows 10 driver remain statically uninspected.
+Redist 4.0.302.0 remains statically uninspected. The exact Windows 10 driver
+was subsequently acquired and inspected; see the fix direction below.
 
 The corrected probe then completed a USB active-input run: 44.75 measured seconds, **2,014 target requests in the system redist process, all returning `ERROR_IO_PENDING`**, zero immediate successful/unchanged responses and zero throttled calls. The process used about 0.279% of one core, including instrumentation overhead. The other two instrumented GameInput processes made no matching requests in that interval. XInput independently recorded 1,246 distinct packet values. See [the reviewed runtime summary](../evidence/runtime/active-input-summary.json). This is a negative reproduction of the proposed busy-poll mechanism, not proof of a fix or proof that all Windows 11 configurations are unaffected.
 
@@ -132,6 +133,17 @@ pairs per condition. Unequal exposure and incomplete retired-device teardown
 limit that comparison; the game's x86 path, frame times and controller fidelity
 remain unvalidated. This is a focused mechanism/performance PoC in one guest,
 not proof of the contributor's FPS cause or a supported fix.
+A [reversed-order check](../evidence/runtime/vm-handle-close-reversed-pair-20261029.json)
+also found much higher close cost uncorrected (437.8 versus 11.15 microseconds
+median). It reused the corrected lifetime, so this is not four independent
+fresh-device replications. The [next prepared workload](vm-xinput-state-comparison.md)
+measures the exact x86 XInput API rather than metadata-only handle operations.
+That [x86 comparison](vm-xinput-state-comparison.md#corrected-comparison-2026-10-29)
+has now completed: disconnected-slot medians fell from 1.83-2.75 ms to
+42-125 microseconds, with 100 calls per slot/condition, matching binaries and
+the corrected queue list still at one. This is direct API-level PoC evidence
+for the local mechanism, retaining single-pair/exposure/teardown limits.
+Game frame times and a per-call enumeration/cleanup stack remain unmeasured.
 The inspected Windows 11 driver includes the missing store. This gives a focused
 correction to test separately from the earlier throttling hypothesis; it does not
 enable any compatibility or mitigation gate.

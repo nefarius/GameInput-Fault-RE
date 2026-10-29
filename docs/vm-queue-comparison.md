@@ -76,6 +76,33 @@ full x86 XInput path, controller fidelity or a supported fix. Next useful work
 is repeated/reversed-order pairs with controlled exposure and device lifetime,
 then a game or matching x86 enumeration workload with frame-time evidence.
 
+The [corrected-first repeat](../evidence/runtime/vm-handle-close-corrected-repeat-20261029.json)
+reused the same corrected lifetime, still with one node before and after its
+100 successful pairs. Median close time was **11.15 microseconds**, p95 **38.1**,
+consistent with the first corrected run's 11.7 and 38.3. The next fresh
+uncorrected run was still pending at that observation; the completed pair follows below.
+
+The [next uncorrected lifetime](../evidence/runtime/vm-queue-uncorrected-repeat-growth-20261029.json)
+then began empty and published its first node with stale PID 0x68547844, the
+same original value corrected in the preceding condition. After the short
+resumed interval, an extended bounded scan completed at **556 nodes**. No
+PID correction was applied. The reverse pair's uncorrected timing file had not
+yet been recorded; exact populations during its later timed calls cannot be assumed
+from this pre-benchmark snapshot.
+
+The [completed reversed-order check](../evidence/runtime/vm-handle-close-reversed-pair-20261029.json)
+then reproduced the close-cost difference: **437.8 microseconds median
+uncorrected versus 11.15 corrected**, or **39.26 times higher uncorrected**.
+Nearest-rank p95 was **854.6 versus 38.1 microseconds**. Both conditions completed
+100 successful pairs; identities and limits match all four timing files. A
+complete post-transfer scan found **2864 uncorrected nodes**, versus one after
+the corrected repeat. This strengthens the local mechanism result against a
+simple test-order explanation. It does not control all differences in age,
+exposure or background activity. The corrected repeat reused the same corrected
+lifetime: these are two uncorrected lifetimes and one corrected lifetime, not
+four independent fresh-device replications. The x86 XInput/game path remains
+the next validation target.
+
 Use the existing offline Windows 10 19045.5796 VM, inspected xinputhid
 10.0.19041.5794 and USB PS3/DsHidMini XInput controller. Preserve service and
 power configuration. The operator handles USB connection and input. Do not

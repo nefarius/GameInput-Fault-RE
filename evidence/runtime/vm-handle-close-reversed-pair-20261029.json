@@ -1,0 +1,136 @@
+{
+  "evidence_kind": "agent-validated-reversed-order-guest-handle-close-pair",
+  "observed_date": "2026-10-29",
+  "first_pair_reference": "vm-handle-close-pair-20261029.json",
+  "preparation_reference": "vm-queue-uncorrected-repeat-growth-20261029.json",
+  "corrected_repeat_reference": "vm-handle-close-corrected-repeat-20261029.json",
+  "matched_metadata_across_all_four_runs": true,
+  "sequence": [
+    "corrected-repeat",
+    "uncorrected-repeat"
+  ],
+  "conditions": {
+    "corrected-repeat": {
+      "sha256": "c50cf34d6f8e9201c8b5e4ac5dcff8ba7e8ac475e788363c31962ca1ada8b15a",
+      "startUtc": "2026-10-29T15:54:23.9770673Z",
+      "elapsedSeconds": 1.6038565,
+      "qpcFrequency": 10000000,
+      "actualSamples": 100,
+      "services": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 5708
+        }
+      ],
+      "statistics": {
+        "OpenTicks": {
+          "min_us": 13.2,
+          "median_us": 24.9,
+          "p95_us": 78.5,
+          "p99_us": 168,
+          "max_us": 201,
+          "mean_us": 28.636
+        },
+        "CloseTicks": {
+          "min_us": 5.6,
+          "median_us": 11.149999999999999,
+          "p95_us": 38.1,
+          "p99_us": 92.6,
+          "max_us": 136.3,
+          "mean_us": 13.693
+        }
+      }
+    },
+    "uncorrected-repeat": {
+      "sha256": "9a04d4a16900479cfcb55c30da08f5f47730dc21c43dc9fce6067447060cf0aa",
+      "startUtc": "2026-10-29T16:03:58.3765818Z",
+      "elapsedSeconds": 1.5746107999999999,
+      "qpcFrequency": 10000000,
+      "actualSamples": 100,
+      "services": [
+        {
+          "Name": "GameInputSvc",
+          "State": "Running",
+          "StartMode": "Manual",
+          "ProcessId": 5708
+        }
+      ],
+      "statistics": {
+        "OpenTicks": {
+          "min_us": 13.7,
+          "median_us": 27.35,
+          "p95_us": 75.9,
+          "p99_us": 223.1,
+          "max_us": 274,
+          "mean_us": 34.502
+        },
+        "CloseTicks": {
+          "min_us": 213.3,
+          "median_us": 437.79999999999995,
+          "p95_us": 854.6,
+          "p99_us": 954.9,
+          "max_us": 1032.5,
+          "mean_us": 456.024
+        }
+      }
+    }
+  },
+  "close_comparison": {
+    "median_us": {
+      "uncorrected_over_corrected": 39.26457399103139,
+      "reduction_fraction": 0.9745317496573778
+    },
+    "p95_us": {
+      "uncorrected_over_corrected": 22.43044619422572,
+      "reduction_fraction": 0.9554177392932366
+    },
+    "mean_us": {
+      "uncorrected_over_corrected": 33.30343971372234,
+      "reduction_fraction": 0.9699730715927232
+    }
+  },
+  "validation": {
+    "samples_per_condition": 100,
+    "all_opens_and_closes_succeeded": true,
+    "error_fields_all_zero": true,
+    "contiguous_indices": true,
+    "nonnegative_integer_ticks": true,
+    "script_hash_matches_current_source": true,
+    "percentile_method": "nearest rank",
+    "all_samples_included": true
+  },
+  "private_raw_files": {
+    "corrected_repeat": "captures/vm-queue-comparison/corrected-repeat-close.json",
+    "uncorrected_repeat": "captures/vm-queue-comparison/uncorrected-repeat-close.json"
+  },
+  "queue_counts": {
+    "corrected_repeat": {
+      "pre": 1,
+      "post_transfer": 1,
+      "complete": true
+    },
+    "uncorrected_repeat": {
+      "pre": 556,
+      "post_transfer": 2864,
+      "post_transfer_scan_limit": 4096,
+      "complete": true,
+      "original_stale_pid_and_queue_handle_unchanged": true
+    }
+  },
+  "end_state": {
+    "target": "LiveKernel AMD64, stopped",
+    "remaining_breakpoints": 0,
+    "current_device_condition": "uncorrected-repeat"
+  },
+  "interpretation": "The reversed-order check reproduced substantially higher metadata-only handle-close cost in the accumulating uncorrected device. Median was 437.8 versus 11.15 microseconds, 39.26 times higher; the first pair was 411.45 versus 11.7, 35.17 times higher.",
+  "limitations": [
+    "The corrected repeat reused its first corrected device lifetime; the four runs represent two uncorrected lifetimes and one corrected lifetime, not four independent fresh-device replications.",
+    "Order was reversed, but device age, exposure duration, background activity and retired-device teardown were not fully matched.",
+    "Queue snapshots bracket broader operator activity and transfer intervals; they are not exact per-call queue counts and do not attribute growth to the benchmark.",
+    "Two serial pairs support the local mechanism but are not statistical population estimates or general Windows-version coverage.",
+    "Metadata-only x64 handle opens differ from the contributor game's x86 XInput calls, their inspection IOCTLs and frame-time workload.",
+    "No game FPS, input fidelity, vibration or recovery validation is established; this is not a supported fix."
+  ]
+}

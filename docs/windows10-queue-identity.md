@@ -50,10 +50,21 @@ now supplies a limited mechanism/performance PoC: corrected queue count stayed
 at one, while the uncorrected device accumulated thousands, and median
 metadata-only handle-close time fell from **411.45 to 11.7 microseconds** across
 100 successful pairs per condition. The single serial pair has unequal exposure
-and incomplete retired-device teardown; game FPS and controller fidelity remain
-untested. The older rumble-off idea was an assumption based on one ETL from
+and incomplete retired-device teardown. A
+[reversed-order check](../evidence/runtime/vm-handle-close-reversed-pair-20261029.json)
+reproduced the difference (437.8 versus 11.15 microseconds median), while reusing
+the corrected lifetime. Game FPS and controller fidelity remain untested.
+The older rumble-off idea was an assumption based on one ETL from
 the GitHub issue, not an observed packet sequence; this finding does not
 establish such traffic either.
+
+The [actual x86 XInput API comparison](vm-xinput-state-comparison.md#corrected-comparison-2026-10-29)
+now also shows lower call cost with the correction: disconnected-slot medians
+fell from **1834-2747 to 42-125 microseconds** (21.90-43.94 times lower), with
+100 calls per slot/condition and matching reference binaries and limits.
+The corrected device retained one node after all 400 calls and transfer.
+This strengthens the local mechanism/performance PoC, while retaining serial
+pair/exposure limitations and the need for per-call stack and game-frame proof.
 
 ## Evidence and identities
 

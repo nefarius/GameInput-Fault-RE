@@ -1,0 +1,54 @@
+{
+  "evidence_kind": "agent-observed-live-kernel-corrected-x86-condition-preparation",
+  "observed_date": "2026-10-29",
+  "baseline_reference": "vm-xinput-x86-uncorrected-20261029.json",
+  "environment_reference": "vm-queue-corrected-growth-20261029.json",
+  "previous_device_state_after_disconnect": "DeviceNodeDeletePendingCloses (0x313)",
+  "allocation": {
+    "breakpoint_rva": "0x929b",
+    "fresh_context_distinct_from_uncorrected_baseline": true,
+    "initial_list_flink_and_blink_equal_head": true,
+    "initial_linked_node_count": 0,
+    "requestor_image": "GameInputSvc.exe",
+    "requestor_pid_hex": "0x684",
+    "same_requestor_process_object_as_baseline": true,
+    "requestor_session_id": 1,
+    "original_pid_field_hex": "0x160e7608"
+  },
+  "correction": {
+    "guard_checks": [
+      "exact instruction",
+      "exact allocation",
+      "exact fresh context",
+      "requestor PID",
+      "both empty-list links"
+    ],
+    "node_offset": "0x10",
+    "write_bytes": 4,
+    "written_pid_hex": "0x684",
+    "other_node_bytes_intentionally_written": false,
+    "driver_file_modified": false,
+    "publication_breakpoint_rva": "0x93ae",
+    "same_thread_publication": true,
+    "published_corrected_node_is_only_entry": true,
+    "queue_handle_nonzero": true
+  },
+  "reuse": {
+    "breakpoint_rva": "0x91ea",
+    "same_requestor_and_device": true,
+    "selected_exact_corrected_node": true,
+    "corrected_pid_and_original_queue_handle_intact": true,
+    "remaining_breakpoints": 0
+  },
+  "pre_benchmark_snapshot": {
+    "complete_node_count": 1,
+    "verified_by": "Single node selected by head Flink/Blink, node links both return to head",
+    "exact_count_during_future_timed_calls_known": false
+  },
+  "limitations": [
+    "The x86 corrected benchmark has not yet been run; there is no API correction-performance result from this preparation alone.",
+    "One-node live data correction covers the observed GameInput requestor, not every process or a patched driver implementation.",
+    "The corrected field remains in this device lifetime; no existing queues or unrelated handles were forcibly removed.",
+    "Retired-device teardown, equal exposure, input fidelity, vibration and game frame-time effects remain unvalidated."
+  ]
+}

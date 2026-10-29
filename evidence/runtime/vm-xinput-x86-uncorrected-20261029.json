@@ -1,0 +1,160 @@
+{
+  "evidence_kind": "agent-validated-x86-XInputGetState-baseline-with-live-queue-snapshot",
+  "observed_date": "2026-10-29",
+  "condition": "uncorrected",
+  "source": {
+    "private_raw_file": "captures/vm-queue-comparison/xinput-x86-uncorrected.json",
+    "sha256": "5c8f827bc4bce31e08cba159d7512d2399be979429a61b59056cf902905a5f1d",
+    "transfer": "Operator copied the completed guest JSON to the host",
+    "failed_attempt_reference": "vm-xinput-path-guard-refusal-20261029.json"
+  },
+  "metadata": {
+    "startUtc": "2026-10-29T16:23:25.7517302Z",
+    "elapsedSeconds": 2.8924296999999997,
+    "qpcFrequency": 10000000,
+    "processArchitecture": "x86",
+    "processId": 3548,
+    "osBuild": "19045",
+    "osUBR": 5796,
+    "driverSha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "expectedXInputPath": "C:\\Windows\\SysWOW64\\XInput1_4.dll",
+    "loadedXInputPath": "C:\\Windows\\System32\\XInput1_4.dll",
+    "loadedXInputSameFileAsExpected": true,
+    "loadedXInputBackingFileSha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+    "loadedXInputFileVersion": "10.0.19041.1 (WinBuild.160101.0800)",
+    "scriptSha256": "5085ae8e1cf6b12cf3a5647797151f402e1e169a49a08ef46f32f803f538f8aa",
+    "services": [
+      {
+        "Name": "GameInputSvc",
+        "State": "Running",
+        "StartMode": "Manual",
+        "ProcessId": 5708
+      }
+    ],
+    "requestedCycles": 100,
+    "requestedSeconds": 5,
+    "actualCalls": 400
+  },
+  "validation": {
+    "complete_100_cycles": true,
+    "actual_timed_calls": 400,
+    "warmup_calls": 4,
+    "contiguous_cycle_slot_sequence": true,
+    "nonnegative_integer_ticks": true,
+    "direct_return_codes_only": [
+      0,
+      1167
+    ],
+    "successful_state_queries": 100,
+    "expected_disconnected_returns": 300,
+    "unexpected_errors": 0,
+    "packet_snapshot_null_on_error": true,
+    "script_hash_matches_current_source": true,
+    "driver_and_loaded_x86_backing_hashes_match_references": true,
+    "loaded_path_file_identity_matches_expected": true
+  },
+  "warmup_separate": [
+    {
+      "slot": 0,
+      "result": 0,
+      "ticks": 113411,
+      "microseconds": 11341.1
+    },
+    {
+      "slot": 1,
+      "result": 1167,
+      "ticks": 49688,
+      "microseconds": 4968.8
+    },
+    {
+      "slot": 2,
+      "result": 1167,
+      "ticks": 38265,
+      "microseconds": 3826.5
+    },
+    {
+      "slot": 3,
+      "result": 1167,
+      "ticks": 28373,
+      "microseconds": 2837.3
+    }
+  ],
+  "groups": [
+    {
+      "slot": 0,
+      "result": 0,
+      "count": 100,
+      "packet_values_observed": 51,
+      "min_us": 6.3,
+      "median_us": 16.45,
+      "p95_nearest_rank_us": 197.6,
+      "p99_nearest_rank_us": 1278,
+      "max_us": 2120,
+      "mean_us": 70.309
+    },
+    {
+      "slot": 1,
+      "result": 1167,
+      "count": 100,
+      "packet_values_observed": null,
+      "min_us": 1571.5,
+      "median_us": 2746.9,
+      "p95_nearest_rank_us": 4846.3,
+      "p99_nearest_rank_us": 5316.3,
+      "max_us": 5376.9,
+      "mean_us": 3123.102
+    },
+    {
+      "slot": 2,
+      "result": 1167,
+      "count": 100,
+      "packet_values_observed": null,
+      "min_us": 1473,
+      "median_us": 2080.5,
+      "p95_nearest_rank_us": 4311.1,
+      "p99_nearest_rank_us": 4907.2,
+      "max_us": 6077.7,
+      "mean_us": 2492.227
+    },
+    {
+      "slot": 3,
+      "result": 1167,
+      "count": 100,
+      "packet_values_observed": null,
+      "min_us": 1408.8,
+      "median_us": 1834.4499999999998,
+      "p95_nearest_rank_us": 3118.8,
+      "p99_nearest_rank_us": 3673.2,
+      "max_us": 5716.7,
+      "mean_us": 2131.568
+    }
+  ],
+  "statistics_method": {
+    "unit": "microseconds",
+    "conversion": "ticks * 1000000 / qpc_frequency",
+    "median": "mean of middle two values for 100 samples",
+    "percentile": "nearest rank: sorted samples[ceil(p*n)-1]",
+    "warmup_included": false
+  },
+  "post_transfer_queue_snapshot": {
+    "limit": 4096,
+    "visited_nodes": 4096,
+    "returned_to_head": false,
+    "complete_count": false,
+    "interpretation": "At least 4096 nodes",
+    "original_uncorrected_node_pid_hex": "0x68547844",
+    "original_node_queue_handle_unchanged": true,
+    "remaining_breakpoints": 0
+  },
+  "interpretation": "In the uncorrected accumulating device, slot 0 returned state with a 16.45 microsecond median, while disconnected slots 1-3 had 2746.9, 2080.5 and 1834.45 microsecond medians. This is consistent with the inspected missing-port enumeration path; its per-call cleanup stack and a corrected API comparison remain unmeasured.",
+  "limitations": [
+    "No corrected x86 API run is yet available; this is a baseline, not a measured correction benefit.",
+    "Controller was requested untouched, but slot 0 returned 51 distinct packet values. Physical activity/noise and input fidelity were not independently established.",
+    "Timed calls use a fixed slot order with 10 ms between cycles. Warmup, interop, scheduling and caching can affect timings; no game FPS is inferred.",
+    "The post-transfer queue count is a lower bound after broader guest/operator activity, not the exact queue population during API calls.",
+    "Retired-device teardown and equal exposure remain incompletely controlled.",
+    "No per-call device stack or enumeration/cleanup trace was collected in this timing run; static correspondence is not runtime stack proof.",
+    "Loaded identity checks verify the backing file in the x86 filesystem view, not relocated module memory.",
+    "Displayed XInput resource version is retained literally and still differs from the earlier local version interpretation despite matching whole-file hash."
+  ]
+}

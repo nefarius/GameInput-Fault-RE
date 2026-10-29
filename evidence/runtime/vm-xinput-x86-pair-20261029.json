@@ -1,0 +1,316 @@
+{
+  "evidence_kind": "agent-validated-x86-XInputGetState-pair-with-live-queue-observations",
+  "observed_date": "2026-10-29",
+  "baseline_reference": "vm-xinput-x86-uncorrected-20261029.json",
+  "correction_preparation_reference": "vm-xinput-corrected-preparation-20261029.json",
+  "matching_metadata": true,
+  "conditions": {
+    "uncorrected": {
+      "sha256": "5c8f827bc4bce31e08cba159d7512d2399be979429a61b59056cf902905a5f1d",
+      "metadata": {
+        "startUtc": "2026-10-29T16:23:25.7517302Z",
+        "elapsedSeconds": 2.8924296999999997,
+        "qpcFrequency": 10000000,
+        "processArchitecture": "x86",
+        "processId": 3548,
+        "osBuild": "19045",
+        "osUBR": 5796,
+        "driverSha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+        "expectedXInputPath": "C:\\Windows\\SysWOW64\\XInput1_4.dll",
+        "loadedXInputPath": "C:\\Windows\\System32\\XInput1_4.dll",
+        "loadedXInputSameFileAsExpected": true,
+        "loadedXInputBackingFileSha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+        "loadedXInputFileVersion": "10.0.19041.1 (WinBuild.160101.0800)",
+        "scriptSha256": "5085ae8e1cf6b12cf3a5647797151f402e1e169a49a08ef46f32f803f538f8aa",
+        "services": [
+          {
+            "Name": "GameInputSvc",
+            "State": "Running",
+            "StartMode": "Manual",
+            "ProcessId": 5708
+          }
+        ],
+        "requestedCycles": 100,
+        "requestedSeconds": 5,
+        "actualCalls": 400
+      },
+      "groups": [
+        {
+          "slot": 0,
+          "result": 0,
+          "count": 100,
+          "packet_values_observed": 51,
+          "min_us": 6.3,
+          "median_us": 16.45,
+          "p95_us": 197.6,
+          "p99_us": 1278,
+          "max_us": 2120,
+          "mean_us": 70.309
+        },
+        {
+          "slot": 1,
+          "result": 1167,
+          "count": 100,
+          "packet_values_observed": null,
+          "min_us": 1571.5,
+          "median_us": 2746.9,
+          "p95_us": 4846.3,
+          "p99_us": 5316.3,
+          "max_us": 5376.9,
+          "mean_us": 3123.102
+        },
+        {
+          "slot": 2,
+          "result": 1167,
+          "count": 100,
+          "packet_values_observed": null,
+          "min_us": 1473,
+          "median_us": 2080.5,
+          "p95_us": 4311.1,
+          "p99_us": 4907.2,
+          "max_us": 6077.7,
+          "mean_us": 2492.227
+        },
+        {
+          "slot": 3,
+          "result": 1167,
+          "count": 100,
+          "packet_values_observed": null,
+          "min_us": 1408.8,
+          "median_us": 1834.4499999999998,
+          "p95_us": 3118.8,
+          "p99_us": 3673.2,
+          "max_us": 5716.7,
+          "mean_us": 2131.568
+        }
+      ],
+      "warmup": [
+        {
+          "slot": 0,
+          "result": 0,
+          "microseconds": 11341.1
+        },
+        {
+          "slot": 1,
+          "result": 1167,
+          "microseconds": 4968.8
+        },
+        {
+          "slot": 2,
+          "result": 1167,
+          "microseconds": 3826.5
+        },
+        {
+          "slot": 3,
+          "result": 1167,
+          "microseconds": 2837.3
+        }
+      ]
+    },
+    "corrected": {
+      "sha256": "187330c10366512144611088674e2446201b4c3798729f58f2405d34a839fde9",
+      "metadata": {
+        "startUtc": "2026-10-29T16:31:58.2659836Z",
+        "elapsedSeconds": 1.5699235999999999,
+        "qpcFrequency": 10000000,
+        "processArchitecture": "x86",
+        "processId": 4248,
+        "osBuild": "19045",
+        "osUBR": 5796,
+        "driverSha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+        "expectedXInputPath": "C:\\Windows\\SysWOW64\\XInput1_4.dll",
+        "loadedXInputPath": "C:\\Windows\\System32\\XInput1_4.dll",
+        "loadedXInputSameFileAsExpected": true,
+        "loadedXInputBackingFileSha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+        "loadedXInputFileVersion": "10.0.19041.1 (WinBuild.160101.0800)",
+        "scriptSha256": "5085ae8e1cf6b12cf3a5647797151f402e1e169a49a08ef46f32f803f538f8aa",
+        "services": [
+          {
+            "Name": "GameInputSvc",
+            "State": "Running",
+            "StartMode": "Manual",
+            "ProcessId": 5708
+          }
+        ],
+        "requestedCycles": 100,
+        "requestedSeconds": 5,
+        "actualCalls": 400
+      },
+      "groups": [
+        {
+          "slot": 0,
+          "result": 0,
+          "count": 100,
+          "packet_values_observed": 39,
+          "min_us": 1.6,
+          "median_us": 11,
+          "p95_us": 27.1,
+          "p99_us": 91.7,
+          "max_us": 136.7,
+          "mean_us": 15.399
+        },
+        {
+          "slot": 1,
+          "result": 1167,
+          "count": 100,
+          "packet_values_observed": null,
+          "min_us": 36.5,
+          "median_us": 125.44999999999999,
+          "p95_us": 299.5,
+          "p99_us": 363.4,
+          "max_us": 412.9,
+          "mean_us": 155.259
+        },
+        {
+          "slot": 2,
+          "result": 1167,
+          "count": 100,
+          "packet_values_observed": null,
+          "min_us": 38.6,
+          "median_us": 47.35,
+          "p95_us": 140.5,
+          "p99_us": 177.8,
+          "max_us": 390.9,
+          "mean_us": 67.178
+        },
+        {
+          "slot": 3,
+          "result": 1167,
+          "count": 100,
+          "packet_values_observed": null,
+          "min_us": 35,
+          "median_us": 42.25,
+          "p95_us": 90.3,
+          "p99_us": 108.6,
+          "max_us": 202.4,
+          "mean_us": 56.126
+        }
+      ],
+      "warmup": [
+        {
+          "slot": 0,
+          "result": 0,
+          "microseconds": 1328.8
+        },
+        {
+          "slot": 1,
+          "result": 1167,
+          "microseconds": 78
+        },
+        {
+          "slot": 2,
+          "result": 1167,
+          "microseconds": 45.2
+        },
+        {
+          "slot": 3,
+          "result": 1167,
+          "microseconds": 37.5
+        }
+      ]
+    }
+  },
+  "comparisons": [
+    {
+      "slot": 0,
+      "result": 0,
+      "uncorrected_median_us": 16.45,
+      "corrected_median_us": 11,
+      "median_ratio": 1.4954545454545454,
+      "median_reduction_fraction": 0.331306990881459,
+      "uncorrected_p95_us": 197.6,
+      "corrected_p95_us": 27.1
+    },
+    {
+      "slot": 1,
+      "result": 1167,
+      "uncorrected_median_us": 2746.9,
+      "corrected_median_us": 125.44999999999999,
+      "median_ratio": 21.896373056994822,
+      "median_reduction_fraction": 0.9543303360151444,
+      "uncorrected_p95_us": 4846.3,
+      "corrected_p95_us": 299.5
+    },
+    {
+      "slot": 2,
+      "result": 1167,
+      "uncorrected_median_us": 2080.5,
+      "corrected_median_us": 47.35,
+      "median_ratio": 43.93875395987328,
+      "median_reduction_fraction": 0.9772410478250421,
+      "uncorrected_p95_us": 4311.1,
+      "corrected_p95_us": 140.5
+    },
+    {
+      "slot": 3,
+      "result": 1167,
+      "uncorrected_median_us": 1834.4499999999998,
+      "corrected_median_us": 42.25,
+      "median_ratio": 43.4189349112426,
+      "median_reduction_fraction": 0.9769685736869361,
+      "uncorrected_p95_us": 3118.8,
+      "corrected_p95_us": 90.3
+    }
+  ],
+  "private_raw_files": {
+    "uncorrected": "captures/vm-queue-comparison/xinput-x86-uncorrected.json",
+    "corrected": "captures/vm-queue-comparison/xinput-x86-corrected.json"
+  },
+  "validation": {
+    "timed_calls_per_condition": 400,
+    "warmup_calls_per_condition": 4,
+    "successful_state_queries_per_condition": 100,
+    "expected_disconnected_returns_per_condition": 300,
+    "unexpected_errors": 0,
+    "exact_100_cycle_slot_sequence": true,
+    "packet_null_on_error": true,
+    "nonnegative_integer_ticks": true,
+    "driver_and_x86_loaded_backing_file_hashes_match_references": true,
+    "script_hash_matches_current_source": true,
+    "matching_slot_return_code_groups": true
+  },
+  "statistics_method": {
+    "duration_unit": "microseconds",
+    "conversion": "ticks * 1000000 / qpc_frequency",
+    "median": "mean of middle values for n=100",
+    "percentiles": "nearest rank",
+    "warmup_excluded": true
+  },
+  "queue_snapshots": {
+    "uncorrected_post_transfer": {
+      "visited_nodes": 4096,
+      "scan_limit": 4096,
+      "returned_to_head": false,
+      "complete": false,
+      "interpretation": "At least 4096 nodes"
+    },
+    "corrected_pre_benchmark": {
+      "complete_count": 1
+    },
+    "corrected_post_transfer": {
+      "visited_nodes": 1,
+      "scan_limit": 512,
+      "returned_to_head": true,
+      "complete_count": 1,
+      "corrected_pid_and_queue_handle_unchanged": true
+    }
+  },
+  "end_state": {
+    "target": "LiveKernel AMD64, stopped",
+    "breakpoints_remaining": 0,
+    "one_node_pid_correction_remains_present": true
+  },
+  "interpretation": "The observed PID initialization correction restored reuse and prevented excess queue accumulation, and the matching x86 XInput workload then showed 21.90-43.94 times lower disconnected-slot median call duration. This extends the earlier handle-close PoC to the same x86 XInput binary used by the contributor.",
+  "limitations": [
+    "One serial uncorrected-then-corrected x86 pair with unequal device ages/exposure and incompletely controlled retired-device/background activity; not an independent repeated or reversed-order x86 study.",
+    "Earlier reversed-order evidence covers metadata-only handle closes, not repeated x86 API pairs.",
+    "The current guest inbox is 0.2309.19041.5794, differing from contributor 0.2309.19041.6456; no claim is made about other builds.",
+    "Per-call enumeration/cleanup stacks were not captured in this timing run; static correspondence and performance reversal do not replace direct stack observation.",
+    "Queue snapshots occur outside timed calls and after transfer; the uncorrected count is a lower bound, not an exact per-call population or measured growth rate.",
+    "Both conditions have 100 cycles but different elapsed times. The 51 versus 39 distinct packet values cannot be used as a delivery-loss or fidelity comparison.",
+    "Hands-off input was requested but physical activity/noise, input fidelity, vibration and reconnect recovery were not independently validated.",
+    "API durations include interop and scheduling; fixed slot order, warmup and cache state can affect results. No game FPS improvement is measured.",
+    "Module identity refers to backing files through the verified x86 filesystem view; relocated memory was not hashed.",
+    "The PoC changes four bytes of one fresh queue entry in a disposable VM lifetime; it is not an installable driver patch or a supported fix."
+  ]
+}

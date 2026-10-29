@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "operator-reported-x86-benchmark-refusal-and-path-diagnostic",
+  "observed_date": "2026-10-29",
+  "condition": "uncorrected",
+  "script": "tools/runtime/Measure-XInputState.ps1",
+  "rejected_script_sha256": "2d8cb3ef8483898d960c4f0a92cb60b3eb377f8826e68adcfa046ccf42a56564",
+  "original_error": "Loaded XInput module path differs from the verified file.",
+  "original_failure_stage": "After explicit module load, before export binding and any XInputGetState warmup or measurement",
+  "expected_path": "C:\\Windows\\SysWOW64\\XInput1_4.dll",
+  "reported_loaded_path": "C:\\Windows\\System32\\XInput1_4.dll",
+  "expected_file_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+  "reported_loaded_path_file_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+  "diagnostic_process_architecture": "x86 PowerShell",
+  "diagnostic_transport_note": "Initial stdin invocation returned only compile output; running the same diagnostic as a saved ps1 produced both paths and hashes.",
+  "timing_samples_available": false,
+  "resolution": "Replace string equality with volume serial/file-index identity comparison using metadata handles in the same process filesystem view; retain pre-load reference hash and post-load backing-file hash checks.",
+  "host_regressions": [
+    "x86 System32/SysWOW64 alias accepted",
+    "x86 SysWOW64/Sysnative different files rejected",
+    "Separate identical-byte files rejected in both process architectures",
+    "Missing-file identity unavailable is refused"
+  ],
+  "limitations": [
+    "Paths and hashes are operator-provided diagnostic output, not an agent-captured guest trace.",
+    "The matching hashes support a WOW64 alias explanation; guest file-identity guard success is not yet observed.",
+    "No controller state query, latency result or performance conclusion is obtained from the failed benchmark or its diagnostic."
+  ]
+}

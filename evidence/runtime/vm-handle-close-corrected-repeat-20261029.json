@@ -1,0 +1,79 @@
+{
+  "evidence_kind": "agent-validated-guest-corrected-handle-close-repeat",
+  "observed_date": "2026-10-29",
+  "condition": "corrected-repeat",
+  "source": {
+    "private_raw_file": "captures/vm-queue-comparison/corrected-repeat-close.json",
+    "sha256": "c50cf34d6f8e9201c8b5e4ac5dcff8ba7e8ac475e788363c31962ca1ada8b15a",
+    "transfer": "Operator copied the completed guest JSON to the host"
+  },
+  "configuration_reference": "vm-handle-close-pair-20261029.json",
+  "matched_to_prior_corrected_run": [
+    "devicePath",
+    "driverSha256",
+    "scriptSha256",
+    "processArchitecture",
+    "requestedSamples",
+    "requestedSeconds",
+    "osVersion"
+  ],
+  "same_corrected_device_lifetime": true,
+  "measurement": {
+    "sha256": "c50cf34d6f8e9201c8b5e4ac5dcff8ba7e8ac475e788363c31962ca1ada8b15a",
+    "startUtc": "2026-10-29T15:54:23.9770673Z",
+    "elapsedSeconds": 1.6038565,
+    "qpcFrequency": 10000000,
+    "actualSamples": 100,
+    "services": [
+      {
+        "Name": "GameInputSvc",
+        "State": "Running",
+        "StartMode": "Manual",
+        "ProcessId": 5708
+      }
+    ],
+    "statistics": {
+      "OpenTicks": {
+        "min_us": 13.2,
+        "median_us": 24.9,
+        "p95_us": 78.5,
+        "p99_us": 168,
+        "max_us": 201,
+        "mean_us": 28.636
+      },
+      "CloseTicks": {
+        "min_us": 5.6,
+        "median_us": 11.149999999999999,
+        "p95_us": 38.1,
+        "p99_us": 92.6,
+        "max_us": 136.3,
+        "mean_us": 13.693
+      }
+    }
+  },
+  "validation": {
+    "successful_opens": 100,
+    "successful_closes": 100,
+    "error_fields_all_zero": true,
+    "contiguous_zero_based_indices": true,
+    "nonnegative_integer_ticks": true,
+    "all_samples_included": true,
+    "percentiles": "nearest rank",
+    "duration_unit": "microseconds"
+  },
+  "queue_snapshot": {
+    "pre_repeat_complete_count": 1,
+    "post_transfer_complete_count": 1,
+    "verification": "Head Flink and Blink select the same corrected node; node Flink and Blink return to head",
+    "corrected_pid_still_hex": "0x684",
+    "same_queue_handle": true,
+    "breakpoints_remaining": 0
+  },
+  "interpretation": "Corrected close latency remained similar on repeat: median 11.15 microseconds and nearest-rank p95 38.1, compared with 11.7 and 38.3 in the first corrected run. Queue population remained one.",
+  "limitations": [
+    "The reversed-order comparison is incomplete until the next uncorrected run is supplied.",
+    "This reuses the existing corrected device lifetime; its age differs from the next fresh uncorrected lifetime.",
+    "Single-condition repeat does not establish game FPS improvement, input fidelity, or a supported fix.",
+    "Other limitations of vm-handle-close-pair-20261029.json still apply."
+  ]
+}

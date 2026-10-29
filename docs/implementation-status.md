@@ -4,15 +4,39 @@ The supplied plan is unchanged. The task checklist from the prior editor is not 
 
 - `safe-collector`: completed — contributor instructions, bounded collector, real ETL/ZIP run, zero reported losses and 28 manifest entries verified.
 - `ioctl-probe`: completed — pass-through probe, pinned dependencies, secure mapping transfer and restricted persistent research wrapper. Native build/tests and real hook start/stop verified; active-input measurements continue below.
-- `live-proof`: observation tooling and local USB/Bluetooth experiments completed; **causal proof remains unvalidated**. Both local measured paths returned pending. A same-boot updated-collector service comparison now links the inbox-running condition to reported symptoms and expensive game-side XInput enumeration/close work. Exact workload control, frame-time measurement and the underlying driver cause remain unvalidated.
+- `live-proof`: Windows 11 observation tooling and USB/Bluetooth experiments completed; both measured paths returned pending. The Windows 10 VM now demonstrates missing PID initialization, repeated queue allocation, restored reuse and lower close/x86 XInput API cost after a one-entry correction. The same-boot contributor comparison links the inbox-running condition to reported symptoms and expensive enumeration/close work. **Causal proof of the contributor's game FPS loss remains unvalidated**; exact game workload control, frame times and per-call cleanup-stack verification remain outstanding.
 - `xinputhid`: completed — matching-PDB Ghidra analysis, dispatch/completion/focus paths and byte-checked excerpts saved in `docs/kernel-xinputhid.md` and `evidence/static/`; poll-to-rumble causation remains unproven.
 - `mitigation-prototype`: code and synthetic validation completed; **hardware A/B acceptance blocked on reproduction**. No immediate unchanged-response flood was measured, so enabling a hardware throttle was not justified. Actual Windows scheduling can exceed 8 ms.
-- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has a byte-checked and live-observed queue-identity defect. A fresh-device PID correction restored reuse, suppressed observed queue growth and substantially reduced metadata-only handle-close cost in one serial VM pair. Game FPS benefit, controller fidelity and supported-fix acceptance remain unvalidated. Evidence tests pass.
+- `version-matrix`: completed — local hashes/versions, schema and analysis tools; Windows 10 22H2 has a byte-checked and live-observed queue-identity defect. Fresh-device PID corrections restored reuse and suppressed queue growth. Two serial handle-close comparisons and one x86 XInput API pair measured substantially lower costs. Game FPS benefit, controller fidelity and supported-fix acceptance remain unvalidated. Evidence tests pass.
 - `supported-tool`: completed (design only) — signed helper design and contributor workflow; release remains gated on causal, performance, input/rumble, recovery and signing evidence.
 
 Completion means the specified evidence exists. Hardware tests, external signing, or unobserved Windows builds will not be marked passed based on synthetic tests.
 
 ## Verification
+
+- Corrected x86 XInput comparison, 2026-10-29: all 400 calls per condition
+  completed with identical slot status groups and matching OS/binary/script
+  identities and limits. Disconnected-slot medians fell from 1834-2747 to
+  42-125 microseconds (21.90-43.94 times lower), and corrected queue count
+  remained one. One serial API pair; exposure, teardown, stack verification,
+  game frame times and input fidelity remain limited or unvalidated. See
+  [API pair evidence](../evidence/runtime/vm-xinput-x86-pair-20261029.json).
+
+- x86 XInput baseline, 2026-10-29: revised WOW64 identity guard passed; exact
+  driver/DLL/script hashes verified. All 400 timed calls completed: 100 successes
+  on slot 0 (median 16.45 microseconds), and 100 expected disconnected returns
+  on each of slots 1-3 (medians 2746.9, 2080.5, 1834.45 microseconds). Snapshot
+  after transfer found at least 4096 queues. Corrected API comparison and
+  per-call enumeration/cleanup stacks remain pending. See
+  [baseline evidence](../evidence/runtime/vm-xinput-x86-uncorrected-20261029.json).
+
+- Reversed-order handle-close check, 2026-10-29: corrected repeat median 11.15
+  microseconds, then fresh uncorrected repeat 437.8 (39.26 times higher).
+  All 100 pairs in each succeeded with identities and limits matching the first
+  pair. Corrected count stayed one; uncorrected grew from the pre-snapshot 556
+  to post-transfer 2864. The repeat reuses the first corrected lifetime; age,
+  exposure and retired-device state remain confounds. See
+  [reversed pair](../evidence/runtime/vm-handle-close-reversed-pair-20261029.json).
 
 - Paired handle-close result, 2026-10-29: 100 successful pairs per condition
   with matching interface, driver/script hashes, architecture and limits.
@@ -69,7 +93,8 @@ Completion means the specified evidence exists. Hardware tests, external signing
   a real execution. Prior bounded inspection changed from zero list nodes to
   at least seven. A second same-thread allocation now confirms that worker
   allocates another node while its earlier PID-zero node remains linked.
-  Exact rate, performance causation and correction efficacy remain unmeasured. See
+  Exact rate, performance causation and correction efficacy were unmeasured
+  at this observation; subsequent correction/API comparisons are recorded above. See
   [publication evidence](../evidence/runtime/vm-queue-publication-20261028.json).
 
 - VMware stage 1: the operator reports Windows 10 19045.5796 after KB5055612,
@@ -85,8 +110,9 @@ Completion means the specified evidence exists. Hardware tests, external signing
   contributor-hash inbox worker selects the queued request path and waits for
   completion. Nine retained static exports have 1,314 source-byte-verified
   instructions. The later VM observations above establish publication without PID
-  initialization and repeated same-worker allocation. FPS causation and a
-  corrective hardware PoC remain unvalidated.
+  initialization and repeated same-worker allocation, followed by a limited
+  VM queue-growth/close-cost/x86 API PoC. Game FPS causation, fidelity and
+  a supported hardware fix remain unvalidated.
 
 - [Windows 10 binary acquisition](windows10-binary-acquisition.md): reconstructed
   xinputhid 10.0.19041.5794 exactly matches the contributor's SHA-256; acquired
