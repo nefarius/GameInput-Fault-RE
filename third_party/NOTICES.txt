@@ -23,3 +23,11 @@ use VirtualAlloc/VirtualFree instead of the process CRT heap. This avoids waitin
 for a process-heap lock held by a suspended target thread. Patch operations are
 prepared before suspension. The upstream checkout remains unchanged; the bounded
 heap-lock regression test exercises allocation and commit under this condition.
+
+Website artwork
+Xbox favicon/masthead icon: Simple Icons 11.15.0, CC0 1.0 Universal.
+Full upstream license: site/SIMPLE-ICONS-CC0.md (relative to this directory).
+Source: https://github.com/simple-icons/simple-icons/blob/11.15.0/icons/xbox.svg
+Xbox One controller photograph: Evan-Amos, dedicated to the public domain.
+Source: https://commons.wikimedia.org/wiki/File:Microsoft-Xbox-One-controller.jpg
+Asset provenance and display changes: ../site/assets/README.md.
