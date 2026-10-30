@@ -1,0 +1,252 @@
+{
+  "evidence_kind": "rea-static-version-comparison",
+  "observed_date": "2026-10-30",
+  "runtime_observed": false,
+  "provider": {
+    "name": "Ghidra",
+    "version": "12.1.3",
+    "via": "REA MCP"
+  },
+  "scope": "x64; selected shipping revisions; earliest verified correct queued implementation, not an exhaustive first-fix date",
+  "earliest_verified_correct": {
+    "driver_version": "10.0.22621.3085",
+    "release_date": "2024-01-23",
+    "update": "KB5034204",
+    "windows_releases": [
+      {
+        "name": "Windows 11 22H2",
+        "os_build": "22621.3085"
+      },
+      {
+        "name": "Windows 11 23H2",
+        "os_build": "22631.3085"
+      }
+    ],
+    "source": "https://support.microsoft.com/help/5034204",
+    "dispatch_feature_gated": true,
+    "historical_feature_state_observed": false
+  },
+  "index": {
+    "url": "https://winbindex.m417z.com/data/by_filename_compressed/xinputhid.sys.json.gz",
+    "sha256": "99e38c78ce0b64acb15c946467cefb9d705b1a6436369da1d35d3be2f3b0d05b",
+    "records_all_architectures": 84,
+    "authority": "third-party artifact index; discovery and expected hashes"
+  },
+  "update_package": {
+    "url": "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/b5338f04-2ce1-4a9a-8fbd-9898718ab868/public/windows11.0-kb5034204-x64_6b5acf2782f8f21cdd4d0f790b18054eed2c207f.msu",
+    "bytes": 676676320,
+    "sha256": "0f30bee10dd6c12e9aab71e4d043a44e0bb017333f2dfd28e50b28d7a08d8c16",
+    "sha1": "6b5acf2782f8f21cdd4d0f790b18054eed2c207f",
+    "catalog_update_id": "bb0ad074-2ef6-422e-8e31-20778a521718",
+    "delta_psf_offset": 394570622,
+    "delta_bytes": 7868,
+    "delta_sha256": "a989016471a4e0cf6e81de9cd098b9f52234efcf3db9af4c45563b9a6be6efbc",
+    "baseline_sha256": "36bcb501378824fb58b8a28fe9599bc75072c92c4a3485c92d37b9eb252aec01",
+    "output_sha256": "3753d94637ec3095c1c91a68f637e4c1e7898a069eee0a8828d3936325dae245",
+    "output_matches_resource_restoration": true,
+    "tools": [
+      "7-Zip 26.01",
+      "Windows msdelta ApplyDeltaB flags=0; delta CRC32 validated"
+    ],
+    "baseline_reconstruction": {
+      "symbol_image_url": "https://msdl.microsoft.com/download/symbols/xinputhid.sys/6AA0AA6B15000/xinputhid.sys",
+      "symbol_candidate_sha256": "03e30aea6929f8f91f20c20cd4996d122a423b42719b88e6c4d0cdea9972cd17",
+      "symbol_candidate_resource_version": "10.0.22621.1690",
+      "target_version": "10.0.22621.1",
+      "target_sha256": "36bcb501378824fb58b8a28fe9599bc75072c92c4a3485c92d37b9eb252aec01",
+      "changed_bytes": 280,
+      "changes_confined_to_version_resource_and_pe_checksum": true,
+      "code_sections_unchanged": true
+    }
+  },
+  "files": [
+    {
+      "driver_version": "10.0.22621.2506",
+      "architecture": "x64",
+      "sha256": "8132d9a2feb8a26dee1b16b0b25ebcbc707a3703f774001b6143fdc3f3c4679d",
+      "bytes": 86016,
+      "classification": "handler-absent",
+      "symbol_image_url": "https://msdl.microsoft.com/download/symbols/xinputhid.sys/73DC7B4216000/xinputhid.sys",
+      "symbol_candidate_sha256": "cca2d36b749b59ee6276f7da45e31579eff059644c817f34891d77afca6a0077",
+      "acquisition": "Microsoft symbol image; version resources and checksum restored to exact indexed whole-file hash",
+      "functions": [
+        {
+          "entry": "0x1c0008200",
+          "end_exclusive": "0x1c0008339",
+          "instruction_count": 77,
+          "assembly_evidence_id": "ev_aa17e0644a1cbdc8ecc972a796e0501051385e4c470081b4efa1afa8d22a349f",
+          "pseudocode_evidence_ids": [
+            "ev_8ed6d75d7b76103c02e57b712adb269a318b17fcf75d08b679258a10dfa3eb1a"
+          ],
+          "body_sha256": "43c139e3f21b58939d4ad7ed38fc08965cb6d1c13a585a33cc13ce92ee36866a"
+        }
+      ],
+      "resource_reconstruction": {
+        "method": "Restore two equal-length UTF-16 version strings, fixed file/product version values, and PE checksum; accept only exact indexed whole-file SHA256",
+        "source_sha256": "cca2d36b749b59ee6276f7da45e31579eff059644c817f34891d77afca6a0077",
+        "source_resource_version": "10.0.22621.3061",
+        "target_version": "10.0.22621.2506",
+        "target_sha256": "8132d9a2feb8a26dee1b16b0b25ebcbc707a3703f774001b6143fdc3f3c4679d",
+        "changed_offsets": [
+          336,
+          337,
+          77972,
+          77973,
+          77980,
+          77981,
+          78302,
+          78304,
+          78306,
+          78308,
+          78774,
+          78776,
+          78778,
+          78780
+        ]
+      }
+    },
+    {
+      "driver_version": "10.0.22621.3085",
+      "architecture": "x64",
+      "sha256": "3753d94637ec3095c1c91a68f637e4c1e7898a069eee0a8828d3936325dae245",
+      "bytes": 90112,
+      "classification": "pid-initialized",
+      "symbol_image_url": "https://msdl.microsoft.com/download/symbols/xinputhid.sys/7A35F04617000/xinputhid.sys",
+      "symbol_candidate_sha256": "79f72c934011726958d0345cd3be1e4ef8bea919a57666041226c2460d8cd263",
+      "acquisition": "Microsoft update delta applied to hash-validated baseline",
+      "functions": [
+        {
+          "entry": "0x1c0007a9c",
+          "end_exclusive": "0x1c0007e4f",
+          "instruction_count": 214,
+          "assembly_evidence_id": "ev_d7f7738a06927060f8a1da938d237f5175b41f93727c409a2079f3423ce6ce59",
+          "pseudocode_evidence_ids": [
+            "ev_a46b20ebe17d96bf65ad9e35dc3e7f0b273c38eaf5fb76a418219b27ba62b617"
+          ],
+          "body_sha256": "c36917f747a8c1562f83114350f011eb03903d6c37b9d0acc564ccb79775073c"
+        }
+      ],
+      "resource_reconstruction": {
+        "method": "Restore two equal-length UTF-16 version strings, fixed file/product version values, and PE checksum; accept only exact indexed whole-file SHA256",
+        "source_sha256": "79f72c934011726958d0345cd3be1e4ef8bea919a57666041226c2460d8cd263",
+        "source_resource_version": "10.0.22621.1376",
+        "target_version": "10.0.22621.3085",
+        "target_sha256": "3753d94637ec3095c1c91a68f637e4c1e7898a069eee0a8828d3936325dae245",
+        "changed_offsets": [
+          336,
+          337,
+          82068,
+          82069,
+          82076,
+          82077,
+          82398,
+          82400,
+          82402,
+          82404,
+          82870,
+          82872,
+          82874,
+          82876
+        ]
+      },
+      "pid_store": {
+        "address": "0x1c0007dea",
+        "rva": "0x7dea",
+        "bytes_hex": "44896610",
+        "instruction": "MOV dword ptr [RSI + 0x10], R12D"
+      }
+    },
+    {
+      "driver_version": "10.0.19041.3996",
+      "architecture": "x64",
+      "sha256": "e62ecf9bbecee0b8cab28ad136eab9993ca33cc59fe28830479b1a01c914ea9c",
+      "bytes": 61952,
+      "classification": "pid-not-initialized",
+      "symbol_image_url": "https://msdl.microsoft.com/download/symbols/xinputhid.sys/E9396D0D17000/xinputhid.sys",
+      "symbol_candidate_sha256": "f64e5acb0a8a69a50e410907c9d4c990bcc784e1f39351b88f65b9335fa5bb0e",
+      "acquisition": "Microsoft symbol image; version resources and checksum restored to exact indexed whole-file hash",
+      "functions": [
+        {
+          "entry": "0x1c0008f98",
+          "end_exclusive": "0x1c000935e",
+          "instruction_count": 216,
+          "assembly_evidence_id": "ev_d94e43854b982b2dcf7737a108a1c3f1d598aa0c65b48305cd6d5436fd5cef45",
+          "pseudocode_evidence_ids": [
+            "ev_7b4b4918058310e2c7fd24f4884f8112ec9616ba5bbcf039aa1dfc485bebb3b2"
+          ],
+          "body_sha256": "7dd59e74adbebf50787359b38b8ebd16c20c680735222a2260256e54cf66d304"
+        }
+      ],
+      "resource_reconstruction": {
+        "method": "Restore two equal-length UTF-16 version strings, fixed file/product version values, and PE checksum; accept only exact indexed whole-file SHA256",
+        "source_sha256": "f64e5acb0a8a69a50e410907c9d4c990bcc784e1f39351b88f65b9335fa5bb0e",
+        "source_resource_version": "10.0.19041.4291",
+        "target_version": "10.0.19041.3996",
+        "target_sha256": "e62ecf9bbecee0b8cab28ad136eab9993ca33cc59fe28830479b1a01c914ea9c",
+        "changed_offsets": [
+          328,
+          329,
+          58516,
+          58517,
+          58524,
+          58525,
+          58846,
+          58848,
+          58852,
+          59318,
+          59320,
+          59324
+        ]
+      }
+    },
+    {
+      "driver_version": "10.0.26100.1",
+      "architecture": "x64",
+      "sha256": "6019b99f233fac875cde032ca59e122164b4db4ac3ba7729aefd98f894b6da2d",
+      "bytes": 86016,
+      "classification": "pid-initialized",
+      "symbol_image_url": "https://msdl.microsoft.com/download/symbols/xinputhid.sys/4A6B4DBE16000/xinputhid.sys",
+      "symbol_candidate_sha256": "6019b99f233fac875cde032ca59e122164b4db4ac3ba7729aefd98f894b6da2d",
+      "acquisition": "direct Microsoft symbol image; exact indexed hash",
+      "functions": [
+        {
+          "entry": "0x1c0007168",
+          "end_exclusive": "0x1c0007514",
+          "instruction_count": 215,
+          "assembly_evidence_id": "ev_2fd165792035cf8fe66e630cb25f27b77a5b7bd260db5a9a05538db66ffdca37",
+          "pseudocode_evidence_ids": [
+            "ev_78e93e8f16465358c1c53ae4ecf67ebb4c6e1ba605bcece09671e53ab0910a61"
+          ],
+          "body_sha256": "bbb2881798518c5f1cc0c3ff4f6eb5b0ac227fab060b0d6ab93bfeded969d2f5"
+        }
+      ],
+      "pid_store": {
+        "address": "0x1c00074b1",
+        "rva": "0x74b1",
+        "bytes_hex": "44896610",
+        "instruction": "MOV dword ptr [RSI + 0x10], R12D"
+      }
+    }
+  ],
+  "rea_read_verification": {
+    "evidence_id": "ev_0cf2ea4983011b34ec982086a0bd35aaaba1906a5a4926ea978a9cb7537addac",
+    "start": "0x1c0007a9c",
+    "bytes": 951,
+    "matches_update_reconstructed_pe": true
+  },
+  "excerpts": {
+    "path": "evidence/static/xinputhid-pid-version-history-excerpts.txt",
+    "sha256": "8c377393c60101112e867be8deaf4dcdca8bbec18620e9143f3e8c4f941f188f",
+    "instruction_rows": 722,
+    "bytes_annotation": "Source PE bytes sliced at REA instruction addresses; not an independent disassembler"
+  },
+  "limitations": [
+    "No new runtime, input-fidelity or game FPS tests.",
+    "No corrected Windows 10 shipping driver established.",
+    "Handler absent is distinct from a correct queued implementation.",
+    "Insider builds, every intermediate package and non-x64 architectures not exhaustively inspected.",
+    "Windows release/build mapping is package metadata, not inferred from the driver version alone.",
+    "Unrestored symbol-server candidates differ in version resources and hashes.",
+    "Unrestored baseline delta application failed; DCM component-manifest decompression failed; neither supplied usable evidence."
+  ]
+}

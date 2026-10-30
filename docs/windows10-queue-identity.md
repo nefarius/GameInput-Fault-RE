@@ -10,6 +10,14 @@ initialization defect: its queued unfiltered-state handler searches a list by
 requestor PID, but does not initialize that field when adding a new queue entry.
 The inspected **10.0.26100.9278** Windows 11 handler does initialize it.
 
+A [2026-10-30 REA version comparison](xinputhid-pid-version-history.md) dates
+the earliest verified correct queued implementation to **10.0.22621.3085**,
+**KB5034204 / Windows 11 22H2 build 22621.3085 and 23H2 build 22631.3085**,
+January 23, 2024. The preceding inspected 22621.2506 driver lacks that IOCTL
+handler; this is not a verified Windows 11 broken-to-fixed transition. The
+Windows 10 19041.3996 implementation already omits the store, and no corrected
+Windows 10 shipping revision has been established.
+
 The defect has also been observed at live queue publication in the research VM:
 a `GameInputSvc.exe` child requestor PID **1668 (0x684)** reaches the handler,
 which creates a WDF queue and links its node while leaving the PID field **zero**.
@@ -127,6 +135,8 @@ performs **`44896610 MOV dword ptr [RSI+0x10],R12D` at 0x14000d59a** after
 successful queue creation and before publishing the node. Its entire 239-instruction
 handler was also source-byte checked. This comparison identifies a semantic
 correction; it does not date the change or establish which other builds contain it.
+The later [version-history investigation](xinputhid-pid-version-history.md)
+extends that original two-file comparison with additional exact identities.
 
 ## Inbox reachability and game-side amplification
 

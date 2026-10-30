@@ -28,6 +28,8 @@ AI-assisted contributions are welcome too. Include what you tested, the relevant
 
 In the tested Windows 10 setup, `xinputhid.sys` can create new queues instead of reusing an existing queue for the same process. Correcting a missing process ID in one fresh entry restored reuse and reduced handle-close and XInput API costs in earlier comparisons. Coarse input and vibration checks also succeeded. This debugger-only correction is tied to one process and device lifetime; it is not a downloadable fix.
 
+The correct queue initialization is already present in the Windows 11 driver shipped with **22H2/23H2's January 2024 update (KB5034204)**; it did not first arrive with 25H2. We have not established a corrected Windows 10 shipping driver. See the [verified driver and Windows version history](docs/xinputhid-pid-version-history.md) for exact versions and limits.
+
 The latest tests add two important limits: an idle comparison with few queues showed no clear API cost difference, while controller activity was followed by thousands of queues and higher costs. Stopping GameInput Service afterward left the accumulated queues and elevated costs in place. See the [VM results and limitations](docs/vm-validation-checklist.md).
 
 **A game FPS benefit, full controller compatibility, and applicability to other Windows versions remain unproven.** The VM uses a PS3 controller through DsHidMini in XInput mode and the contributor-matching Windows 10 driver, with an older inbox GameInput revision than the contributor's.

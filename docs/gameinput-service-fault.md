@@ -4,6 +4,15 @@ Static findings from installed binaries, matched to public reports. **The origin
 
 See [kernel analysis](kernel-xinputhid.md), [diagnostic collection](collecting-diagnostics.md), [version evidence](version-matrix.md), [research workaround](workaround.md), and [implementation status](implementation-status.md).
 
+**2026-10-30 version follow-up:** the [PID initialization history](xinputhid-pid-version-history.md)
+now verifies the correct queued implementation in xinputhid **10.0.22621.3085**,
+shipped with **Windows 11 22H2 / 22621.3085 and 23H2 / 22631.3085** in
+**KB5034204, January 23, 2024**. It predates 24H2/25H2. The preceding inspected
+Windows 11 revision lacks this handler, so this does not establish a Windows 11
+broken-to-fixed transition. No corrected Windows 10 shipping driver or general
+game-performance fix has been established. This driver finding must not be
+equated with Microsoft's separately reported newer-GameInput compatibility fix.
+
 ## Reports
 
 - [nefarius/DsHidMini#438](https://github.com/nefarius/DsHidMini/issues/438), closed as an external component. Windows 10 22H2. After a controller is connected in XInput HID mode, `WUDFHost.exe` and `xinputhid.sys` climb in CPU and games stutter. SXS mode does not. Unplug or killing `WUDFHost` clears it until the device returns. Repeated rumble-off traffic was an assumption based on one ETL supplied in that issue, not an observed packet sequence or established cause. The operator clarified this on 2026-10-28; the earlier wording that Nefarius had traced those packets was incorrect.

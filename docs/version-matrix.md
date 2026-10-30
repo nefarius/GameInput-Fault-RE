@@ -6,6 +6,29 @@ CPU comparison and a specific-driver VM mechanism/performance PoC described
 below. The contributor's game FPS cause and a supported workaround remain
 unproven; do not generalize the VM findings to uninspected versions.
 
+## PID initialization history, 2026-10-30
+
+The [REA version comparison](xinputhid-pid-version-history.md) separates a
+correct queued implementation from an older driver that lacks that handler:
+
+- **10.0.22621.2506:** `0x8000e388` absent from the inspected dispatch body.
+- **10.0.22621.3085:** PID initialized before publication; earliest verified
+  correct queued implementation. **KB5034204, January 23, 2024**, maps this to
+  **Windows 11 22H2 / 22621.3085** and **23H2 / 22631.3085**. The dispatch
+  case is feature-gated; historical feature enablement was not observed.
+- **10.0.26100.1:** correct PID store in the Windows 11 **24H2** baseline.
+- **10.0.26100.9278:** previously verified correct store on the research
+  **Windows 11 25H2 / 26200.9457** host. Driver and OS build families differ.
+- **10.0.19041.3996:** missing PID initialization, associated with Windows 10
+  **22H2 / 19045.3996**, KB5034203. **10.0.19041.5794** remains the later
+  contributor-hash affected driver, observed live on VM **19045.5796**.
+
+This establishes neither a Windows 11 affected-to-fixed transition nor a
+corrected Windows 10 shipping revision. Other architectures, Insider builds
+and every intermediate package were not exhaustively inspected. The manifest
+records exact hashes, Microsoft update reconstruction and REA Evidence IDs;
+no new runtime compatibility or game-performance result follows.
+
 ## Contributed Windows 10 capture, 2026-10-28
 
 **2026-10-29 binary follow-up:** the operator-provided `xinput files.zip`

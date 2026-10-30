@@ -14,6 +14,16 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Static version follow-up, 2026-10-30: REA/Ghidra 12.1.3 finds the correct PID
+  store in xinputhid **10.0.22621.3085**, reconstructed from original Microsoft
+  **KB5034204** delta bytes with exact whole-file hash. It maps to **Windows 11
+  22H2 / 22621.3085 and 23H2 / 22631.3085**, January 23, 2024. The preceding
+  inspected 22621.2506 dispatch lacks the IOCTL; the 26100.1 baseline contains
+  the store. Windows 10 19041.3996 already omits it, alongside affected
+  19041.5794. No corrected Windows 10 shipping revision or Windows 11
+  broken-to-fixed transition established. No new live tests or release gates.
+  See [version history and acquisition limits](xinputhid-pid-version-history.md).
+
 - VM-only follow-up, 2026-10-29: a process-scoped absent-slot call reached
   xinputhid cleanup and the actual WDF traversal of the corrected manual queue.
   Loaded WDF backing identity and DsHidMini 3.27.0.2500 are now inventoried.
