@@ -195,9 +195,169 @@ source input variation from transformation/configuration behavior. The missing
 PID assignment remains a separate verified driver defect; normal state changes
 can feed its excess-queue creation.
 
-All one-shot breakpoints were consumed and the guest resumed. Both temporary
-VMware shares were removed, runtime sharing disabled and configured share count
-returned to zero. Original captures and scripts remain private and intact.
+### Read-only input-source inventory (prepared 2026-10-30)
+
+`tools/runtime/Save-DsHidMiniInputInventory.ps1` prepares that next step without
+enabling IPC or changing settings. In the identified native x64 19045.5796
+guest, it retains up to 1 MiB of the original
+`%ProgramData%\DsHidMini\DsHidMini.json` bytes and their SHA-256, then takes two
+read-only snapshots of the existing `Global\DsHidMiniSharedMemory` HID region,
+250 ms apart. Original configuration, parsed contents, errors and report bytes
+belong in private ignored captures; they can contain device identifiers.
+Run the existing `Save-VMInventory.ps1` alongside it to retain installed and
+loaded-file identities. No uninterrupted input measurement has been performed
+with this new helper merely because it is prepared.
+
+The ABI is pinned to upstream DsHidMini `setup-v3.27.0`, commit
+[`3f673849bcbc187a094775536c0583fd687014a2`](https://github.com/nefarius/DsHidMini/tree/3f673849bcbc187a094775536c0583fd687014a2):
+`driver/IPC.c` maps the HID region at one system allocation granularity;
+`Models/HidStructs.cs` defines packed 60-byte slots with slot index at 0,
+sequence at 4 and the 49-byte report at 8. The SDK's
+`DsHidMiniInterop.Commands.cs` copies reports only across an equal, even
+sequence. This helper follows that consistency rule with at most eight retries
+per slot, screens only the first 32 slots, and requests `FILE_MAP_READ` for
+both the existing mapping and view. It opens no command mutex or events and
+sends no IPC commands. Synthetic tests cover stable, odd, empty and mismatched
+slots plus a missing mapping; these do not validate the live driver ABI.
+
+The release tag matches the installed version number; reproducibility from
+this source to the installed DLL has not been independently established. The
+configuration file does not establish effective in-memory settings, and a
+stable slot does not establish freshness or its physical-device identity.
+Unavailable mapping/view data is recorded as unavailable, never as zero input.
+Two snapshots cannot measure report rate or identify a matched mapped-HID
+report, public XInput state or queued client completion.
+
+The source exposes reports before `DSHM_ParseInputReport` performs the XInput
+mapping. The USB receive path passes its report through
+`DSHM_ProcessHidInputReport`, including motion processing, before that parser.
+Consequently these IPC bytes are a useful driver-side source boundary, not an
+independent capture of USB wire bytes or physical ADC readings. Verify slot
+association and the active mapping settings before interpreting a later raw
+versus mapped comparison.
+
+At the end of the earlier idle follow-up, all one-shot breakpoints were consumed
+and the guest resumed. Both temporary VMware shares were removed, runtime sharing
+disabled and configured share count returned to zero. Original captures and
+scripts remain private and intact. The source-inventory follow-up uses separate
+temporary tools/results shares whose cleanup is tracked privately.
+
+The subsequent [source inventory](../evidence/runtime/vm-dshidmini-source-inventory-20261030.json)
+successfully opened the read-only mapping. Guest build 19045.5796 and the loaded
+DsHidMini 3.27.0.2500 backing hash matched the earlier run; GameInputSvc remained
+Stopped/Manual at the before/after checks. The saved configuration enables IPC,
+XInput mode and both stick dead zones (`Apply=true`, `PolarValue=2.5492957746478875`),
+with all four axis flips false and no per-device override entries. This remains
+file evidence rather than a dump of effective settings.
+
+Slot 1 was stable in both snapshots; the other 31 inspected slots were empty.
+Raw stick bytes were `(133,128,127,126)` and `(133,128,128,126)` in
+left-X/left-Y/right-X/right-Y order. Thus a one-count right-X difference is
+already present at this pre-mapping boundary. It is not a matched explanation
+of the earlier left-Y event. Sequence changed from 615082 to 615132; that is
+neither a queued-completion count nor an uninterrupted source-rate measurement.
+Physical-device slot association remains to be verified.
+
+The pinned source's `DS3_RAW_AXIS_TRANSFORM` (`driver/DsHid.c`, lines 256–324)
+passes each axis pair through unchanged when its radius from `(128,128)` is
+greater than the configured dead-zone value; otherwise it centers both axes.
+It does not rescale values outside the dead zone. The observed left-X offset
+of 5 lies outside the saved radius, so source left-Y variation could pass
+through if these settings are effective. This is a source/configuration
+inference, not a measured left-Y cause or a proposed filtering fix.
+
+`Measure-DsHidMiniInputPair.ps1` prepares a 35-second follow-up with the same
+20/5/10-second requested physical phases. It reads IPC slot 1 before and after
+each verified x86 public XInput slot 0 query, retains QPC bounds and the driver's
+custom slot-index property when available, and records errors separately. It
+refuses changed OS/backing identities or a baseline other than Stopped/Manual.
+Maximum 3500 samples, eight retries per IPC slot and nominal 10 ms pacing bound
+ordinary output/work; a blocked native call has no hard timeout. Both helpers
+are hash-pinned before compilation, including LF/CRLF forms. Configuration
+hashes and service states are retained before/after, without changing them.
+The reader's compile-only mode supports either architecture; the inventory
+operation remains x64 and the pair recorder requires x86.
+
+An equal IPC sequence across the query is labeled only a stable IPC bracket.
+It does not prove that public XInput returned the exact mapped version of that
+report: cached state, pipeline ordering and slot association still matter.
+No actual mapped-HID buffer or queued IOCTL lifetime is collected by this
+screening script. Opening/mapping for each snapshot and public queries add
+observer work. A later matched runtime observation is needed to settle an
+ambiguous transformation, and no capture result is claimed from preparation.
+
+The first pair-recorder attempt was refused before IPC mapping or XInput
+load/query. A PowerShell 5.1 singleton-result bug was reproduced locally:
+the service function's single `PSCustomObject` has a null `.Count`, falsely
+failing the cardinality check. This error did not include the observed service
+state, so it cannot establish whether that particular guest check was
+Stopped/Manual. The correction materializes an array at the call site, uses
+typed validation and includes observed values on genuine baseline failures.
+A Windows PowerShell 5.1 regression test accepts the single Stopped/Manual
+result and refuses zero/multiple services, Running and Auto. The failed script
+and operator error remain private; the retry uses a fresh staged script path.
+
+### Raw/public comparison completed, 2026-10-30
+
+The corrected recorder saved **2214 successful public XInput queries over
+35.0097839 seconds**, with no recorder error. The operator reported **"as
+instructed"** for the requested 20-second idle / 5-second left-stick / 10-second
+idle phases. GameInputSvc was Stopped/Manual before and after; the configuration
+hash was unchanged at those endpoints. These checks are not continuous state
+monitoring. The physical PS3 USB device's custom property reported IPC slot 1,
+matching the sampled IPC slot. Its association with public XInput slot 0 was
+not independently proved. See the
+[reviewed summary](../evidence/runtime/vm-dshidmini-raw-public-20261030.json).
+
+Of the 2214 queries, **2193** had successful, equal-even-sequence raw snapshots
+bracketing the public query. All 2193 public **stick** results agreed with the
+prediction from the saved radial cutoff, 8-bit-to-16-bit HID expansion and
+signed public-axis conversion. The other 21 queries are excluded from this
+agreement claim; a raw publication during the bracket makes exact comparison
+ambiguous. Agreement is consistency evidence rather than proof that a query
+returned the exact mapped version of its bracketing report.
+
+The first requested idle phase had 1271 successful samples. Its raw left stick
+was `(133,128)` or `(133,129)`, outside the saved radius 2.5492957746478875.
+Public left values were `(1413,-129)` in 1232 samples and `(1413,-386)` in 39.
+The right stick varied at the raw boundary but remained within its cutoff;
+public right-stick values stayed `(128,-129)` throughout this recording.
+
+After the requested movement phase, the 627 requested-idle samples show the
+cutoff boundary particularly clearly:
+
+- Raw left `(129,130)` occurred 625 times. Its distance from center is
+  `sqrt(5)`, inside the saved radius; all 625 public results were `(128,-129)`.
+- Raw left `(129,131)` occurred twice. Its distance is `sqrt(10)`, outside the
+  saved radius; both public results were `(385,-900)`. Both queries had stable
+  IPC brackets.
+
+Thus this run supports source-side resting-stick variation crossing the
+configured radial cutoff and appearing in public input. It supplies a
+concrete explanation consistent with the earlier untouched-controller state
+changes, without retrospectively identifying the exact raw bytes of that
+separate callback. It does **not** demonstrate incorrect DsHidMini mapping,
+an unchanged-state completion flood, service-caused jitter, physical ADC
+behavior, or a game-performance fix. The verified missing PID initialization
+is still a separate defect; ordinary input changes can feed excess queues
+when the affected queued client path is active.
+
+Reproduce the reviewed summary with `tools/analysis/summarize_dsraw_pair.py
+<private-capture.json> <matching-private-DsHidMini.json> <new-summary.json>`.
+The script checks the configuration hash, refuses per-device overrides or
+another mapping mode, recalculates stable brackets and excludes failed
+queries from prediction agreement. Its regression tests cover the cutoff
+boundary and error/unstable exclusions. Raw 49-byte reports, device paths,
+configuration and original issued/failed scripts remain private and intact.
+Both temporary shares were removed after retrieval, runtime sharing disabled,
+and configured share count verified at zero.
+
+The next measurement should target actual queued client completions and
+queue growth, with controlled source-state variation. A separately authorized
+dead-zone A/B could isolate the role of resting-stick changes, but would not
+repair or prove the PID fix. Preserve an unchanged-settings control and test
+small intentional movement before considering any filtering change. No new
+service condition or controller configuration was applied for this run.
 
 ### Uninterrupted public-state screening
 

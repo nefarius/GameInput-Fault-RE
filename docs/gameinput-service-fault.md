@@ -24,8 +24,14 @@ The follow-up now observes an equal report returning AL=0 and a matched,
 operator-confirmed untouched-controller left-Y change returning AL=1 and
 advancing its packet. The stopped/running public-state recordings both show
 small variation after controller use. They do not establish service causation
-of that variation or an unchanged-success flood; physical DS3 wire input and
-actual dead-zone configuration remain uncollected.
+of that variation or an unchanged-success flood. The subsequent raw/public
+comparison retains the saved dead-zone configuration and driver-exposed
+pre-mapping reports: all 2193 stable IPC brackets agree with predicted stick
+conversion, including two post-movement raw cutoff crossings and matching
+public jumps. This supports source variation surviving the saved cutoff;
+effective settings, physical wire input and actual queued completion rates
+remain distinct unverified boundaries. See the
+[raw/public evidence](../evidence/runtime/vm-dshidmini-raw-public-20261030.json).
 
 ## Reports
 

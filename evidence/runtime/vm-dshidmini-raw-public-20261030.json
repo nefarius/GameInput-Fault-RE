@@ -1,0 +1,464 @@
+{
+  "evidence_kind": "dshidmini-raw-public-input-screening",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "identities": {
+    "architecture": "x86",
+    "build": "19045",
+    "ubr": 5796,
+    "rawScriptSha256": "bdd7ad10864f1922ccc9112c3082eda85f939698764c2ba110f69e1b1f98df26",
+    "nativeScriptSha256": "a7dee09f72eddcb6590ec5ddf7a360ecee51687b9eb73669cff100683b6d1083",
+    "scriptSha256": "8735d5fa11bfda73d7109efdae6c0d450173fc57113dce80892094693a55abc1",
+    "driverSha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "dsHidMiniBackingSha256": "84c22c152fccc8d0e17595e0f3a1125312b2c4d1a45cd814c74b635a505e077a",
+    "xinputBackingSha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+    "qpcFrequency": 10000000
+  },
+  "service_before": [
+    {
+      "Name": "GameInputSvc",
+      "State": "Stopped",
+      "StartMode": "Manual",
+      "ProcessId": 0
+    }
+  ],
+  "service_after": {
+    "Name": "GameInputSvc",
+    "State": "Stopped",
+    "StartMode": "Manual",
+    "ProcessId": 0
+  },
+  "config_before_sha256": "0337e8bbdd825bbfa533921dbfc60b0405a7c2a84082aaf2b476788412a94f68",
+  "config_after_sha256": "0337e8bbdd825bbfa533921dbfc60b0405a7c2a84082aaf2b476788412a94f68",
+  "configuration_unchanged_at_endpoints": true,
+  "saved_stick_settings": {
+    "DeadZoneLeft": {
+      "Apply": true,
+      "PolarValue": 2.5492957746478875
+    },
+    "DeadZoneRight": {
+      "Apply": true,
+      "PolarValue": 2.5492957746478875
+    },
+    "FlipAxis": {
+      "LeftX": false,
+      "LeftY": false,
+      "RightX": false,
+      "RightY": false
+    }
+  },
+  "ipc_slot": 1,
+  "public_xinput_slot": 0,
+  "device_reported_ipc_slots": [
+    {
+      "slot": 1,
+      "error": null
+    }
+  ],
+  "duration_seconds": 35.009783899999995,
+  "samples": 2214,
+  "recorder_error": null,
+  "operator_report": "as instructed",
+  "phase_cues": [
+    {
+      "phase": "idle-before",
+      "elapsedSeconds": 0.0021663999999999997
+    },
+    {
+      "phase": "left-stick",
+      "elapsedSeconds": 20.0090531
+    },
+    {
+      "phase": "idle-after",
+      "elapsedSeconds": 25.0086819
+    }
+  ],
+  "phases": {
+    "idle-before": {
+      "samples": 1271,
+      "query_results": {
+        "0": 1271
+      },
+      "stable_ipc_bracket_successes": 1259,
+      "stick_prediction_mismatches": 0,
+      "raw_before_statuses": {
+        "mapped-read-only": 1271
+      },
+      "raw_after_statuses": {
+        "mapped-read-only": 1271
+      },
+      "distinct_raw_left_pairs": 2,
+      "distinct_public_left_pairs": 2,
+      "raw_left_top": [
+        {
+          "xy": [
+            133,
+            128
+          ],
+          "samples": 1232
+        },
+        {
+          "xy": [
+            133,
+            129
+          ],
+          "samples": 39
+        }
+      ],
+      "public_left_top": [
+        {
+          "xy": [
+            1413,
+            -129
+          ],
+          "samples": 1232
+        },
+        {
+          "xy": [
+            1413,
+            -386
+          ],
+          "samples": 39
+        }
+      ],
+      "bracketed_left_pairs_top": [
+        {
+          "raw_xy": [
+            133,
+            128
+          ],
+          "public_xy": [
+            1413,
+            -129
+          ],
+          "samples": 1221
+        },
+        {
+          "raw_xy": [
+            133,
+            129
+          ],
+          "public_xy": [
+            1413,
+            -386
+          ],
+          "samples": 38
+        }
+      ]
+    },
+    "left-stick": {
+      "samples": 316,
+      "query_results": {
+        "0": 316
+      },
+      "stable_ipc_bracket_successes": 311,
+      "stick_prediction_mismatches": 0,
+      "raw_before_statuses": {
+        "mapped-read-only": 316
+      },
+      "raw_after_statuses": {
+        "mapped-read-only": 316
+      },
+      "distinct_raw_left_pairs": 236,
+      "distinct_public_left_pairs": 236,
+      "raw_left_top": [
+        {
+          "xy": [
+            129,
+            130
+          ],
+          "samples": 37
+        },
+        {
+          "xy": [
+            133,
+            128
+          ],
+          "samples": 23
+        },
+        {
+          "xy": [
+            133,
+            129
+          ],
+          "samples": 4
+        },
+        {
+          "xy": [
+            33,
+            0
+          ],
+          "samples": 4
+        },
+        {
+          "xy": [
+            255,
+            185
+          ],
+          "samples": 3
+        },
+        {
+          "xy": [
+            133,
+            122
+          ],
+          "samples": 2
+        },
+        {
+          "xy": [
+            255,
+            157
+          ],
+          "samples": 2
+        },
+        {
+          "xy": [
+            255,
+            174
+          ],
+          "samples": 2
+        }
+      ],
+      "public_left_top": [
+        {
+          "xy": [
+            128,
+            -129
+          ],
+          "samples": 37
+        },
+        {
+          "xy": [
+            1413,
+            -129
+          ],
+          "samples": 23
+        },
+        {
+          "xy": [
+            1413,
+            -386
+          ],
+          "samples": 4
+        },
+        {
+          "xy": [
+            -24287,
+            32767
+          ],
+          "samples": 4
+        },
+        {
+          "xy": [
+            32767,
+            -14778
+          ],
+          "samples": 3
+        },
+        {
+          "xy": [
+            1413,
+            1413
+          ],
+          "samples": 2
+        },
+        {
+          "xy": [
+            32767,
+            -7582
+          ],
+          "samples": 2
+        },
+        {
+          "xy": [
+            32767,
+            -11951
+          ],
+          "samples": 2
+        }
+      ],
+      "bracketed_left_pairs_top": [
+        {
+          "raw_xy": [
+            129,
+            130
+          ],
+          "public_xy": [
+            128,
+            -129
+          ],
+          "samples": 37
+        },
+        {
+          "raw_xy": [
+            133,
+            128
+          ],
+          "public_xy": [
+            1413,
+            -129
+          ],
+          "samples": 23
+        },
+        {
+          "raw_xy": [
+            133,
+            129
+          ],
+          "public_xy": [
+            1413,
+            -386
+          ],
+          "samples": 4
+        },
+        {
+          "raw_xy": [
+            255,
+            185
+          ],
+          "public_xy": [
+            32767,
+            -14778
+          ],
+          "samples": 3
+        },
+        {
+          "raw_xy": [
+            33,
+            0
+          ],
+          "public_xy": [
+            -24287,
+            32767
+          ],
+          "samples": 3
+        },
+        {
+          "raw_xy": [
+            133,
+            122
+          ],
+          "public_xy": [
+            1413,
+            1413
+          ],
+          "samples": 2
+        },
+        {
+          "raw_xy": [
+            255,
+            157
+          ],
+          "public_xy": [
+            32767,
+            -7582
+          ],
+          "samples": 2
+        },
+        {
+          "raw_xy": [
+            255,
+            174
+          ],
+          "public_xy": [
+            32767,
+            -11951
+          ],
+          "samples": 2
+        }
+      ]
+    },
+    "idle-after": {
+      "samples": 627,
+      "query_results": {
+        "0": 627
+      },
+      "stable_ipc_bracket_successes": 623,
+      "stick_prediction_mismatches": 0,
+      "raw_before_statuses": {
+        "mapped-read-only": 627
+      },
+      "raw_after_statuses": {
+        "mapped-read-only": 627
+      },
+      "distinct_raw_left_pairs": 2,
+      "distinct_public_left_pairs": 2,
+      "raw_left_top": [
+        {
+          "xy": [
+            129,
+            130
+          ],
+          "samples": 625
+        },
+        {
+          "xy": [
+            129,
+            131
+          ],
+          "samples": 2
+        }
+      ],
+      "public_left_top": [
+        {
+          "xy": [
+            128,
+            -129
+          ],
+          "samples": 625
+        },
+        {
+          "xy": [
+            385,
+            -900
+          ],
+          "samples": 2
+        }
+      ],
+      "bracketed_left_pairs_top": [
+        {
+          "raw_xy": [
+            129,
+            130
+          ],
+          "public_xy": [
+            128,
+            -129
+          ],
+          "samples": 621
+        },
+        {
+          "raw_xy": [
+            129,
+            131
+          ],
+          "public_xy": [
+            385,
+            -900
+          ],
+          "samples": 2
+        }
+      ]
+    }
+  },
+  "raw_provenance": {
+    "capture.json": "d77da78fc5801b57b500dfc2fbb2f0e5d28715ce821adb5c1bc60e535a6fb41d",
+    "ready.json": "6ff1ae2bc3f2d08f6a5e1a8a8bab7ba6eaa85a941f036c5738f9002234b4f3d0",
+    "after.json": "8b7ec28930f15ea7cc4c763f012f3d6b1219b43ef7ebf44b615aa04013f9b789",
+    "operator.json": "8d8fe6a8b0fe22ddeaf956804b54a79b3f896af9a7e0330a6cef40d7e9d1b8f6"
+  },
+  "limitations": [
+    "IPC slot 1 and XInput slot 0 association requires independent verification; slot properties are retained.",
+    "An unchanged IPC sequence across a query does not prove the returned XInput state came from that report.",
+    "Pre-mapping IPC snapshots and public XInput are collected; actual mapped HID and queued IOCTL completions are not.",
+    "Snapshots can miss intermediate reports. IPC sequence increments are not queued completion counts.",
+    "Repeated mapping and public queries add observer work; nominal 10 ms sleep is not a timing guarantee.",
+    "Time/sample bounds checked between native calls; blocked native calls have no hard timeout.",
+    "Phase cues are requested actions, not proof of physical input. Configuration is not effective-memory evidence.",
+    "Prediction uses saved global settings, not a readback of effective driver configuration.",
+    "The physical device reports IPC slot 1; its association with public XInput slot 0 is not independently proved.",
+    "Agreement across stable brackets does not establish exact same-report causality or explain an earlier separate callback.",
+    "Endpoint service/configuration checks are not continuous monitoring. No FPS or vibration measurement.",
+    "Counts are sampled observations, not report counts, input-transition counts or queued completions."
+  ]
+}

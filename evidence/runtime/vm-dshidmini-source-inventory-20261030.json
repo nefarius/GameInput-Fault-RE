@@ -1,0 +1,76 @@
+{
+  "evidence_kind": "dshidmini-read-only-source-inventory",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "guest_build": "19045.5796",
+  "condition": "Operator instructed to leave controller untouched; GameInputSvc Stopped/Manual before and after",
+  "loaded_dshidmini_version": "3.27.0.2500",
+  "loaded_dshidmini_backing_sha256": "84c22c152fccc8d0e17595e0f3a1125312b2c4d1a45cd814c74b635a505e077a",
+  "recorder_sha256": "4f825117df8df2fd93ac6ca198b69ff04119b1ff426b77508674c4890bfd81f0",
+  "upstream_commit": "3f673849bcbc187a094775536c0583fd687014a2",
+  "config_sha256": "0337e8bbdd825bbfa533921dbfc60b0405a7c2a84082aaf2b476788412a94f68",
+  "saved_configuration": {
+    "ipc_enabled": true,
+    "mode": "XInput",
+    "dead_zone_left": {
+      "Apply": true,
+      "PolarValue": 2.5492957746478875
+    },
+    "dead_zone_right": {
+      "Apply": true,
+      "PolarValue": 2.5492957746478875
+    },
+    "flip_axis": {
+      "LeftX": false,
+      "LeftY": false,
+      "RightX": false,
+      "RightY": false
+    },
+    "device_override_count": 0
+  },
+  "qpc_frequency": 10000000,
+  "allocation_granularity": 65536,
+  "snapshots": [
+    {
+      "index": 1,
+      "sequence": 615082,
+      "status": "stable",
+      "qpc_before": 39811010013,
+      "qpc_after": 39811010076,
+      "raw_sticks": {
+        "right_y": 126,
+        "left_x": 133,
+        "left_y": 128,
+        "right_x": 127
+      },
+      "empty_other_slots": 31
+    },
+    {
+      "index": 1,
+      "sequence": 615132,
+      "status": "stable",
+      "qpc_before": 39813521922,
+      "qpc_after": 39813522119,
+      "raw_sticks": {
+        "right_y": 126,
+        "left_x": 133,
+        "left_y": 128,
+        "right_x": 128
+      },
+      "empty_other_slots": 31
+    }
+  ],
+  "raw_provenance": {
+    "stack_inventory_sha256": "34eed08c8c4c24b8cb19ba1385c2fdae862dac95f227488854587a23f4c31c58",
+    "inventory_sha256": "e709be2334446b7eebea530171d4b5eb4d66fe0004bbb8827b7453017e503c12"
+  },
+  "limitations": [
+    "Saved configuration does not prove effective in-memory settings.",
+    "Source-to-loaded-binary reproducibility and physical-device slot association remain unverified.",
+    "Only the first 32 slots were screened. Empty slots are not a total device count.",
+    "The raw right-X byte differs between two driver-exposed pre-mapping snapshots; no matched mapped-HID or public-XInput state was collected.",
+    "IPC sequence movement does not measure queued client completions. No source rate or service causation is established.",
+    "These snapshots do not explain the earlier left-Y event by themselves.",
+    "Physical actions are an operator report, not instrumented proof. Original raw bytes and paths remain private."
+  ]
+}

@@ -45,6 +45,13 @@ observes loaded inbox **0.2309.19041.5794** and DsHidMini **3.27.0.2500**,
 hash `84c22c152fccc8d0e17595e0f3a1125312b2c4d1a45cd814c74b635a505e077a`.
 The service pair and two matched parser observations are limited state/mechanism
 evidence, not a supported fix or a complete client-completion capture.
+The subsequent [raw/public comparison](../evidence/runtime/vm-dshidmini-raw-public-20261030.json)
+uses the same guest/backing identities and saves the controller's IPC slot
+property plus unchanged configuration endpoint hashes. It observes 2214
+successful queries, including 2193 stable raw brackets whose stick results
+match the saved dead-zone prediction. Two requested post-movement idle samples
+cross the raw cutoff with matching public-state jumps. This does not add a
+new driver-version result or establish an unchanged queued-completion flood.
 
 ## Contributed Windows 10 capture, 2026-10-28
 

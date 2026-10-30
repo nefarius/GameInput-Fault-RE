@@ -14,6 +14,19 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- DsHidMini input-source inventory, 2026-10-30: the existing read-only IPC
+  mapping is usable on the matching guest/loaded-driver stack. Saved JSON
+  enables both small radial dead zones with no axis flips or device overrides;
+  effective settings remain unverified. Two pre-mapping snapshots differ by
+  one right-X count, without a matched mapped-HID/public-XInput sample. A
+  bounded raw/public comparison subsequently saved 2214 successful queries:
+  all 2193 stable IPC brackets agreed with predicted stick conversion. The
+  requested post-movement idle phase includes two raw cutoff crossings with
+  matching public jumps. This supports raw variation surviving the saved
+  dead zone, without proving excessive queued completions or game causation.
+  Service/configuration endpoint baselines preserved; temporary shares removed. See
+  [source inventory and comparison limits](dshidmini-idle-completions.md).
+
 - Idle follow-up, 2026-10-30: matching guest/driver/DLL identities and loaded
   inbox/DsHidMini modules verified. A 35-second stopped-service control saved
   2227 successful public XInput queries; its first 20 seconds were stable.
