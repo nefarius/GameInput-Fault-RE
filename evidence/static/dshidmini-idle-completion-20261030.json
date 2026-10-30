@@ -1,0 +1,117 @@
+{
+  "evidence_kind": "static-driver-completion-and-upstream-source-review",
+  "observed_date": "2026-10-30",
+  "runtime_observed": false,
+  "operator_report": {
+    "kind": "retrospective operator observation",
+    "description": "During the earlier VM debugging session, resuming after setting a breakpoint led to another hit without deliberately touching the controller.",
+    "rate_measured": false,
+    "raw_or_decoded_state_equality_measured": false,
+    "timed_request_completion_pairs_measured": false
+  },
+  "xinputhid": {
+    "version": "10.0.19041.5794",
+    "sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "provider": "REA MCP / Ghidra 12.1.3",
+    "functions": [
+      {
+        "entry": "0x1c0005560",
+        "assembly_evidence_id": "ev_4a53233dd26f6fbe566bfeac07ed74eb1dcd701566f4be0590a81849bc11fab6",
+        "pseudocode_evidence_id": "ev_6a4c3ced8e55d99d1987a85b1ac1557d5c5efb19bf869b780e49793a4434f194",
+        "retained_instructions": 60
+      },
+      {
+        "entry": "0x1c0004698",
+        "assembly_evidence_id": "ev_ae35e35366c42f7544d7a4bbc5cd0a1009b866b96cdfefcfb736b9b2ffb53c51",
+        "pseudocode_evidence_id": "ev_81c5b3b884275681b2328811f10fd600e97bf774346bdb859cdb072d6c004a21",
+        "retained_instructions": 22
+      }
+    ],
+    "decoded_equality_fields": [
+      {
+        "offset": "0x90",
+        "bytes": 8
+      },
+      {
+        "offset": "0x98",
+        "bytes": 8
+      },
+      {
+        "offset": "0xa0",
+        "bytes": 2
+      }
+    ],
+    "equality_gate": [
+      "0x1c0004dc2",
+      "0x1c0004dcf",
+      "0x1c0004dd8",
+      "0x1c0004de0"
+    ],
+    "completion_gate": {
+      "parse_call": "0x1c0005656",
+      "test": "0x1c000565b",
+      "unchanged_branch": "0x1c000565d",
+      "unchanged_target": "0x1c0005cf8",
+      "packet_increment": "0x1c0005778"
+    }
+  },
+  "dshidmini_source": [
+    {
+      "repository": "nefarius/DsHidMini",
+      "tag": "setup-v3.27.0",
+      "commit": "3f673849bcbc187a094775536c0583fd687014a2",
+      "path": "driver/InputReport.c",
+      "git_blob_sha": "3e8957b17ae955a21274863c5f2db5f1f7815e10",
+      "review_lines": [
+        541,
+        568
+      ],
+      "retained_lf_copy_sha256": "7b036c8fd87efedad791810e67a3154150ea0c2f939dd2b098d287c9f0cacb1d",
+      "url": "https://github.com/nefarius/DsHidMini/blob/3f673849bcbc187a094775536c0583fd687014a2/driver/InputReport.c"
+    },
+    {
+      "repository": "nefarius/DsHidMini",
+      "tag": "setup-v3.27.0",
+      "commit": "3f673849bcbc187a094775536c0583fd687014a2",
+      "path": "driver/DsHid.c",
+      "git_blob_sha": "6634fc16df0776c9a7064f50880bab2f834b4910",
+      "review_lines": [
+        900,
+        1013
+      ],
+      "retained_lf_copy_sha256": "566040c601ad2b0f3a8c2f3dfd02d207596bf7d2d87c2f10ebc246df9cad6efe",
+      "url": "https://github.com/nefarius/DsHidMini/blob/3f673849bcbc187a094775536c0583fd687014a2/driver/DsHid.c"
+    },
+    {
+      "repository": "nefarius/DsHidMini",
+      "tag": "setup-v3.27.0",
+      "commit": "3f673849bcbc187a094775536c0583fd687014a2",
+      "path": "driver/HID/05_XIH_Col1_XInputHID.h",
+      "git_blob_sha": "5dfdcec6d3d748cc9e015c03e9686afc6809c005",
+      "review_lines": [
+        1,
+        127
+      ],
+      "retained_lf_copy_sha256": "ad705e27c576fcdb777af9ac054d914384501814ecf1e91252d8405fcca832f1",
+      "url": "https://github.com/nefarius/DsHidMini/blob/3f673849bcbc187a094775536c0583fd687014a2/driver/HID/05_XIH_Col1_XInputHID.h"
+    }
+  ],
+  "interpretations": [
+    "Inspected DsHidMini XInput HID call site attempts report generation without a local equality guard. DMF generation success and lower HID read completion are separate observations.",
+    "The inspected xinputhid ordinary read-completion path suppresses packet increment and queued delivery when its parser reports identical decoded state.",
+    "The XInput mapper uses transformed stick axes, trigger pressure, buttons, hat, PS and battery; no motion fields or explicit per-report packet counter in this mapper.",
+    "Repeated breakpoint hits alone do not establish unchanged successful completions or a pathological polling rate."
+  ],
+  "limitations": [
+    "No new controller run; idle jitter remains a hypothesis.",
+    "Source tag matches the installed release number; source-to-loaded-binary reproducibility was not independently verified.",
+    "Raw HID report delivery and queued unfiltered-state completion are different layers.",
+    "Native Xbox XUSB behavior was not inspected or measured here.",
+    "Do not generalize this 18-byte decoded equality predicate to other xinputhid versions."
+  ],
+  "excerpts": {
+    "path": "evidence/static/dshidmini-idle-completion-20261030-excerpts.txt",
+    "sha256": "e6c89cc25024a6311f50a8838e9c1f0a036b2140b41620d2f03ffbc1ffd2fa68",
+    "bytes_annotation": "Source PE bytes at REA instruction addresses"
+  }
+}

@@ -14,6 +14,17 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Latest Windows 10 shipping-package check, 2026-10-30: KB5134125, released
+  October 26 for builds 19045.7811/19044.7811, reconstructs the exact affected
+  xinputhid 19041.5794 contributor bytes. Older KB5031445 driver 19041.3636
+  has no queued IOCTL dispatch case, bounding the inspected introduction
+  before affected 19041.3996. No install or new live test. A separate
+  [idle-completion review](dshidmini-idle-completions.md) finds that the exact
+  Windows 10 driver gates ordinary queued delivery on decoded-state changes;
+  the operator's immediate breakpoint hits do not establish equal-state
+  successful completions. DsHidMini source review and a bounded next experiment
+  are documented, with idle jitter remaining a hypothesis.
+
 - Static version follow-up, 2026-10-30: REA/Ghidra 12.1.3 finds the correct PID
   store in xinputhid **10.0.22621.3085**, reconstructed from original Microsoft
   **KB5034204** delta bytes with exact whole-file hash. It maps to **Windows 11

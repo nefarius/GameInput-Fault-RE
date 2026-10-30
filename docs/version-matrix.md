@@ -8,6 +8,16 @@ unproven; do not generalize the VM findings to uninspected versions.
 
 ## PID initialization history, 2026-10-30
 
+**Latest Windows 10 package check:** original **KB5134125 / October 26, 2026**
+forward-delta reconstruction produces xinputhid **10.0.19041.5794**, exactly
+the contributor's affected hash. That update maps to **22H2 / 19045.7811** and
+**21H2 / 19044.7811**; the acquired Catalog package is 22H2 x64. The older
+**KB5031445 / 19045.3636** file lacks the queued IOCTL handler. See
+[shipping-package evidence](../evidence/static/win10-shipping-driver-20261030.json)
+and [acquisition details](xinputhid-pid-version-history.md#latest-windows-10-package-verified).
+The inspected introduction is bounded by driver 19041.3636 and 19041.3996;
+this does not establish every intervening package or historical feature state.
+
 The [REA version comparison](xinputhid-pid-version-history.md) separates a
 correct queued implementation from an older driver that lacks that handler:
 

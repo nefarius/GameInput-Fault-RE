@@ -1,0 +1,85 @@
+0x1c0005560 | REA ev_4a53233dd26f6fbe566bfeac07ed74eb1dcd701566f4be0590a81849bc11fab6 | SHA256 c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f
+0x1c0005650 488bce                         MOV RCX, RSI
+0x1c0005653 488bd0                         MOV RDX, RAX
+0x1c0005656 e83df0ffff                     CALL 0x1c0004698
+0x1c000565b 84c0                           TEST AL, AL
+0x1c000565d 0f8495060000                   JZ 0x1c0005cf8
+0x1c0005778 83860101000001                 ADD dword ptr [RSI + 0x101], 0x1
+0x1c000577f 7503                           JNZ 0x1c0005784
+0x1c0005b82 89442420                       MOV dword ptr [RSP + 0x20], EAX
+0x1c0005b86 498bd4                         MOV RDX, R12
+0x1c0005b89 c686fe00000001                 MOV byte ptr [RSI + 0xfe], 0x1
+0x1c0005b90 488bcb                         MOV RCX, RBX
+0x1c0005b93 c68600010000ff                 MOV byte ptr [RSI + 0x100], 0xff
+0x1c0005b9a e8a1f5ffff                     CALL 0x1c0005140
+0x1c0005b9f e87cc2ffff                     CALL 0x1c0001e20
+0x1c0005ba4 85c0                           TEST EAX, EAX
+0x1c0005ba6 0f84cf000000                   JZ 0x1c0005c7b
+0x1c0005bac 488d8680000000                 LEA RAX, [RSI + 0x80]
+0x1c0005bb3 488b18                         MOV RBX, qword ptr [RAX]
+0x1c0005bb6 483bd8                         CMP RBX, RAX
+0x1c0005bb9 0f84b8000000                   JZ 0x1c0005c77
+0x1c0005bbf 4c8db680000000                 LEA R14, [RSI + 0x80]
+0x1c0005bc6 488b0df3930000                 MOV RCX, qword ptr [0x1c000efc0]
+0x1c0005bcd 488d03                         LEA RAX, [RBX]
+0x1c0005bd0 488b1b                         MOV RBX, qword ptr [RBX]
+0x1c0005bd3 4c8d45d7                       LEA R8, [RBP + -0x29]
+0x1c0005bd7 488365d700                     AND qword ptr [RBP + -0x29], 0x0
+0x1c0005bdc 488b5018                       MOV RDX, qword ptr [RAX + 0x18]
+0x1c0005be0 488b05498b0000                 MOV RAX, qword ptr [0x1c000e730]
+0x1c0005be7 ff15bbb50000                   CALL qword ptr [0x1c00111a8]
+0x1c0005bed 85c0                           TEST EAX, EAX
+0x1c0005bef 7876                           JS 0x1c0005c67
+0x1c0005bf1 488b55d7                       MOV RDX, qword ptr [RBP + -0x29]
+0x1c0005bf5 4885d2                         TEST RDX, RDX
+0x1c0005bf8 746d                           JZ 0x1c0005c67
+0x1c0005bfa 488b05af8e0000                 MOV RAX, qword ptr [0x1c000eab0]
+0x1c0005c01 488d4dff                       LEA RCX, [RBP + -0x1]
+0x1c0005c05 488365e700                     AND qword ptr [RBP + -0x19], 0x0
+0x1c0005c0a 4c8d4de7                       LEA R9, [RBP + -0x19]
+0x1c0005c0e 488365ff00                     AND qword ptr [RBP + -0x1], 0x0
+0x1c0005c13 41b818000000                   MOV R8D, 0x18
+0x1c0005c19 48894c2420                     MOV qword ptr [RSP + 0x20], RCX
+0x1c0005c1e 488b0d9b930000                 MOV RCX, qword ptr [0x1c000efc0]
+0x1c0005c25 ff157db50000                   CALL qword ptr [0x1c00111a8]
+0x1c0005c2b 488b45e7                       MOV RAX, qword ptr [RBP + -0x19]
+0x1c0005c2f 41b918000000                   MOV R9D, 0x18
+0x1c0005c35 0f108601010000                 MOVUPS XMM0, xmmword ptr [RSI + 0x101]
+0x1c0005c3c 4533c0                         XOR R8D, R8D
+0x1c0005c3f 0f1100                         MOVUPS xmmword ptr [RAX], XMM0
+0x1c0005c42 f20f108e11010000               MOVSD XMM1, qword ptr [RSI + 0x111]
+0x1c0005c4a f20f114810                     MOVSD qword ptr [RAX + 0x10], XMM1
+0x1c0005c4f 488b05328e0000                 MOV RAX, qword ptr [0x1c000ea88]
+0x1c0005c56 488b55d7                       MOV RDX, qword ptr [RBP + -0x29]
+0x1c0005c5a 488b0d5f930000                 MOV RCX, qword ptr [0x1c000efc0]
+0x1c0005c61 ff1541b50000                   CALL qword ptr [0x1c00111a8]
+0x1c0005c67 493bde                         CMP RBX, R14
+0x1c0005c6a 0f8556ffffff                   JNZ 0x1c0005bc6
+0x1c0005c70 4c8db606010000                 LEA R14, [RSI + 0x106]
+0x1c0005c77 488d5e78                       LEA RBX, [RSI + 0x78]
+0x1c0005c7b f6457f01                       TEST byte ptr [RBP + 0x7f], 0x1
+0x1c0005c7f 7444                           JZ 0x1c0005cc5
+
+0x1c0004698 | REA ev_ae35e35366c42f7544d7a4bbc5cd0a1009b866b96cdfefcfb736b9b2ffb53c51 | SHA256 c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f
+0x1c0004dbe 488b4507                       MOV RAX, qword ptr [RBP + 0x7]
+0x1c0004dc2 493b8590000000                 CMP RAX, qword ptr [R13 + 0x90]
+0x1c0004dc9 751b                           JNZ 0x1c0004de6
+0x1c0004dcb 488b450f                       MOV RAX, qword ptr [RBP + 0xf]
+0x1c0004dcf 493b8598000000                 CMP RAX, qword ptr [R13 + 0x98]
+0x1c0004dd6 750e                           JNZ 0x1c0004de6
+0x1c0004dd8 66413b9da0000000               CMP BX, word ptr [R13 + 0xa0]
+0x1c0004de0 0f8427030000                   JZ 0x1c000510d
+0x1c0004de6 488b0dd3a10000                 MOV RCX, qword ptr [0x1c000efc0]
+0x1c0004ded 4c8b05ec920000                 MOV R8, qword ptr [0x1c000e0e0]
+0x1c0004df4 488b05959a0000                 MOV RAX, qword ptr [0x1c000e890]
+0x1c0004dfb 488b11                         MOV RDX, qword ptr [RCX]
+0x1c0004dfe ff15a4c30000                   CALL qword ptr [0x1c00111a8]
+0x1c0004e04 0f104507                       MOVUPS XMM0, xmmword ptr [RBP + 0x7]
+0x1c0004e08 488bf0                         MOV RSI, RAX
+0x1c0004e0b 410f118590000000               MOVUPS xmmword ptr [R13 + 0x90], XMM0
+0x1c0004e13 6641899da0000000               MOV word ptr [R13 + 0xa0], BX
+0x1c0004e1b 663998ac000000                 CMP word ptr [RAX + 0xac], BX
+0x1c0004e22 0f84dc020000                   JZ 0x1c0005104
+0x1c0005104 41bf01000000                   MOV R15D, 0x1
+0x1c000510a 418adf                         MOV BL, R15B
+0x1c000510d 8ac3                           MOV AL, BL

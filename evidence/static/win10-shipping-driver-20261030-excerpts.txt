@@ -1,0 +1,79 @@
+Windows 10 xinputhid.sys 10.0.19041.3636; complete dispatch body
+SHA256 87700d34a2ff61c00cfc8ef3d71d73a09d1dc115bf7f00e1bc1ff887ce4db581
+REA ev_746ab9e4cc7ccdf87fc9c52b94485e8573c1d784fe4ca3919e25feca6f2ad624
+0x1c0008cec 4883ec28                       SUB RSP, 0x28
+0x1c0008cf0 488bc2                         MOV RAX, RDX
+0x1c0008cf3 4d8bc8                         MOV R9, R8
+0x1c0008cf6 ba0ce00080                     MOV EDX, 0x8000e00c
+0x1c0008cfb 3bca                           CMP ECX, EDX
+0x1c0008cfd 0f8798000000                   JA 0x1c0008d9b
+0x1c0008d03 0f8485000000                   JZ 0x1c0008d8e
+0x1c0008d09 81f900600080                   CMP ECX, 0x80006000
+0x1c0008d0f 746d                           JZ 0x1c0008d7e
+0x1c0008d11 81f980630080                   CMP ECX, 0x80006380
+0x1c0008d17 7458                           JZ 0x1c0008d71
+0x1c0008d19 81f910a00080                   CMP ECX, 0x8000a010
+0x1c0008d1f 7440                           JZ 0x1c0008d61
+0x1c0008d21 81f91ca00080                   CMP ECX, 0x8000a01c
+0x1c0008d27 0f84cf000000                   JZ 0x1c0008dfc
+0x1c0008d2d 81f904e00080                   CMP ECX, 0x8000e004
+0x1c0008d33 741c                           JZ 0x1c0008d51
+0x1c0008d35 81f908e00080                   CMP ECX, 0x8000e008
+0x1c0008d3b 0f85bb000000                   JNZ 0x1c0008dfc
+0x1c0008d41 498bd0                         MOV RDX, R8
+0x1c0008d44 488bc8                         MOV RCX, RAX
+0x1c0008d47 e850eeffff                     CALL 0x1c0007b9c
+0x1c0008d4c e9c8000000                     JMP 0x1c0008e19
+0x1c0008d51 498bd1                         MOV RDX, R9
+0x1c0008d54 488bc8                         MOV RCX, RAX
+0x1c0008d57 e8f8efffff                     CALL 0x1c0007d54
+0x1c0008d5c e9b8000000                     JMP 0x1c0008e19
+0x1c0008d61 498bd1                         MOV RDX, R9
+0x1c0008d64 488bc8                         MOV RCX, RAX
+0x1c0008d67 e8bcf6ffff                     CALL 0x1c0008428
+0x1c0008d6c e9a8000000                     JMP 0x1c0008e19
+0x1c0008d71 498bd1                         MOV RDX, R9
+0x1c0008d74 e88be9ffff                     CALL 0x1c0007704
+0x1c0008d79 e99b000000                     JMP 0x1c0008e19
+0x1c0008d7e 498bd1                         MOV RDX, R9
+0x1c0008d81 488bc8                         MOV RCX, RAX
+0x1c0008d84 e863e4ffff                     CALL 0x1c00071ec
+0x1c0008d89 e98b000000                     JMP 0x1c0008e19
+0x1c0008d8e 498bd1                         MOV RDX, R9
+0x1c0008d91 488bc8                         MOV RCX, RAX
+0x1c0008d94 e8fff2ffff                     CALL 0x1c0008098
+0x1c0008d99 eb7e                           JMP 0x1c0008e19
+0x1c0008d9b 81f914e00080                   CMP ECX, 0x8000e014
+0x1c0008da1 7459                           JZ 0x1c0008dfc
+0x1c0008da3 81f918e00080                   CMP ECX, 0x8000e018
+0x1c0008da9 7444                           JZ 0x1c0008def
+0x1c0008dab 81f920e00080                   CMP ECX, 0x8000e020
+0x1c0008db1 7449                           JZ 0x1c0008dfc
+0x1c0008db3 81f984e30080                   CMP ECX, 0x8000e384
+0x1c0008db9 742a                           JZ 0x1c0008de5
+0x1c0008dbb 81f9ace30080                   CMP ECX, 0x8000e3ac
+0x1c0008dc1 7415                           JZ 0x1c0008dd8
+0x1c0008dc3 81f9fce30080                   CMP ECX, 0x8000e3fc
+0x1c0008dc9 7531                           JNZ 0x1c0008dfc
+0x1c0008dcb 498bd1                         MOV RDX, R9
+0x1c0008dce 488bc8                         MOV RCX, RAX
+0x1c0008dd1 e8d6e4ffff                     CALL 0x1c00072ac
+0x1c0008dd6 eb41                           JMP 0x1c0008e19
+0x1c0008dd8 498bd1                         MOV RDX, R9
+0x1c0008ddb 488bc8                         MOV RCX, RAX
+0x1c0008dde e849fbffff                     CALL 0x1c000892c
+0x1c0008de3 eb34                           JMP 0x1c0008e19
+0x1c0008de5 498bd1                         MOV RDX, R9
+0x1c0008de8 e88bebffff                     CALL 0x1c0007978
+0x1c0008ded eb2a                           JMP 0x1c0008e19
+0x1c0008def 498bd1                         MOV RDX, R9
+0x1c0008df2 488bc8                         MOV RCX, RAX
+0x1c0008df5 e8eef8ffff                     CALL 0x1c00086e8
+0x1c0008dfa eb1d                           JMP 0x1c0008e19
+0x1c0008dfc 488b0dcd410000                 MOV RCX, qword ptr [0x1c000cfd0]
+0x1c0008e03 41b8100000c0                   MOV R8D, 0xc0000010
+0x1c0008e09 488b05783c0000                 MOV RAX, qword ptr [0x1c000ca88]
+0x1c0008e10 498bd1                         MOV RDX, R9
+0x1c0008e13 ff158f630000                   CALL qword ptr [0x1c000f1a8]
+0x1c0008e19 4883c428                       ADD RSP, 0x28
+0x1c0008e1d c3cc                           RET

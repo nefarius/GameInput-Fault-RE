@@ -4,6 +4,51 @@ Investigated 2026-10-30, x64 binaries only. This dates the implementation of
 the [per-process queue identity field](windows10-queue-identity.md), not a
 general GameInput, controller, or game-performance fix.
 
+## Latest Windows 10 package verified
+
+**KB5134125, October 26, 2026** still supplies the affected x64
+**xinputhid.sys 10.0.19041.5794**, byte-identical to the contributor file:
+SHA-256 `c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f`.
+The [Microsoft release page](https://support.microsoft.com/help/5134125)
+maps that update to **Windows 10 22H2 / 19045.7811** and **21H2 / 19044.7811**.
+The downloaded Catalog entry was the 22H2 x64 package. This is now verified
+from its actual forward delta, beyond the earlier third-party index lead.
+This package contains no correction to the inspected PID initialization.
+
+The older **KB5031445 / Windows 10 22H2 build 19045.3636**, released
+[October 26, 2023](https://support.microsoft.com/help/5031445), reconstructs
+driver **10.0.19041.3636**. REA inspected its complete dispatch at
+`0x1c0008cec`: the queued `0x8000e388` handler is absent. Together with the
+already inspected affected 19041.3996 file, this bounds the introduction between
+those revisions. Every intervening package and historical feature enablement
+remain unverified.
+
+The [shipping-package manifest](../evidence/static/win10-shipping-driver-20261030.json)
+and [older dispatch excerpt](../evidence/static/win10-shipping-driver-20261030-excerpts.txt)
+record the identities. The latest 1,055,236,145-byte MSU has SHA-256
+`c8c4d65e7ea52afe905a33646de3432beb22d01817452b33d4b43d9a04ac3ca3`;
+SHA-1 `938ad1b5ef48df6483c2b7beecd02e62d61e5dc4` matches Microsoft's download
+filename. 7-Zip 26.01 extracted the nested CAB wrappers and
+`Cab_1_for_KB5134125.cab`. Its
+`amd64_dual_xinputhid.inf_31bf3856ad364e35_10.0.19041.5794_none_adb9346e610fdc40/f/xinputhid.sys`
+delta has SHA-256
+`1da4db0cc5002d92f7172d8234249a61c5b522c417f7ef4af13f7d4dafe44566`.
+The CRC32-checked delta applied successfully with `msdelta!ApplyDeltaB`, flags
+zero, to the existing ISO baseline 19041.1, producing the exact 61,952-byte
+contributor file. No resource restoration was needed for these two Windows 10
+package reconstructions.
+
+The original MSU, selected payloads, outputs and logs stay ignored under
+`artifacts/acquisition/win10-latest-20261030/`. A workspace disk-full failure
+left a partial intermediate CAB; complete extraction on the host's NTFS temp
+volume succeeded. The failure was preserved and original captures were not
+deleted. No package was installed, no new kernel experiment ran, and equality
+with a shipping file does not identify modules loaded on another machine.
+
+The operator's additional idle-breakpoint observation and the corresponding
+DsHidMini/xinputhid completion question are tracked
+[separately](dshidmini-idle-completions.md).
+
 ## Answer
 
 The earliest **verified correct queued implementation** is **xinputhid.sys

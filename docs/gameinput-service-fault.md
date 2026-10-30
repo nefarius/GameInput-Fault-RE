@@ -13,6 +13,14 @@ broken-to-fixed transition. No corrected Windows 10 shipping driver or general
 game-performance fix has been established. This driver finding must not be
 equated with Microsoft's separately reported newer-GameInput compatibility fix.
 
+The latest inspected Windows 10 package, **KB5134125 / October 26, 2026**,
+still reconstructs the exact affected driver bytes. An older 19041.3636
+driver lacks the queued handler, narrowing the inspected introduction window.
+See [shipping-package verification](xinputhid-pid-version-history.md#latest-windows-10-package-verified).
+The operator's untouched-controller breakpoint observation is now tracked in
+[the DsHidMini idle-completion review](dshidmini-idle-completions.md), with
+static equality gates distinguished from unmeasured runtime completion rates.
+
 ## Reports
 
 - [nefarius/DsHidMini#438](https://github.com/nefarius/DsHidMini/issues/438), closed as an external component. Windows 10 22H2. After a controller is connected in XInput HID mode, `WUDFHost.exe` and `xinputhid.sys` climb in CPU and games stutter. SXS mode does not. Unplug or killing `WUDFHost` clears it until the device returns. Repeated rumble-off traffic was an assumption based on one ETL supplied in that issue, not an observed packet sequence or established cause. The operator clarified this on 2026-10-28; the earlier wording that Nefarius had traced those packets was incorrect.
