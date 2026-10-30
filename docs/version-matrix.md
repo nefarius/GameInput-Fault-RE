@@ -39,6 +39,13 @@ and every intermediate package were not exhaustively inspected. The manifest
 records exact hashes, Microsoft update reconstruction and REA Evidence IDs;
 no new runtime compatibility or game-performance result follows.
 
+The [2026-10-30 idle follow-up](dshidmini-idle-completions.md) separately verifies
+guest 19045.5796 with the same driver and x86 XInput hashes. Its running inventory
+observes loaded inbox **0.2309.19041.5794** and DsHidMini **3.27.0.2500**,
+hash `84c22c152fccc8d0e17595e0f3a1125312b2c4d1a45cd814c74b635a505e077a`.
+The service pair and two matched parser observations are limited state/mechanism
+evidence, not a supported fix or a complete client-completion capture.
+
 ## Contributed Windows 10 capture, 2026-10-28
 
 **2026-10-29 binary follow-up:** the operator-provided `xinput files.zip`

@@ -1,0 +1,227 @@
+{
+  "evidence_kind": "public-xinput-idle-screening",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "condition": "GameInputSvc stopped; Manual startup; inventory before and after",
+  "guest_build": "19045.5796",
+  "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "loaded_xinput_backing_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+  "recorder_sha256": "40d40823aa58312f7aed456885f3e52749ff4b074146598d53322c823bc77bab",
+  "native_helper_sha256": "a7dee09f72eddcb6590ec5ddf7a360ecee51687b9eb73669cff100683b6d1083",
+  "duration_seconds": 35.001871799999996,
+  "samples": 2227,
+  "query_results": {
+    "0": 2227
+  },
+  "recorder_error": null,
+  "operator_report": "did exactly as instructed",
+  "phase_cues": [
+    {
+      "phase": "idle-before",
+      "elapsedSeconds": 0.006925499999999999
+    },
+    {
+      "phase": "left-stick",
+      "elapsedSeconds": 20.0006429
+    },
+    {
+      "phase": "idle-after",
+      "elapsedSeconds": 25.0004517
+    }
+  ],
+  "phases": [
+    {
+      "requested_phase": "idle-before",
+      "samples": 1272,
+      "successful_queries": 1272,
+      "first_elapsed_seconds": 0.014351099999999999,
+      "last_elapsed_seconds": 19.9848458,
+      "distinct_observed_packets": 1,
+      "packet_first": 3,
+      "packet_last": 3,
+      "distinct_observed_gamepad_states": 1,
+      "observed_adjacent_state_changes": 0,
+      "fields": {
+        "Buttons": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftTrigger": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightTrigger": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftX": {
+          "distinct": 1,
+          "minimum": 128,
+          "maximum": 128
+        },
+        "LeftY": {
+          "distinct": 1,
+          "minimum": -129,
+          "maximum": -129
+        },
+        "RightX": {
+          "distinct": 1,
+          "minimum": 128,
+          "maximum": 128
+        },
+        "RightY": {
+          "distinct": 1,
+          "minimum": -129,
+          "maximum": -129
+        }
+      }
+    },
+    {
+      "requested_phase": "left-stick",
+      "samples": 318,
+      "successful_queries": 318,
+      "first_elapsed_seconds": 20.002978499999998,
+      "last_elapsed_seconds": 24.9849151,
+      "distinct_observed_packets": 259,
+      "packet_first": 3,
+      "packet_last": 403,
+      "distinct_observed_gamepad_states": 238,
+      "observed_adjacent_state_changes": 258,
+      "fields": {
+        "Buttons": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftTrigger": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightTrigger": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftX": {
+          "distinct": 124,
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "LeftY": {
+          "distinct": 135,
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "RightX": {
+          "distinct": 1,
+          "minimum": 128,
+          "maximum": 128
+        },
+        "RightY": {
+          "distinct": 1,
+          "minimum": -129,
+          "maximum": -129
+        }
+      }
+    },
+    {
+      "requested_phase": "idle-after",
+      "samples": 637,
+      "successful_queries": 637,
+      "first_elapsed_seconds": 25.0024439,
+      "last_elapsed_seconds": 34.9849193,
+      "distinct_observed_packets": 80,
+      "packet_first": 403,
+      "packet_last": 503,
+      "distinct_observed_gamepad_states": 28,
+      "observed_adjacent_state_changes": 73,
+      "fields": {
+        "Buttons": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftTrigger": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightTrigger": {
+          "distinct": 1,
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftX": {
+          "distinct": 19,
+          "minimum": -21203,
+          "maximum": 32767
+        },
+        "LeftY": {
+          "distinct": 17,
+          "minimum": -21717,
+          "maximum": 32767
+        },
+        "RightX": {
+          "distinct": 1,
+          "minimum": 128,
+          "maximum": 128
+        },
+        "RightY": {
+          "distinct": 1,
+          "minimum": -129,
+          "maximum": -129
+        }
+      }
+    }
+  ],
+  "exploratory_late_idle": {
+    "selection": "26 <= elapsed seconds < 35; post hoc removal of first requested idle-after second, not measured physical release time",
+    "samples": 573,
+    "left_xy_counts": [
+      {
+        "left_x": 128,
+        "left_y": -129,
+        "samples": 548
+      },
+      {
+        "left_x": 385,
+        "left_y": -900,
+        "samples": 25
+      }
+    ]
+  },
+  "raw_sources": [
+    {
+      "filename": "capture.json",
+      "sha256": "0bdacf0e2314421ca4dc5b5934b17273cf517a8e9c1e81af7d76c8fac0c4e74b"
+    },
+    {
+      "filename": "inventory-20261030-174903-1ee510a693634f1eb0b3c1674f6cd4ee.json",
+      "sha256": "591809d9aac107bf5a94d68869a2cef0f14d75503853f50da866f69687887b4b"
+    },
+    {
+      "filename": "ready.json",
+      "sha256": "cd060f7317b0903f9c8f2c6ca01fbf4d9458c4413e9427cd1f53e3e7e459bb49"
+    },
+    {
+      "filename": "after.json",
+      "sha256": "b9b7e6a0e30e3f7def9e765c19308e1a0832c974db685a68fa5461a0bb442b57"
+    },
+    {
+      "filename": "operator.json",
+      "sha256": "f7877dfafe79d4d4830adcfda476b91b61e3d7f12765312ba27067ed4a50284d"
+    }
+  ],
+  "limitations": [
+    "Stopped-service control; inbox queued worker behavior is not exercised by this condition.",
+    "Requested phase labels plus operator report do not independently time physical actions.",
+    "Public XInput slot 0 snapshots omit PS/battery and are not raw HID or queued completion records.",
+    "About 64 samples/second with pacing and observer overhead; intermediate changes may be missed.",
+    "Packet differences and distinct values are not counts of driver completions or allocations.",
+    "No game frame times, full input-fidelity or vibration result."
+  ]
+}

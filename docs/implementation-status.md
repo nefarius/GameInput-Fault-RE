@@ -14,6 +14,19 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Idle follow-up, 2026-10-30: matching guest/driver/DLL identities and loaded
+  inbox/DsHidMini modules verified. A 35-second stopped-service control saved
+  2227 successful public XInput queries; its first 20 seconds were stable.
+  The approved running repeat saved 2213 successes, all inside the wrapper's
+  start/stop-request QPC bounds, and restored Stopped/Manual. Small left-stick
+  variation occurred in both runs after use; the serial pair does not establish
+  service causation of that variation. A matched report with operator-confirmed
+  untouched controller changed decoded left Y from 0x8080 to 0x8383, returned
+  AL=1 and advanced packet 6601 to 6602 / client Y -129 to -900. An equal report
+  had returned AL=0. Post-stop list walk found 587 retained entries; no precise
+  allocation/completion rate or game performance result. Guest resumed and
+  temporary sharing removed. See [idle evidence and limits](dshidmini-idle-completions.md).
+
 - Latest Windows 10 shipping-package check, 2026-10-30: KB5134125, released
   October 26 for builds 19045.7811/19044.7811, reconstructs the exact affected
   xinputhid 19041.5794 contributor bytes. Older KB5031445 driver 19041.3636

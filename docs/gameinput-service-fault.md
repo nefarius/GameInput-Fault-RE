@@ -20,6 +20,12 @@ See [shipping-package verification](xinputhid-pid-version-history.md#latest-wind
 The operator's untouched-controller breakpoint observation is now tracked in
 [the DsHidMini idle-completion review](dshidmini-idle-completions.md), with
 static equality gates distinguished from unmeasured runtime completion rates.
+The follow-up now observes an equal report returning AL=0 and a matched,
+operator-confirmed untouched-controller left-Y change returning AL=1 and
+advancing its packet. The stopped/running public-state recordings both show
+small variation after controller use. They do not establish service causation
+of that variation or an unchanged-success flood; physical DS3 wire input and
+actual dead-zone configuration remain uncollected.
 
 ## Reports
 

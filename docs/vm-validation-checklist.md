@@ -12,6 +12,29 @@ The [research environment and procedure](research-environment.md) records the
 VMware Workstation/WinDbg MCP setup, verified tool versions, transfer methods,
 operator roles and measurement controls used for this batch.
 
+## Idle follow-up, 2026-10-30
+
+The operator prepared a fresh boot of the same offline guest/controller stack.
+The [idle follow-up](dshidmini-idle-completions.md) records a stopped-service
+control, an explicitly approved temporary Running/Manual repeat with verified
+restoration, and two single-report kernel observations. All 4440 public XInput
+queries succeeded. The paired parser observations distinguish an equal report
+returning AL=0 from an operator-confirmed untouched-controller left-Y change
+returning AL=1 and advancing its packet. Post-service-stop list population was
+587 entries. No PID correction, filtering or vibration was applied.
+
+The running capture's query QPC bounds precede the wrapper's stop request.
+The service was restored to Stopped/Manual, both temporary transfer shares
+removed and runtime sharing disabled. The guest is running without experiment
+breakpoints. Native methods and paths remain pinned; new helpers and their
+synthetic tests are `Measure-VMIdleInput.ps1` / `test_vm_idle_input.py` and
+`Invoke-VMIdleRunningCondition.ps1` / `test_vm_idle_service.py`.
+
+These data do not measure a normal queued-completion/allocation rate or game
+frame times. Actual device dead-zone configuration and physical DS3 wire input
+remain uncollected. The original batch below has its own earlier service
+baseline and cleanup record.
+
 ## Checklist
 
 - [x] Missing PID initialization, repeated allocation and corrected-node reuse.

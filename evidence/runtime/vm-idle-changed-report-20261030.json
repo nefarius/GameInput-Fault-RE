@@ -1,0 +1,76 @@
+{
+  "evidence_kind": "live-kernel-matched-changed-hid-report",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "guest_build": "19045.5796",
+  "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "operator_report": {
+    "question": "After finishing the running-service recording, did you leave the controller completely untouched during the subsequent debugger inspection?",
+    "answer": "Yes, it stayed untouched",
+    "kind": "operator confirmation; not independently instrumented physical action"
+  },
+  "service_condition": "After verified restoration to Stopped/Manual; not a running-worker completion observation",
+  "matched_callback": {
+    "changed_branch_rva": "0x4de6",
+    "old_decoded_hex": "808080808080808000000000000000000000",
+    "new_decoded_hex": "808083838080808000000000000000000000",
+    "changed_decoded_byte_offsets": [
+      2,
+      3
+    ],
+    "changed_device_context_word_offset": "0x92",
+    "field": "left-stick Y",
+    "old_decoded_word": "0x8080",
+    "new_decoded_word": "0x8383",
+    "mapped_lower_hid_hex": "008080838380808080000000000000000080",
+    "mapped_lower_hid_buffer_bytes": 18,
+    "buffer_identity": "WDFMEMORY from device context +0x40 resolved to the 18-byte buffer used by the inspected callback",
+    "return_rva": "0x565b",
+    "parser_return_al": 1,
+    "decoded_cache_after_return_matches_new": true,
+    "callback_finish_rva": "0x5cfc",
+    "cached_client_state_before_hex": "c919000000130000000080007fff80007fff000000000000",
+    "cached_client_state_after_hex": "ca19000000130000000080007cfc80007fff000000000000",
+    "packet_before": 6601,
+    "packet_after": 6602,
+    "returned_left_y_before": -129,
+    "returned_left_y_after": -900,
+    "thread_scoped_one_shot_breakpoints": true
+  },
+  "queue_snapshot": {
+    "initial_process_list_entries": 0,
+    "post_service_stop_entries": 587,
+    "walk_bound": 4096,
+    "walk_completed_below_bound": true,
+    "same_context_address_observed": true,
+    "allocation_history_or_precise_35_second_growth_rate_measured": false,
+    "every_wdf_queue_or_waiting_request_individually_inspected": false
+  },
+  "debugger_timeout": {
+    "client_deadline_seconds": 120,
+    "completed_walk_later_confirmed_in_output_history": true,
+    "walk_reissued": false,
+    "ui_interrupt_needed": false
+  },
+  "cleanup": {
+    "one_shot_breakpoints_consumed": true,
+    "guest_running": true,
+    "service_baseline_restored": "Stopped/Manual",
+    "temporary_shares_removed": true,
+    "runtime_shared_folders_disabled": true,
+    "configured_share_count": 0,
+    "target_pid_correction_applied": false
+  },
+  "raw_source": {
+    "file": "changed-report-and-queue-walk.json",
+    "sha256": "1eff7b238d7974f71a3e610f6577df6a51b1e04e0b1cd92d4ca7de5124f80137"
+  },
+  "limitations": [
+    "One breakpoint-paused changed-report observation; no normal report rate or completion latency measured.",
+    "Lower mapped HID bytes are DsHidMini output, not a capture of the physical DS3 wire report or ADC values.",
+    "Actual dead-zone/axis configuration and physical raw report source remain uncollected.",
+    "No pending GameInput client completion was matched; packet update does not certify a completed queued IOCTL.",
+    "The 587 linked entries span the full service lifetime and exposure before/after timed recording.",
+    "The mechanism explains this observed parser acceptance; it does not identify every historical immediate breakpoint hit or prove a DsHidMini defect."
+  ]
+}

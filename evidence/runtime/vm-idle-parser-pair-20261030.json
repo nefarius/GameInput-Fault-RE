@@ -1,0 +1,70 @@
+{
+  "evidence_kind": "live-kernel-one-report-parser-observation",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "scope": "One incoming lower HID report, decoded comparison and return in the same callback/thread; breakpoint-paused mechanism observation",
+  "guest": {
+    "kernel_family": "19041",
+    "exact_os_build_not_yet_reinventoried": true,
+    "uptime_at_initial_inventory": "0 days 0:03:05.324"
+  },
+  "loaded_driver": {
+    "name": "xinputhid.sys",
+    "pe_timestamp": "8622933a",
+    "checksum": "0000f5de",
+    "image_size": "00017000",
+    "matches_previously_inspected_pe_identity": true,
+    "fresh_backing_hash_inventory_pending": true
+  },
+  "device": {
+    "stack": [
+      "xinputhid",
+      "mshidumdf"
+    ],
+    "initial_wdf_queue_count": 5,
+    "per_process_list_head_self_linked": true,
+    "per_process_queue_entries_at_snapshot": 0,
+    "gameinput_image_filtered_process_query": "No matching process row returned; SCM state not yet independently inventoried"
+  },
+  "report": {
+    "raw_hid_bytes": 18,
+    "raw_hid_hex": "008080808080808080000000000000000080",
+    "pre_parse_entry_rva": "0x5656",
+    "comparison_rva": "0x4dbe",
+    "old_decoded_hex": "808080808080808000000000000000000000",
+    "new_decoded_hex": "808080808080808000000000000000000000",
+    "new_decoded_source": "16 stack-local bytes plus low BX word in the same parser invocation",
+    "decoded_equal": true,
+    "parser_return_rva": "0x565b",
+    "parser_return_al": 0,
+    "cached_client_state_before_hex": "0300000000130000000080007fff80007fff000000000000",
+    "cached_client_state_after_hex": "0300000000130000000080007fff80007fff000000000000",
+    "cached_packet_before": 3,
+    "cached_packet_after": 3
+  },
+  "cleanup": {
+    "one_shot_breakpoints_consumed": true,
+    "guest_resumed": true,
+    "target_memory_correction_applied": false,
+    "service_changed": false
+  },
+  "raw_source": {
+    "file": "first-paired-snapshot.json",
+    "sha256": "b861be1abb5b4e2927d21f5d65187fba064b9c8e5281521e1ebbdf719ce9973b"
+  },
+  "limitations": [
+    "One observation with debugger pauses; no normal HID/IOCTL rate or completion latency measured.",
+    "No per-process queued clients present; this does not observe a client request remaining pending.",
+    "AL=0 observed; skipped ordinary delivery follows from inspected branch semantics, not a captured client-completion event.",
+    "Controller was requested to remain untouched; no separate physical-action confirmation for this snapshot.",
+    "An initial multi-register read syntax error and mid-instruction disassembly prefix were retained and excluded from interpretation.",
+    "No general input fidelity, game FPS or rumble conclusion."
+  ],
+  "subsequent_inventory": {
+    "reference": "evidence/runtime/vm-idle-xinput-stopped-20261030.json",
+    "verified_guest_build": "19045.5796",
+    "backing_driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "service_state": "Stopped/Manual",
+    "note": "Earlier pending flags describe what was known at the initial snapshot, before this inventory."
+  }
+}

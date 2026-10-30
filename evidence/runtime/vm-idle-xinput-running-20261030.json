@@ -1,0 +1,339 @@
+{
+  "evidence_kind": "public-xinput-idle-screening-with-temporary-inbox-service",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "guest_build": "19045.5796",
+  "duration_seconds": 35.0024733,
+  "samples": 2213,
+  "query_results": {
+    "0": 2213
+  },
+  "recorder_error": null,
+  "operator_report": "did as instructed",
+  "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "loaded_xinput_backing_sha256": "afcef57f5c6068cedb49ddb370a8d070867fd47fcc8a67fd11694053885dec8d",
+  "recorder_sha256": "40d40823aa58312f7aed456885f3e52749ff4b074146598d53322c823bc77bab",
+  "native_helper_sha256": "a7dee09f72eddcb6590ec5ddf7a360ecee51687b9eb73669cff100683b6d1083",
+  "wrapper_sha256": "a0ed2abab491c8b13b8412f17defecd3e98ed81e8a1d6eab76b4cf6fb41eecb9",
+  "running_inventory": [
+    {
+      "process": "GameInputSvc",
+      "inventory_error": null,
+      "modules": [
+        {
+          "name": "GameInputSvc.exe",
+          "version": "0.2309.19041.5794",
+          "sha256": "2ca3cee444284f68dc08e3da498e990e9be4e07786d93defd9c68a2821452531",
+          "error": null
+        }
+      ]
+    },
+    {
+      "process": "GameInputSvc",
+      "inventory_error": null,
+      "modules": [
+        {
+          "name": "GameInputSvc.exe",
+          "version": "0.2309.19041.5794",
+          "sha256": "2ca3cee444284f68dc08e3da498e990e9be4e07786d93defd9c68a2821452531",
+          "error": null
+        },
+        {
+          "name": "gameinputinbox.dll",
+          "version": "0.2309.19041.5794",
+          "sha256": "59e57885256eed72cec75ab7e7ed13b59c0a2f21fa7f7872e6bcf68aa1046536",
+          "error": null
+        }
+      ]
+    },
+    {
+      "process": "WUDFHost",
+      "inventory_error": null,
+      "modules": [
+        {
+          "name": "dshidmini.dll",
+          "version": "3.27.0.2500",
+          "sha256": "84c22c152fccc8d0e17595e0f3a1125312b2c4d1a45cd814c74b635a505e077a",
+          "error": null
+        }
+      ]
+    }
+  ],
+  "service_condition": {
+    "original_state": "Stopped/Manual",
+    "requested_state": "Running/Manual",
+    "running_verified_before_capture": true,
+    "running_qpc": 21356531488,
+    "first_query_start_qpc": 21477888892,
+    "last_query_end_qpc": 21827586087,
+    "stop_requested_qpc": 21831639728,
+    "stopped_qpc": 21881865129,
+    "qpc_frequency": 10000000,
+    "all_queries_inside_start_stop_request_bounds": true,
+    "seconds_from_running_verification_to_first_query": 12.1357404,
+    "seconds_from_last_query_to_stop_request": 0.4053641,
+    "capture_found": true,
+    "baseline_stopped_manual_restored": true,
+    "error": null,
+    "restoration_error": null,
+    "continuous_service_event_trace_collected": false
+  },
+  "phases": [
+    {
+      "requested_phase": "idle-before",
+      "samples": 1265,
+      "successful_queries": 1265,
+      "distinct_observed_packets": 43,
+      "packet_first": 4615,
+      "packet_last": 4667,
+      "distinct_observed_gamepad_states": 2,
+      "observed_adjacent_state_changes": 32,
+      "other_fields": {
+        "Buttons": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftTrigger": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightTrigger": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightX": {
+          "minimum": 128,
+          "maximum": 128
+        },
+        "RightY": {
+          "minimum": -129,
+          "maximum": -129
+        }
+      },
+      "distinct_left_xy": 2,
+      "most_common_left_xy": [
+        {
+          "left_x": 128,
+          "left_y": -129,
+          "samples": 1249
+        },
+        {
+          "left_x": 385,
+          "left_y": -900,
+          "samples": 16
+        }
+      ],
+      "left_x_range": [
+        128,
+        385
+      ],
+      "left_y_range": [
+        -900,
+        -129
+      ]
+    },
+    {
+      "requested_phase": "left-stick",
+      "samples": 318,
+      "successful_queries": 318,
+      "distinct_observed_packets": 169,
+      "packet_first": 4667,
+      "packet_last": 4926,
+      "distinct_observed_gamepad_states": 160,
+      "observed_adjacent_state_changes": 168,
+      "other_fields": {
+        "Buttons": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftTrigger": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightTrigger": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightX": {
+          "minimum": 128,
+          "maximum": 128
+        },
+        "RightY": {
+          "minimum": -129,
+          "maximum": -129
+        }
+      },
+      "distinct_left_xy": 160,
+      "most_common_left_xy": [
+        {
+          "left_x": 128,
+          "left_y": -129,
+          "samples": 144
+        },
+        {
+          "left_x": 385,
+          "left_y": -900,
+          "samples": 11
+        },
+        {
+          "left_x": 26342,
+          "left_y": 32767,
+          "samples": 3
+        },
+        {
+          "left_x": 19146,
+          "left_y": 32767,
+          "samples": 2
+        },
+        {
+          "left_x": 32767,
+          "left_y": 26856,
+          "samples": 2
+        }
+      ],
+      "left_x_range": [
+        -32768,
+        32767
+      ],
+      "left_y_range": [
+        -32768,
+        32767
+      ]
+    },
+    {
+      "requested_phase": "idle-after",
+      "samples": 630,
+      "successful_queries": 630,
+      "distinct_observed_packets": 171,
+      "packet_first": 4929,
+      "packet_last": 5144,
+      "distinct_observed_gamepad_states": 29,
+      "observed_adjacent_state_changes": 140,
+      "other_fields": {
+        "Buttons": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "LeftTrigger": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightTrigger": {
+          "minimum": 0,
+          "maximum": 0
+        },
+        "RightX": {
+          "minimum": 128,
+          "maximum": 128
+        },
+        "RightY": {
+          "minimum": -129,
+          "maximum": -129
+        }
+      },
+      "distinct_left_xy": 29,
+      "most_common_left_xy": [
+        {
+          "left_x": 128,
+          "left_y": -129,
+          "samples": 534
+        },
+        {
+          "left_x": 128,
+          "left_y": -900,
+          "samples": 69
+        },
+        {
+          "left_x": 32767,
+          "left_y": 15034,
+          "samples": 1
+        },
+        {
+          "left_x": 32510,
+          "left_y": 27370,
+          "samples": 1
+        },
+        {
+          "left_x": 27884,
+          "left_y": 31739,
+          "samples": 1
+        }
+      ],
+      "left_x_range": [
+        -32768,
+        32767
+      ],
+      "left_y_range": [
+        -32768,
+        32767
+      ]
+    }
+  ],
+  "exploratory_late_idle": {
+    "selection": "26 <= elapsed seconds < 35; post hoc exclusion, not measured release time",
+    "samples": 566,
+    "left_xy_counts": [
+      {
+        "left_x": 128,
+        "left_y": -129,
+        "samples": 499
+      },
+      {
+        "left_x": 128,
+        "left_y": -900,
+        "samples": 66
+      },
+      {
+        "left_x": 385,
+        "left_y": -900,
+        "samples": 1
+      }
+    ]
+  },
+  "comparison": {
+    "stopped_reference": "evidence/runtime/vm-idle-xinput-stopped-20261030.json",
+    "same_recorder_native_driver_xinput_hashes": true,
+    "order": "stopped first, running later in same device lifetime",
+    "controller_activity_and_device_exposure_matched": false,
+    "finding": "Small public left-stick variation in both runs after controller use; service causation of variation not established."
+  },
+  "raw_sources": [
+    {
+      "filename": "capture.json",
+      "sha256": "3648ec0662d9ebfde5bd16c260710b47ab4f3e883a1bffb7f502475c225e4ee1"
+    },
+    {
+      "filename": "ready.json",
+      "sha256": "549590e1372f0e00ba6b61fb0fa2286c4822aabd679382737041486013115615"
+    },
+    {
+      "filename": "after.json",
+      "sha256": "b9b7e6a0e30e3f7def9e765c19308e1a0832c974db685a68fa5461a0bb442b57"
+    },
+    {
+      "filename": "operator.json",
+      "sha256": "9dc0d728a33f5fc733de50d603336ffc5080fe6404cd4e871395465744e4ceff"
+    },
+    {
+      "filename": "running.json",
+      "sha256": "80b44cb63d4af6edae3c565d5065a4bedc5409e135a2d411930a59c98be1623f"
+    },
+    {
+      "filename": "restored.json",
+      "sha256": "154d6ba688b2eb8353973d12ab0ff6c5280314b7e0a25e80c2a6a1541c59c068"
+    },
+    {
+      "filename": "inventory-20261030-180044-9bf8437f1ae142fc81b815b8328c4c5c.json",
+      "sha256": "5db0b1afb8b2def4dbdd6930170abd575ca679a349a20c60d2a7661847c19ca6"
+    }
+  ],
+  "limitations": [
+    "Single serial pair; first stopped idle preceded deliberate stick movement while the later running idle followed earlier movement and intervening time.",
+    "No synchronized raw HID/decoded state/client-completion capture in these timed runs.",
+    "Requested cues and operator reports do not measure the exact movement/release times.",
+    "Snapshot sampling misses intermediate changes; packet differences are not counts of client completions or allocations.",
+    "Startup/restoration checks and QPC lifetime bounds are not a continuous SCM event trace.",
+    "No game performance, complete input fidelity or rumble validation.",
+    "Actual device dead-zone/axis configuration has not yet been exported."
+  ]
+}
