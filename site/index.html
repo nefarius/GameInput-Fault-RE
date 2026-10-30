@@ -33,7 +33,7 @@
         <span class="hero-note">Plain English. Evidence linked.</span>
       </div>
       <aside class="status-card" aria-labelledby="status-title">
-        <div class="status-top"><span class="eyebrow">Where things stand</span><span class="edition">29 OCT 2026</span></div>
+        <div class="status-top"><span class="eyebrow">Where things stand</span><span class="edition">30 OCT 2026</span></div>
         <svg class="controller" viewBox="0 0 320 150" fill="none" aria-hidden="true"><path d="M105 35h110c22 0 36 16 43 40l14 43c5 17-14 26-26 14l-33-30H107l-33 30c-12 12-31 3-26-14l14-43c7-24 21-40 43-40Z" stroke="currentColor" stroke-width="3"/><path d="M102 56v34m-17-17h34" stroke="currentColor" stroke-width="7"/><circle cx="213" cy="61" r="5" fill="currentColor"/><circle cx="230" cy="77" r="5" fill="currentColor"/><circle cx="196" cy="77" r="5" fill="currentColor"/><circle cx="213" cy="93" r="5" fill="currentColor"/><circle cx="139" cy="105" r="13" stroke="currentColor" stroke-width="3"/><circle cx="180" cy="105" r="13" stroke="currentColor" stroke-width="3"/><path d="M146 66h10m9 0h10M130 35l5-12h50l5 12" stroke="currentColor" stroke-width="3"/></svg>
         <h2 id="status-title">A promising lab result.<br>No public fix yet.</h2>
         <p>We found a specific Windows 10 driver problem and demonstrated a limited correction. We have <strong>not yet proven an in-game FPS improvement.</strong></p>
@@ -41,18 +41,38 @@
       </aside>
     </section>
 
-    <div class="section-bar wrap" id="updates"><h2>The investigation log</h2><span>Latest first · 4 updates</span></div>
+    <div class="section-bar wrap" id="updates"><h2>The investigation log</h2><span>Latest first · 6 updates</span></div>
     <div class="editorial-grid wrap">
       <div class="stories">
         <article id="latest" class="story feature" aria-labelledby="latest-title">
+          <div class="story-meta"><time datetime="2026-10-30">30 October 2026</time><span class="tag">Lab finding</span></div>
+          <h2 id="latest-title">483 requests. 483 extra entries.</h2>
+          <p class="standfirst">A clean Windows 10 test reproduced the buildup: one extra internal tracking entry for every request for controller state.</p>
+          <p>We reconnected the controller and verified that the list started empty. Our test program made 483 requests. All 483 initially had to wait, all later completed successfully, and the driver ended with 483 entries. None carried the test program’s ID in the field used to find and reuse them.</p>
+          <p>We saw no identical replies back to back after excluding their update number. This run reproduced the tracking problem without reproducing the suspected stream of unchanged replies.</p>
+          <p>In a separate run, 355 requests added 355 entries. Those entries were still there after the test program exited.</p>
+          <div class="editor-note"><span class="note-label">What comes next</span><p>Repeat the clean test with the missing ID initialized correctly. That new comparison is prepared but hasn’t run. Earlier debugger experiments showed reuse after the correction; an in-game FPS benefit remains unproven.</p></div>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/queued-state-validation.md">Results &amp; test limits <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="latest" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+        </article>
+
+        <article id="resting-stick" class="story" aria-labelledby="resting-title">
+          <div class="story-meta"><time datetime="2026-10-30">30 October 2026</time><span class="tag secondary">What we learned</span></div>
+          <h2 id="resting-title">Untouched doesn’t always mean unchanged.</h2>
+          <p>Our debugger kept seeing controller activity even when nobody touched it. We now have a concrete clue: small variations in the stick readings before they reach Windows.</p>
+          <p>In one recording, the resting stick sat near the edge of its configured dead zone. Small changes took it across that edge, and Windows reported the corresponding jump. The sampled readings matched the expected conversion whenever the raw snapshots stayed stable across a check.</p>
+          <p>That helps explain activity from an untouched controller in this setup. The separate Windows tracking bug still matters: legitimate input changes can keep adding entries when they should be reused.</p>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/dshidmini-idle-completions.md">Readings &amp; remaining questions <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="resting-stick" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+        </article>
+
+        <article id="queue-discovery" class="story" aria-labelledby="discovery-title">
           <div class="story-meta"><time datetime="2026-10-29">29 October 2026</time><span class="tag">Lab finding</span></div>
-          <h2 id="latest-title">A small missing detail. A growing pile of extra work.</h2>
+          <h2 id="discovery-title">A small missing detail. A growing pile of extra work.</h2>
           <p class="standfirst">We can now reproduce a specific controller-driver problem in a Windows 10 test machine — and show that correcting one missing value changes its behavior.</p>
           <p>Behind the scenes, Windows creates places for controller updates to wait. In the driver we tested, a missing detail means it keeps creating new ones for the same program instead of reusing the one it already has. That growing pile can make controller checks more expensive.</p>
           <p>In earlier lab comparisons, correcting the missing value stopped that buildup and made some controller checks much quicker. Basic held-button, stick and vibration checks also worked with the correction.</p>
           <div class="editor-note"><span class="note-label">The important bit</span><p>This is a temporary debugger experiment, not a fix you can download. It was tested with a PS3 controller through DsHidMini on one Windows 10 setup. We still need to show a benefit inside a real game and check controller behavior more thoroughly.</p></div>
           <p>Our test machine also has an older GameInput revision than the reporting player’s machine. The matching driver gives us a useful lead, but it doesn’t make every part of the setup identical.</p>
-          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/vm-validation-checklist.md">Evidence &amp; test limits <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="latest" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
+          <div class="story-footer"><a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/vm-validation-checklist.md">Evidence &amp; test limits <span aria-hidden="true">↗</span></a><button class="share-link" type="button" data-share="queue-discovery" hidden>Copy link <span aria-hidden="true">↗</span></button></div>
         </article>
 
         <article id="movement-test" class="story" aria-labelledby="movement-title">
@@ -93,7 +113,8 @@
           <p class="eyebrow">Quick answers</p><h2 id="questions-title">You might be wondering…</h2>
           <details><summary>Is my controller affected?</summary><p>We can’t tell from the model alone. Windows version, driver, connection and game all matter. Describe what happens and we’ll help you work out what to collect.</p></details>
           <details><summary>Should I disable GameInput?</summary><p>Keep your original settings for the first report. Some games need GameInput. Talk to us before changing services so we can help you test without losing useful evidence.</p></details>
-          <details><summary>Does this also affect Windows 11?</summary><p>There are Windows 11 reports too. This particular lab result is from a Windows 10 driver; we haven’t established that every Windows 11 report has the same cause.</p></details>
+          <details><summary>Does this also affect Windows 11?</summary><p>The Windows 11 driver we checked from the January 2024 update for 22H2/23H2 initializes the ID correctly. Other Windows 11 stutter reports may have different causes; this finding doesn’t settle those reports.</p></details>
+          <details><summary>Has Windows 10 received a fix?</summary><p>The October 26, 2026 Windows 10 package we inspected still contains the affected driver. We haven’t identified a shipping Windows 10 correction for this fault. <a href="https://github.com/nefarius/GameInput-Fault-RE/blob/master/docs/xinputhid-pid-version-history.md">Verified versions and limits</a>.</p></details>
           <details><summary>Can I help without coding?</summary><p>Yes. A clear description and a short recording while the stutter happens can be very useful. Our collector uses tools already included in Windows.</p></details>
         </section>
         <section class="source-note"><span class="eyebrow">Open notebook</span><p>These updates are written from our repository history and reviewed findings. Sources are linked under each story. We keep negative results and correct earlier assumptions.</p><a href="https://github.com/nefarius/GameInput-Fault-RE/commits/master/">Browse the project history <span aria-hidden="true">↗</span></a></section>

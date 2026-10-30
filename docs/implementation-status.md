@@ -14,6 +14,23 @@ Completion means the specified evidence exists. Hardware tests, external signing
 
 ## Verification
 
+- Queued-completion follow-up, 2026-10-30: 355 submissions initially returned
+  pending; 354 later completed successfully with changing payloads, and the
+  final request waited about 10.59 s before confirmed deadline cancellation.
+  The bounded list count grew from 587 to 942, matching the aggregate request
+  count; no stored field matched the test PID. All 942 entries survived normal
+  child-process exit. No unchanged-success flood or game result. The guest was
+  resumed; a fresh uncorrected/corrected comparison remains next. See
+  [completion and population evidence](queued-state-validation.md).
+  The fresh uncorrected half now starts at zero and ends at 483 entries for
+  483 initially pending, later successful requests. No adjacent successful
+  payload repeats; byte 8 also has a brief unexplained change. The corrected
+  condition is prepared with a separate one-request priming gate;
+  no new correction or corrected measurement has been performed yet.
+  Work ended at the operator's request: VM resumed, temporary shares removed
+  and configured share count restored to zero. Reacquire the newly reconnected
+  device identity before continuing; see the end-of-day handoff.
+
 - DsHidMini input-source inventory, 2026-10-30: the existing read-only IPC
   mapping is usable on the matching guest/loaded-driver stack. Saved JSON
   enables both small radial dead zones with no axis flips or device overrides;

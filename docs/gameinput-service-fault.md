@@ -32,6 +32,14 @@ public jumps. This supports source variation surviving the saved cutoff;
 effective settings, physical wire input and actual queued completion rates
 remain distinct unverified boundaries. See the
 [raw/public evidence](../evidence/runtime/vm-dshidmini-raw-public-20261030.json).
+The later [direct queued-state run](queued-state-validation.md) records 355
+initially pending submissions, 354 changed successful replies and one confirmed
+deadline cancellation. Retained list entries increase from 587 to 942 and remain
+942 after test-process exit. This links aggregate growth to queued-request
+exposure without reproducing an unchanged-response flood; no corrected pair or
+game-performance result follows from that run.
+The fresh uncorrected control reproduces growth from zero to 483 entries for
+483 successful queued requests; the corrected half remains outstanding.
 
 ## Reports
 

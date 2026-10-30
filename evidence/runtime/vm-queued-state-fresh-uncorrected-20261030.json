@@ -1,0 +1,127 @@
+{
+  "evidence_kind": "direct-queued-state-completion-screening",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "metadata": {
+    "schemaVersion": 1,
+    "architecture": "x64",
+    "build": "19045",
+    "ubr": 5796,
+    "driverSha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+    "enumeratorSha256": "21a15797926b952e4ae84f957edd166619846aa5e2b84605364daa96b198a853",
+    "scriptSha256": "9e9d32a4164f970ef63addd14053a863b291e4cf628f72873305397d1caf8a3f",
+    "serviceBefore": [
+      {
+        "Name": "GameInputSvc",
+        "State": "Stopped",
+        "StartMode": "Manual",
+        "ProcessId": 0
+      }
+    ],
+    "inputHex": "03010000",
+    "ioctl": "8000e388",
+    "inputLength": 4,
+    "outputLength": 24,
+    "seconds": 35,
+    "maximumRequests": 1024,
+    "qpcFrequency": 10000000,
+    "condition": "uncorrected; one owned queued request at a time; GameInputSvc stopped"
+  },
+  "measurements": {
+    "requests": 483,
+    "initial_pending_returns": 483,
+    "successful_exact_24_byte_completions": 483,
+    "completion_error_counts": {
+      "0": 483
+    },
+    "cancel_requested": 0,
+    "cleanup_pending": false,
+    "device_closed": true,
+    "device_close_error": 0,
+    "device_close_seconds": 0.0003012,
+    "recorder_error": null,
+    "duration_seconds": 35.004256,
+    "adjacent_successful_pairs": 482,
+    "adjacent_equal_all_24_bytes": 0,
+    "adjacent_equal_excluding_packet_word": 0,
+    "changed_byte_counts": {
+      "0": 482,
+      "1": 1,
+      "8": 2,
+      "10": 392,
+      "11": 392,
+      "12": 364,
+      "13": 364
+    },
+    "packet_first": 4,
+    "packet_last": 486,
+    "packet_delta_modulo_65536_counts": {
+      "1": 482
+    },
+    "successful_submission_to_observation_seconds": {
+      "minimum": 0.0093278,
+      "median": 0.0100101,
+      "maximum": 20.5128754
+    },
+    "cancelled_requests": [],
+    "phases_by_nominal_time_windows": {
+      "idle-before": {
+        "submissions_by_submission_time": 1,
+        "successes_by_observed_completion_time": 0
+      },
+      "left-stick": {
+        "submissions_by_submission_time": 360,
+        "successes_by_observed_completion_time": 360
+      },
+      "idle-after": {
+        "submissions_by_submission_time": 122,
+        "successes_by_observed_completion_time": 122
+      }
+    },
+    "output_access_contract_violations": []
+  },
+  "phase_cues": [
+    {
+      "Phase": "idle-before",
+      "ElapsedSeconds": 0.0003727
+    },
+    {
+      "Phase": "left-stick",
+      "ElapsedSeconds": 20.0214972
+    },
+    {
+      "Phase": "idle-after",
+      "ElapsedSeconds": 25.0059622
+    }
+  ],
+  "operator_report": "as instructed",
+  "service_after": [
+    {
+      "Name": "GameInputSvc",
+      "State": "Stopped",
+      "StartMode": "Manual",
+      "ProcessId": 0
+    }
+  ],
+  "provenance": {
+    "capture.json": "faabef54624b04b3754615ff644749ec13795b76b4ba388acb1f53cff40b2f79",
+    "ready.json": "3ef05eec8fb73936f26b18ad1f6b9dcf0a7bc45d29ac7a7ae57a12979b8dbcbd",
+    "operator.json": "f156e1c098efbb9758e226b30fc9cff88e0823b58f03440d81d0941399e97b1d",
+    "after.json": "f962e091b1c09f8c4b7da53b1931d291ae0a2adfc9f3cd8fda60408debf29f05"
+  },
+  "limitations": [
+    "CompletionObservedQpc is observation time, not exact kernel completion time; up to 20 ms wait/poll granularity.",
+    "Maximum 1024 requests; reaching the cap ends recording early. No added resubmission pacing.",
+    "Native API/close calls have no hard timeout; the budget is checked between calls.",
+    "CancelIoEx targets only this owned request. Unresolved storage/handles stay allocated until dedicated process exit.",
+    "At most one request outstanding; this is a test client, not a GameInput service-rate measurement.",
+    "Only successful exact 24-byte replies are read. Equal payloads exclude the packet word only during later analysis.",
+    "Device identity requires separate loaded-driver/device-stack debugger verification.",
+    "Phase cues and operator reports do not prove complete physical input delivery. Raw input is not collected here.",
+    "No first-success comparison baseline. Adjacent success comparisons exclude failed/cancelled rows.",
+    "Full-payload equality excluding the packet word does not decode every private field.",
+    "Submission and observed-completion windows are separate; pending requests can cross phase boundaries.",
+    "Endpoint service checks are not continuous monitoring; controller configuration was not rehashed in this recording.",
+    "Initial device lifetime/population and correction status require separate debugger evidence; no game workload was measured."
+  ]
+}

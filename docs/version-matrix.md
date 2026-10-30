@@ -52,6 +52,15 @@ successful queries, including 2193 stable raw brackets whose stick results
 match the saved dead-zone prediction. Two requested post-movement idle samples
 cross the raw cutoff with matching public-state jumps. This does not add a
 new driver-version result or establish an unchanged queued-completion flood.
+On the same loaded driver/device lifetime, the subsequent
+[queued-state completion run](queued-state-validation.md) observes 354 changed
+successful replies from 355 initially pending submissions, with one confirmed
+cancelled request. Bounded list counts increase 587 to 942 and stay 942 after
+the test process exits. This is additional runtime evidence for this same
+driver identity, not a newly inspected version or a corrected-condition result.
+A subsequent fresh uncorrected lifetime starts at zero and reaches 483 entries
+for 483 initially pending, later successful requests on the same driver hash;
+see the [fresh-control evidence](../evidence/runtime/vm-queued-state-fresh-uncorrected-20261030.json).
 
 ## Contributed Windows 10 capture, 2026-10-28
 

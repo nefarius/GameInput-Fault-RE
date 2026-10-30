@@ -1,0 +1,38 @@
+{
+  "evidence_kind": "live-kernel-bounded-queue-population-snapshots",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "guest_build": "19045.5796",
+  "same_device_stack_confirmed": true,
+  "traversal_cap": 4096,
+  "before": {
+    "entries": 587,
+    "reached_head": true
+  },
+  "after_capture_before_process_exit": {
+    "entries_matching_test_pid": 0,
+    "test_powershell_process_present": true,
+    "reached_head": true,
+    "entries": 942
+  },
+  "after_process_exit": {
+    "test_powershell_process_present": false,
+    "reached_head": true,
+    "entries": 942
+  },
+  "aggregate_increase": 355,
+  "client_submissions": 355,
+  "original_evidence_sha256": {
+    "after_exit": "373467d936c7eb1567c375ba43f43bcdb8cc708a45bd22a4166413acf117f3bd",
+    "after_capture": "bdf6b467492caa227f7d5f9bfc7c92614a601f6416a1f676b38af53ffb873d07",
+    "baseline": "1964bd8d528d8365739c05b842f6b8d219c6cbaaccaae3be8522320e8de5180d"
+  },
+  "limitations": [
+    "Counts are retained list entries; individual WDF queues/request objects were not enumerated.",
+    "An aggregate one-to-one increase is not a per-allocation trace; no exact growth timing is measured.",
+    "Baseline already contained 587 entries; this is not a fresh device control.",
+    "Absence of a stored matching PID is a paused snapshot, not a historical trace of every field value.",
+    "Source/physical input and service state were not continuously monitored. No game workload or corrected condition measured."
+  ]
+}

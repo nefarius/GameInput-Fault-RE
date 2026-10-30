@@ -76,6 +76,19 @@ pair/exposure limitations and the need for per-call stack and game-frame proof.
 
 ## Evidence and identities
 
+**2026-10-30 direct queued-client follow-up:** a single-outstanding-request
+client using input `03 01 00 00` records 355 initially pending submissions,
+354 successful 24-byte replies and one confirmed deadline cancellation. None
+of the 353 adjacent successful payload pairs repeats after excluding the packet
+word; only left-stick bytes change besides that packet. Complete bounded list
+walks grow from 587 entries to 942 and still find 942 after process exit; no
+stored PID matches the still-live test PID at the intermediate snapshot. The
+aggregate increase matches all 355 submissions but is not a per-allocation
+trace. This supports the queue-identity mechanism without an unchanged-success
+flood or a game-performance claim. See
+[completion and retention evidence](queued-state-validation.md). A fresh
+uncorrected/corrected comparison remains outstanding for this client.
+
 [Acquisition provenance](windows10-binary-acquisition.md) records the Windows 10
 files. The [literal excerpts](../evidence/static/windows10-queue-identity-excerpts.txt)
 and [manifest](../evidence/static/windows10-queue-identity.json) retain nine

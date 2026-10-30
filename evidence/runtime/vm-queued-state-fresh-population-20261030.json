@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "fresh-uncorrected-queued-client-population",
+  "observed_date": "2026-10-30",
+  "runtime_observed": true,
+  "initial_entries": 0,
+  "initial_walk_complete": true,
+  "after_entries": 483,
+  "after_walk_complete": true,
+  "traversal_cap": 4096,
+  "client_submissions": 483,
+  "client_successful_completions": 483,
+  "stored_fields_matching_live_test_pid": 0,
+  "test_child_present_at_after_snapshot": true,
+  "correction_applied": false,
+  "driver_sha256": "c358e6cfa3492d1d228ac855fb3593b6dc363ee41e3797f8bff380a0458a4a0f",
+  "provenance": {
+    "after_sha256": "8a879c6bba267234e57c4511388d163d91263189671fd1a5fbd267237e4f826c",
+    "initial_sha256": "60f7c3fc11316359702cb97b501bb92757c65d627bafab237ed041eb307ca2c5"
+  },
+  "limitations": [
+    "Population is list entries, not individually inspected WDF queue objects.",
+    "Aggregate growth matches submissions; no per-allocation trace.",
+    "Fresh control measured before normal child exit; no exit-only count before the subsequent unplug.",
+    "Separate device lifetimes may have different source variation, pool contents and exposure.",
+    "No corrected condition, complete input-fidelity test or game measurement yet."
+  ]
+}

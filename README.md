@@ -30,7 +30,9 @@ In the tested Windows 10 setup, `xinputhid.sys` can create new queues instead of
 
 The correct queue initialization is already present in the Windows 11 driver shipped with **22H2/23H2's January 2024 update (KB5034204)**; it did not first arrive with 25H2. The **October 26, 2026 Windows 10 update (KB5134125)** still contains the exact affected driver. See the [verified driver and Windows version history](docs/xinputhid-pid-version-history.md) for exact versions and limits.
 
-The latest tests add two important limits: an idle comparison with few queues showed no clear API cost difference, while controller activity was followed by thousands of queues and higher costs. Stopping GameInput Service afterward left the accumulated queues and elevated costs in place. See the [VM results and limitations](docs/vm-validation-checklist.md).
+Earlier tests add two important limits: an idle comparison with few queues showed no clear API cost difference, while controller activity was followed by thousands of queues and higher costs. Stopping GameInput Service afterward left the accumulated queues and elevated costs in place. See the [VM results and limitations](docs/vm-validation-checklist.md).
+
+The October 30 follow-up starts with an empty device list and records 483 initially pending requests, 483 successful completions and 483 retained entries. No adjacent successful payload repeats after excluding the packet word. A separate run's additional entries survived process exit. [Raw/public input recordings](docs/dshidmini-idle-completions.md) also show resting-stick variation consistent with the saved dead-zone mapping. The [new completion comparison](docs/queued-state-validation.md) has an uncorrected result; its corrected condition is prepared but has not run.
 
 **A game FPS benefit, full controller compatibility, and applicability to other Windows versions remain unproven.** The VM uses a PS3 controller through DsHidMini in XInput mode and the contributor-matching Windows 10 driver, with an older inbox GameInput revision than the contributor's.
 
